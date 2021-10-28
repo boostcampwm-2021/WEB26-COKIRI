@@ -11,6 +11,8 @@
     <a href="/"><img src="https://img.shields.io/badge/express-4.17.1-9181D6?logo=express" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/ubuntu-18.04-9181D6?logo=ubuntu" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/react-17.0.2-9181D6?logo=react" alt=""></a>
+    <br>
+    <a href="/"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm-2021%2FWEB26-COKIRI&count_bg=%239181D6&title_bg=%23555555&icon=&icon_color=%239181D6&title=&edge_flat=false"/></a>
 </p>
 
 <div align="center">
