@@ -41,7 +41,7 @@
 
 
 ## 아키텍쳐
-![이키텍쳐 jpg](https://user-images.githubusercontent.com/34956768/139274550-bd656586-43da-4a1a-bd8f-881386eb9472.jpg)
+![아키텍쳐 jpg](https://user-images.githubusercontent.com/34956768/139275197-360f1438-511c-428f-93b3-589ea978de29.jpg)
 
 ## 스택
 ![스택1](https://user-images.githubusercontent.com/34956768/139271396-dd0cda8b-b31a-4690-a8dd-0565fe3ec2f6.jpg)
