@@ -31,7 +31,10 @@
 
 - [배포](/)
 - [데모 영상](/)
-- [개발 노트](https://pool-storm-1a3.notion.site/b1de384e2f8c47948ee4b347bda6de04)
+- [노션](https://pool-storm-1a3.notion.site/b1de384e2f8c47948ee4b347bda6de04)
+- [디자인](https://miro.com/app/board/o9J_lnmq-7Y=/?invite_link_id=740345289660)
+- [기획](https://miro.com/app/board/o9J_lnnTacc=/?invite_link_id=874331551230)
+
 
 
 ## ❄️ 기능
