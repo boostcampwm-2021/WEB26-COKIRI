@@ -34,6 +34,7 @@
 - [노션](https://pool-storm-1a3.notion.site/b1de384e2f8c47948ee4b347bda6de04)
 - [디자인](https://miro.com/app/board/o9J_lnmq-7Y=/?invite_link_id=740345289660)
 - [기획](https://miro.com/app/board/o9J_lnnTacc=/?invite_link_id=874331551230)
+- [백로그](https://docs.google.com/spreadsheets/d/14WwTBta7pvPAq2TPi0Rga9ThRRph-Lt7dCHPDHVWlRo/edit?usp=sharing)
 
 
 
