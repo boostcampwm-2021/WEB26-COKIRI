@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register --delay 500ms ./src/bin/www.ts --watch",
-    "build": "pm2 start node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts"
+    "pm2": "pm2 restart node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

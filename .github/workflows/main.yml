@@ -1,0 +1,33 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  client:
+    name: 클라이언트 배포
+    runs-on: [self-hosted, client]
+    steps:
+      - name: ssh
+        run: |
+          cd ~/WEB26-COKIRI
+          git pull
+          cd frontend
+          npm install
+          npm run build
+          npm run pm2
+
+  server:
+    name: 서버 배포
+    runs-on: [self-hosted, server]
+    steps:
+      - name: ssh
+        run: |
+          cd ~/WEB26-COKIRI
+          git pull
+          cd backend
+          npm install
+          npm run pm2
