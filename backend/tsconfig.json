@@ -5,11 +5,11 @@
     "outDir": "./dist",
     "sourceMap": true,
     "sourceRoot": "./src/bin",
+    "strict": true,
     "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"]
-    },
-    "strict": true,
+    }
   },
   "exclude": ["node_modules"]
 }
