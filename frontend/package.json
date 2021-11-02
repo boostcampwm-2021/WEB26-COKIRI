@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pm2": "pm2 start npm --name \"next\" -- start"
+    "pm2": "pm2 restart --name \"next\" -- start"
   },
   "dependencies": {
     "eslint-config-airbnb": "^18.2.1",
