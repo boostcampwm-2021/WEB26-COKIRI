@@ -1,3 +1,7 @@
+### custom
+backend/.vscode/
+frontend/.vscode/
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,webstorm,macos,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,webstorm,macos,windows
@@ -181,3 +185,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,webstorm,macos,windows
+
+
