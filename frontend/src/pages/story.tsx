@@ -1,7 +1,10 @@
 import type { ReactElement } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-function Home(): ReactElement {
+function Story(): ReactElement {
+  const { storyID } = useRouter().query;
+
   return (
     <div>
       <Head>
@@ -10,11 +13,11 @@ function Home(): ReactElement {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>home</main>
+      <main>Story {storyID}</main>
 
       <footer />
     </div>
   );
 }
 
-export default Home;
+export default Story;

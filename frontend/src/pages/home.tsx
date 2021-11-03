@@ -10,7 +10,7 @@ function Home(): ReactElement {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>home</main>
+      <main>Home/</main>
 
       <footer />
     </div>

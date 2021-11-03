@@ -1,7 +1,10 @@
 import type { ReactElement } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-function Home(): ReactElement {
+function Echo(): ReactElement {
+  const { roomID } = useRouter().query;
+
   return (
     <div>
       <Head>
@@ -10,11 +13,11 @@ function Home(): ReactElement {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>home</main>
+      <main>Echo {roomID}</main>
 
       <footer />
     </div>
   );
 }
 
-export default Home;
+export default Echo;

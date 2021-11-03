@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import Head from 'next/head';
 
-function Home(): ReactElement {
+function Random(): ReactElement {
   return (
     <div>
       <Head>
@@ -10,11 +10,11 @@ function Home(): ReactElement {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>home</main>
+      <main>random</main>
 
       <footer />
     </div>
   );
 }
 
-export default Home;
+export default Random;
