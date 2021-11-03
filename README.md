@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://github.com/boostcampwm-2021/WEB26-COKIRI">
+    <a href="https://cocoo.hyunmin.dev">
     <img width="500" src="https://user-images.githubusercontent.com/74395748/139043672-3e2cd88c-35e4-4d5f-8ca1-99766b1e4496.png" />
     </a>
 </div>
@@ -12,7 +12,9 @@
     <a href="/"><img src="https://img.shields.io/badge/ubuntu-18.04-9181D6?logo=ubuntu" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/react-17.0.2-9181D6?logo=react" alt=""></a>
     <br>
-    <a href="/"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm-2021%2FWEB26-COKIRI&count_bg=%239181D6&title_bg=%23555555&icon=&icon_color=%239181D6&title=&edge_flat=false"/></a>
+    <a href="/">
+    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm-2021%2FWEB26-COKIRI&count_bg=%239181D6&title_bg=%23555555&icon=&icon_color=%239181D6&title=&edge_flat=false"/>
+    </a>
 </p>
 
 <div align="center">
@@ -29,24 +31,22 @@
 
 ## 💧 링크
 
-- [배포](/)
-- [데모 영상](/)
+- [코쿠 바로가기](https://cocoo.hyunmin.dev)
+- [데모 영상](https://www.youtube.com/channel/UClTDe4xZrPD7ES1hZaeCwIA)
 - [노션](https://pool-storm-1a3.notion.site/b1de384e2f8c47948ee4b347bda6de04)
 - [디자인](https://miro.com/app/board/o9J_lnmq-7Y=/?invite_link_id=740345289660)
-- [기획](https://miro.com/app/board/o9J_lnnTacc=/?invite_link_id=874331551230)
 - [백로그](https://docs.google.com/spreadsheets/d/14WwTBta7pvPAq2TPi0Rga9ThRRph-Lt7dCHPDHVWlRo/edit?usp=sharing)
-
-
+- [API 명세서](https://documenter.getpostman.com/view/12433390/UVBznV9T)
 
 ## ❄️ 기능
 
+## 🗽 아키텍쳐
 
-## 아키텍쳐
 ![아키텍쳐 jpg](https://user-images.githubusercontent.com/34956768/139275197-360f1438-511c-428f-93b3-589ea978de29.jpg)
 
-## 스택
-![스택1](https://user-images.githubusercontent.com/34956768/139271396-dd0cda8b-b31a-4690-a8dd-0565fe3ec2f6.jpg)
+## 🛻 스택
 
+![스택1](https://user-images.githubusercontent.com/34956768/139271396-dd0cda8b-b31a-4690-a8dd-0565fe3ec2f6.jpg)
 
 ## 🧊 개발자
 
