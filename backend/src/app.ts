@@ -1,13 +1,8 @@
 import * as express from 'express';
-import * as cookieParser from 'cookie-parser';
-import * as logger from 'morgan';
+import * as loaders from 'src/loaders';
 
 const app: express.Application = express();
 
-app.use(logger('dev'));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+loaders.init(app);
 
 export default app;
