@@ -1,3 +1,4 @@
+import 'src/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider, Global } from '@emotion/react';
 
