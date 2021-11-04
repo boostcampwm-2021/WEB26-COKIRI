@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as loaders from 'src/loaders';
 import * as dotenv from 'dotenv';
-dotenv.config({ path: __dirname + '/../.env' });
+dotenv.config();
 
 const app: express.Application = express();
 
