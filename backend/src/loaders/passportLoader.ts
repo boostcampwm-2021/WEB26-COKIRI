@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as passport from 'passport';
-import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
+import { Strategy as JWTStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { User } from 'src/types';
 
 export default function passportLoader(app: express.Application): void {
@@ -24,10 +24,10 @@ export default function passportLoader(app: express.Application): void {
       done(error, false);
     }
   };
-  passport.use(new JwtStrategy(jwtOptions, verifyUser));
+  passport.use(new JWTStrategy(jwtOptions, verifyUser));
   passport.initialize();
 
-  const authenticateJwt = (
+  const authenticateJWT = (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
@@ -39,5 +39,5 @@ export default function passportLoader(app: express.Application): void {
       next();
     })(req, res, next);
   };
-  app.use(authenticateJwt);
+  app.use(authenticateJWT);
 }
