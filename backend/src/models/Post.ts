@@ -1,17 +1,17 @@
 import { Document, Schema, model } from 'mongoose';
 
 interface Comment extends Document {
-  user: Schema.Types.ObjectId;
+  userID: Schema.Types.ObjectId;
   content: string;
 }
 interface Like extends Document {
-  user: Schema.Types.ObjectId;
+  userID: Schema.Types.ObjectId;
 }
 interface Post extends Document {
   title: string;
   content: string;
   versionKey: boolean;
-  user: Schema.Types.ObjectId;
+  userID: Schema.Types.ObjectId;
   image: string;
   comments: Comment[];
   likes: Like[];
@@ -20,7 +20,7 @@ interface Post extends Document {
 
 const commentSchema = new Schema<Comment>(
   {
-    user: {
+    userID: {
       type: Schema.Types.ObjectId,
       required: true,
     },
@@ -33,7 +33,7 @@ const commentSchema = new Schema<Comment>(
 );
 const likeSchema = new Schema<Like>(
   {
-    user: {
+    userID: {
       type: Schema.Types.ObjectId,
       required: true,
     },
@@ -50,7 +50,7 @@ const postSchema = new Schema<Post>(
       type: String,
       required: true,
     },
-    user: {
+    userID: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',
