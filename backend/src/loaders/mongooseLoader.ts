@@ -5,11 +5,13 @@ export default function mongooseLoader(): void {
   const dbPassword: string | undefined = process.env.DB_PASSWORD;
   const dbHost: string | undefined = process.env.DB_HOST;
   const dbPort: string | undefined = process.env.DB_PORT;
-  const connectStr = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false`;
+  const dbName: string | undefined = process.env.DB_NAME;
+  const connectStr = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?directConnection=true`;
   mongoose.connect(connectStr, (err) => {
     if (err) {
       console.error('mongodb connection error', err);
+    } else {
+      console.log('mongodb connected');
     }
-    console.log('mongodb connected');
   });
 }
