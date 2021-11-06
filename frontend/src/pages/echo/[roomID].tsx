@@ -1,9 +1,9 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-function Echo(): ReactElement {
-  const { roomID } = useRouter().query;
+function Echo() {
+  const router = useRouter();
+  const { roomID } = router.query;
 
   return (
     <div>
