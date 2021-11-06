@@ -1,10 +1,10 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function User(): ReactElement {
-  const { userID } = useRouter().query;
+function User() {
+  const router = useRouter();
+  const { userID } = router.query;
 
   return (
     <div>

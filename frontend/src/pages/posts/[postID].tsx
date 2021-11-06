@@ -1,9 +1,9 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-function Post(): ReactElement {
-  const { postID } = useRouter().query;
+function Post() {
+  const router = useRouter();
+  const { postID } = router.query;
 
   return (
     <div>

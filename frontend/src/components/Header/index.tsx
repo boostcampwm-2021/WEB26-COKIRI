@@ -1,4 +1,4 @@
-function Header(): any {
+function Header() {
   return <>header</>;
 }
 
