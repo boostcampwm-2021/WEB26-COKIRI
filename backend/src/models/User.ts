@@ -85,7 +85,7 @@ const userSchema = new Schema<UserType>(
       required: true,
       unique: true,
       trim: true,
-      validate: [Validate.numberDigit(0, 20), '길이 제한'],
+      validate: [Validate.stringDigit(0, 20), '유저네임 형식이 잘못되었습니다.'],
     },
     profileImage: {
       type: String,
@@ -98,7 +98,7 @@ const userSchema = new Schema<UserType>(
     },
     phoneNumber: {
       type: Number,
-      validate: [Validate.numberDigit(10, 11), '전화번호 형식이 잘못되었습니다.'],
+      validate: [Validate.numberDigit(9, 11), '전화번호 형식이 잘못되었습니다.'],
     },
     sex: {
       type: String,
