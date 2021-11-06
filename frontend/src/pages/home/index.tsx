@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import RecommendationCard from 'src/components/RecommendationCard';
+import Timeline from 'src/components/Timeline';
 
 import { Main } from './style';
 
@@ -18,6 +19,7 @@ function Index() {
 
       <Main>
         <RecommendationCard />
+        <Timeline />
       </Main>
     </div>
   );
