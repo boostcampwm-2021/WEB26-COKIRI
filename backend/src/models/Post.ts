@@ -1,24 +1,8 @@
-import { Document, Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { CommentType, PostType, UserIDType } from 'src/types/modelType';
+import { Validate } from 'src/utils';
 
-interface Comment extends Document {
-  userID: Schema.Types.ObjectId;
-  content: string;
-}
-interface Like extends Document {
-  userID: Schema.Types.ObjectId;
-}
-interface Post extends Document {
-  title: string;
-  content: string;
-  versionKey: boolean;
-  userID: Schema.Types.ObjectId;
-  image: string;
-  comments: Comment[];
-  likes: Like[];
-  tags: Schema.Types.ObjectId[];
-}
-
-const commentSchema = new Schema<Comment>(
+const commentSchema = new Schema<CommentType>(
   {
     userID: {
       type: Schema.Types.ObjectId,
@@ -31,7 +15,7 @@ const commentSchema = new Schema<Comment>(
   },
   { timestamps: true },
 );
-const likeSchema = new Schema<Like>(
+const likeSchema = new Schema<UserIDType>(
   {
     userID: {
       type: Schema.Types.ObjectId,
@@ -40,15 +24,17 @@ const likeSchema = new Schema<Like>(
   },
   { timestamps: true },
 );
-const postSchema = new Schema<Post>(
+const postSchema = new Schema<PostType>(
   {
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     content: {
       type: String,
       required: true,
+      trim: true,
     },
     userID: {
       type: Schema.Types.ObjectId,
@@ -57,6 +43,7 @@ const postSchema = new Schema<Post>(
     },
     image: {
       type: String,
+      validate: [Validate.url, 'URL 형식이 잘못되었습니다.'],
     },
     comments: {
       type: [commentSchema],
@@ -75,4 +62,4 @@ const postSchema = new Schema<Post>(
   { timestamps: true },
 );
 
-export default model<Post>('Post', postSchema);
+export default model<PostType>('Post', postSchema);
