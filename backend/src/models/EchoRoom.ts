@@ -13,4 +13,4 @@ const echoRoomSchema = new Schema<EchoRoomType>({
   ],
 });
 
-export default model<EchoRoomType>('Echo_Room', echoRoomSchema);
+export default model<EchoRoomType>('EchoRoom', echoRoomSchema);
