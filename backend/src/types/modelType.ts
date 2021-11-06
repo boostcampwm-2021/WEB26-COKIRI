@@ -84,3 +84,8 @@ export interface TagType {
   content: string;
   count: number;
 }
+
+export interface LanguageType {
+  language: string;
+  color: string;
+}
