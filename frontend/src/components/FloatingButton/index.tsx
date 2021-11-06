@@ -1,8 +1,6 @@
-import { ReactElement } from 'react';
-
 import FloatingButton from './style';
 
-function Header(): ReactElement {
+function Header() {
   return <FloatingButton>test</FloatingButton>;
 }
 
