@@ -45,10 +45,12 @@ const postSchema = new Schema<Post>(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     content: {
       type: String,
       required: true,
+      trim: true,
     },
     userID: {
       type: Schema.Types.ObjectId,
@@ -57,6 +59,14 @@ const postSchema = new Schema<Post>(
     },
     image: {
       type: String,
+      validate: [
+        function urlValidated(image: string) {
+          const urlRegx =
+            /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+          return urlRegx.test(image);
+        },
+        'URL 형식이 잘못되었습니다.',
+      ],
     },
     comments: {
       type: [commentSchema],
