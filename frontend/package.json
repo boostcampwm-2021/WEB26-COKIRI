@@ -9,6 +9,8 @@
     "pm2": "pm2 restart --name \"next\" -- start"
   },
   "dependencies": {
+    "@emotion/css": "^11.5.0",
+    "@emotion/react": "^11.5.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "eslint-config-airbnb": "^18.2.1",
