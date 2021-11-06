@@ -2,7 +2,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 function Post() {
-  const { postID } = useRouter().query;
+  const router = useRouter();
+  const { postID } = router.query;
 
   return (
     <div>

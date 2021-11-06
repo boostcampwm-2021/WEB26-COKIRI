@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 function User() {
-  const { userID } = useRouter().query;
+  const router = useRouter();
+  const { userID } = router.query;
 
   return (
     <div>
