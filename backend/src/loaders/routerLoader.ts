@@ -1,6 +1,9 @@
 import * as express from 'express';
-import router from 'src/routers';
+import { useExpressServer } from 'routing-controllers';
 
 export default function routerLoader(app: express.Application): void {
-  app.use(router);
+  useExpressServer(app, {
+    routePrefix: '/v1',
+    controllers: ['src/routers/v1/*.ts'],
+  });
 }
