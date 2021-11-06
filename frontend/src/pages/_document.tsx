@@ -1,44 +1,33 @@
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-  DocumentInitialProps,
-} from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
-import { ReactElement } from 'react';
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import createEmotionServer from '@emotion/server/create-instance';
+import { cache } from '@emotion/css';
+
+const renderStatic = async (html: string) => {
+  const { extractCritical } = createEmotionServer(cache);
+  const { ids, css } = extractCritical(html);
+
+  return { html, ids, css };
+};
 
 class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
-    const sheet = new ServerStyleSheet();
-    const originalRenderPage = ctx.renderPage;
-
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
-        });
-
-      const initialProps = await Document.getInitialProps(ctx);
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      };
-    } finally {
-      sheet.seal();
-    }
+  static async getInitialProps(ctx: DocumentContext) {
+    const page = await ctx.renderPage();
+    const { css, ids } = await renderStatic(page.html);
+    const initialProps = await Document.getInitialProps(ctx);
+    return {
+      ...initialProps,
+      styles: (
+        <>
+          {initialProps.styles}
+          <style data-emotion={`css ${ids.join(' ')}`} dangerouslySetInnerHTML={{ __html: css }} />
+        </>
+      ),
+    };
   }
 
-  render(): ReactElement {
+  render() {
     return (
-      <Html lang='en'>
+      <Html>
         <Head />
         <body>
           <Main />
@@ -48,4 +37,5 @@ class MyDocument extends Document {
     );
   }
 }
+
 export default MyDocument;
