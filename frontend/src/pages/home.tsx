@@ -1,6 +1,9 @@
 import type { ReactElement } from 'react';
 import Head from 'next/head';
 
+import UsersRecommendation from 'src/components/UsersRecommendation';
+import FloatingButton from 'src/components/FloatingButton';
+
 function Home(): ReactElement {
   return (
     <div>
@@ -13,8 +16,9 @@ function Home(): ReactElement {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>Home/</main>
+      <UsersRecommendation />
 
+      <FloatingButton />
       <footer />
     </div>
   );
