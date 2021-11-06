@@ -1,0 +1,55 @@
+import { Schema } from 'mongoose';
+
+export interface LanguageIDType {
+  languageID: Schema.Types.ObjectId;
+}
+
+export interface PostIDType {
+  postID: Schema.Types.ObjectId;
+}
+
+export interface UserIDType {
+  userID: Schema.Types.ObjectId;
+}
+
+export interface NotifyRangeType {
+  postLike: boolean;
+  postComment: boolean;
+  commentLike: boolean;
+}
+
+export interface NotifyType extends UserIDType, PostIDType {
+  type: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
+}
+
+export interface DashboardType {
+  github: string;
+  blog: string;
+  solvedac: string;
+  histories: { date: Date; content: string }[];
+  email: string;
+  profileImage: string;
+  jobObjectives: string[];
+}
+
+export interface UserType {
+  name?: string;
+  username?: string;
+  profileImage?: string;
+  authProvider?: string;
+  phoneNumber?: number;
+  sex?: string;
+  birthday?: Date;
+  bio?: string;
+  school?: string;
+  company?: string;
+  region?: string;
+  languages?: LanguageIDType[];
+  posts?: PostIDType[];
+  likes?: PostIDType[];
+  followers?: UserIDType[];
+  follows?: UserIDType[];
+  notifyRange?: NotifyRangeType;
+  notifies?: NotifyType[];
+  dashboard?: DashboardType;
+}
