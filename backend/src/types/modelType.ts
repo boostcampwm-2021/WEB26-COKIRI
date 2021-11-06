@@ -52,4 +52,20 @@ export interface UserType {
   notifyRange?: NotifyRangeType;
   notifies?: NotifyType[];
   dashboard?: DashboardType;
+  versionKey: boolean;
+}
+
+export interface CommentType extends UserIDType {
+  content: string;
+}
+
+export interface PostType {
+  title: string;
+  content: string;
+  userID: Schema.Types.ObjectId;
+  image: string;
+  comments: CommentType[];
+  likes: UserIDType[];
+  tags: Schema.Types.ObjectId[];
+  versionKey: boolean;
 }
