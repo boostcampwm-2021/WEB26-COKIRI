@@ -1,5 +1,3 @@
-const withImages = require('next-images');
-
 module.exports = {
   reactStrictMode: true,
   async redirects() {
@@ -12,4 +10,3 @@ module.exports = {
     ];
   },
 };
-module.exports = withImages();
