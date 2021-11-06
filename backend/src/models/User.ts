@@ -155,6 +155,7 @@ const userSchema = new Schema<UserType>(
       },
       jobObjectives: [{ jobObject: String }],
     },
+    versionKey: false,
   },
   { timestamps: true },
 );
