@@ -44,7 +44,7 @@ export interface UserType {
   username?: string;
   profileImage?: string;
   authProvider?: string;
-  phoneNumber?: number;
+  phoneNumber?: string;
   sex?: string;
   birthday?: Date;
   bio?: string;
