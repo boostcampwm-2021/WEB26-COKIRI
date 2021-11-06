@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import Head from 'next/head';
-import Header from '../components/Header';
+import Header from 'src/components/Header';
 
 import UsersRecommendation from 'src/components/UsersRecommendation';
 import FloatingButton from 'src/components/FloatingButton';
