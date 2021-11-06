@@ -67,12 +67,12 @@ export interface CommentType extends UserIDType {
 }
 
 export interface PostType {
-  title: string;
-  content: string;
-  userID: Schema.Types.ObjectId;
-  image: string;
-  comments: CommentType[];
-  likes: UserIDType[];
-  tags: Schema.Types.ObjectId[];
-  versionKey: boolean;
+  title?: string;
+  content?: string;
+  userID?: Schema.Types.ObjectId;
+  image?: string;
+  comments?: CommentType[];
+  likes?: UserIDType[];
+  tags?: Schema.Types.ObjectId[];
+  versionKey?: boolean;
 }
