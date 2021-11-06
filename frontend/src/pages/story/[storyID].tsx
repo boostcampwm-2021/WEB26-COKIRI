@@ -1,8 +1,7 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-function Story(): ReactElement {
+function Story() {
   const { storyID } = useRouter().query;
 
   return (

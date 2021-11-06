@@ -1,9 +1,8 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function User(): ReactElement {
+function User() {
   const { userID } = useRouter().query;
 
   return (
