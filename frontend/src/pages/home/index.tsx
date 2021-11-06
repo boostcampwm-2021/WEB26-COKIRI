@@ -1,9 +1,10 @@
 import Head from 'next/head';
 
-import UsersRecommendation from 'src/components/UsersRecommendation';
-import FloatingButton from 'src/components/FloatingButton';
+import UsersRecommendationCard from 'src/components/UsersRecommendationCard';
 
-function Home() {
+import { Main } from './style';
+
+function Index() {
   return (
     <div>
       <Head>
@@ -15,12 +16,11 @@ function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <UsersRecommendation />
-
-      <FloatingButton />
-      <footer />
+      <Main>
+        <UsersRecommendationCard />
+      </Main>
     </div>
   );
 }
 
-export default Home;
+export default Index;
