@@ -52,7 +52,7 @@ export interface UserType {
   notifyRange?: NotifyRangeType;
   notifies?: NotifyType[];
   dashboard?: DashboardType;
-  versionKey: boolean;
+  versionKey?: boolean;
 }
 
 export interface CommentType extends UserIDType {
