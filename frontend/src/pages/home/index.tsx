@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import UsersRecommendationCard from 'src/components/UsersRecommendationCard';
+import RecommendationCard from 'src/components/RecommendationCard';
 
 import { Main } from './style';
 
@@ -17,7 +17,7 @@ function Index() {
       </Head>
 
       <Main>
-        <UsersRecommendationCard />
+        <RecommendationCard />
       </Main>
     </div>
   );
