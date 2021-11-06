@@ -97,8 +97,8 @@ const userSchema = new Schema<UserType>(
       required: true,
     },
     phoneNumber: {
-      type: Number,
-      validate: [Validate.numberDigit(9, 11), '전화번호 형식이 잘못되었습니다.'],
+      type: String,
+      //  @TODO phone number string validate
     },
     sex: {
       type: String,
