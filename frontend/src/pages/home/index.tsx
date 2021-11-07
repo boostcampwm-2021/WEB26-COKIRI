@@ -2,13 +2,14 @@ import Head from 'next/head';
 
 import RecommendationCard from 'src/components/RecommendationCard';
 import Timeline from 'src/components/Timeline';
-
 import Header from 'src/components/Header';
+import { Col } from 'src/components/Grid';
+
 import { Main } from './style';
 
 function Index() {
   return (
-    <div>
+    <>
       <Head>
         <title>COCOO</title>
         <meta
@@ -20,10 +21,12 @@ function Index() {
 
       <Header />
       <Main>
-        <RecommendationCard />
-        <Timeline />
+        <Col>
+          <RecommendationCard />
+          <Timeline />
+        </Col>
       </Main>
-    </div>
+    </>
   );
 }
 
