@@ -4,11 +4,7 @@ import * as passport from 'passport';
 
 @Controller('/users')
 export default class UsersRouter {
-  @UseBefore(
-    passport.authenticate('jwt', { session: false }, (error, user) => {
-      console.log(error, user);
-    }),
-  )
+  @UseBefore(passport.authenticate('jwt', { session: false }))
   @Get('/test')
   getAllUsers(@Req() request: Request, @Res() response: Response) {
     console.log(request.user);

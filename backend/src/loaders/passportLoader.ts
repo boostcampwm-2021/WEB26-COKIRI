@@ -6,15 +6,12 @@ import {
   StrategyOptions as JWTStrategyOptions,
   VerifiedCallback,
 } from 'passport-jwt';
-import { UserService } from 'src/services';
-
 import { OAuth2Strategy as GoogleStrategy, VerifyFunction } from 'passport-google-oauth';
 
+import { UserService } from 'src/services';
 import { User } from 'src/types';
 
 export default function passportLoader(app: express.Application): void {
-  app.use(passport.initialize());
-
   const jwtStrategyOptions: JWTStrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_ACCESS_SECRET,
@@ -54,6 +51,7 @@ export default function passportLoader(app: express.Application): void {
     done(null, user);
   };
 
-  passport.use(new JWTStrategy(jwtStrategyOptions, verifyUser));
-  passport.use(new GoogleStrategy(googleStrategyOptions, verifyGoogleUser));
+  passport.use('jwt', new JWTStrategy(jwtStrategyOptions, verifyUser));
+  passport.use('google', new GoogleStrategy(googleStrategyOptions, verifyGoogleUser));
+  app.use(passport.initialize());
 }

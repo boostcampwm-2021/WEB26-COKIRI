@@ -11,7 +11,11 @@ export default class PostsRouter {
   getGoogle() {}
 
   @Get('/google/callback')
-  @UseBefore(passport.authenticate('google', { session: false, scope: ['profile'] }))
+  @UseBefore(
+    passport.authenticate('google', {
+      session: false,
+    }),
+  )
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
