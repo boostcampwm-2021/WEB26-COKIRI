@@ -6,6 +6,7 @@ import {
   StrategyOptions as JWTStrategyOptions,
   VerifiedCallback,
 } from 'passport-jwt';
+import { UserService } from 'src/services';
 
 import { OAuth2Strategy as GoogleStrategy, VerifyFunction } from 'passport-google-oauth';
 
@@ -17,19 +18,18 @@ export default function passportLoader(app: express.Application): void {
     secretOrKey: process.env.JWT_SECRET,
   };
 
-  const verifyUser = (jwtPayload: User, done: VerifiedCallback): void => {
+  const verifyUser = (jwtPayload: User, done: VerifiedCallback) => {
     try {
-      const user: User | undefined = {
-        userID: jwtPayload.userID,
-        username: jwtPayload.username,
+      const user: User = {
+        userID: jwtPayload.userID!,
+        username: jwtPayload.username!,
       };
       if (!user) {
-        done(null, user);
-      } else {
-        done(null, false);
+        return done(null, user);
       }
+      return done(null, false);
     } catch (error) {
-      done(error, false);
+      return done(error, false);
     }
   };
   passport.use(new JWTStrategy(jwtStrategyOptions, verifyUser));
@@ -39,7 +39,12 @@ export default function passportLoader(app: express.Application): void {
     res: express.Response,
     next: express.NextFunction,
   ) => {
-    passport.authenticate('jwt', { session: false }, (error, user) => {
+    passport.authenticate('jwt', { session: false }, async (error, user) => {
+      const result = await UserService.existsUser({
+        userID: '61869e920d57714357630428',
+        username: 'test username',
+      });
+      console.log(result);
       if (user) {
         req.user = user;
       }
@@ -47,16 +52,6 @@ export default function passportLoader(app: express.Application): void {
     })(req, res, next);
   };
   app.use(authenticateJWT);
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    // @TODO id => user document
-    const user = {};
-    done(null, user);
-  });
 
   const googleStrategyOptions = {
     clientID: process.env.GOOGLE_CLIENT_ID!,
@@ -70,11 +65,11 @@ export default function passportLoader(app: express.Application): void {
     profile: any,
     done: VerifyFunction,
   ) => {
+    console.log('구글 Oauth2');
     // @TODO: DB 조회
     done(null, profile);
   };
 
   passport.use(new GoogleStrategy(googleStrategyOptions, verifyGoogleUser));
-
   app.use(passport.initialize());
 }
