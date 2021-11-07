@@ -1,15 +1,22 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Post } from 'routing-controllers';
+import { Controller, Req, Res, Get, Post, UseBefore } from 'routing-controllers';
+import * as passport from 'passport';
 
 @Controller('/users')
 export default class UsersRouter {
+  @UseBefore(
+    passport.authenticate('jwt', { session: false }, (error, user) => {
+      console.log(error, user);
+    }),
+  )
   @Get('/test')
-  static getAllUsers(@Req() request: Request, @Res() response: Response) {
+  getAllUsers(@Req() request: Request, @Res() response: Response) {
+    console.log(request.user);
     return response.send('Test!');
   }
 
   @Post('/test')
-  static getAllPosts(@Req() request: Request, @Res() response: Response) {
+  getAllPosts(@Req() request: Request, @Res() response: Response) {
     return response.send('Test!');
   }
 }

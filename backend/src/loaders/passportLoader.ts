@@ -17,7 +17,7 @@ export default function passportLoader(app: express.Application): void {
 
   const jwtStrategyOptions: JWTStrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET,
+    secretOrKey: process.env.JWT_ACCESS_SECRET,
   };
 
   const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
