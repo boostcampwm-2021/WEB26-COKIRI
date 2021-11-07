@@ -96,6 +96,10 @@ const userSchema = new Schema<UserType>(
       enum: ['kakao', 'google', 'github'],
       required: true,
     },
+    providerID: {
+      type: String,
+      required: true,
+    },
     phoneNumber: {
       type: String,
       //  @TODO phone number string validate

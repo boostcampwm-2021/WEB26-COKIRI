@@ -46,14 +46,13 @@ export default function passportLoader(app: express.Application): void {
     callbackURL: process.env.GOOGLE_CALLBACK_URL!,
   };
 
-  const verifyGoogleUser = (
+  const verifyGoogleUser = async (
     accessToken: string,
     refreshToken: string,
     profile: any,
     done: VerifyFunction,
   ) => {
-    console.log('구글 Oauth2');
-    // @TODO: DB 조회
+    await UserService.findOneUser({ authProvider: 'google', providerID: profile.id });
     done(null, profile);
   };
 

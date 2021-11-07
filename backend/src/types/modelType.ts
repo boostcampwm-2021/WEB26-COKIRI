@@ -37,6 +37,7 @@ export interface UserType {
   username?: string;
   profileImage?: string;
   authProvider?: string;
+  providerID?: string;
   phoneNumber?: string;
   sex?: string;
   birthday?: Date;

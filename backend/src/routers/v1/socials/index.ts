@@ -8,7 +8,8 @@ router.get('/google', passport.authenticate('google', { session: false, scope: [
 router.get('/google/callback', passport.authenticate('google', { session: false }), (req, res) => {
   const token = jwt.sign(
     {
-      id: req.user?.email,
+      userId: req.user?.id,
+      username: req.user?.username,
     },
     process.env.JWT_SECRET!,
   );
