@@ -10,17 +10,6 @@ import HeaderStyle from './style';
 function Header(): ReactElement {
   return (
     <HeaderStyle>
-      <div className='logo-container'>
-        <Link href='/home'>
-          <button type='button'>
-            <Image src='/images/logo.png' width='110px' height='30px' />
-          </button>
-        </Link>
-        <div>
-          <input type='text' />
-          <BiSearch size='20' />
-        </div>
-      </div>
       <div className='home-container'>
         <Link href='/home'>
           <button type='button'>
@@ -29,17 +18,30 @@ function Header(): ReactElement {
         </Link>
         <Link href='/random'>
           <button type='button'>
-            <ImCompass2 size='30' />
+            <ImCompass2 size='25' />
           </button>
         </Link>
         <Link href='/echo/echoID'>
           <button type='button'>
-            <FaPaperPlane size='25' />
+            <FaPaperPlane size='20' />
           </button>
         </Link>
       </div>
+      <div className='logo-container'>
+        <Link href='/home'>
+          <button type='button'>
+            <Image src='/images/logo.png' width='110px' height='30px' />
+          </button>
+        </Link>
+        <div className='input-container'>
+          <input type='text' placeholder='search' />
+          <BiSearch size='20' />
+        </div>
+      </div>
       <div className='user-container'>
-        <FaHeart size='25' />
+        <button type='button'>
+          <FaHeart size='25' />
+        </button>
         <Link href='/users/tiger'>
           <button type='button'>
             <IoPersonCircle size='30' />
