@@ -9,7 +9,8 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
   const token = jwt.sign(req.user!, process.env.JWT_SECRET!, {
     expiresIn: 60 * 60,
   });
-  res.cookie('jwt', token).redirect('/');
+  res.cookie('jwt', token);
+  res.redirect('/');
 });
 
 export default router;

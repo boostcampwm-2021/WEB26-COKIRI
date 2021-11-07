@@ -26,7 +26,7 @@ export default function passportLoader(app: express.Application): void {
         userID: jwtPayload.userID!,
         username: jwtPayload.username!,
       };
-      if (!user) {
+      if (!user || user.username === '') {
         return done(null, false);
       }
       return done(null, user);
@@ -47,7 +47,7 @@ export default function passportLoader(app: express.Application): void {
     profile: any,
     done: VerifyFunction,
   ) => {
-    const user = await UserService.findOneUserAboutProvider({
+    const user = await UserService.findOrCreateUserForProvider({
       authProvider: 'google',
       authProviderID: profile.id,
     });

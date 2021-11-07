@@ -77,15 +77,14 @@ const userSchema = new Schema<UserType>(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
+      default: '',
     },
     username: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
       validate: [Validate.stringDigit(0, 20), '유저네임 형식이 잘못되었습니다.'],
+      default: '',
     },
     profileImage: {
       type: String,
@@ -107,7 +106,6 @@ const userSchema = new Schema<UserType>(
     sex: {
       type: String,
       enum: ['male', 'female'],
-      required: true,
     },
     birthday: { type: Date },
     bio: {

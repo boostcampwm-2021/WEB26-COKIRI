@@ -1,14 +1,14 @@
 class Validate {
-  static stringDigit(min: number, max: number): Function {
-    return function (str: string): boolean {
-      const regx = new RegExp(`^*{${min},${max}$`);
+  static stringDigit(min: number, max: number) {
+    return function validateDigit(str: string): boolean {
+      const regx = new RegExp(`^.{${min},${max}}$`);
       return regx.test(str);
     };
   }
 
-  static numberDigit(min: number, max: number): Function {
-    return function (number: number): boolean {
-      const regx = new RegExp(`^[0-9]{${min},${max}$`);
+  static numberDigit(min: number, max: number) {
+    return function validateDigit(number: number): boolean {
+      const regx = new RegExp(`^[0-9]{${min},${max}}$`);
       return regx.test(number.toString());
     };
   }

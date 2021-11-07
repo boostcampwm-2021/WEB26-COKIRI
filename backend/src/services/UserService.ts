@@ -7,15 +7,24 @@ class UserService {
     return result;
   }
 
-  static async findOneUserAboutProvider(
+  static async findOneUserForProvider(
     userAuthProvider: UserAuthProvider,
-  ): Promise<UserType | UserAuthProvider> {
+  ): Promise<UserType | undefined> {
     const result = await User.findOne(userAuthProvider).select({
       _id: true,
       username: true,
     });
-    if (result === null) return userAuthProvider;
+    if (result === null) return undefined;
     return { userID: result._id.toString(), username: result.username! };
+  }
+
+  static async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
+    const user = await UserService.findOneUserForProvider(userAuthProvider);
+    if (!user) {
+      const newUser = await User.create({ ...userAuthProvider });
+      return { userID: newUser._id.toString(), username: '' };
+    }
+    return user;
   }
 }
 
