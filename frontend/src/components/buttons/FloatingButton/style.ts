@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const FloatingButton = styled.button`
+const Wrapper = styled.button`
   position: absolute;
   right: 0;
   bottom: 0;
@@ -14,4 +14,5 @@ const FloatingButton = styled.button`
   border: none;
 `;
 
-export default FloatingButton;
+// eslint-disable-next-line import/prefer-default-export
+export { Wrapper };
