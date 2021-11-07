@@ -7,7 +7,7 @@ import { Col } from 'src/components/Grid';
 
 import Main from './style';
 
-function Index() {
+function Home() {
   return (
     <>
       <Head>
@@ -30,4 +30,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Home;
