@@ -5,5 +5,4 @@ const Main = styled.main`
   border-radius: 50px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Main };
+export default Main;
