@@ -3,6 +3,7 @@ import Head from 'next/head';
 import RecommendationCard from 'src/components/RecommendationCard';
 import Timeline from 'src/components/Timeline';
 
+import Header from 'src/components/Header';
 import { Main } from './style';
 
 function Index() {
@@ -17,6 +18,7 @@ function Index() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <Main>
         <RecommendationCard />
         <Timeline />
