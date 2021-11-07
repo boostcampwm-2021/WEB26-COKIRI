@@ -13,17 +13,24 @@ import { OAuth2Strategy as GoogleStrategy, VerifyFunction } from 'passport-googl
 import { User } from 'src/types';
 
 export default function passportLoader(app: express.Application): void {
+  app.use(passport.initialize());
+
   const jwtStrategyOptions: JWTStrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET,
   };
 
-  const verifyUser = (jwtPayload: User, done: VerifiedCallback) => {
+  const verifyUser = async (jwtPayload: User, done: VerifiedCallback) => {
     try {
       const user: User = {
         userID: jwtPayload.userID!,
         username: jwtPayload.username!,
       };
+      const result = await UserService.existsUser({
+        userID: '61869e920d57714357630428',
+        username: 'test username',
+      });
+      console.log(result);
       if (!user) {
         return done(null, user);
       }
@@ -32,26 +39,6 @@ export default function passportLoader(app: express.Application): void {
       return done(error, false);
     }
   };
-  passport.use(new JWTStrategy(jwtStrategyOptions, verifyUser));
-
-  const authenticateJWT = (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-  ) => {
-    passport.authenticate('jwt', { session: false }, async (error, user) => {
-      const result = await UserService.existsUser({
-        userID: '61869e920d57714357630428',
-        username: 'test username',
-      });
-      console.log(result);
-      if (user) {
-        req.user = user;
-      }
-      next();
-    })(req, res, next);
-  };
-  app.use(authenticateJWT);
 
   const googleStrategyOptions = {
     clientID: process.env.GOOGLE_CLIENT_ID!,
@@ -70,6 +57,6 @@ export default function passportLoader(app: express.Application): void {
     done(null, profile);
   };
 
+  passport.use(new JWTStrategy(jwtStrategyOptions, verifyUser));
   passport.use(new GoogleStrategy(googleStrategyOptions, verifyGoogleUser));
-  app.use(passport.initialize());
 }
