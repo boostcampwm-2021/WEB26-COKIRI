@@ -1,7 +1,6 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 
-function Echo(): ReactElement {
+function Echo() {
   return (
     <div>
       <Head>
