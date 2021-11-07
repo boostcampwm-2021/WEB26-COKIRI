@@ -20,21 +20,16 @@ export default function passportLoader(app: express.Application): void {
     secretOrKey: process.env.JWT_SECRET,
   };
 
-  const verifyUser = async (jwtPayload: User, done: VerifiedCallback) => {
+  const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
     try {
       const user: User = {
         userID: jwtPayload.userID!,
         username: jwtPayload.username!,
       };
-      const result = await UserService.existsUser({
-        userID: '61869e920d57714357630428',
-        username: 'test username',
-      });
-      console.log(result);
       if (!user) {
-        return done(null, user);
+        return done(null, false);
       }
-      return done(null, false);
+      return done(null, user);
     } catch (error) {
       return done(error, false);
     }
@@ -52,8 +47,11 @@ export default function passportLoader(app: express.Application): void {
     profile: any,
     done: VerifyFunction,
   ) => {
-    await UserService.findOneUser({ authProvider: 'google', providerID: profile.id });
-    done(null, profile);
+    const user = await UserService.findOneUserAboutProvider({
+      authProvider: 'google',
+      authProviderID: profile.id,
+    });
+    done(null, user);
   };
 
   passport.use(new JWTStrategy(jwtStrategyOptions, verifyUser));

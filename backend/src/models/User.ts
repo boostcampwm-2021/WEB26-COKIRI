@@ -96,7 +96,7 @@ const userSchema = new Schema<UserType>(
       enum: ['kakao', 'google', 'github'],
       required: true,
     },
-    providerID: {
+    authProviderID: {
       type: String,
       required: true,
     },

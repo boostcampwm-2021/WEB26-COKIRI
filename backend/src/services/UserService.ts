@@ -1,5 +1,5 @@
 import { User } from 'src/models';
-import { User as UserType } from 'src/types';
+import { User as UserType, UserAuthProvider } from 'src/types';
 
 class UserService {
   static async existsUser(user: UserType): Promise<boolean> {
@@ -7,15 +7,14 @@ class UserService {
     return result;
   }
 
-  static async findOneUser(user: {
-    authProvider: string;
-    providerID: string;
-  }): Promise<UserType | undefined> {
-    const result = await User.findOne(user).select({
+  static async findOneUserAboutProvider(
+    userAuthProvider: UserAuthProvider,
+  ): Promise<UserType | UserAuthProvider> {
+    const result = await User.findOne(userAuthProvider).select({
       _id: true,
       username: true,
     });
-    if (result === null) return undefined;
+    if (result === null) return userAuthProvider;
     return { userID: result._id.toString(), username: result.username! };
   }
 }
