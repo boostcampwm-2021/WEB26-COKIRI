@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 interface Props {
-  justifyContent: string;
+  justifyContent?: string;
 }
 
 const Row = styled.div<Props>`
@@ -25,5 +25,9 @@ const Col = styled.div`
 const Spacer = styled.div`
   flex-grow: 1;
 `;
+
+Row.defaultProps = {
+  justifyContent: 'center',
+};
 
 export { Row, Col, Spacer };
