@@ -1,5 +1,9 @@
 import styled from '@emotion/styled';
 
+const Wrapper = styled.div`
+  padding: 50px 0;
+  border-radius: 50px;
+`;
 const IconRow = styled.div`
   display: flex;
   margin-left: 5px;
@@ -7,5 +11,5 @@ const IconRow = styled.div`
     margin: 5px;
   }
 `;
-// eslint-disable-next-line import/prefer-default-export
-export { IconRow };
+
+export { Wrapper, IconRow };

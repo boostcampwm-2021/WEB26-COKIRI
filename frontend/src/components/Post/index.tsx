@@ -9,11 +9,11 @@ import PostLikeRow from 'src/components/Post/PostLikeRow';
 import PostContent from 'src/components/Post/PostContent';
 import PostReview from 'src/components/Post/PostReview';
 
-import { IconRow } from './style';
+import { Wrapper, IconRow } from './style';
 
 function Post() {
   return (
-    <>
+    <Wrapper>
       <ProfileImageButton href='users/123'>image, username</ProfileImageButton>
       <PostImage />
       <IconRow>
@@ -31,7 +31,7 @@ function Post() {
       <PostLikeRow />
       <PostContent />
       <PostReview />
-    </>
+    </Wrapper>
   );
 }
 
