@@ -23,25 +23,4 @@ export default class CommentService {
       { new: true },
     );
   }
-
-  static async createPostLike(data: any, postId: string) {
-    return Post.findOneAndUpdate(
-      {
-        _id: postId,
-      },
-      { $push: { likes: { userID: data } } },
-      { new: true },
-    );
-  }
-
-  static async removePostLike(postId: string, likeId: string) {
-    return Post.findOneAndUpdate(
-      {
-        _id: postId,
-        'likes._id': likeId,
-      },
-      { $pull: { likes: { _id: likeId } } },
-      { new: true },
-    );
-  }
 }
