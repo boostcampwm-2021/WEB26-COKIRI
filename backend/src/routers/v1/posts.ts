@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete } from 'routing-controllers';
 
 import { PostService, CommentService } from 'src/services';
 
@@ -33,6 +33,13 @@ export default class PostsRouter {
     const { postId } = request.params;
     const data = request.body;
     const result = await CommentService.createPostLike(data.userID, postId);
+    return response.json(result);
+  }
+
+  @Delete('/:postId/likes/:likeId')
+  async deletePostLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, likeId } = request.params;
+    const result = await CommentService.removePostLike(postId, likeId);
     return response.json(result);
   }
 }

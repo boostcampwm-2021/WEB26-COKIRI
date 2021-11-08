@@ -33,4 +33,15 @@ export default class CommentService {
       { new: true },
     );
   }
+
+  static async removePostLike(postId: string, likeId: string) {
+    return Post.findOneAndUpdate(
+      {
+        _id: postId,
+        'likes._id': likeId,
+      },
+      { $pull: { likes: { _id: new Types.ObjectId(likeId) } } },
+      { new: true },
+    );
+  }
 }
