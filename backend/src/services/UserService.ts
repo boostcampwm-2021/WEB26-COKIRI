@@ -30,6 +30,11 @@ class UserService {
     }
     return user;
   }
+
+  static async findOneUserForID(user: UserType) {
+    const result = await User.findOne(user);
+    return result;
+  }
 }
 
 export default UserService;
