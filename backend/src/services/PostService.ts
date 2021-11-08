@@ -1,3 +1,7 @@
-class PostService {}
+import { Post } from 'src/models';
 
-export default PostService;
+export default class PostService {
+  static async createPost(data: any) {
+    return Post.create(data);
+  }
+}

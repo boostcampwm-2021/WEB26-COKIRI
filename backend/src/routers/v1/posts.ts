@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Post } from 'routing-controllers';
+import { Controller, Req, Res, Post } from 'routing-controllers';
+
+import PostService from 'src/services/PostService';
 
 @Controller('/posts')
 export default class PostsRouter {
-  @Get('/test')
-  static getAllUsers(@Req() request: Request, @Res() response: Response) {
-    return response.send('Test!');
-  }
-
-  @Post('/test')
-  static getAllPosts(@Req() request: Request, @Res() response: Response) {
-    return response.send('Test!');
+  @Post('/')
+  async postPost(@Req() request: Request, @Res() response: Response) {
+    const data = request.body;
+    const result = await PostService.createPost(data);
+    return response.json(result);
   }
 }
