@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Post } from 'src/models';
 
 export default class CommentService {
@@ -7,6 +9,17 @@ export default class CommentService {
         _id: postId,
       },
       { $push: { comments: data } },
+      { new: true },
+    );
+  }
+
+  static async createCommentLike(data: any, postId: string, commentId: string) {
+    return Post.findOneAndUpdate(
+      {
+        _id: postId,
+        comments: { $elemMatch: { _id: commentId } },
+      },
+      { $push: { 'comments.$.likes': { userID: data } } },
       { new: true },
     );
   }

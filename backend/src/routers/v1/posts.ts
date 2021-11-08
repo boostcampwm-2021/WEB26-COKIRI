@@ -19,4 +19,12 @@ export default class PostsRouter {
     const result = await CommentService.createComment(data, postId);
     return response.json(result);
   }
+
+  @Post('/:postId/comments/:commentId/likes')
+  async postCommentLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, commentId } = request.params;
+    const data = request.body;
+    const result = await CommentService.createCommentLike(data.userID, postId, commentId);
+    return response.json(result);
+  }
 }
