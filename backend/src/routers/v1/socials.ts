@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
+
 import { JWT } from 'src/utils';
 
 @Controller('/socials')

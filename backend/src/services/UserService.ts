@@ -1,6 +1,7 @@
+import { nanoid } from 'nanoid';
+
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider } from 'src/types';
-import { nanoid } from 'nanoid';
 
 class UserService {
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
