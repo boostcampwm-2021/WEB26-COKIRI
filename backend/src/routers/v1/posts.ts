@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Post } from 'routing-controllers';
 
-import PostService from 'src/services/PostService';
+import { PostService, CommentService } from 'src/services';
 
 @Controller('/posts')
 export default class PostsRouter {
@@ -9,6 +9,16 @@ export default class PostsRouter {
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
     const result = await PostService.createPost(data);
+    return response.json(result);
+  }
+
+  @Post('/:postId/comments')
+  async postComment(@Req() request: Request, @Res() response: Response) {
+    console.log(1);
+    const { postId } = request.params;
+    const data = request.body;
+    console.log(postId, data);
+    const result = await CommentService.createComment(data, postId);
     return response.json(result);
   }
 }
