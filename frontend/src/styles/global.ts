@@ -14,5 +14,7 @@ export default css`
 
   button {
     cursor: pointer;
+    background: transparent;
+    border: none;
   }
 `;
