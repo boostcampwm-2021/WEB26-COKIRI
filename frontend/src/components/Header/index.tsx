@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import {
-  IoHome,
-  IoCompassSharp,
+  IoHomeOutline,
+  IoCompassOutline,
   IoPaperPlaneOutline,
-  IoHeart,
-  IoPersonCircle,
+  IoHeartOutline,
+  IoPersonCircleOutline,
 } from 'react-icons/io5';
 
 import { Row } from 'src/components/Grid';
@@ -28,10 +28,10 @@ function Header() {
 
         <Section>
           <NavigateButton href='/home'>
-            <IoHome />
+            <IoHomeOutline />
           </NavigateButton>
           <NavigateButton href='/random'>
-            <IoCompassSharp />
+            <IoCompassOutline />
           </NavigateButton>
           <NavigateButton href='/echo'>
             <IoPaperPlaneOutline />
@@ -40,10 +40,10 @@ function Header() {
 
         <Section>
           <IconButton>
-            <IoHeart />
+            <IoHeartOutline />
           </IconButton>
           <NavigateButton href='/users/tiger'>
-            <IoPersonCircle />
+            <IoPersonCircleOutline />
           </NavigateButton>
         </Section>
       </Row>
