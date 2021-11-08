@@ -19,6 +19,9 @@ export default class PostsRouter {
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
-    response.cookie('jwt', accessToken);
+    response.cookie('jwt', accessToken, {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+    });
   }
 }
