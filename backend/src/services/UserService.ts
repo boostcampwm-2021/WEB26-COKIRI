@@ -48,7 +48,13 @@ class UserService {
   }
 
   static async findOneUserForID(user: UserType) {
-    const result = await User.findOne(user).select({ _id: true, isRegistered: true });
+    const result = await User.findOne(user).select({
+      _id: true,
+      isRegistered: true,
+      profileImage: true,
+      username: true,
+      name: true,
+    });
     return result;
   }
 
