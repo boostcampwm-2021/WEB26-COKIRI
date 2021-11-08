@@ -18,7 +18,7 @@ import { Wrapper, Section } from './style';
 function Header() {
   return (
     <Wrapper>
-      <Row>
+      <Row justifyContent='center'>
         <Section>
           <ImageButton href='/home'>
             <Image src='/images/logo.svg' width='64' height='24' />

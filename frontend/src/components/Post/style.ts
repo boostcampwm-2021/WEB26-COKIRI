@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 const Wrapper = styled.div`
   padding: 50px 0;
 `;
-const Row = styled.div`
+const Buttons = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 5px;
   height: 64px;
   div {
-    margin: 0 5px;
+    margin: 0 5px 0 10px;
   }
 `;
 
-export { Wrapper, Row };
+export { Wrapper, Buttons };
