@@ -6,9 +6,11 @@ interface Props {
 }
 
 const Wrapper = styled.div<Props>`
+  margin: 32px 32px;
+  padding: 7px;
   border-radius: 50px;
   background: #444444;
-  box-shadow: 16px 16px 31px #3a3a3a, -16px -16px 31px #4e4e4e;
+  box-shadow: 14px 14px 27px #3a3a3a, -14px -14px 27px #4e4e4e;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
 `;

@@ -7,13 +7,16 @@ const Wrapper = styled.header`
   box-sizing: border-box;
   width: 192px;
   height: 48px;
-  padding: 0 32px;
+  padding: 0 24px 0 32px;
+  margin: 16px;
   border-radius: 50px;
   background: #444444;
   box-shadow: inset 9px 9px 9px #3b3b3b, inset -9px -9px 9px #4d4d4d;
   input {
     border: none;
     width: 100px;
+    background-color: transparent;
+    font-size: 16px;
   }
   input:focus {
     outline: none;

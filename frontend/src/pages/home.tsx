@@ -3,6 +3,7 @@ import Head from 'next/head';
 import RecommendationCard from 'src/components/RecommendationCard';
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
+import SigninCard from 'src/components/SigninCard';
 import { Col } from 'src/components/Grid';
 
 import { Main } from 'src/styles/pages/home';
@@ -22,6 +23,7 @@ function Home() {
       <Header />
       <Main>
         <Col>
+          <SigninCard />
           <RecommendationCard />
           <Timeline />
         </Col>
