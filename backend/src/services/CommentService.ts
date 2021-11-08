@@ -23,4 +23,14 @@ export default class CommentService {
       { new: true },
     );
   }
+
+  static async createPostLike(data: any, postId: string) {
+    return Post.findOneAndUpdate(
+      {
+        _id: postId,
+      },
+      { $push: { likes: { userID: data } } },
+      { new: true },
+    );
+  }
 }
