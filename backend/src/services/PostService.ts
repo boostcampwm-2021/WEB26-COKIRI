@@ -35,7 +35,7 @@ export default class PostService {
       },
       {
         $sort: {
-          createdAt: 1,
+          createdAt: -1,
         },
       },
     ]);

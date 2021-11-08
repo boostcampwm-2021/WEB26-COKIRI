@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post, Delete } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get } from 'routing-controllers';
 
 import { PostService, CommentService } from 'src/services';
 
 @Controller('/posts')
 export default class PostsRouter {
   @Post('/')
-  async postPost(@Req() request: Request) {
+  async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
     const result = await PostService.createPost(data);
     return response.json(result);
   }
 
   @Post('/:postId/comments')
-  async postComment(@Req() request: Request) {
+  async postComment(@Req() request: Request, @Res() response: Response) {
     const { postId } = request.params;
     const data = request.body;
     const result = await CommentService.createComment(data, postId);
@@ -21,7 +21,7 @@ export default class PostsRouter {
   }
 
   @Post('/:postId/comments/:commentId/likes')
-  async postCommentLike(@Req() request: Request) {
+  async postCommentLike(@Req() request: Request, @Res() response: Response) {
     const { postId, commentId } = request.params;
     const data = request.body;
     const result = await CommentService.createCommentLike(data.userID, postId, commentId);
@@ -29,25 +29,25 @@ export default class PostsRouter {
   }
 
   @Post('/:postId/likes')
-  async postPostLike(@Req() request: Request) {
+  async postPostLike(@Req() request: Request, @Res() response: Response) {
     const { postId } = request.params;
     const data = request.body;
-    const result = await CommentService.createPostLike(data.userID, postId);
+    const result = await PostService.createPostLike(data.userID, postId);
     return response.json(result);
   }
 
   @Delete('/:postId/likes/:likeId')
-  async deletePostLike(@Req() request: Request) {
+  async deletePostLike(@Req() request: Request, @Res() response: Response) {
     const { postId, likeId } = request.params;
-    const result = await CommentService.removePostLike(postId, likeId);
+    const result = await PostService.removePostLike(postId, likeId);
     return response.json(result);
   }
 
-  @Get('posts')
-  async getRandomPost(@Req() request: Request) {
+  @Get('/')
+  async getRandomPost(@Req() request: Request, @Res() response: Response) {
     const { type } = request.query;
     let result;
-    if (type === 'random') result = PostService;
-    return result;
+    if (type === 'random') result = PostService.findRandomPost;
+    return response.json(result);
   }
 }
