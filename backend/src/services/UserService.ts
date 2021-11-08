@@ -59,6 +59,23 @@ class UserService {
     return result;
   }
 
+  static async findOneUserProfileForID(userID: string) {
+    const result = await User.aggregate([
+      {
+        $project: {
+          followerCount: { $size: '$followers' },
+          followCount: { $size: '$followers' },
+          _id: { $toString: '$_id' },
+          username: '$username',
+          bio: '$bio',
+          posts: '$posts',
+        },
+      },
+      { $match: { _id: userID } },
+    ]);
+    return result[0];
+  }
+
   static async updateOneUserConfig(user: UserType, userConfig: UserConfigType) {
     const userConfigSchema: UserSchemaType = {
       ...userConfig,
