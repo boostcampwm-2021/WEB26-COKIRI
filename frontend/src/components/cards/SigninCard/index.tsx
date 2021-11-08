@@ -1,4 +1,4 @@
-import Card from 'src/components/Card';
+import Card from 'src/components/cards/Common';
 import Google from 'src/components/buttons/socials/Google';
 import Github from 'src/components/buttons/socials/Github';
 import Kakao from 'src/components/buttons/socials/Kakao';
