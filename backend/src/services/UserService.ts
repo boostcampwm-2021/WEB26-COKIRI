@@ -12,6 +12,11 @@ class UserService {
     return result.isRegistered!;
   }
 
+  static async existsUserForUsername(user: { username: string }): Promise<boolean> {
+    const result = await User.exists({ username: user.username });
+    return result;
+  }
+
   static async findOneUserForProvider(
     userAuthProvider: UserAuthProvider,
   ): Promise<UserType | undefined> {
