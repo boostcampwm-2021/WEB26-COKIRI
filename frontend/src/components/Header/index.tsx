@@ -1,12 +1,17 @@
 import Image from 'next/image';
-import { BiHomeAlt, BiSearch } from 'react-icons/bi';
-import { ImCompass2 } from 'react-icons/im';
-import { FaPaperPlane, FaHeart } from 'react-icons/fa';
-import { IoPersonCircle } from 'react-icons/io5';
+import {
+  IoHomeOutline,
+  IoCompassOutline,
+  IoPaperPlaneOutline,
+  IoHeartOutline,
+  IoPersonCircleOutline,
+} from 'react-icons/io5';
 
 import { Row } from 'src/components/Grid';
 import NavigateButton from 'src/components/buttons/NavigateButton';
 import LogoButton from 'src/components/buttons/LogoButton';
+import IconButton from 'src/components/buttons/IconButton';
+import SearchBox from 'src/components/SearchBox';
 
 import { Wrapper, Section } from './style';
 
@@ -18,30 +23,27 @@ function Header() {
           <LogoButton href='/home'>
             <Image src='/images/logo.svg' width='64' height='24' />
           </LogoButton>
-          <div className='input-container'>
-            <input type='text' placeholder='search' />
-            <BiSearch size='20' />
-          </div>
+          <SearchBox />
         </Section>
 
         <Section>
           <NavigateButton href='/home'>
-            <BiHomeAlt />
+            <IoHomeOutline />
           </NavigateButton>
           <NavigateButton href='/random'>
-            <ImCompass2 />
+            <IoCompassOutline />
           </NavigateButton>
           <NavigateButton href='/echo'>
-            <FaPaperPlane />
+            <IoPaperPlaneOutline />
           </NavigateButton>
         </Section>
 
         <Section>
-          <button type='button'>
-            <FaHeart size='25' />
-          </button>
+          <IconButton>
+            <IoHeartOutline />
+          </IconButton>
           <NavigateButton href='/users/tiger'>
-            <IoPersonCircle size='30' />
+            <IoPersonCircleOutline />
           </NavigateButton>
         </Section>
       </Row>
