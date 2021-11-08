@@ -1,8 +1,5 @@
 import Image from 'next/image';
-import { BiHomeAlt } from 'react-icons/bi';
-import { ImCompass2 } from 'react-icons/im';
-import { FaPaperPlane, FaHeart } from 'react-icons/fa';
-import { IoPersonCircle } from 'react-icons/io5';
+import { IoHome, IoCompass, IoPaperPlaneOutline, IoHeart, IoPersonCircle } from 'react-icons/io5';
 
 import { Row } from 'src/components/Grid';
 import NavigateButton from 'src/components/buttons/NavigateButton';
@@ -24,19 +21,19 @@ function Header() {
 
         <Section>
           <NavigateButton href='/home'>
-            <BiHomeAlt />
+            <IoHome />
           </NavigateButton>
           <NavigateButton href='/random'>
-            <ImCompass2 />
+            <IoCompass />
           </NavigateButton>
           <NavigateButton href='/echo'>
-            <FaPaperPlane />
+            <IoPaperPlaneOutline />
           </NavigateButton>
         </Section>
 
         <Section>
           <button type='button'>
-            <FaHeart size='25' />
+            <IoHeart size='25' />
           </button>
           <NavigateButton href='/users/tiger'>
             <IoPersonCircle />

@@ -1,11 +1,12 @@
-import { BiSearch } from 'react-icons/bi';
+import { IoSearchSharp } from 'react-icons/io5';
 
 import { Wrapper } from './style';
+
 function SearchBox() {
   return (
     <Wrapper>
       <input type='text' placeholder='search' />
-      <BiSearch size='20' />
+      <IoSearchSharp size='20' />
     </Wrapper>
   );
 }
