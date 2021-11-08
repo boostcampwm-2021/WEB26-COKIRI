@@ -4,10 +4,10 @@ import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import CommentButton from 'src/components/buttons/post/CommentButton';
 import LikeButton from 'src/components/buttons/post/LikeButton';
 import EchoButton from 'src/components/buttons/post/EchoButton';
-import PostImage from 'src/components/Post/PostImage';
-import PostLikeRow from 'src/components/Post/PostLikeRow';
-import PostContent from 'src/components/Post/PostContent';
-import PostReview from 'src/components/Post/PostReview';
+import PostImage from 'src/components/Post/Image';
+import PostLikeRow from 'src/components/Post/LikeRow';
+import PostContent from 'src/components/Post/Content';
+import PostReview from 'src/components/Post/Review';
 
 import { Wrapper, IconRow } from './style';
 

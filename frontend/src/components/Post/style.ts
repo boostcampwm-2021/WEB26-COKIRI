@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 
 const Wrapper = styled.div`
   padding: 50px 0;
-  border-radius: 50px;
 `;
 const IconRow = styled.div`
   display: flex;
