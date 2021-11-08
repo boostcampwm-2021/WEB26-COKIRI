@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Button = styled.button``;
+const Wrapper = styled.div``;
 
 // eslint-disable-next-line import/prefer-default-export
-export { Button };
+export { Wrapper };

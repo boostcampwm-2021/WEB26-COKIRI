@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
-import { Button } from './style';
+import { Wrapper } from './style';
 
 interface Props {
   children: ReactNode;
@@ -10,9 +10,11 @@ interface Props {
 
 function CommentButton({ children }: Props) {
   return (
-    <Button>
-      <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
-    </Button>
+    <Wrapper>
+      <button type='button'>
+        <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
+      </button>
+    </Wrapper>
   );
 }
 

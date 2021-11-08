@@ -9,25 +9,24 @@ import PostLikeRow from 'src/components/Post/LikeRow';
 import PostContent from 'src/components/Post/Content';
 import PostReview from 'src/components/Post/Review';
 
-import { Wrapper, IconRow } from './style';
+import { Wrapper, Row } from './style';
 
 function Post() {
   return (
     <Wrapper>
       <ProfileImageButton href='users/123'>image, username</ProfileImageButton>
       <PostImage />
-      <IconRow>
+      <Row>
         <CommentButton>
           <IoHeartOutline />
         </CommentButton>
         <LikeButton>
           <IoChatbubbleOutline />
         </LikeButton>
-
         <EchoButton href='echo/123'>
           <IoPaperPlaneOutline />
         </EchoButton>
-      </IconRow>
+      </Row>
       <PostLikeRow />
       <PostContent />
       <PostReview />
