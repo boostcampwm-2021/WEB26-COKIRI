@@ -6,7 +6,7 @@ const Wrapper = styled.header`
   right: 0;
   position: fixed;
   height: 64px;
-  align-items: center;
+
   *,
   & {
     background-color: transparent;
