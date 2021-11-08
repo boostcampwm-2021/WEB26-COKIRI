@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+
 import { LanguageType } from 'src/types';
 
 const LanguageSchema = new Schema<LanguageType>({

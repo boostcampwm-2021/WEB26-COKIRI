@@ -77,15 +77,19 @@ const userSchema = new Schema<UserType>(
   {
     name: {
       type: String,
-      required: true,
       trim: true,
+      default: '',
     },
     username: {
       type: String,
-      required: true,
-      unique: true,
       trim: true,
       validate: [Validate.stringDigit(0, 20), '유저네임 형식이 잘못되었습니다.'],
+      unique: true,
+    },
+    isRegistered: {
+      type: Boolean,
+      require: true,
+      default: false,
     },
     profileImage: {
       type: String,
@@ -96,6 +100,10 @@ const userSchema = new Schema<UserType>(
       enum: ['kakao', 'google', 'github'],
       required: true,
     },
+    authProviderID: {
+      type: String,
+      required: true,
+    },
     phoneNumber: {
       type: String,
       //  @TODO phone number string validate
@@ -103,7 +111,6 @@ const userSchema = new Schema<UserType>(
     sex: {
       type: String,
       enum: ['male', 'female'],
-      required: true,
     },
     birthday: { type: Date },
     bio: {
