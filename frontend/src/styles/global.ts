@@ -2,9 +2,17 @@ import { css } from '@emotion/react';
 
 export default css`
   * {
-    color: white;
-    background-color: #444444;
+    color: #efefef;
     margin: 0;
     padding: 0;
+  }
+
+  html,
+  main {
+    background-color: #444444;
+  }
+
+  button {
+    cursor: pointer;
   }
 `;
