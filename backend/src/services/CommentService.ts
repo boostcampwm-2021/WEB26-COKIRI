@@ -40,7 +40,7 @@ export default class CommentService {
         _id: postId,
         'likes._id': likeId,
       },
-      { $pull: { likes: { _id: new Types.ObjectId(likeId) } } },
+      { $pull: { likes: { _id: likeId } } },
       { new: true },
     );
   }
