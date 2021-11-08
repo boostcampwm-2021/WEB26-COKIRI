@@ -2,7 +2,7 @@ import Card from 'src/components/Card';
 
 function RecommendationCard() {
   return (
-    <Card width={600} height={500}>
+    <Card width={1000} height={500}>
       test
     </Card>
   );

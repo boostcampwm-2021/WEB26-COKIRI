@@ -5,11 +5,12 @@ const Wrapper = styled.header`
   left: 0;
   right: 0;
   position: fixed;
-  height: 64px;
+  height: 80px;
+  background-color: #444444;
 
-  *,
-  & {
-    background-color: transparent;
+  // @TODO scroll 이 내려갔을 때만 보더보이게 하기
+  &:not([data-scroll='0']) {
+    border-bottom: 1px solid #3e3e3e;
   }
 `;
 
