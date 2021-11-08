@@ -30,6 +30,11 @@ class UserService {
     }
     return user;
   }
+
+  static async findOneUserForID(user: UserType) {
+    const result = await User.findOne(user).select({ _id: true });
+    return result;
+  }
 }
 
 export default UserService;
