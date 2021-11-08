@@ -1,9 +1,11 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
+
 import { CommentType, PostType, UserIDType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
 
 const commentSchema = new Schema<CommentType>(
   {
+    id: { type: Schema.Types.ObjectId, default: new Types.ObjectId(), required: true },
     userID: {
       type: Schema.Types.ObjectId,
       required: true,

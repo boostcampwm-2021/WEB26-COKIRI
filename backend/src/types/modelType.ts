@@ -58,6 +58,7 @@ export interface UserType {
 }
 
 export interface CommentType extends UserIDType {
+  id: Schema.Types.ObjectId;
   content: string;
 }
 
