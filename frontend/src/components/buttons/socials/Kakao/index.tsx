@@ -1,8 +1,6 @@
 import Common from 'src/components/buttons/socials/Common';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 
-import { Wrapper } from './style';
-
 const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 
 function Kakao() {
@@ -11,11 +9,9 @@ function Kakao() {
   };
 
   return (
-    <Wrapper>
-      <Common onClick={handleClick}>
-        <RiKakaoTalkFill />
-      </Common>
-    </Wrapper>
+    <Common onClick={handleClick}>
+      <RiKakaoTalkFill />
+    </Common>
   );
 }
 

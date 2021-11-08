@@ -1,8 +1,6 @@
 import Common from 'src/components/buttons/socials/Common';
 import { RiGithubFill } from 'react-icons/ri';
 
-import { Wrapper } from './style';
-
 const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 
 function Github() {
@@ -11,11 +9,9 @@ function Github() {
   };
 
   return (
-    <Wrapper>
-      <Common onClick={handleClick}>
-        <RiGithubFill />
-      </Common>
-    </Wrapper>
+    <Common onClick={handleClick}>
+      <RiGithubFill />
+    </Common>
   );
 }
 
