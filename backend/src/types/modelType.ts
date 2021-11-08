@@ -38,6 +38,7 @@ export interface UserType {
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
+  isRegistered?: boolean;
   phoneNumber?: string;
   sex?: string;
   birthday?: Date;

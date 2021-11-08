@@ -15,6 +15,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",
+    "nanoid": "^3.1.30",
     "passport": "^0.5.0",
     "passport-google-oauth": "^2.0.0",
     "passport-jwt": "^4.0.0",

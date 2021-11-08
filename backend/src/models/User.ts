@@ -84,7 +84,12 @@ const userSchema = new Schema<UserType>(
       type: String,
       trim: true,
       validate: [Validate.stringDigit(0, 20), '유저네임 형식이 잘못되었습니다.'],
-      default: '',
+      unique: true,
+    },
+    isRegistered: {
+      type: Boolean,
+      require: true,
+      default: false,
     },
     profileImage: {
       type: String,

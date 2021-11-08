@@ -19,11 +19,8 @@ export default function passportLoader(app: express.Application): void {
 
   const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
     try {
-      const user: User = {
-        userID: jwtPayload.userID!,
-        username: jwtPayload.username!,
-      };
-      if (!user || user.username === '') {
+      const user: User = { userID: jwtPayload.userID! };
+      if (!user || !(await UserService.existsRegisteredUser(user))) {
         return done(null, false);
       }
       return done(null, user);
