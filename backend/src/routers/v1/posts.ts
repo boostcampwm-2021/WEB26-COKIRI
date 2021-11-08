@@ -14,10 +14,8 @@ export default class PostsRouter {
 
   @Post('/:postId/comments')
   async postComment(@Req() request: Request, @Res() response: Response) {
-    console.log(1);
     const { postId } = request.params;
     const data = request.body;
-    console.log(postId, data);
     const result = await CommentService.createComment(data, postId);
     return response.json(result);
   }
