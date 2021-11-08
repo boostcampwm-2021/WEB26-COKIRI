@@ -13,4 +13,5 @@ const Wrapper = styled.div<Props>`
   height: ${({ height }) => height}px;
 `;
 
-export default Wrapper;
+// eslint-disable-next-line import/prefer-default-export
+export { Wrapper };

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
-import Wrapper from './style';
+import { Wrapper } from './style';
 
 interface Props {
   children: ReactNode;
