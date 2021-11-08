@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Post, UseBefore } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put, UseBefore } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
@@ -19,12 +19,16 @@ export default class UsersRouter {
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
-    const user = await UserService.findOneUserForID({ userID: request.user!.id });
+    const user = await UserService.findOneUserForID({ userID: request.user!.userID });
     return response.json({ user });
   }
 
-  @Post('/test')
-  getAllPosts(@Req() request: Request, @Res() response: Response) {
+  @Put('/:userID')
+  @UseBefore(passport.authenticate('jwt', { session: false }))
+  async putUser(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) throw new Error('잘못된 형식의 Path Params 입니다.');
+    await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
     return response.send('Test!');
   }
 }

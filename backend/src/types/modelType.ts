@@ -1,15 +1,15 @@
-import { Schema } from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface LanguageIDType {
-  languageID: Schema.Types.ObjectId;
+  languageID: Types.ObjectId;
 }
 
 export interface PostIDType {
-  postID: Schema.Types.ObjectId;
+  postID: Types.ObjectId;
 }
 
 export interface UserIDType {
-  userID: Schema.Types.ObjectId;
+  userID: Types.ObjectId;
 }
 
 export interface NotifyRangeType {
@@ -64,17 +64,17 @@ export interface CommentType extends UserIDType {
 export interface PostType {
   title?: string;
   content?: string;
-  userID?: Schema.Types.ObjectId;
+  userID?: Types.ObjectId;
   image?: string;
   comments?: CommentType[];
   likes?: UserIDType[];
-  tags?: Schema.Types.ObjectId[];
+  tags?: Types.ObjectId[];
   versionKey?: boolean;
 }
 
 export interface EchoRoomType {
-  users: Schema.Types.ObjectId[];
-  messages: { userID: Schema.Types.ObjectId; content: string; createdAt: Date }[];
+  users: Types.ObjectId[];
+  messages: { userID: Types.ObjectId; content: string; createdAt: Date }[];
 }
 
 export interface TagType {

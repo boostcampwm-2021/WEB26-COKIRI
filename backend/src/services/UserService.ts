@@ -2,6 +2,12 @@ import { nanoid } from 'nanoid';
 
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider } from 'src/types';
+import { UserType as UserSchemaType } from 'src/types/modelType';
+import { Types } from 'mongoose';
+
+interface UserConfigType extends Omit<UserSchemaType, 'languages'> {
+  languages: string[];
+}
 
 class UserService {
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
@@ -39,6 +45,14 @@ class UserService {
   static async findOneUserForID(user: UserType) {
     const result = await User.findOne(user).select({ _id: true });
     return result;
+  }
+
+  static async updateOneUserConfig<Type extends UserConfigType>(user: UserType, userConfig: Type) {
+    const userConfigSchema: UserSchemaType = { ...userConfig, languages: [] };
+    userConfigSchema.languages = userConfig.languages?.map((language) => ({
+      languageID: new Types.ObjectId(language),
+    }));
+    await User.updateOne({ _id: user.userID }, userConfigSchema);
   }
 }
 
