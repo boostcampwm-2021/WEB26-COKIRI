@@ -5,9 +5,9 @@ import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import { Col } from 'src/components/Grid';
 
-import Main from './style';
+import { Main } from 'src/styles/pages/home';
 
-function Index() {
+function Home() {
   return (
     <>
       <Head>
@@ -30,4 +30,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Home;

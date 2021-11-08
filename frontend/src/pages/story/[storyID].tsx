@@ -2,7 +2,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 function Story() {
-  const { storyID } = useRouter().query;
+  const router = useRouter();
+  const { storyID } = router.query;
 
   return (
     <div>
