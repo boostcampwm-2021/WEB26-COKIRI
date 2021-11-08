@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import Head from 'next/head';
 
 import RecommendationCard from 'src/components/RecommendationCard';
@@ -5,7 +6,10 @@ import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import { Col } from 'src/components/Grid';
 
-import Main from './style';
+const Main = styled.main`
+  margin-top: 96px;
+  border-radius: 50px;
+`;
 
 function Home() {
   return (
