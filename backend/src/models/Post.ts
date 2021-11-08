@@ -3,9 +3,18 @@ import { Schema, model, Types } from 'mongoose';
 import { CommentType, PostType, UserIDType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
 
+const likeSchema = new Schema<UserIDType>(
+  {
+    userID: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
+
 const commentSchema = new Schema<CommentType>(
   {
-    id: { type: Schema.Types.ObjectId, default: new Types.ObjectId(), required: true },
     userID: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -14,14 +23,9 @@ const commentSchema = new Schema<CommentType>(
       type: String,
       required: true,
     },
-  },
-  { timestamps: true },
-);
-const likeSchema = new Schema<UserIDType>(
-  {
-    userID: {
-      type: Schema.Types.ObjectId,
-      required: true,
+    likes: {
+      type: [likeSchema],
+      default: [],
     },
   },
   { timestamps: true },
