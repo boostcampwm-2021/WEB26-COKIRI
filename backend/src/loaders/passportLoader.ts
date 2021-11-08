@@ -17,10 +17,22 @@ export default function passportLoader(app: express.Application): void {
     secretOrKey: process.env.JWT_ACCESS_SECRET,
   };
 
-  const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
+  const verifyRegisteredUser = async (jwtPayload: any, done: VerifiedCallback) => {
     try {
       const user: User = { userID: jwtPayload.userID! };
       if (!user || !(await UserService.existsRegisteredUser(user))) {
+        return done(null, false);
+      }
+      return done(null, user);
+    } catch (error) {
+      return done(error, false);
+    }
+  };
+
+  const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
+    try {
+      const user: User = { userID: jwtPayload.userID! };
+      if (!user || !(await UserService.existsUser(user))) {
         return done(null, false);
       }
       return done(null, user);
@@ -48,6 +60,7 @@ export default function passportLoader(app: express.Application): void {
     done(null, user);
   };
 
+  passport.use('jwt-registered', new JWTStrategy(jwtStrategyOptions, verifyRegisteredUser));
   passport.use('jwt', new JWTStrategy(jwtStrategyOptions, verifyUser));
   passport.use('google', new GoogleStrategy(googleStrategyOptions, verifyGoogleUser));
   app.use(passport.initialize());

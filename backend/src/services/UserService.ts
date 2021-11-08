@@ -10,6 +10,11 @@ interface UserConfigType extends Omit<UserSchemaType, 'languages'> {
 }
 
 class UserService {
+  static async existsUser(user: UserType): Promise<boolean> {
+    const result = await User.exists(user);
+    return result;
+  }
+
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
     const result = await User.findOne(user).select({
       isRegistered: true,
@@ -43,7 +48,7 @@ class UserService {
   }
 
   static async findOneUserForID(user: UserType) {
-    const result = await User.findOne(user).select({ _id: true });
+    const result = await User.findOne(user).select({ _id: true, isRegistered: true });
     return result;
   }
 
