@@ -57,9 +57,8 @@ const postSchema = new Schema<PostType>(
       type: [Schema.Types.ObjectId],
       default: [],
     },
-    versionKey: false,
   },
-  { timestamps: true },
+  { versionKey: false, timestamps: true },
 );
 
 export default model<PostType>('Post', postSchema);
