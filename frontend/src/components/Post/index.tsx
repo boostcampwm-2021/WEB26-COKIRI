@@ -1,6 +1,6 @@
 import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
-import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
+import Profile from 'src/components/post/Profile';
 import CommentButton from 'src/components/buttons/post/CommentButton';
 import LikeButton from 'src/components/buttons/post/LikeButton';
 import EchoButton from 'src/components/buttons/post/EchoButton';
@@ -15,7 +15,7 @@ import { Wrapper, Buttons } from './style';
 function Post() {
   return (
     <Wrapper>
-      <ProfileImageButton href='users/123'>image, username</ProfileImageButton>
+      <Profile />
       <PostImage />
       <Row justifyContent='flex-start'>
         <Buttons>

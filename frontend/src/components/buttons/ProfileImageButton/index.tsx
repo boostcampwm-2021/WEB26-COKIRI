@@ -1,19 +1,21 @@
-import { ReactNode } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 import { Wrapper } from './style';
 
 interface Props {
   href: string;
-  children: ReactNode;
+  imgSrc: string;
 }
 
-function ProfileImageButton({ href, children }: Props) {
+function ProfileImageButton({ href, imgSrc }: Props) {
   return (
     <Wrapper>
       <Link href={href}>
-        <a href={href}>{children}</a>
+        <a href={href}>
+          <Image src={imgSrc} width='36' height='36' />
+        </a>
       </Link>
     </Wrapper>
   );
@@ -21,7 +23,7 @@ function ProfileImageButton({ href, children }: Props) {
 
 ProfileImageButton.propsType = {
   href: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  imgSrc: PropTypes.string.isRequired,
 };
 
 export default ProfileImageButton;
