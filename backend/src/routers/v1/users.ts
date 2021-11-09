@@ -3,6 +3,7 @@ import { Controller, Req, Res, Get, Put, UseBefore } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
+import { UserType } from 'src/types';
 
 @Controller('/users')
 export default class UsersRouter {

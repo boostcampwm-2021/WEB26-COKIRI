@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import { User } from 'src/models';
-import { User as UserType, UserAuthProvider } from 'src/types';
+import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ObjectID } from 'src/utils';
 
@@ -71,13 +71,10 @@ class UserService {
     return result[0];
   }
 
-  static async updateOneUserConfig<Type extends { [key: string]: any }>(
-    user: UserType,
-    userConfig: Type,
-  ) {
+  static async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
     blockList.forEach((property: string) => {
-      if (userConfig[property]) throw new Error('잘못된 요청입니다.');
+      if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
     });
     await User.updateOne({ _id: user.userID }, userConfig, { runValidators: true });
   }
