@@ -18,12 +18,14 @@ export default css`
     border: none;
   }
 
-  input {
+  input,
+  Textarea {
     border: none;
     background-color: transparent;
   }
 
-  input:focus {
+  input:focus,
+  textarea:focus {
     outline: none;
   }
 `;
