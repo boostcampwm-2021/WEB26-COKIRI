@@ -36,6 +36,6 @@ export default class UsersRouter {
     const { userID } = request.params;
     if (userID !== request.user!.userID) throw new Error('잘못된 형식의 Path Params 입니다.');
     await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
-    return response.send('Test!');
+    return response.send();
   }
 }

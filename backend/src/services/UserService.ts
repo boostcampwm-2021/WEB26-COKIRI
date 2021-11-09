@@ -77,7 +77,11 @@ class UserService {
     blockList.forEach((property: string) => {
       if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
     });
-    await User.updateOne({ _id: user.userID }, userConfig, { runValidators: true });
+    await User.updateOne(
+      { _id: user.userID },
+      { ...userConfig, isRegistered: true },
+      { runValidators: true },
+    );
   }
 }
 
