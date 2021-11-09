@@ -9,7 +9,7 @@ import {
 
 import { Row } from 'src/components/Grid';
 import NavigateButton from 'src/components/buttons/NavigateButton';
-import LogoButton from 'src/components/buttons/LogoButton';
+import ImageButton from 'src/components/buttons/ImageButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchBox from 'src/components/SearchBox';
 
@@ -20,9 +20,9 @@ function Header() {
     <Wrapper>
       <Row>
         <Section>
-          <LogoButton href='/home'>
+          <ImageButton href='/home'>
             <Image src='/images/logo.svg' width='64' height='24' />
-          </LogoButton>
+          </ImageButton>
           <SearchBox />
         </Section>
 

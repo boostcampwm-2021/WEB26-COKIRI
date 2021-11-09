@@ -1,10 +1,14 @@
 import styled from '@emotion/styled';
 
-const Row = styled.div`
+interface Props {
+  justifyContent?: string;
+}
+
+const Row = styled.div<Props>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ justifyContent }) => justifyContent};
   width: 100%;
   height: 100%;
 `;
@@ -21,5 +25,9 @@ const Col = styled.div`
 const Spacer = styled.div`
   flex-grow: 1;
 `;
+
+Row.defaultProps = {
+  justifyContent: 'center',
+};
 
 export { Row, Col, Spacer };

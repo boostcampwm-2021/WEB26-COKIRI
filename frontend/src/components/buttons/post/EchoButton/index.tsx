@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { IconContext } from 'react-icons';
 
 import { Wrapper } from './style';
 
@@ -9,19 +10,21 @@ interface Props {
   children: ReactNode;
 }
 
-function NavigateButton({ href, children }: Props) {
+function EchoButton({ href, children }: Props) {
   return (
     <Wrapper>
       <Link href={href}>
-        <a href={href}>{children}</a>
+        <a href={href}>
+          <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
+        </a>
       </Link>
     </Wrapper>
   );
 }
 
-NavigateButton.propsType = {
+EchoButton.propsType = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default NavigateButton;
+export default EchoButton;
