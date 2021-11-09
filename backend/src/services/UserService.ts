@@ -68,6 +68,19 @@ class UserService {
     return result[0];
   }
 
+  static async findOneUserSettingForID(userID: string) {
+    return User.findOne({ _id: userID }).select({
+      dashboard: false,
+      notifies: false,
+      follows: false,
+      followers: false,
+      likes: false,
+      posts: false,
+      isRegistered: false,
+      authProviderID: false,
+    });
+  }
+
   static async findOneFollows(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
