@@ -12,10 +12,7 @@ const messageSchema = new Schema<MessageType>(
 );
 
 const echoRoomSchema = new Schema<EchoRoomType>(
-  {
-    users: [{ type: Types.ObjectId, ref: 'User', required: true }],
-    messages: [messageSchema],
-  },
+  { users: [{ type: Types.ObjectId, ref: 'User', required: true }], messages: [messageSchema] },
   { versionKey: false, timestamps: { createdAt: false, updatedAt: true } },
 );
 
