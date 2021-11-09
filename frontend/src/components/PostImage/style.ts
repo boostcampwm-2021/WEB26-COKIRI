@@ -6,15 +6,12 @@ const Wrapper = styled.div`
   position: relative;
   margin: 0 auto;
   overflow: hidden;
-  .disappear {
-    display: none;
-  }
 `;
 
 const ImageHolder = styled.ul`
   display: flex;
   list-style: none;
-  transition: 0.5s ease-out;
+  transition: 0.5s ease-in-out;
   width: 2400px;
   li {
     width: 100%;

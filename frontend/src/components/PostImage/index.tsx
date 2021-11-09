@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
 import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
@@ -7,40 +7,17 @@ import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
 function PostImage() {
-  const leftSlideButtonRef = useRef<HTMLButtonElement>(null);
-  const rightSlideButtonRef = useRef<HTMLButtonElement>(null);
   const imageHolderRef = useRef<HTMLUListElement>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
 
-  let slideIndex = 0;
   const sliderWidth = 600;
 
-  const leftButtonToggle = () => {
-    if (slideIndex === 0) {
-      leftSlideButtonRef.current!.classList.add('disappear');
-    }
-    if (slideIndex === 2) {
-      rightSlideButtonRef.current!.classList.remove('disappear');
-    }
-  };
-  const rightButtonToggle = () => {
-    if (slideIndex === 1) {
-      leftSlideButtonRef.current!.classList.remove('disappear');
-    }
-    if (slideIndex === 3) {
-      rightSlideButtonRef.current!.classList.add('disappear');
-    }
-  };
+  const slideLeft = () => setSlideIndex(slideIndex - 1);
+  const slideRight = () => setSlideIndex(slideIndex + 1);
 
-  const slideLeft = () => {
-    slideIndex -= 1;
+  useEffect(() => {
     imageHolderRef.current!.style.marginLeft = `-${slideIndex * sliderWidth}px`;
-    leftButtonToggle();
-  };
-  const slideRight = () => {
-    slideIndex += 1;
-    imageHolderRef.current!.style.marginLeft = `-${slideIndex * sliderWidth}px`;
-    rightButtonToggle();
-  };
+  }, [slideIndex]);
 
   return (
     <Wrapper>
@@ -59,8 +36,8 @@ function PostImage() {
         </li>
       </ImageHolder>
       <SlideButtons>
-        <LeftSlideButton onClick={slideLeft} buttonRef={leftSlideButtonRef} />
-        <RightSlideButton onClick={slideRight} buttonRef={rightSlideButtonRef} />
+        {slideIndex === 0 ? null : <LeftSlideButton onClick={slideLeft} />}
+        {slideIndex === 3 ? null : <RightSlideButton onClick={slideRight} />}
       </SlideButtons>
     </Wrapper>
   );
