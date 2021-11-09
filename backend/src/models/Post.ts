@@ -2,7 +2,6 @@ import { Schema, model, Types } from 'mongoose';
 
 import { CommentType, PostType, LikeType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
-import { User, Tag } from 'src/models';
 
 const likeSchema = new Schema<LikeType>(
   {
@@ -41,10 +40,5 @@ const postSchema = new Schema<PostType>(
   { versionKey: false, timestamps: true },
 );
 
-const Post = model<PostType>('Post', postSchema);
-likeSchema.path('userID').validate(Validate.referenceObjectID(User));
-commentSchema.path('userID').validate(Validate.referenceObjectID(User));
-postSchema.path('userID').validate(Validate.referenceObjectID(User));
-postSchema.path('tags').validate(Validate.referenceObjectID(Tag));
-
-export default Post;
+export { likeSchema, commentSchema, postSchema };
+export default model<PostType>('Post', postSchema);

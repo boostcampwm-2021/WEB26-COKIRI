@@ -27,7 +27,6 @@ class Validate {
 
   static referenceObjectID(model: Model<any>) {
     return function validator(value: Types.ObjectId | Types.ObjectId[]) {
-      console.log(value);
       return new Promise((resolve) => {
         if (Array.isArray(value)) {
           Promise.all(value.map((id) => model.exists({ _id: id }))).then(
