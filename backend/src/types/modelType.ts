@@ -1,25 +1,29 @@
 import { Types } from 'mongoose';
 
 export interface LanguageIDType {
-  languageID: Types.ObjectId;
+  languageID: Schema.Types.ObjectId;
 }
 
 export interface PostIDType {
-  postID: Types.ObjectId;
+  postID: Schema.Types.ObjectId;
 }
 
 export interface UserIDType {
-  userID: Types.ObjectId;
+  userID: Schema.Types.ObjectId;
 }
 
 export interface NotifyRangeType {
-  postLike: boolean;
-  postComment: boolean;
-  commentLike: boolean;
+  postLike?: boolean;
+  postComment?: boolean;
+  commentLike?: boolean;
 }
 
-export interface NotifyType extends UserIDType, PostIDType {
-  type: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
+export interface NotifyType {
+  _id?: Types.ObjectId;
+  type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
+  postID?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  createdAt?: Date;
 }
 
 export interface DashboardType {
@@ -33,6 +37,7 @@ export interface DashboardType {
 }
 
 export interface UserType {
+  _id?: Types.ObjectId;
   name?: string;
   username?: string;
   profileImage?: string;
@@ -46,19 +51,29 @@ export interface UserType {
   school?: string;
   company?: string;
   region?: string;
-  languages?: LanguageIDType[];
-  posts?: PostIDType[];
-  likes?: PostIDType[];
-  followers?: UserIDType[];
-  follows?: UserIDType[];
+  languages?: Types.ObjectId[];
+  posts?: Types.ObjectId[];
+  likes?: Types.ObjectId[];
+  followers?: Types.ObjectId[];
+  follows?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
   notifies?: NotifyType[];
   dashboard?: DashboardType;
-  versionKey?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-export interface CommentType extends UserIDType {
-  content: string;
+export interface LikeType {
+  userID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
+export interface CommentType {
+  userID?: Types.ObjectId;
+  content?: string;
+  likes?: LikeType[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface PostType {
@@ -67,22 +82,36 @@ export interface PostType {
   userID?: Types.ObjectId;
   image?: string;
   comments?: CommentType[];
-  likes?: UserIDType[];
+  likes?: LikeType[];
   tags?: Types.ObjectId[];
-  versionKey?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface MessageType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  content?: string;
+  isRead?: Boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface EchoRoomType {
-  users: Types.ObjectId[];
-  messages: { userID: Types.ObjectId; content: string; createdAt: Date }[];
+  _id?: Types.ObjectId;
+  users?: Types.ObjectId[];
+  messages?: MessageType[];
+  updatedAt?: Date;
 }
 
 export interface TagType {
-  content: string;
-  count: number;
+  _id?: Types.ObjectId;
+  content?: string;
+  count?: number;
 }
 
 export interface LanguageType {
-  language: string;
-  color: string;
+  _id?: Types.ObjectId;
+  language?: string;
+  color?: string;
 }

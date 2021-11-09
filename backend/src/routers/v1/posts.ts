@@ -1,15 +1,52 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Post } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get } from 'routing-controllers';
+
+import { PostService, CommentService } from 'src/services';
 
 @Controller('/posts')
 export default class PostsRouter {
-  @Get('/test')
-  static getAllUsers(@Req() request: Request, @Res() response: Response) {
-    return response.send('Test!');
+  @Post('/')
+  async postPost(@Req() request: Request, @Res() response: Response) {
+    const data = request.body;
+    const result = await PostService.createPost(data);
+    return response.json(result);
   }
 
-  @Post('/test')
-  static getAllPosts(@Req() request: Request, @Res() response: Response) {
-    return response.send('Test!');
+  @Post('/:postId/comments')
+  async postComment(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    const data = request.body;
+    const result = await CommentService.createComment(data, postId);
+    return response.json(result);
+  }
+
+  @Post('/:postId/comments/:commentId/likes')
+  async postCommentLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, commentId } = request.params;
+    const data = request.body;
+    const result = await CommentService.createCommentLike(data.userID, postId, commentId);
+    return response.json(result);
+  }
+
+  @Post('/:postId/likes')
+  async postPostLike(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    const data = request.body;
+    const result = await PostService.createPostLike(data.userID, postId);
+    return response.json(result);
+  }
+
+  @Delete('/:postId/likes/:likeId')
+  async deletePostLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, likeId } = request.params;
+    const result = await PostService.removePostLike(postId, likeId);
+    return response.json(result);
+  }
+
+  @Get('/')
+  async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
+    const { type, userId, offset } = request.query;
+    if (type === 'random') return response.json(await PostService.findRandomPost());
+    return response.json(await PostService.findTimeline(userId, offset));
   }
 }

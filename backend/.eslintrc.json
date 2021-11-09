@@ -26,7 +26,7 @@
         "ts": "never"
       }
     ],
-    "no-underscore-dangle":  ["error", { "allow": ["_id"] }],
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "@typescript-eslint/no-non-null-assertion": "off",
     "class-methods-use-this": "off"
   },
