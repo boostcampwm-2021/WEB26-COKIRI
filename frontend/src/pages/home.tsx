@@ -1,5 +1,5 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 
@@ -10,7 +10,7 @@ import SigninCard from 'src/components/cards/SigninCard';
 import RegisterModal from 'src/components/modals/RegisterModal';
 import { Col } from 'src/components/Grid';
 
-import userAtom, { isRegisteredSelector } from 'src/recoil/user';
+import userAtom from 'src/recoil/user';
 
 import { Main } from 'src/styles/pages/home';
 
@@ -24,9 +24,14 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  const isRegistered = useRecoilValue(isRegisteredSelector);
+  const [isRegisterModalShow, setIsRegisterModalShow] = useState(user.isRegistered === false);
   useEffect(() => setUser(user), []);
+
   const isAuthenticated = Object.keys(user).length !== 0;
+  const handleModalClose = () => {
+    console.log('test1');
+    setIsRegisterModalShow(false);
+  };
   return (
     <>
       <Head>
@@ -46,7 +51,7 @@ function Home({ user }: Props) {
           {isAuthenticated ? <Timeline /> : null}
         </Col>
       </Main>
-      {!isAuthenticated || isRegistered ? null : <RegisterModal />}
+      {isRegisterModalShow ? <RegisterModal onClose={handleModalClose} /> : null}
     </>
   );
 }
