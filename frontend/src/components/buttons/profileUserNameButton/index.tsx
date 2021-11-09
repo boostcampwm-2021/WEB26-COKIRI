@@ -6,12 +6,11 @@ import { Wrapper } from './style';
 interface Props {
   href: string;
   userName: string;
-  usage?: string;
 }
 
-function ProfileUserNameButton({ href, userName, usage }: Props) {
+function ProfileUserNameButton({ href, userName }: Props) {
   return (
-    <Wrapper usage={usage}>
+    <Wrapper>
       <Link href={href}>
         <a href={href}>{userName}</a>
       </Link>
@@ -22,11 +21,6 @@ function ProfileUserNameButton({ href, userName, usage }: Props) {
 ProfileUserNameButton.propsType = {
   href: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
-  usage: PropTypes.string,
-};
-
-ProfileUserNameButton.defaultProps = {
-  usage: 'post',
 };
 
 export default ProfileUserNameButton;

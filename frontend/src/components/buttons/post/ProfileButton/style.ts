@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
 
 const Wrapper = styled.div`
-  a {
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  div {
+    margin: 0 5px;
   }
 `;
 

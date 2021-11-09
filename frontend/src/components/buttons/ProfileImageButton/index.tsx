@@ -7,12 +7,11 @@ import { Wrapper } from './style';
 interface Props {
   href: string;
   imgSrc: string;
-  usage?: string;
 }
 
-function ProfileImageButton({ href, imgSrc, usage }: Props) {
+function ProfileImageButton({ href, imgSrc }: Props) {
   return (
-    <Wrapper usage={usage}>
+    <Wrapper>
       <Link href={href}>
         <a href={href}>
           <Image src={imgSrc} width='36' height='36' />
@@ -25,11 +24,6 @@ function ProfileImageButton({ href, imgSrc, usage }: Props) {
 ProfileImageButton.propsType = {
   href: PropTypes.string.isRequired,
   imgSrc: PropTypes.string.isRequired,
-  usage: PropTypes.string,
-};
-
-ProfileImageButton.defaultProps = {
-  usage: 'post',
 };
 
 export default ProfileImageButton;
