@@ -1,4 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
@@ -10,11 +10,13 @@ import SigninCard from 'src/components/cards/SigninCard';
 import RegisterModal from 'src/components/modals/RegisterModal';
 import { Col } from 'src/components/Grid';
 
-import userAtom, { isRegisteredSelector } from 'src/recoil/user';
+import userAtom from 'src/recoil/user';
 
 import { Main } from 'src/styles/pages/home';
 
 import { UserType } from 'src/types';
+
+import { Fetcher } from 'src/utils';
 
 interface Props {
   user: UserType;
@@ -22,8 +24,8 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  const isRegistered = useRecoilValue(isRegisteredSelector);
   useEffect(() => setUser(user), []);
+
   const isAuthenticated = Object.keys(user).length !== 0;
   return (
     <>
@@ -39,14 +41,25 @@ function Home({ user }: Props) {
       <Header />
       <Main>
         <Col>
-          {isAuthenticated ? null : <SigninCard />}
-          {isAuthenticated ? <RecommendationCard /> : null}
-          {isAuthenticated ? <Timeline /> : null}
+          {!isAuthenticated && <SigninCard />}
+          {isAuthenticated && <RecommendationCard />}
+          {isAuthenticated && <Timeline />}
         </Col>
       </Main>
-      {!isAuthenticated || isRegistered ? null : <RegisterModal />}
+      <RegisterModal />
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const token = context.req?.cookies.jwt;
+  if (token === undefined) {
+    return { props: { user: {} } };
+  }
+  const user: UserType = await Fetcher.getUsersMe(token);
+  return {
+    props: { user: { ...user, token } },
+  };
 }
 
 Home.propTypes = {
