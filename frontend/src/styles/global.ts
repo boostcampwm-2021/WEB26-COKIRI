@@ -17,4 +17,8 @@ export default css`
     background: transparent;
     border: none;
   }
+
+  input {
+    background-color: transparent;
+  }
 `;

@@ -15,7 +15,6 @@ const Wrapper = styled.header`
   input {
     border: none;
     width: 100px;
-    background-color: transparent;
     font-size: 16px;
   }
   input:focus {
