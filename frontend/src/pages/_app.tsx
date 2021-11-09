@@ -13,9 +13,11 @@ const queryClient = new QueryClient();
 
 interface Props extends AppProps {
   user: UserType;
+  token: string;
 }
 
-function MyApp({ Component, pageProps, user }: Props) {
+function MyApp({ Component, pageProps, user, token }: Props) {
+  Fetcher.init(token);
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -33,7 +35,7 @@ MyApp.getInitialProps = async (context: any) => {
   const token = context.ctx.req.cookies.jwt;
   if (token !== undefined) {
     const user: UserType = await Fetcher.getUsersMe(token);
-    return { user };
+    return { user, token };
   }
   return {
     user: {},
