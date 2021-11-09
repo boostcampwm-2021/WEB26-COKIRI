@@ -3,4 +3,5 @@ export default interface UserType {
   name?: string;
   username?: string;
   isRegistered?: boolean;
+  token?: string;
 }
