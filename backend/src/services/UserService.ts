@@ -2,14 +2,30 @@ import { nanoid } from 'nanoid';
 
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider } from 'src/types';
+import { UserType as UserSchemaType } from 'src/types/modelType';
+import { Types } from 'mongoose';
+
+interface UserConfigType extends Omit<UserSchemaType, 'languages'> {
+  languages: string[];
+}
 
 class UserService {
+  static async existsUser(user: UserType): Promise<boolean> {
+    const result = await User.exists(user);
+    return result;
+  }
+
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
     const result = await User.findOne(user).select({
       isRegistered: true,
     });
     if (!result) return false;
     return result.isRegistered!;
+  }
+
+  static async existsUserForUsername(user: { username: string }): Promise<boolean> {
+    const result = await User.exists({ username: user.username });
+    return result;
   }
 
   static async findOneUserForProvider(
@@ -32,8 +48,22 @@ class UserService {
   }
 
   static async findOneUserForID(user: UserType) {
-    const result = await User.findOne(user).select({ _id: true });
+    const result = await User.findOne(user).select({
+      _id: true,
+      isRegistered: true,
+      profileImage: true,
+      username: true,
+      name: true,
+    });
     return result;
+  }
+
+  static async updateOneUserConfig<Type extends UserConfigType>(user: UserType, userConfig: Type) {
+    const userConfigSchema: UserSchemaType = { ...userConfig, languages: [] };
+    userConfigSchema.languages = userConfig.languages?.map((language) => ({
+      languageID: new Types.ObjectId(language),
+    }));
+    await User.updateOne({ _id: user.userID }, userConfigSchema);
   }
 }
 
