@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { useRef } from 'react';
 
-import LeftSlideButton from 'src/components/buttons/post/slide/LeftSlideButton';
-import RightSlideButton from 'src/components/buttons/post/slide/RightSlideButton';
+import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
+import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
