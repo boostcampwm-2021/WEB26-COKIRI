@@ -1,5 +1,4 @@
-import { UserState } from './state';
-
 import UserType from './user';
 
-export type { UserState, UserType };
+// eslint-disable-next-line import/prefer-default-export
+export type { UserType };
