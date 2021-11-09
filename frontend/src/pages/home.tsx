@@ -1,4 +1,4 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
@@ -29,7 +29,6 @@ function Home({ user }: Props) {
 
   const isAuthenticated = Object.keys(user).length !== 0;
   const handleModalClose = () => {
-    console.log('test1');
     setIsRegisterModalShow(false);
   };
   return (
