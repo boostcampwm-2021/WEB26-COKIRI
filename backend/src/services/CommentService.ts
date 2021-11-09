@@ -20,4 +20,12 @@ export default class CommentService {
       { new: true },
     );
   }
+
+  static async removeCommentLike(postId: string, commentId: string, userId: string) {
+    return Post.findOneAndUpdate(
+      { _id: postId, comments: { $elemMatch: { _id: commentId } } },
+      { $pull: { 'comments.$.likes': { userID: userId } } },
+      { new: true },
+    );
+  }
 }

@@ -62,6 +62,13 @@ export default class PostsRouter {
     return response.json(result);
   }
 
+  @Delete('/:postId/comments/:commentId/likes/:likeId')
+  async deleteCommentLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, commentId, likeId } = request.params;
+    const result = await CommentService.removeCommentLike(postId, commentId, likeId);
+    return response.json(result);
+  }
+
   @Delete('/:postId/likes/:likeId')
   async deletePostLike(@Req() request: Request, @Res() response: Response) {
     const { postId, likeId } = request.params;
