@@ -3,10 +3,11 @@ import { nanoid } from 'nanoid';
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
-import { Types } from 'mongoose';
+import { ObjectID } from 'src/utils';
 
-interface UserConfigType extends Omit<UserSchemaType, 'languages'> {
+interface UserConfigType extends Omit<UserSchemaType, 'languages' | 'birthday'> {
   languages: string[];
+  birthday: string;
 }
 
 class UserService {
@@ -35,14 +36,14 @@ class UserService {
       _id: true,
     });
     if (result === null) return undefined;
-    return { userID: result._id.toString() };
+    return { userID: ObjectID.objectIDToString(result._id) };
   }
 
   static async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
     const user = await UserService.findOneUserForProvider(userAuthProvider);
     if (!user) {
       const newUser = await User.create({ ...userAuthProvider, username: nanoid(20) });
-      return { userID: newUser._id.toString() };
+      return { userID: ObjectID.objectIDToString(newUser._id) };
     }
     return user;
   }
@@ -58,11 +59,29 @@ class UserService {
     return result;
   }
 
-  static async updateOneUserConfig<Type extends UserConfigType>(user: UserType, userConfig: Type) {
-    const userConfigSchema: UserSchemaType = { ...userConfig, languages: [] };
-    userConfigSchema.languages = userConfig.languages?.map((language) => ({
-      languageID: new Types.ObjectId(language),
-    }));
+  static async findOneUserProfileForID(userID: string) {
+    const result = await User.aggregate([
+      {
+        $project: {
+          followerCount: { $size: '$followers' },
+          followCount: { $size: '$followers' },
+          _id: { $toString: '$_id' },
+          username: '$username',
+          bio: '$bio',
+          posts: '$posts',
+        },
+      },
+      { $match: { _id: userID } },
+    ]);
+    return result[0];
+  }
+
+  static async updateOneUserConfig(user: UserType, userConfig: UserConfigType) {
+    const userConfigSchema: UserSchemaType = {
+      ...userConfig,
+      birthday: new Date(userConfig.birthday),
+      languages: [],
+    };
     await User.updateOne({ _id: user.userID }, userConfigSchema);
   }
 }

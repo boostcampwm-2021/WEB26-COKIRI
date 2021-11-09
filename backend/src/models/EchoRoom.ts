@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 import { EchoRoomType, MessageType } from 'src/types';
 
 const messageSchema = new Schema<MessageType>(
   {
-    userID: { type: Schema.Types.ObjectId, ref: 'User' },
+    userID: { type: Types.ObjectId, ref: 'User' },
     content: { type: String, required: true },
     isRead: { type: Boolean, default: false, required: true },
   },
@@ -13,7 +13,7 @@ const messageSchema = new Schema<MessageType>(
 
 const echoRoomSchema = new Schema<EchoRoomType>(
   {
-    users: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
+    users: [{ type: Types.ObjectId, ref: 'User', required: true }],
     messages: [messageSchema],
   },
   { versionKey: false, timestamps: { createdAt: false, updatedAt: true } },

@@ -11,6 +11,7 @@ export default class PostService {
     return Post.findOneAndUpdate(
       { _id: postId },
       { $push: { likes: { userID: data } } },
+      { $push: { likes: { userID: data } } },
       { new: true },
     );
   }

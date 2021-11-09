@@ -23,6 +23,13 @@ export default class UsersRouter {
     return response.json({ user });
   }
 
+  @Get('/:userID')
+  async getUser(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const userProfile = await UserService.findOneUserProfileForID(userID);
+    return response.json({ userProfile });
+  }
+
   @Put('/:userID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
