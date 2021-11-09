@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
@@ -56,8 +56,19 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error('같은 사용자는 Follow 할 수 없습니다.');
     }
-    await UserService.pushFollows(request.user!, userID);
-    return response.send();
+    await UserService.addToSetFollows(request.user!, userID);
+    return response.json({ code: 'Success' });
+  }
+
+  @Delete('/:userID/follows')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID === request.user!.userID) {
+      throw new Error('같은 사용자는 Follow 할 수 없습니다.');
+    }
+    await UserService.pullFollows(request.user!, userID);
+    return response.json({ code: 'Success' });
   }
 
   @Get('/:userID/follows')

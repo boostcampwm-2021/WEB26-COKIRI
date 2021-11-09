@@ -84,15 +84,28 @@ class UserService {
     );
   }
 
-  static async pushFollows(user: UserType, followID: string) {
+  static async addToSetFollows(user: UserType, followID: string) {
     await User.updateOne(
       { _id: user.userID },
-      { $push: { follows: followID } },
+      { $addToSet: { follows: followID } },
       { runValidators: true },
     );
     await User.updateOne(
       { _id: followID },
-      { $push: { followers: user.userID } },
+      { $addToSet: { followers: user.userID } },
+      { runValidators: true },
+    );
+  }
+
+  static async pullFollows(user: UserType, followID: string) {
+    await User.updateOne(
+      { _id: user.userID },
+      { $pull: { follows: followID } },
+      { runValidators: true },
+    );
+    await User.updateOne(
+      { _id: followID },
+      { $pull: { followers: user.userID } },
       { runValidators: true },
     );
   }
