@@ -66,4 +66,11 @@ export default class UsersRouter {
     const followList = await UserService.findOneFollows(userID);
     return response.json(followList);
   }
+
+  @Get('/:userID/followers')
+  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const followList = await UserService.findOneFollowers(userID);
+    return response.json(followList);
+  }
 }

@@ -100,8 +100,13 @@ class UserService {
   static async findOneFollows(userID: string) {
     const result = await User.findOne({ _id: userID }).select({ follows: true });
     if (!result) throw new Error('잘못된 요청입니다.');
-    console.log(result.follows!.map((id) => id.toString()));
     return result.follows!.map((id) => id.toString());
+  }
+
+  static async findOneFollowers(userID: string) {
+    const result = await User.findOne({ _id: userID }).select({ followers: true });
+    if (!result) throw new Error('잘못된 요청입니다.');
+    return result.followers!.map((id) => id.toString());
   }
 }
 
