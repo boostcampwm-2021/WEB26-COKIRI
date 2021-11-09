@@ -17,6 +17,7 @@ import { Main } from 'src/styles/pages/home';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
+import FloatingButton from 'src/components/buttons/FloatingButton';
 
 interface Props {
   user: UserType;
@@ -46,6 +47,7 @@ function Home({ user }: Props) {
           {isAuthenticated && <Timeline />}
         </Col>
       </Main>
+      <FloatingButton />
       <RegisterModal />
     </>
   );
