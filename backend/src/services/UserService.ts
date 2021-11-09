@@ -7,8 +7,7 @@ import { ObjectID } from 'src/utils';
 
 class UserService {
   static async existsUser(user: UserType): Promise<boolean> {
-    const result = await User.exists({ _id: user.userID });
-    return result;
+    return await User.exists({ _id: user.userID });
   }
 
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
@@ -20,8 +19,7 @@ class UserService {
   }
 
   static async existsUserForUsername(user: { username: string }): Promise<boolean> {
-    const result = await User.exists({ username: user.username });
-    return result;
+    return User.exists({ username: user.username });
   }
 
   static async findOneUserForProvider(
@@ -44,14 +42,13 @@ class UserService {
   }
 
   static async findOneUserForID(user: UserType) {
-    const result = await User.findOne({ _id: user.userID }).select({
+    return User.findOne({ _id: user.userID }).select({
       _id: true,
       isRegistered: true,
       profileImage: true,
       username: true,
       name: true,
     });
-    return result;
   }
 
   static async findOneUserProfileForID(userID: string) {
@@ -77,7 +74,7 @@ class UserService {
     blockList.forEach((property: string) => {
       if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
     });
-    await User.updateOne(
+    User.updateOne(
       { _id: user.userID },
       { ...userConfig, isRegistered: true },
       { runValidators: true },
@@ -85,12 +82,12 @@ class UserService {
   }
 
   static async addToSetFollows(user: UserType, followID: string) {
-    await User.updateOne(
+    User.updateOne(
       { _id: user.userID },
       { $addToSet: { follows: followID } },
       { runValidators: true },
     );
-    await User.updateOne(
+    User.updateOne(
       { _id: followID },
       { $addToSet: { followers: user.userID } },
       { runValidators: true },
@@ -98,12 +95,8 @@ class UserService {
   }
 
   static async pullFollows(user: UserType, followID: string) {
-    await User.updateOne(
-      { _id: user.userID },
-      { $pull: { follows: followID } },
-      { runValidators: true },
-    );
-    await User.updateOne(
+    User.updateOne({ _id: user.userID }, { $pull: { follows: followID } }, { runValidators: true });
+    User.updateOne(
       { _id: followID },
       { $pull: { followers: user.userID } },
       { runValidators: true },
@@ -116,11 +109,6 @@ class UserService {
       .populate({
         path: 'follows',
         select: ['username', 'profileImage'],
-        transform: (doc: any) => ({
-          _id: doc._id.toString(),
-          username: doc.username,
-          profileImage: doc.profileImage,
-        }),
       });
     if (!result) throw new Error('잘못된 요청입니다.');
     return result.follows!;
@@ -132,14 +120,13 @@ class UserService {
       .populate({
         path: 'followers',
         select: ['username', 'profileImage'],
-        transform: (doc: any) => ({
-          _id: doc._id.toString(),
-          username: doc.username,
-          profileImage: doc.profileImage,
-        }),
       });
     if (!result) throw new Error('잘못된 요청입니다.');
     return result.followers!;
+  }
+
+  static async findRandomUserSuggestions() {
+    return User.aggregate([{ $sample: { size: 20 } }]);
   }
 }
 

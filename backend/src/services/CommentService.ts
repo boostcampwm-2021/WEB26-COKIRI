@@ -1,5 +1,3 @@
-import { Types } from 'mongoose';
-
 import { Post } from 'src/models';
 
 export default class CommentService {
