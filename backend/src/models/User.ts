@@ -2,6 +2,7 @@ import { Schema, model, Types } from 'mongoose';
 
 import { UserType, NotifyRangeType, NotifyType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
+import { Language, Post } from 'src/models';
 
 const notifyRangeSchema = new Schema<NotifyRangeType>(
   {
@@ -68,4 +69,13 @@ const userSchema = new Schema<UserType>(
   { timestamps: true, versionKey: false },
 );
 
-export default model<UserType>('User', userSchema);
+const User = model<UserType>('User', userSchema);
+notifySchema.path('userID').validate(Validate.referenceObjectID(User));
+notifySchema.path('postID').validate(Validate.referenceObjectID(Post));
+userSchema.path('languages').validate(Validate.referenceObjectID(Language));
+userSchema.path('posts').validate(Validate.referenceObjectID(Post));
+userSchema.path('likes').validate(Validate.referenceObjectID(Post));
+userSchema.path('followers').validate(Validate.referenceObjectID(User));
+userSchema.path('follows').validate(Validate.referenceObjectID(User));
+
+export default User;

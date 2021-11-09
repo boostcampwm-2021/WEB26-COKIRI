@@ -1,6 +1,8 @@
 import { Schema, model, Types } from 'mongoose';
 
 import { EchoRoomType, MessageType } from 'src/types';
+import { Validate } from 'src/utils';
+import { User } from 'src/models/index';
 
 const messageSchema = new Schema<MessageType>(
   {
@@ -19,4 +21,8 @@ const echoRoomSchema = new Schema<EchoRoomType>(
   { versionKey: false, timestamps: { createdAt: false, updatedAt: true } },
 );
 
-export default model<EchoRoomType>('EchoRoom', echoRoomSchema);
+const EchoRoom = model<EchoRoomType>('EchoRoom', echoRoomSchema);
+messageSchema.path('userID').validate(Validate.referenceObjectID(User));
+echoRoomSchema.path('users').validate(Validate.referenceObjectID(User));
+
+export default EchoRoom;
