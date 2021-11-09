@@ -3,7 +3,6 @@ import { Controller, Req, Res, Get, Put, UseBefore } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
-import { UserType } from 'src/types';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -20,7 +19,6 @@ export default class UsersRouter {
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
-    console.log(request.user);
     const user = await UserService.findOneUserForID({ userID: request.user!.userID });
     return response.json({ user });
   }
