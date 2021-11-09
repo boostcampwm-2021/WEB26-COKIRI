@@ -17,7 +17,7 @@ export default function passportLoader(app: express.Application): void {
     secretOrKey: process.env.JWT_ACCESS_SECRET,
   };
 
-  const verifyRegisteredUser = async (jwtPayload: any, done: VerifiedCallback) => {
+  const verifyRegisteredUser = async (jwtPayload: User, done: VerifiedCallback) => {
     try {
       const user: User = { userID: jwtPayload.userID! };
       if (!user || !(await UserService.existsRegisteredUser(user))) {
@@ -29,7 +29,7 @@ export default function passportLoader(app: express.Application): void {
     }
   };
 
-  const verifyUser = async (jwtPayload: any, done: VerifiedCallback) => {
+  const verifyUser = async (jwtPayload: User, done: VerifiedCallback) => {
     try {
       const user: User = { userID: jwtPayload.userID! };
       if (!user || !(await UserService.existsUser(user))) {

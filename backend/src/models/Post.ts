@@ -5,14 +5,14 @@ import { Validate } from 'src/utils';
 
 const likeSchema = new Schema<LikeType>(
   {
-    userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userID: { type: Types.ObjectId, ref: 'User', required: true },
   },
   { _id: false, timestamps: { createdAt: true, updatedAt: false } },
 );
 
 const commentSchema = new Schema<CommentType>(
   {
-    userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userID: { type: Types.ObjectId, ref: 'User', required: true },
     content: { type: String, required: true },
     likes: { type: [likeSchema], default: [] },
   },
@@ -31,11 +31,11 @@ const postSchema = new Schema<PostType>(
       required: true,
       trim: true,
     },
-    userID: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    userID: { type: Types.ObjectId, required: true, ref: 'User' },
     image: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     comments: { type: [commentSchema], default: [] },
     likes: { type: [likeSchema], default: [] },
-    tags: { type: [{ type: Schema.Types.ObjectId, ref: 'Tag', required: true }], default: [] },
+    tags: { type: [{ type: Types.ObjectId, ref: 'Tag', required: true }], default: [] },
   },
   { versionKey: false, timestamps: true },
 );

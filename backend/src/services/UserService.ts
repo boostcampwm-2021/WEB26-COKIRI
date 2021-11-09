@@ -82,9 +82,6 @@ class UserService {
       birthday: new Date(userConfig.birthday),
       languages: [],
     };
-    userConfigSchema.languages = ObjectID.stringArrayToObjectIDArray(userConfig.languages).map(
-      (id) => ({ languageID: id }),
-    );
     await User.updateOne({ _id: user.userID }, userConfigSchema);
   }
 }

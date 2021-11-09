@@ -1,17 +1,5 @@
 import { Types } from 'mongoose';
 
-export interface LanguageIDType {
-  languageID: Schema.Types.ObjectId;
-}
-
-export interface PostIDType {
-  postID: Schema.Types.ObjectId;
-}
-
-export interface UserIDType {
-  userID: Schema.Types.ObjectId;
-}
-
 export interface NotifyRangeType {
   postLike?: boolean;
   postComment?: boolean;
@@ -92,7 +80,7 @@ export interface MessageType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
   content?: string;
-  isRead?: Boolean;
+  isRead?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

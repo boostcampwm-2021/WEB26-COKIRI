@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 
 import { UserType, NotifyRangeType, NotifyType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
@@ -19,8 +19,8 @@ const notifySchema = new Schema<NotifyType>(
       enum: ['postLike', 'postComment', 'commentLike', 'follow', 'follower'],
       required: true,
     },
-    userID: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    postID: { type: Schema.Types.ObjectId, ref: 'Post' },
+    userID: { type: Types.ObjectId, ref: 'User', required: true },
+    postID: { type: Types.ObjectId, ref: 'Post' },
   },
   { timestamps: { createdAt: true, updatedAt: false } },
 );
@@ -48,11 +48,11 @@ const userSchema = new Schema<UserType>(
     school: { type: String, trim: true },
     company: { type: String, trim: true },
     region: { type: String, trim: true },
-    languages: [{ type: Schema.Types.ObjectId, required: true, ref: 'Language' }],
-    posts: [{ type: Schema.Types.ObjectId, required: true, ref: 'Post' }],
-    likes: [{ type: Schema.Types.ObjectId, required: true, ref: 'Post' }],
-    followers: [{ type: Schema.Types.ObjectId, required: true, ref: 'User' }],
-    follows: [{ type: Schema.Types.ObjectId, required: true, ref: 'User' }],
+    languages: [{ type: Types.ObjectId, required: true, ref: 'Language' }],
+    posts: [{ type: Types.ObjectId, required: true, ref: 'Post' }],
+    likes: [{ type: Types.ObjectId, required: true, ref: 'Post' }],
+    followers: [{ type: Types.ObjectId, required: true, ref: 'User' }],
+    follows: [{ type: Types.ObjectId, required: true, ref: 'User' }],
     notifyRange: notifyRangeSchema,
     notifies: [notifySchema],
     dashboard: {
