@@ -11,8 +11,7 @@ import { useRecoilValue } from 'recoil';
 function RegisterModal() {
   const [username, setUsername] = useState('');
   const user = useRecoilValue(userAtom);
-  // eslint-disable-next-line no-underscore-dangle
-  const mutation = useMutation(() => Fetcher.setUsername(username, user._id));
+  const mutation = useMutation(() => Fetcher.setUsername(username, user));
 
   const handleOnClose = () => {};
 
