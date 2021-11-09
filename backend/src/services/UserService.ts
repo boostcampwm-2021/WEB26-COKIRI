@@ -68,6 +68,35 @@ class UserService {
     return result[0];
   }
 
+  static async findOneFollows(userID: string) {
+    const result = await User.findOne({ _id: userID })
+      .select({ follows: true })
+      .populate({ path: 'follows', select: ['username', 'profileImage'] });
+    if (!result) throw new Error('잘못된 요청입니다.');
+    return result.follows!;
+  }
+
+  static async findOneFollowers(userID: string) {
+    const result = await User.findOne({ _id: userID })
+      .select({ follows: true })
+      .populate({ path: 'followers', select: ['username', 'profileImage'] });
+    if (!result) throw new Error('잘못된 요청입니다.');
+    return result.followers!;
+  }
+
+  static async findRandomUserSuggestions() {
+    return User.aggregate([
+      {
+        $project: {
+          _id: { $toString: '$_id' },
+          username: '$username',
+          profileImage: '$profileImage',
+        },
+      },
+      { $sample: { size: 20 } },
+    ]);
+  }
+
   static async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
     if (!userConfig.username) throw new Error('잘못된 요청입니다.');
@@ -101,26 +130,6 @@ class UserService {
       { $pull: { followers: user.userID } },
       { runValidators: true },
     );
-  }
-
-  static async findOneFollows(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
-    return result.follows!;
-  }
-
-  static async findOneFollowers(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
-    return result.followers!;
-  }
-
-  static async findRandomUserSuggestions() {
-    return User.aggregate([{ $sample: { size: 20 } }]);
   }
 }
 

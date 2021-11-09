@@ -38,6 +38,31 @@ export default class UsersRouter {
     return response.json({ userProfile });
   }
 
+  @Get('/:userID/follows')
+  async getUserFollows(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const followList = await UserService.findOneFollows(userID);
+    return response.json(followList);
+  }
+
+  @Get('/:userID/followers')
+  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const followList = await UserService.findOneFollowers(userID);
+    return response.json(followList);
+  }
+
+  @Get('/:userID/suggestions')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error('잘못된 형식의 Path Params 입니다.');
+    }
+    // @TODO 사용자 정보 기반 추천
+    return response.json(await UserService.findRandomUserSuggestions());
+  }
+
   @Put('/:userID')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
@@ -69,24 +94,5 @@ export default class UsersRouter {
     }
     await UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });
-  }
-
-  @Get('/:userID/follows')
-  async getUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const followList = await UserService.findOneFollows(userID);
-    return response.json(followList);
-  }
-
-  @Get('/:userID/followers')
-  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const followList = await UserService.findOneFollowers(userID);
-    return response.json(followList);
-  }
-
-  @Get('/:userID/suggestions')
-  async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
   }
 }
