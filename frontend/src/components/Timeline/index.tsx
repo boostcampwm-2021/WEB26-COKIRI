@@ -1,4 +1,4 @@
-import Card from 'src/components/Card';
+import Card from 'src/components/cards/Common';
 import Post from 'src/components/Post';
 
 import { Wrapper } from './style';
