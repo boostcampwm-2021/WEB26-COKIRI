@@ -5,20 +5,39 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 
 import { theme, global } from 'src/styles';
 
+import { Fetcher } from 'src/utils';
+
+import { UserType } from 'src/types';
+
 const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface Props extends AppProps {
+  user: UserType;
+}
+
+function MyApp({ Component, pageProps, user }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
         <ThemeProvider theme={theme}>
           <Global styles={global} />
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Component {...pageProps} />
+          <Component {...pageProps} user={user} />
         </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );
 }
+
+MyApp.getInitialProps = async (context: any) => {
+  const token = context.ctx.req.cookies.jwt;
+  if (token !== undefined) {
+    const user: UserType = await Fetcher.getUsersMe(token);
+    return { user };
+  }
+  return {
+    user: {},
+  };
+};
 
 export default MyApp;
