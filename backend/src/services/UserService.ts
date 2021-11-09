@@ -111,15 +111,35 @@ class UserService {
   }
 
   static async findOneFollows(userID: string) {
-    const result = await User.findOne({ _id: userID }).select({ follows: true });
+    const result = await User.findOne({ _id: userID })
+      .select({ follows: true })
+      .populate({
+        path: 'follows',
+        select: ['username', 'profileImage'],
+        transform: (doc: any) => ({
+          _id: doc._id.toString(),
+          username: doc.username,
+          profileImage: doc.profileImage,
+        }),
+      });
     if (!result) throw new Error('잘못된 요청입니다.');
-    return result.follows!.map((id) => id.toString());
+    return result.follows!;
   }
 
   static async findOneFollowers(userID: string) {
-    const result = await User.findOne({ _id: userID }).select({ followers: true });
+    const result = await User.findOne({ _id: userID })
+      .select({ follows: true })
+      .populate({
+        path: 'followers',
+        select: ['username', 'profileImage'],
+        transform: (doc: any) => ({
+          _id: doc._id.toString(),
+          username: doc.username,
+          profileImage: doc.profileImage,
+        }),
+      });
     if (!result) throw new Error('잘못된 요청입니다.');
-    return result.followers!.map((id) => id.toString());
+    return result.followers!;
   }
 }
 
