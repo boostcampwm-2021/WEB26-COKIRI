@@ -16,6 +16,8 @@ import { Main } from 'src/styles/pages/home';
 
 import { UserType } from 'src/types';
 
+import { Fetcher } from 'src/utils';
+
 interface Props {
   user: UserType;
 }
@@ -47,6 +49,17 @@ function Home({ user }: Props) {
       {!isAuthenticated || isRegistered ? null : <RegisterModal />}
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const token = context.req?.cookies.jwt;
+  if (token === undefined) {
+    return { props: { user: {} } };
+  }
+  const user: UserType = await Fetcher.getUsersMe(token);
+  return {
+    props: { user: { ...user, token } },
+  };
 }
 
 Home.propTypes = {
