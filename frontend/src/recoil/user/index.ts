@@ -1,5 +1,6 @@
 import userAtom from './atom';
-import userIsAuthenticated from './isAuthenticated';
+import isAuthenticatedSelector from './isAuthenticated';
+import isRegisteredSelector from './isRegistered';
 
-export { userIsAuthenticated };
+export { isAuthenticatedSelector, isRegisteredSelector };
 export default userAtom;

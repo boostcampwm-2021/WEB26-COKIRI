@@ -1,14 +1,30 @@
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 
-import RecommendationCard from 'src/components/RecommendationCard';
+import RecommendationCard from 'src/components/cards/RecommendationCard';
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
-import SigninCard from 'src/components/SigninCard';
+import SigninCard from 'src/components/cards/SigninCard';
+import RegisterModal from 'src/components/modals/RegisterModal';
 import { Col } from 'src/components/Grid';
+
+import userAtom, { isRegisteredSelector } from 'src/recoil/user';
 
 import { Main } from 'src/styles/pages/home';
 
-function Home() {
+import { UserType } from 'src/types';
+
+interface Props {
+  user: UserType;
+}
+
+function Home({ user }: Props) {
+  const setUser = useSetRecoilState(userAtom);
+  const isRegistered = useRecoilValue(isRegisteredSelector);
+  useEffect(() => setUser(user), []);
+  const isAuthenticated = Object.keys(user).length !== 0;
   return (
     <>
       <Head>
@@ -23,13 +39,18 @@ function Home() {
       <Header />
       <Main>
         <Col>
-          <SigninCard />
-          <RecommendationCard />
-          <Timeline />
+          {isAuthenticated ? null : <SigninCard />}
+          {isAuthenticated ? <RecommendationCard /> : null}
+          {isAuthenticated ? <Timeline /> : null}
         </Col>
       </Main>
+      {!isAuthenticated || isRegistered ? null : <RegisterModal />}
     </>
   );
 }
+
+Home.propTypes = {
+  user: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default Home;

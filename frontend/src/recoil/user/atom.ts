@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
-import type { UserState } from 'src/types';
+import type { UserType } from 'src/types';
 
-const userAtom = atom<UserState>({
+const userAtom = atom<UserType>({
   key: 'userAtom',
   default: {},
 });

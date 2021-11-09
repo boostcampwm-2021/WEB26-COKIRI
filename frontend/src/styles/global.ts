@@ -17,4 +17,13 @@ export default css`
     background: transparent;
     border: none;
   }
+
+  input {
+    border: none;
+    background-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
+  }
 `;

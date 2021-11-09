@@ -1,13 +1,34 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
-const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
-  headers: {},
-});
+import { UserType } from 'src/types';
+
+const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 class Fetcher {
-  static async getPosts() {
-    await axiosInstance.get('/posts');
+  static init(token: string): void {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    axios.defaults.baseURL = baseURL;
+  }
+
+  // for server side
+  static async getUsersMe(token: string): Promise<UserType> {
+    try {
+      const result = await axios.get(`${baseURL}/v1/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return result.data.user;
+    } catch (error) {
+      return {};
+    }
+  }
+
+  // for client side
+  static async setUsername(username: string, userID?: string): Promise<any> {
+    await axios.put(`/v1/users/${userID}`, {
+      username,
+    });
   }
 }
 

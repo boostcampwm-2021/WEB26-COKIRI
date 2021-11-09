@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
-
 import { IconContext } from 'react-icons';
+
 import { Button } from './style';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onClick: () => void;
 }
 
-function Common({ children, onClick }: Props) {
+function Social({ children, onClick }: Props) {
   return (
     <Button onClick={onClick}>
       <IconContext.Provider value={{ size: '32' }}>{children}</IconContext.Provider>
@@ -17,13 +17,13 @@ function Common({ children, onClick }: Props) {
   );
 }
 
-Common.propTypes = {
+Social.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
 };
 
-Common.defaultProps = {
+Social.defaultProps = {
   onClick: () => {},
 };
 
-export default Common;
+export default Social;
