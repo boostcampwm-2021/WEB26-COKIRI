@@ -25,7 +25,7 @@ class Fetcher {
   }
 
   // for client side
-  static async setUsername(username: string, user: UserType): Promise<any> {
+  static async putUsersUsername(username: string, user: UserType): Promise<any> {
     await axios.put(
       // eslint-disable-next-line no-underscore-dangle
       `${baseURL}/v1/users/${user._id}`,
