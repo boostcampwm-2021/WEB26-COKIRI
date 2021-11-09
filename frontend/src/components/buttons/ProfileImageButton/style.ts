@@ -1,9 +1,19 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
-  margin-left: 15px;
+interface Props {
+  usage?: string;
+}
+
+const Wrapper = styled.div<Props>`
+  display: flex;
+  align-items: center;
+  height: 50px;
+  margin-left: ${({ usage }) => (usage === 'post' ? '15px' : '0')};
   a {
-    text-decoration: none;
+    height: 36px;
+  }
+  img {
+    border-radius: 18px;
   }
 `;
 
