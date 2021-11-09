@@ -14,6 +14,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "no-underscore-dangle": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
