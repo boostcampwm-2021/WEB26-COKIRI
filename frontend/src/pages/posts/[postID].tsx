@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
 
+import descriptions from 'src/utils/descriptions';
+
 function Post() {
   const router = useRouter();
   const { postID } = router.query;
@@ -11,10 +13,7 @@ function Post() {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta
-          name='description'
-          content='COCOO 사용자의 포스트 전체 내용을 확인 할 수 있습니다. COCOO에서 포스트 내용을 확인하세요.'
-        />
+        <meta name='description' content={descriptions.posts} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
