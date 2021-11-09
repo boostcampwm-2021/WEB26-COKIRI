@@ -1,50 +1,42 @@
-import { Types } from 'mongoose';
-
 import { Post, User } from 'src/models';
+import { PostType } from 'src/types/modelType';
 
 export default class PostService {
-  static async createPost(data: any) {
+  static async createPost(data: PostType) {
     return Post.create(data);
   }
 
-  static async createPostLike(data: any, postId: string) {
+  static async createPostLike(data: string, postID: string) {
     return Post.findOneAndUpdate(
-      { _id: postId },
+      { _id: postID },
       { $push: { likes: { userID: data } } },
       { new: true },
     );
   }
 
   static async findRandomPost() {
-    return Post.aggregate([
-      {
-        $sample: { size: 20 },
-      },
-      {
-        $sort: { createdAt: -1 },
-      },
-    ]);
+    return Post.aggregate([{ $sample: { size: 20 } }, { $sort: { createdAt: -1 } }]);
   }
 
-  static async findTimeline(userId: any, offset: any) {
-    const followList = await User.findOne({ _id: new Types.ObjectId(userId) }, 'follows -_id');
+  static async findTimeline(userID: string, offset: string) {
+    const followList = await User.findOne({ _id: userID }, 'follows -_id');
     return !followList ? [] : Post.find({ userID: { $in: followList.follows } });
   }
 
-  static async findPostLikeList(postId: string) {
-    const likesOid = await Post.findOne({ _id: new Types.ObjectId(postId) }, 'likes -_id');
+  static async findPostLikeList(postID: string) {
+    const likesOid = await Post.findOne({ _id: postID }, 'likes -_id');
     const result = (await likesOid?.populate({ path: 'likes' }))?.likes;
     return result;
   }
 
-  static async findPost(postId: string) {
-    return Post.findOne({ _id: new Types.ObjectId(postId) });
+  static async findPost(postID: string) {
+    return Post.findOne({ _id: postID });
   }
 
-  static async removePostLike(postId: string, likeId: string) {
+  static async removePostLike(postID: string, likeID: string) {
     return Post.findOneAndUpdate(
-      { _id: postId, 'likes._id': likeId },
-      { $pull: { likes: { _id: likeId } } },
+      { _id: postID, 'likes._id': likeID },
+      { $pull: { likes: { _id: likeID } } },
       { new: true },
     );
   }

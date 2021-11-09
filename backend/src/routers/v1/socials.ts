@@ -5,18 +5,14 @@ import * as passport from 'passport';
 import { JWT } from 'src/utils';
 
 @Controller('/socials')
-export default class PostsRouter {
+export default class SocialsRouter {
   @Get('/google')
   @UseBefore(passport.authenticate('google', { session: false, scope: ['profile'] }))
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getGoogle() {}
 
   @Get('/google/callback')
-  @UseBefore(
-    passport.authenticate('google', {
-      session: false,
-    }),
-  )
+  @UseBefore(passport.authenticate('google', { session: false }))
   @Redirect(`${process.env.CLIENT_URL}`)
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
