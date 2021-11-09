@@ -23,9 +23,8 @@ interface Props {
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), []);
-  const isAuthenticated = Object.keys(user).length;
+  const isAuthenticated = Object.keys(user).length !== 0;
   const isRegistered = user.isRegistered === true;
-
   return (
     <>
       <Head>
@@ -40,12 +39,12 @@ function Home({ user }: Props) {
       <Header />
       <Main>
         <Col>
-          {isAuthenticated !== 0 ? null : <SigninCard />}
+          {isAuthenticated ? null : <SigninCard />}
           <RecommendationCard />
           <Timeline />
         </Col>
       </Main>
-      {isRegistered ? null : <RegisterModal />}
+      {!isAuthenticated || isRegistered ? null : <RegisterModal />}
     </>
   );
 }
