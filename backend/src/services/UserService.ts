@@ -7,7 +7,7 @@ import { ObjectID } from 'src/utils';
 
 class UserService {
   static async existsUser(user: UserType): Promise<boolean> {
-    return await User.exists({ _id: user.userID });
+    return User.exists({ _id: user.userID });
   }
 
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
@@ -106,10 +106,7 @@ class UserService {
   static async findOneFollows(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
-      .populate({
-        path: 'follows',
-        select: ['username', 'profileImage'],
-      });
+      .populate({ path: 'follows', select: ['username', 'profileImage'] });
     if (!result) throw new Error('잘못된 요청입니다.');
     return result.follows!;
   }
@@ -117,10 +114,7 @@ class UserService {
   static async findOneFollowers(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
-      .populate({
-        path: 'followers',
-        select: ['username', 'profileImage'],
-      });
+      .populate({ path: 'followers', select: ['username', 'profileImage'] });
     if (!result) throw new Error('잘못된 요청입니다.');
     return result.followers!;
   }
