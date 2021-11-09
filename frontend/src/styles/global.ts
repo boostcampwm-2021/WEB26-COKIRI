@@ -19,6 +19,11 @@ export default css`
   }
 
   input {
+    border: none;
     background-color: transparent;
+  }
+
+  input:focus {
+    outline: none;
   }
 `;

@@ -13,12 +13,8 @@ const Wrapper = styled.header`
   background: #444444;
   box-shadow: inset 9px 9px 9px #3b3b3b, inset -9px -9px 9px #4d4d4d;
   input {
-    border: none;
     width: 100px;
     font-size: 16px;
-  }
-  input:focus {
-    outline: none;
   }
 `;
 
