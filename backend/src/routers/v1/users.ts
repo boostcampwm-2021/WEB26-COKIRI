@@ -34,8 +34,42 @@ export default class UsersRouter {
   @Get('/:userID')
   async getUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error('잘못된 형식의 Path Params 입니다.');
+    }
     const userProfile = await UserService.findOneUserProfileForID(userID);
     return response.json({ userProfile });
+  }
+
+  @Get('/:userID/setting')
+  async getUserSetting(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    return response.json(await UserService.findOneUserSettingForID(userID));
+  }
+
+  @Get('/:userID/suggestions')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error('잘못된 형식의 Path Params 입니다.');
+    }
+    // @TODO 사용자 정보 기반 추천
+    return response.json(await UserService.findRandomUserSuggestions());
+  }
+
+  @Get('/:userID/follows')
+  async getUserFollows(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const followList = await UserService.findOneFollows(userID);
+    return response.json(followList);
+  }
+
+  @Get('/:userID/followers')
+  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const followList = await UserService.findOneFollowers(userID);
+    return response.json(followList);
   }
 
   @Put('/:userID')
@@ -69,24 +103,5 @@ export default class UsersRouter {
     }
     await UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });
-  }
-
-  @Get('/:userID/follows')
-  async getUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const followList = await UserService.findOneFollows(userID);
-    return response.json(followList);
-  }
-
-  @Get('/:userID/followers')
-  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const followList = await UserService.findOneFollowers(userID);
-    return response.json(followList);
-  }
-
-  @Get('/:userID/suggestions')
-  async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
   }
 }
