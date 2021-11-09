@@ -5,6 +5,25 @@ import { PostService, CommentService } from 'src/services';
 
 @Controller('/posts')
 export default class PostsRouter {
+  @Get('/')
+  async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
+    const { type, userId, offset } = request.query;
+    if (type === 'random') return response.json(await PostService.findRandomPost());
+    return response.json(await PostService.findTimeline(userId, offset));
+  }
+
+  @Get('/:postId/likes')
+  async getPostLikeList(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    return response.json(await PostService.findPostLikeList(postId));
+  }
+
+  @Get('/:postId')
+  async getPost(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    return response.json(await PostService.findPost(postId));
+  }
+
   @Post('/')
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
@@ -36,17 +55,24 @@ export default class PostsRouter {
     return response.json(result);
   }
 
+  @Delete('/:postId/comments/:commentId')
+  async deleteComment(@Req() request: Request, @Res() response: Response) {
+    const { postId, commentId } = request.params;
+    const result = await CommentService.removeComment(postId, commentId);
+    return response.json(result);
+  }
+
+  @Delete('/:postId/comments/:commentId/likes/:likeId')
+  async deleteCommentLike(@Req() request: Request, @Res() response: Response) {
+    const { postId, commentId, likeId } = request.params;
+    const result = await CommentService.removeCommentLike(postId, commentId, likeId);
+    return response.json(result);
+  }
+
   @Delete('/:postId/likes/:likeId')
   async deletePostLike(@Req() request: Request, @Res() response: Response) {
     const { postId, likeId } = request.params;
     const result = await PostService.removePostLike(postId, likeId);
     return response.json(result);
-  }
-
-  @Get('/')
-  async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
-    const { type, userId, offset } = request.query;
-    if (type === 'random') return response.json(await PostService.findRandomPost());
-    return response.json(await PostService.findTimeline(userId, offset));
   }
 }
