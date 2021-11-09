@@ -1,18 +1,18 @@
 import { nanoid } from 'nanoid';
 
-import { User, Language } from 'src/models';
-import { User as UserType, UserAuthProvider } from 'src/types';
+import { User } from 'src/models';
+import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ObjectID } from 'src/utils';
 
 class UserService {
   static async existsUser(user: UserType): Promise<boolean> {
-    const result = await User.exists(user);
+    const result = await User.exists({ _id: user.userID });
     return result;
   }
 
   static async existsRegisteredUser(user: UserType): Promise<boolean> {
-    const result = await User.findOne(user).select({
+    const result = await User.findOne({ _id: user.userID }).select({
       isRegistered: true,
     });
     if (!result) return false;
@@ -44,7 +44,7 @@ class UserService {
   }
 
   static async findOneUserForID(user: UserType) {
-    const result = await User.findOne(user).select({
+    const result = await User.findOne({ _id: user.userID }).select({
       _id: true,
       isRegistered: true,
       profileImage: true,
@@ -71,7 +71,12 @@ class UserService {
     return result[0];
   }
 
-  static async updateOneUserConfig(user: UserType, userConfig: UserSchemaType) {
+  static async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
+    const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
+    if (!userConfig.username) throw new Error('잘못된 요청입니다.');
+    blockList.forEach((property: string) => {
+      if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
+    });
     await User.updateOne({ _id: user.userID }, userConfig, { runValidators: true });
   }
 }
