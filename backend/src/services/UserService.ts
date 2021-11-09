@@ -83,6 +83,21 @@ class UserService {
       { runValidators: true },
     );
   }
+
+  static async pushFollows(user: UserType, followID: string) {
+    await User.updateOne(
+      { _id: user.userID },
+      { $push: { follows: followID } },
+      { runValidators: true },
+    );
+    await User.updateOne(
+      { _id: followID },
+      { $push: { followers: user.userID } },
+      { runValidators: true },
+    );
+  }
+
+  static async findOneFollows(user);
 }
 
 export default UserService;
