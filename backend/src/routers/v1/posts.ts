@@ -49,4 +49,10 @@ export default class PostsRouter {
     if (type === 'random') return response.json(await PostService.findRandomPost());
     return response.json(await PostService.findTimeline(userId, offset));
   }
+
+  @Get('/:postId/likes')
+  async getPostLikeList(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    return response.json(await PostService.findPostLikeList(postId));
+  }
 }

@@ -40,7 +40,16 @@ export default class PostService {
 
   static async findTimeline(userId: any, offset: any) {
     const followList = await User.findOne({ _id: new Types.ObjectId(userId) }, 'follows -_id');
-
     return !followList ? [] : Post.find({ userID: { $in: followList.follows } });
+  }
+
+  static async findPostLikeList(postId: string) {
+    const likesOid = await Post.findOne({ _id: new Types.ObjectId(postId) }, 'likes -_id');
+    const result = (
+      await likesOid?.populate({
+        path: 'likes',
+      })
+    )?.likes;
+    return result;
   }
 }
