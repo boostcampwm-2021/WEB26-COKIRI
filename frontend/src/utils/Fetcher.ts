@@ -18,11 +18,25 @@ class Fetcher {
   }
 
   // for client side
-  static async putUsersUsername(username: string, user: UserType): Promise<any> {
+  static async putUsersUsername(username: string, user: UserType): Promise<void> {
     await axios.put(
-      // eslint-disable-next-line no-underscore-dangle
       `${baseURL}/v1/users/${user._id}`,
       { username },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+  }
+
+  static async postPost(user: UserType, content: string): Promise<void> {
+    await axios.post(
+      `${baseURL}/v1/posts`,
+      {
+        userID: user._id,
+        content,
+        title: '타이틀',
+        image: 'https://github.com/dmin0211.png',
+      },
       {
         headers: { Authorization: `Bearer ${user.token}` },
       },
