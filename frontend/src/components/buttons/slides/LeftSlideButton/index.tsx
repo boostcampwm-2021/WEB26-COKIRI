@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IoIosArrowDroprightCircle } from 'react-icons/io';
+import { IoIosArrowDropleftCircle } from 'react-icons/io';
 
-import Common from 'src/components/buttons/post/slide/Common';
+import Common from 'src/components/buttons/slides/Common';
 
 import { Wrapper } from './style';
 
@@ -12,20 +12,19 @@ interface Props {
   buttonRef: React.RefObject<HTMLDivElement>;
 }
 
-function RightSlideButton({ onClick, buttonRef }: Props) {
+function LefSlideButton({ onClick, buttonRef }: Props) {
   return (
-    <Wrapper ref={buttonRef}>
+    <Wrapper className='disappear' ref={buttonRef}>
       <Common onClick={onClick}>
-        <IoIosArrowDroprightCircle />
+        <IoIosArrowDropleftCircle />
       </Common>
     </Wrapper>
   );
 }
 
-RightSlideButton.propsType = {
-  children: PropTypes.node.isRequired,
+LefSlideButton.propsType = {
   onClick: PropTypes.func.isRequired,
   buttonRef: PropTypes.object.isRequired,
 };
 
-export default RightSlideButton;
+export default LefSlideButton;

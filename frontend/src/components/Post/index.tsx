@@ -1,13 +1,13 @@
 import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
-import Profile from 'src/components/post/Profile';
-import CommentButton from 'src/components/buttons/post/CommentButton';
-import LikeButton from 'src/components/buttons/post/LikeButton';
-import EchoButton from 'src/components/buttons/post/EchoButton';
-import PostImage from 'src/components/Post/Image';
-import PostLikeRow from 'src/components/Post/LikeRow';
-import PostContent from 'src/components/Post/Content';
-import PostReview from 'src/components/Post/Review';
+import PostProfile from 'src/components/PostProfile';
+import CommentButton from 'src/components/buttons/CommentButton';
+import LikeButton from 'src/components/buttons/LikeButton';
+import EchoButton from 'src/components/buttons/EchoButton';
+import PostImage from 'src/components/PostImage';
+import PostLike from 'src/components/PostLike';
+import PostContent from 'src/components/PostContent';
+import PostReview from 'src/components/PostReview';
 import { Row } from 'src/components/Grid';
 
 import { Wrapper, Buttons } from './style';
@@ -15,7 +15,7 @@ import { Wrapper, Buttons } from './style';
 function Post() {
   return (
     <Wrapper>
-      <Profile />
+      <PostProfile />
       <PostImage />
       <Row justifyContent='flex-start'>
         <Buttons>
@@ -30,7 +30,7 @@ function Post() {
           </EchoButton>
         </Buttons>
       </Row>
-      <PostLikeRow />
+      <PostLike />
       <PostContent />
       <PostReview />
     </Wrapper>
