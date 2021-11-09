@@ -31,7 +31,7 @@ export default class UsersRouter {
   }
 
   @Put('/:userID')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) throw new Error('잘못된 형식의 Path Params 입니다.');

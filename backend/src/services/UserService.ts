@@ -1,14 +1,9 @@
 import { nanoid } from 'nanoid';
 
-import { User } from 'src/models';
+import { User, Language } from 'src/models';
 import { User as UserType, UserAuthProvider } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ObjectID } from 'src/utils';
-
-interface UserConfigType extends Omit<UserSchemaType, 'languages' | 'birthday'> {
-  languages: string[];
-  birthday: string;
-}
 
 class UserService {
   static async existsUser(user: UserType): Promise<boolean> {
@@ -76,13 +71,8 @@ class UserService {
     return result[0];
   }
 
-  static async updateOneUserConfig(user: UserType, userConfig: UserConfigType) {
-    const userConfigSchema: UserSchemaType = {
-      ...userConfig,
-      birthday: new Date(userConfig.birthday),
-      languages: [],
-    };
-    await User.updateOne({ _id: user.userID }, userConfigSchema);
+  static async updateOneUserConfig(user: UserType, userConfig: UserSchemaType) {
+    await User.updateOne({ _id: user.userID }, userConfig, { runValidators: true });
   }
 }
 
