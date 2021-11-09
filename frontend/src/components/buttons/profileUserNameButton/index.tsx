@@ -8,7 +8,7 @@ interface Props {
   userName: string;
 }
 
-function ProfileUserNameButton({ href, userName }: Props) {
+function ProfileUsernameButton({ href, userName }: Props) {
   return (
     <Wrapper>
       <Link href={href}>
@@ -18,9 +18,9 @@ function ProfileUserNameButton({ href, userName }: Props) {
   );
 }
 
-ProfileUserNameButton.propsType = {
+ProfileUsernameButton.propsType = {
   href: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
 };
 
-export default ProfileUserNameButton;
+export default ProfileUsernameButton;
