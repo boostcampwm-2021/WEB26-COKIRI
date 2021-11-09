@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import Header from 'src/components/Header';
+
 function Echo() {
   const router = useRouter();
   const { roomID } = router.query;
@@ -16,6 +18,7 @@ function Echo() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <main>Echo {roomID}</main>
 
       <footer />

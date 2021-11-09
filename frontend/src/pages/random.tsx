@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+import Header from 'src/components/Header';
+
 function Random() {
   return (
     <div>
@@ -12,6 +14,7 @@ function Random() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <main>random</main>
 
       <footer />

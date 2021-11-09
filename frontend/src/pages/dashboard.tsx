@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+import Header from 'src/components/Header';
+
 function Dashboard() {
   return (
     <div>
@@ -12,6 +14,7 @@ function Dashboard() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <main>dashboard</main>
 
       <footer />

@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import Header from 'src/components/Header';
+
 function Post() {
   const router = useRouter();
   const { postID } = router.query;
@@ -16,6 +18,7 @@ function Post() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <main>Post {postID}</main>
 
       <footer />
