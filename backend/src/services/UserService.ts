@@ -97,7 +97,12 @@ class UserService {
     );
   }
 
-  static async findOneFollows(user);
+  static async findOneFollows(userID: string) {
+    const result = await User.findOne({ _id: userID }).select({ follows: true });
+    if (!result) throw new Error('잘못된 요청입니다.');
+    console.log(result.follows!.map((id) => id.toString()));
+    return result.follows!.map((id) => id.toString());
+  }
 }
 
 export default UserService;
