@@ -52,4 +52,8 @@ export default class PostService {
     )?.likes;
     return result;
   }
+
+  static async findPost(postId: string) {
+    return Post.findOne({ _id: new Types.ObjectId(postId) });
+  }
 }

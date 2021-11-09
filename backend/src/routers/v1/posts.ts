@@ -55,4 +55,10 @@ export default class PostsRouter {
     const { postId } = request.params;
     return response.json(await PostService.findPostLikeList(postId));
   }
+
+  @Get('/:postId')
+  async getPost(@Req() request: Request, @Res() response: Response) {
+    const { postId } = request.params;
+    return response.json(await PostService.findPost(postId));
+  }
 }
