@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps, user, token }: Props) {
 }
 
 MyApp.getInitialProps = async (context: any) => {
-  const token = context.ctx.req.cookies.jwt;
+  const token = context.ctx.req?.cookies.jwt;
   if (token !== undefined) {
     const user: UserType = await Fetcher.getUsersMe(token);
     return { user, token };
