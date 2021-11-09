@@ -44,10 +44,9 @@ export default class PostsRouter {
   }
 
   @Get('/')
-  async getRandomPost(@Req() request: Request, @Res() response: Response) {
-    const { type } = request.query;
-    let result;
-    if (type === 'random') result = PostService.findRandomPost;
-    return response.json(result);
+  async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
+    const { type, userId, offset } = request.query;
+    if (type === 'random') return response.json(await PostService.findRandomPost());
+    return response.json(await PostService.findTimeline(userId, offset));
   }
 }
