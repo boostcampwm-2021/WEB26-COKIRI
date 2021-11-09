@@ -18,14 +18,10 @@ export default class PostService {
   static async findRandomPost() {
     return Post.aggregate([
       {
-        $sample: {
-          size: 20,
-        },
+        $sample: { size: 20 },
       },
       {
-        $sort: {
-          createdAt: -1,
-        },
+        $sort: { createdAt: -1 },
       },
     ]);
   }
@@ -37,11 +33,7 @@ export default class PostService {
 
   static async findPostLikeList(postId: string) {
     const likesOid = await Post.findOne({ _id: new Types.ObjectId(postId) }, 'likes -_id');
-    const result = (
-      await likesOid?.populate({
-        path: 'likes',
-      })
-    )?.likes;
+    const result = (await likesOid?.populate({ path: 'likes' }))?.likes;
     return result;
   }
 
