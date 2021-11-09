@@ -2,6 +2,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import Header from 'src/components/Header';
+
 function User() {
   const router = useRouter();
   const { userID } = router.query;
@@ -14,6 +16,7 @@ function User() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
+      <Header />
       <main>
         User {userID}
         <br />
