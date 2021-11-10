@@ -5,7 +5,6 @@ import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
 import PostImage from 'src/components/PostImage';
-import PostLike from 'src/components/PostLike';
 import PostContent from 'src/components/PostContent';
 import PostReview from 'src/components/PostReview';
 import { Row } from 'src/components/Grid';
@@ -13,6 +12,10 @@ import { Row } from 'src/components/Grid';
 import { Wrapper, Buttons } from './style';
 
 function Post() {
+  const content = `asfdsgasfdafsd
+  fasdafsdafsdafsdasfdfasdafsdasdfasfdasfdafsdasfdafsdafsdafdsaf
+  dsafsdsdsdsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddds`;
+
   return (
     <Wrapper>
       <PostProfile />
@@ -30,8 +33,7 @@ function Post() {
           </EchoButton>
         </Buttons>
       </Row>
-      <PostLike />
-      <PostContent />
+      <PostContent content={content} />
       <PostReview />
     </Wrapper>
   );
