@@ -1,19 +1,25 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Get } from 'routing-controllers';
+
 import ProblemService from 'src/services/ProblemService';
+import { Enums } from 'src/utils';
 
 @Controller('/problems')
 export default class problemRouter {
   @Get('/')
   async getProblemSuggestions(@Req() request: Request, @Res() response: Response) {
     const { query } = request.query;
-    if (typeof query !== 'string') throw new Error('Query 형태가 잘못되었습니다.');
-    return response.json(await ProblemService.getSearchSuggestions(query));
+    if (typeof query !== 'string') {
+      throw new Error(Enums.error.WRONG_QUERY_TYPE);
+    }
+    const problemSuggestions = await ProblemService.getSearchSuggestions(query);
+    return response.json(problemSuggestions);
   }
 
   @Get('/:problemID')
   async getProblem(@Req() request: Request, @Res() response: Response) {
     const { problemID } = request.params;
-    return response.json(await ProblemService.getProblemShow(problemID));
+    const problemShowInformation = await ProblemService.getProblemShow(problemID);
+    return response.json(problemShowInformation);
   }
 }
