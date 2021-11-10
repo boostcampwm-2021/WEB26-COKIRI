@@ -99,6 +99,13 @@ export default class UsersRouter {
     return response.json(result);
   }
 
+  @Get('/:githubUsername/repositories/:repoName')
+  async getRepo(@Req() request: Request, @Res() response: Response) {
+    const { githubUsername, repoName } = request.params;
+    const result = await GitService.findRepo(githubUsername, repoName);
+    return response.json(result);
+  }
+
   @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
