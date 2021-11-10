@@ -4,19 +4,19 @@ import { Wrapper, Button } from './style';
 
 interface Props {
   length: string;
-  changeModalState: () => void;
+  handleClick: () => void;
 }
 
-function LikeListButton({ length, changeModalState }: Props) {
+function LikeListButton({ length, handleClick }: Props) {
   return (
     <Wrapper>
-      <Button onClick={changeModalState}>좋아요 {length}개</Button>
+      <Button onClick={handleClick}>좋아요 {length}개</Button>
     </Wrapper>
   );
 }
 
 LikeListButton.propsType = {
   length: PropTypes.string.isRequired,
-  changeModalState: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 export default LikeListButton;

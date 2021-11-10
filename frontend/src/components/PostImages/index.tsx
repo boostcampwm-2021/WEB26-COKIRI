@@ -6,7 +6,7 @@ import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
-function PostImage() {
+function PostImages() {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -43,4 +43,4 @@ function PostImage() {
   );
 }
 
-export default PostImage;
+export default PostImages;

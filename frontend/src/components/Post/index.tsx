@@ -1,11 +1,11 @@
 import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import Profile from 'src/components/Profile';
 import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
-import PostImage from 'src/components/PostImage';
+import PostImages from 'src/components/PostImages';
 import PostContent from 'src/components/PostContent';
 import PostReview from 'src/components/PostReview';
 import { Row } from 'src/components/Grid';
@@ -19,14 +19,13 @@ function Post() {
   fasdafsdafsdafsdasfdfasdafsdasdfasfdasfdafsdasfdafsdafsdafdsaf
   dsafsdsdsdsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddds`;
   const [isLikeListModal, setIsLikeListModal] = useState(false);
-  const changeModalState = useCallback(() => {
-    setIsLikeListModal((prevState) => !prevState);
-  }, []);
+  const openModal = useCallback(() => setIsLikeListModal(true), []);
+  const closeModal = useCallback(() => setIsLikeListModal(false), []);
 
   return (
     <Wrapper>
       <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
-      <PostImage />
+      <PostImages />
       <Row justifyContent='flex-start'>
         <Buttons>
           <CommentButton>
@@ -40,10 +39,10 @@ function Post() {
           </EchoButton>
         </Buttons>
       </Row>
+      <LikeListButton length='4' handleClick={openModal} />
       <PostContent content={content} />
-      <LikeListButton length='4' changeModalState={changeModalState} />
       <PostReview />
-      {isLikeListModal && <LikeListModal onClose={changeModalState} />}
+      {isLikeListModal && <LikeListModal onClose={closeModal} />}
     </Wrapper>
   );
 }
