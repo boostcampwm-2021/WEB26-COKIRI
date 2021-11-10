@@ -1,7 +1,27 @@
+import PropTypes from 'prop-types';
+
+import PostLongContent from 'src/components/PostLongContent';
+
 import { Wrapper } from './style';
 
-function PostContent() {
-  return <Wrapper>본문</Wrapper>;
+interface Props {
+  content: string;
 }
+
+function PostContent({ content }: Props) {
+  return (
+    <Wrapper>
+      {content.length > 20 || content.split('\n').length > 1 ? (
+        <PostLongContent content={content} />
+      ) : (
+        <>{content}</>
+      )}
+    </Wrapper>
+  );
+}
+
+PostContent.propTypes = {
+  content: PropTypes.string.isRequired,
+};
 
 export default PostContent;
