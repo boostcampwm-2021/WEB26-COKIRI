@@ -8,6 +8,7 @@ import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import RegisterModal from 'src/components/modals/RegisterModal';
+import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -17,7 +18,6 @@ import { Main } from 'src/styles/pages/home';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import FloatingButton from 'src/components/buttons/FloatingButton';
 
 interface Props {
   user: UserType;
