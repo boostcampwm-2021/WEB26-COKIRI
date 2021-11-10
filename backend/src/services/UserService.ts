@@ -63,6 +63,7 @@ class UserService {
         $project: {
           followerCount: { $size: '$followers' },
           followCount: { $size: '$followers' },
+          postCount: { $size: '$posts' },
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',

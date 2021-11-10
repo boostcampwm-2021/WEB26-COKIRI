@@ -24,7 +24,7 @@ const postSchema = new Schema<PostType>(
     title: { type: String, trim: true },
     content: { type: String, required: true, trim: true },
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
-    image: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    images: { type: String, validate: Validate.url },
     comments: { type: [commentSchema], default: [] },
     likes: { type: [likeSchema], default: [] },
     tags: {
