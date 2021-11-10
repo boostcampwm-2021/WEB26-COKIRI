@@ -41,9 +41,12 @@ export default class UsersRouter {
     return response.json({ userProfile });
   }
 
-  @Get('/:userID/setting')
+  @Get('/:userID/settings')
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error('Permission Denied.');
+    }
     return response.json(await UserService.findOneUserSettingForID(userID));
   }
 
@@ -52,7 +55,7 @@ export default class UsersRouter {
   async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
+      throw new Error('Permission Denied.');
     }
     // @TODO 사용자 정보 기반 추천
     return response.json(await UserService.findRandomUserSuggestions());
@@ -72,14 +75,14 @@ export default class UsersRouter {
     return response.json(followList);
   }
 
-  @Put('/:userID')
+  @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
+      throw new Error('Permission Denied.');
     }
-    await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
+    UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
     return response.send();
   }
 
@@ -90,7 +93,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error('같은 사용자는 Follow 할 수 없습니다.');
     }
-    await UserService.addToSetFollows(request.user!, userID);
+    UserService.addToSetFollows(request.user!, userID);
     return response.json({ code: 'Success' });
   }
 
@@ -101,7 +104,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error('같은 사용자는 Follow 할 수 없습니다.');
     }
-    await UserService.pullFollows(request.user!, userID);
+    UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });
   }
 }

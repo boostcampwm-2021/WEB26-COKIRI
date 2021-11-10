@@ -116,20 +116,20 @@ class UserService {
     blockList.forEach((property: string) => {
       if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
     });
-    User.updateOne(
+    await User.updateOne(
       { _id: user.userID },
       { ...userConfig, isRegistered: true },
-      { runValidators: true },
+      { runValidators: true, upsert: true },
     );
   }
 
   static async addToSetFollows(user: UserType, followID: string) {
-    User.updateOne(
+    await User.updateOne(
       { _id: user.userID },
       { $addToSet: { follows: followID } },
       { runValidators: true },
     );
-    User.updateOne(
+    await User.updateOne(
       { _id: followID },
       { $addToSet: { followers: user.userID } },
       { runValidators: true },
@@ -137,8 +137,12 @@ class UserService {
   }
 
   static async pullFollows(user: UserType, followID: string) {
-    User.updateOne({ _id: user.userID }, { $pull: { follows: followID } }, { runValidators: true });
-    User.updateOne(
+    await User.updateOne(
+      { _id: user.userID },
+      { $pull: { follows: followID } },
+      { runValidators: true },
+    );
+    await User.updateOne(
       { _id: followID },
       { $pull: { followers: user.userID } },
       { runValidators: true },
