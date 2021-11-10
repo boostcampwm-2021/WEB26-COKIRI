@@ -3,19 +3,26 @@ import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'rou
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
+import { Enums } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
   @Get('/')
   async getUsersValidUsername(@Req() request: Request, @Res() response: Response) {
-    const { username } = request.query;
-    if (!username) {
-      throw new Error('잘못된 형식의 Query 입니다.');
+    const { username, query } = request.query;
+    if (!username && !query) {
+      throw new Error(Enums.error.WRONG_QUERY_TYPE);
     }
-    const isExistUsername = await UserService.existsUserForUsername({
-      username: username as string,
-    });
-    return response.json({ isExistUsername });
+    let responseJSON;
+    if (query) {
+      if (typeof query !== 'string') throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      responseJSON = await UserService.existsUserForUsername(query as string);
+    }
+    if (username) {
+      if (typeof username !== 'string') throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      responseJSON = await UserService.findOneUserProfileForUsername(username as string);
+    }
+    return response.json(responseJSON);
   }
 
   @Get('/me')
@@ -31,13 +38,6 @@ export default class UsersRouter {
     response.clearCookie('jwt');
   }
 
-  @Get('/:userID')
-  async getUser(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const userProfile = await UserService.findOneUserProfileForID(userID);
-    return response.json(userProfile);
-  }
-
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
@@ -50,7 +50,7 @@ export default class UsersRouter {
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('Permission Denied.');
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const userSettings = await UserService.findOneUserSettingForID(userID);
     return response.json(userSettings);
@@ -61,7 +61,7 @@ export default class UsersRouter {
   async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('Permission Denied.');
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const randomUserSuggestions = await UserService.findRandomUserSuggestions();
     // @TODO 사용자 정보 기반 추천
@@ -87,7 +87,7 @@ export default class UsersRouter {
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('Permission Denied.');
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
     return response.send();
@@ -98,7 +98,7 @@ export default class UsersRouter {
   async putUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID === request.user!.userID) {
-      throw new Error('같은 사용자는 Follow 할 수 없습니다.');
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await UserService.addToSetFollows(request.user!, userID);
     return response.json({ code: 'Success' });
@@ -109,7 +109,7 @@ export default class UsersRouter {
   async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID === request.user!.userID) {
-      throw new Error('같은 사용자는 Follow 할 수 없습니다.');
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });

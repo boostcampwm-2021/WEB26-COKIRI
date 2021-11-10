@@ -1,17 +1,17 @@
 import { Types } from 'mongoose';
 
 class ObjectID {
-  static stringToObjectID(id: string): Types.ObjectId {
+  stringToObjectID(id: string): Types.ObjectId {
     return new Types.ObjectId(id);
   }
 
-  static objectIDToString(id: Types.ObjectId): string {
+  objectIDToString(id: Types.ObjectId): string {
     return id.toString();
   }
 
-  static stringArrayToObjectIDArray(idArray: string[]): Types.ObjectId[] {
-    return idArray.map((id) => ObjectID.stringToObjectID(id));
+  stringArrayToObjectIDArray(idArray: string[]): Types.ObjectId[] {
+    return idArray.map((id) => this.stringToObjectID(id));
   }
 }
 
-export default ObjectID;
+export default new ObjectID();

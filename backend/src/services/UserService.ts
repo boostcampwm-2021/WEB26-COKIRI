@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
-import { ObjectID } from 'src/utils';
+import { Enums, ObjectID } from 'src/utils';
 
 class UserService {
   async existsUser(user: UserType): Promise<boolean> {
@@ -18,8 +18,8 @@ class UserService {
     return result.isRegistered!;
   }
 
-  async existsUserForUsername(user: { username: string }): Promise<boolean> {
-    return User.exists({ username: user.username });
+  async existsUserForUsername(query: string): Promise<boolean> {
+    return User.exists({ username: query });
   }
 
   async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
@@ -54,7 +54,7 @@ class UserService {
     return result[0];
   }
 
-  async findOneUserProfileForID(userID: string) {
+  async findOneUserProfileForUsername(username: string) {
     const result = await User.aggregate([
       {
         $project: {
@@ -65,7 +65,7 @@ class UserService {
           bio: '$bio',
         },
       },
-      { $match: { _id: userID } },
+      { $match: { username } },
     ]);
     return result[0];
   }
@@ -74,7 +74,7 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ posts: true, _id: false })
       .populate({ path: 'posts' });
-    if (!result) throw new Error('잘못된 요청입니다.');
+    if (!result) throw new Error(Enums.error.NO_USERS);
     return result.posts!;
   }
 
@@ -95,7 +95,7 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
+    if (!result) throw new Error(Enums.error.NO_USERS);
     return result.follows!;
   }
 
@@ -103,7 +103,7 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
+    if (!result) throw new Error(Enums.error.NO_USERS);
     return result.followers!;
   }
 
@@ -122,9 +122,10 @@ class UserService {
 
   async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
-    if (!userConfig.username) throw new Error('잘못된 요청입니다.');
+    if (!userConfig.username) throw new Error(Enums.error.WRONG_BODY_TYPE);
     blockList.forEach((property: string) => {
-      if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
+      if (userConfig[property as keyof UserSchemaType])
+        throw new Error(Enums.error.WRONG_BODY_TYPE);
     });
     await User.updateOne(
       { _id: user.userID },
