@@ -40,7 +40,6 @@ export interface UserType {
   company?: string;
   region?: string;
   languages?: Types.ObjectId[];
-  posts?: Types.ObjectId[];
   likes?: Types.ObjectId[];
   followers?: Types.ObjectId[];
   follows?: Types.ObjectId[];

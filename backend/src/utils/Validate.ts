@@ -1,6 +1,6 @@
 import { Types, Model } from 'mongoose';
 
-import { UserType, PostType, TagType, LanguageType, EchoRoomType } from 'src/types';
+import { UserType, PostType, TagType, LanguageType, EchoRoomType, NotifyType } from 'src/types';
 
 class Validate {
   static UserModel: Model<UserType> | undefined;
@@ -12,6 +12,8 @@ class Validate {
   static TagModel: Model<TagType> | undefined;
 
   static EchoRoomModel: Model<EchoRoomType> | undefined;
+
+  static NotifyModel: Model<NotifyType> | undefined;
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {

@@ -37,7 +37,7 @@ export default class UsersRouter {
   }
 
   @Get('/logout')
-  @Redirect('/')
+  @Redirect(`${process.env.CLIENT_URL}`)
   getLogout(@Req() request: Request, @Res() response: Response) {
     response.clearCookie('jwt');
   }
