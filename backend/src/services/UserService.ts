@@ -63,6 +63,7 @@ class UserService {
         $project: {
           followerCount: { $size: '$followers' },
           followCount: { $size: '$followers' },
+          postCount: { $size: '$posts' },
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',
@@ -161,7 +162,7 @@ class UserService {
     );
     await User.updateOne(
       { _id: followID },
-      { $addToSet: { followers: user.userID } },
+      { $push: { followers: user.userID } },
       { runValidators: true },
     );
   }
