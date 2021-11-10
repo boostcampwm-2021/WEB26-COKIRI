@@ -34,13 +34,17 @@ class Fetcher {
       {
         userID: user._id,
         content,
-        title: '타이틀',
         image: 'https://github.com/dmin0211.png',
       },
       {
         headers: { Authorization: `Bearer ${user.token}` },
       },
     );
+  }
+
+  static async getSignout(): Promise<void> {
+    console.log(`${baseURL}/v1/users/logout`);
+    await axios.get(`${baseURL}/v1/users/logout`);
   }
 }
 
