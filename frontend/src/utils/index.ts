@@ -1,4 +1,4 @@
 import Fetcher from 'src/utils/Fetcher';
+import Uploader from 'src/utils/Uploader';
 
-// eslint-disable-next-line import/prefer-default-export
-export { Fetcher };
+export { Fetcher, Uploader };

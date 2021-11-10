@@ -11,7 +11,7 @@ class Fetcher {
       const result = await axios.get(`${baseURL}/v1/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return result.data.user;
+      return result.data;
     } catch (error) {
       return {};
     }
@@ -28,13 +28,13 @@ class Fetcher {
     );
   }
 
-  static async postPost(user: UserType, content: string): Promise<void> {
+  static async postPost(user: UserType, content: string, images: string[]): Promise<void> {
     await axios.post(
       `${baseURL}/v1/posts`,
       {
         userID: user._id,
         content,
-        image: 'https://github.com/dmin0211.png',
+        images,
       },
       {
         headers: { Authorization: `Bearer ${user.token}` },
