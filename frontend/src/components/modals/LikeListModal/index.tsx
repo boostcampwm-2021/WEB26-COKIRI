@@ -1,7 +1,11 @@
-import Image from 'next-images';
 import PropTypes from 'prop-types';
+
 import Modal from 'src/components/modals/Common';
-import { Col } from 'src/components/Grid';
+import Profile from 'src/components/Profile';
+import { Row, Col } from 'src/components/Grid';
+import FollowButton from 'src/components/buttons/FollowButton';
+
+import { Wrapper, Title } from './style';
 
 interface Props {
   onClose: () => void;
@@ -9,16 +13,45 @@ interface Props {
 
 function LikeListModal({ onClose }: Props) {
   return (
-    <Modal onClose={onClose} onConfirm={() => {}} close='닫기' confirm='확인'>
-      <div>
-        <Image src='/images/logo.svg' width='20' height='20' />
-        <p>타이거</p>
-      </div>
-    </Modal>
+    <Wrapper>
+      <Modal onClose={onClose} close='닫기'>
+        <Title>좋아요</Title>
+        <Col>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+          <Row justifyContent='space-between'>
+            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <FollowButton />
+          </Row>
+        </Col>
+      </Modal>
+    </Wrapper>
   );
 }
 
 LikeListModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
+};
+
+LikeListModal.defaultProps = {
+  onClose: () => {},
 };
 export default LikeListModal;
