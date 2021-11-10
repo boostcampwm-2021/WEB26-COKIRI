@@ -9,15 +9,8 @@ interface Props {
 }
 
 function PostContent({ content }: Props) {
-  return (
-    <Wrapper>
-      {content.length > 20 || content.split('\n').length > 1 ? (
-        <PostLongContent content={content} />
-      ) : (
-        <>{content}</>
-      )}
-    </Wrapper>
-  );
+  const isOverLine = content.length > 20 || content.split('\n').length > 1;
+  return <Wrapper>{isOverLine ? <PostLongContent content={content} /> : <>{content}</>}</Wrapper>;
 }
 
 PostContent.propTypes = {
