@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-import Card from 'src/components/cards/Common';
 import Post from 'src/components/Post';
 
 import { PostType } from 'src/types';
@@ -14,9 +13,9 @@ interface Props {
 function Timeline({ posts }: Props) {
   return (
     <Wrapper>
-      <Card width={600} height={600}>
-        <Post />
-      </Card>
+      {posts!.map((post) => (
+        <Post post={post} key={post._id} />
+      ))}
     </Wrapper>
   );
 }
