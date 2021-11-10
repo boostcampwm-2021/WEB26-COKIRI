@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
-import { IoMdImages } from 'react-icons/io';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 
 import Modal from 'src/components/modals/Common';
-import IconButton from 'src/components/buttons/IconButton';
 import { Row, Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -48,9 +46,6 @@ function PostModal({ onClose }: Props) {
     <Wrapper>
       <Modal close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
         <ImageUploadButton onImageUpload={handleImageUpload} />
-        <IconButton>
-          <IoMdImages />
-        </IconButton>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <Row>
           {images.map((image, index) => (

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { IoMdImages } from 'react-icons/io';
 import { Wrapper } from './style';
 
 interface Props {
@@ -22,12 +23,16 @@ function ImageUploadButton({ onImageUpload }: Props) {
 
   return (
     <Wrapper>
-      <input
-        type='file'
-        accept='image/jpg,image/png,image/jpeg,image/gif'
-        onChange={handleOnChange}
-        multiple
-      />
+      <label htmlFor='image'>
+        <IoMdImages />
+        <input
+          id='image'
+          type='file'
+          accept='image/jpg,image/png,image/jpeg,image/gif'
+          onChange={handleOnChange}
+          multiple
+        />
+      </label>
     </Wrapper>
   );
 }

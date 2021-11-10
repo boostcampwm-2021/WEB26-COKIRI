@@ -1,16 +1,8 @@
 import styled from '@emotion/styled';
 
-import { Button } from 'src/components/buttons/IconButton/style';
 import { Col, Row } from 'src/components/Grid';
 
 const Wrapper = styled.div`
-  ${Button} {
-    background: #1e1e1e;
-    box-shadow: 3px 3px 6px #1a1a1a, -3px -3px 6px #232323;
-    align-self: start;
-    margin-bottom: 24px;
-  }
-
   ${Row} {
     justify-content: start;
     ${Col} {
