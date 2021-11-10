@@ -12,7 +12,7 @@ import { UserType, PostType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { Main } from 'src/styles/pages/users/user';
+import { Main } from 'src/styles/pages/users/username';
 
 import userAtom from 'src/recoil/user';
 import { useEffect } from 'react';
