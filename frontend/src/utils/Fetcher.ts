@@ -43,7 +43,6 @@ class Fetcher {
   }
 
   static async getSignout(): Promise<void> {
-    console.log(`${baseURL}/v1/users/logout`);
     await axios.get(`${baseURL}/v1/users/logout`);
   }
 }
