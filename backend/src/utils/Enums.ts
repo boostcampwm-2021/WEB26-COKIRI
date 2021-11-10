@@ -12,6 +12,7 @@ const Enums = {
     PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
     TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
     TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
+    TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
   },
 };
 

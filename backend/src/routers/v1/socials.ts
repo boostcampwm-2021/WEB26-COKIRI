@@ -47,6 +47,13 @@ export default class SocialsRouter {
     await TistoryService.updateOneUserAccessToken(code as string, request.user!.userID);
   }
 
+  @Get('/tistory/url')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getTistoryURL(@Req() request: Request, @Res() response: Response) {
+    await TistoryService.updateOneUserURL(request.user!.userID);
+    return response.json();
+  }
+
   @Get('/github')
   @UseBefore(passport.authenticate('github', { session: false }))
   // eslint-disable-next-line @typescript-eslint/no-empty-function

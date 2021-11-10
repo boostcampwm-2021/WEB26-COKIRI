@@ -17,7 +17,20 @@ class TistoryService {
     return User.updateOne({ _id: userID }, { tistoryAccessToken: result.data.access_token });
   }
 
-  async updateOneUserTistory(problemID: string) {}
+  async updateOneUserURL(userID: string) {
+    const result = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
+    if (!result!.tistoryAccessToken) throw new Error('토큰 없습니다~~');
+    const tistoryInfoResult = await axios.get(Enums.openAPIUrl.TISTORY_INFO, {
+      params: {
+        access_token: result!.tistoryAccessToken,
+        output: 'json',
+      },
+    });
+    return User.updateOne(
+      { _id: userID },
+      { tistoryURL: tistoryInfoResult.data.tistory.item.blogs[0].url },
+    );
+  }
 }
 
 export default new TistoryService();
