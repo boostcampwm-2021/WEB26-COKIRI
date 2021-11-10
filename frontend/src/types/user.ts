@@ -4,4 +4,6 @@ export default interface UserType {
   username?: string;
   isRegistered?: boolean;
   token?: string;
+  followerCount?: number;
+  followCount?: number;
 }
