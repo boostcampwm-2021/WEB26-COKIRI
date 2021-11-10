@@ -38,13 +38,20 @@ class UserService {
   }
 
   async findOneUserForID(user: UserType) {
-    return User.findOne({ _id: user.userID }).select({
-      _id: true,
-      isRegistered: true,
-      profileImage: true,
-      username: true,
-      name: true,
-    });
+    const result = await User.aggregate([
+      {
+        $project: {
+          _id: { $toString: '$_id' },
+          followCount: { $size: '$followers' },
+          username: '$username',
+          isRegistered: '$isRegistered',
+          name: '$name',
+          profileImage: '$profileImage',
+        },
+      },
+      { $match: { _id: user.userID } },
+    ]);
+    return result[0];
   }
 
   async findOneUserProfileForID(userID: string) {
@@ -64,7 +71,11 @@ class UserService {
   }
 
   async findOneUserPostsForID(userID: string) {
-    return User.findOne({ _id: userID }).select({ posts: true }).populate({ path: 'posts' });
+    const result = await User.findOne({ _id: userID })
+      .select({ posts: true, _id: false })
+      .populate({ path: 'posts' });
+    if (!result) throw new Error('잘못된 요청입니다.');
+    return result.posts!;
   }
 
   async findOneUserSettingForID(userID: string) {

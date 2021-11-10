@@ -34,9 +34,6 @@ export default class UsersRouter {
   @Get('/:userID')
   async getUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    if (userID !== request.user!.userID) {
-      throw new Error('Permission Denied.');
-    }
     const userProfile = await UserService.findOneUserProfileForID(userID);
     return response.json(userProfile);
   }
@@ -44,14 +41,12 @@ export default class UsersRouter {
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    if (userID !== request.user!.userID) {
-      throw new Error('Permission Denied.');
-    }
     const userPosts = await UserService.findOneUserPostsForID(userID);
     return response.json(userPosts);
   }
 
   @Get('/:userID/settings')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
