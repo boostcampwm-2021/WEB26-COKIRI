@@ -53,6 +53,13 @@ class Fetcher {
     );
   }
 
+  static async getPosts(user: UserType): Promise<PostType[]> {
+    const result = await axios.get(`${baseURL}/v1/posts/?userID=${user._id}&offset=${0}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data;
+  }
+
   static async getUserPosts(user: UserType): Promise<PostType[]> {
     const result = await axios.get(`${baseURL}/v1/users/${user._id}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
