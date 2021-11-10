@@ -8,7 +8,7 @@ import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
-import { UserType, PostType } from 'src/types';
+import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
@@ -25,9 +25,8 @@ interface Props {
 function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), []);
-  const { data } = useQuery<PostType[]>(['posts', targetUser._id], () =>
-    Fetcher.getUserPosts(user),
-  );
+  const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(user));
+
   return (
     <div>
       <Head>
