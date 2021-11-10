@@ -23,8 +23,8 @@ interface Props {
 
 function Post({ post }: Props) {
   const [isLikeListModal, setIsLikeListModal] = useState(false);
-  const openModal = useCallback(() => setIsLikeListModal(true), []);
-  const closeModal = useCallback(() => setIsLikeListModal(false), []);
+  const handleClick = useCallback(() => setIsLikeListModal(true), []);
+  const handleClose = useCallback(() => setIsLikeListModal(false), []);
   const writer = 'tiger';
   const likeCount = 3;
   return (
@@ -47,7 +47,7 @@ function Post({ post }: Props) {
       <LikeListButton length={likeCount} handleClick={openModal} />
       <PostContent content='hihi' />
       <PostReview />
-      {isLikeListModal && <LikeListModal onClose={closeModal} />}
+        {isLikeListModal && <LikeListModal onClose={handleClose} />}
     </Wrapper>
   );
 }

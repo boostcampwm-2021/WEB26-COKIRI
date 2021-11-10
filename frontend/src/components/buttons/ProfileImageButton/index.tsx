@@ -5,15 +5,15 @@ import Image from 'next/image';
 import { Wrapper } from './style';
 
 interface Props {
-  href: string;
+  username: string;
   imageSrc: string;
 }
 
-function ProfileImageButton({ href, imageSrc }: Props) {
+function ProfileImageButton({ username, imageSrc }: Props) {
   return (
     <Wrapper>
-      <Link href={href}>
-        <a href={href}>
+      <Link href={`/users/${username}`}>
+        <a href={`/users/${username}`}>
           <Image src={imageSrc} width='36' height='36' />
         </a>
       </Link>
