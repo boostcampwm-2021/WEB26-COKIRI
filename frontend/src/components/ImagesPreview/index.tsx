@@ -17,7 +17,7 @@ function ImagesPreview({ images, onDelete }: Props) {
     <Wrapper>
       <Row>
         {images.map((image, index) => (
-          <Col>
+          <Col key={image}>
             <button
               type='button'
               onClick={() => {
