@@ -4,5 +4,6 @@ const Wrapper = styled.div`
   margin-left: 15px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+const Button = styled.button``;
+
+export { Wrapper, Button };

@@ -8,6 +8,7 @@ import PostImage from 'src/components/PostImage';
 import PostContent from 'src/components/PostContent';
 import PostReview from 'src/components/PostReview';
 import { Row } from 'src/components/Grid';
+import LikeListButton from 'src/components/buttons/LikeListButton';
 
 import { Wrapper, Buttons } from './style';
 
@@ -34,6 +35,7 @@ function Post() {
         </Buttons>
       </Row>
       <PostContent content={content} />
+      <LikeListButton length='4' />
       <PostReview />
     </Wrapper>
   );
