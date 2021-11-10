@@ -1,7 +1,8 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 import { IoMdImages } from 'react-icons/io';
+
+import { Uploader } from 'src/utils';
 import { Wrapper } from './style';
 
 interface Props {
@@ -10,15 +11,11 @@ interface Props {
 }
 
 function ImageUploadButton({ onImageUpload }: Props) {
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.addEventListener('load', () => {
-        onImageUpload(reader.result as string);
-      });
-    });
+    const requests = files.map((file) => Uploader.uploadPostImage(file));
+    const responses = await Promise.all(requests);
+    responses.forEach((url) => onImageUpload(url));
   };
 
   return (
