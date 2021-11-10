@@ -35,5 +35,4 @@ const postSchema = new Schema<PostType>(
   { versionKey: false, timestamps: true },
 );
 
-export { likeSchema, commentSchema, postSchema };
 export default model<PostType>('Post', postSchema);

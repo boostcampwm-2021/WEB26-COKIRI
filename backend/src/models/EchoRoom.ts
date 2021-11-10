@@ -20,5 +20,4 @@ const echoRoomSchema = new Schema<EchoRoomType>(
   { versionKey: false, timestamps: { createdAt: false, updatedAt: true } },
 );
 
-export { messageSchema, echoRoomSchema };
 export default model<EchoRoomType>('EchoRoom', echoRoomSchema);
