@@ -19,6 +19,7 @@ import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 import descriptions from 'src/utils/descriptions';
+import { useQuery } from 'react-query';
 
 interface Props {
   user: UserType;
@@ -27,6 +28,8 @@ interface Props {
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), []);
+
+  const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
 
   const isAuthenticated = Object.keys(user).length !== 0;
   return (
@@ -41,8 +44,8 @@ function Home({ user }: Props) {
       <Main>
         <Col>
           {!isAuthenticated && <SigninCard />}
-          {isAuthenticated && <RecommendationCard />}
-          {isAuthenticated && <Timeline />}
+          {/* {isAuthenticated && <RecommendationCard />} */}
+          {isAuthenticated && <Timeline posts={data} />}
         </Col>
       </Main>
       <FloatingButton />
