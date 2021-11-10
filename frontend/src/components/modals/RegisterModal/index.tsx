@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 
@@ -12,24 +12,23 @@ import userAtom from 'src/recoil/user';
 function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
   const [username, setUsername] = useState('');
-  const isRegisterModalShow = useMemo(() => user.isRegistered === false, [user]);
+  const isModalShow = useMemo(() => user.isRegistered === false, [user]);
   const putUsersUsername = () => Fetcher.putUsersUsername(username, user);
   const mutation = useMutation(putUsersUsername, {
     onSuccess: () => setUser({ ...user, isRegistered: true }),
   });
   const handleOnConfirm = () => mutation.mutate();
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
-  };
+  }, []);
   return (
     <>
-      {isRegisterModalShow && (
+      {isModalShow && (
         <Modal onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
           <Col>
             <p>회원가입에 필요한 절차에요</p>
             <p>username을 알려주세요~</p>
-            {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
-            <input value={username} onChange={handleInputChange} autoFocus type='text' />
+            <input value={username} onChange={handleInputChange} type='text' />
           </Col>
         </Modal>
       )}

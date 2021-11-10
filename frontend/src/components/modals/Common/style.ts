@@ -20,7 +20,6 @@ const Card = styled.div`
   left: 0;
   right: 0;
   width: 384px;
-  height: 192px;
   display: flex;
   justify-content: center;
   align-items: center;

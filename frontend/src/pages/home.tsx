@@ -8,6 +8,7 @@ import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import RegisterModal from 'src/components/modals/RegisterModal';
+import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -46,6 +47,7 @@ function Home({ user }: Props) {
           {isAuthenticated && <Timeline />}
         </Col>
       </Main>
+      <FloatingButton />
       <RegisterModal />
     </>
   );
