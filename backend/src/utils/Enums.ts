@@ -10,7 +10,8 @@ const Enums = {
   openAPIUrl: {
     PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
     PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
-    TISTORY_AUTHORIZATION_CODE: 'https://www.tistory.com/oauth/authorize?',
+    TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
+    TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
   },
 };
 
