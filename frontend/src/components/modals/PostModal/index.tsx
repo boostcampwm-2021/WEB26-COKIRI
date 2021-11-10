@@ -2,16 +2,15 @@ import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 
 import Modal from 'src/components/modals/Common';
-import { Row, Col } from 'src/components/Grid';
+import ImageUploadButton from 'src/components/buttons/ImageUploadButton';
+import ImageForm from 'src/components/forms/ImageForm';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import ImageUploadButton from 'src/components/buttons/ImageUploadButton';
 import { Textarea, Wrapper } from './style';
 
 interface Props {
@@ -35,7 +34,12 @@ function PostModal({ onClose }: Props) {
   }, []);
 
   const handleImageUpload = useCallback((image: string) => {
-    setImages((prevState) => [...prevState, image]);
+    setImages((prevState) => {
+      if (prevState.length < 3) {
+        return [...prevState, image];
+      }
+      return prevState;
+    });
   }, []);
 
   const handleImageDelete = useCallback((index) => {
@@ -47,21 +51,7 @@ function PostModal({ onClose }: Props) {
       <Modal close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
         <ImageUploadButton onImageUpload={handleImageUpload} />
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
-        <Row>
-          {images.map((image, index) => (
-            <Col>
-              <button
-                type='button'
-                onClick={() => {
-                  handleImageDelete(index);
-                }}
-              >
-                삭제
-              </button>
-              <Image src={image} alt='' width={124} height={124} />
-            </Col>
-          ))}
-        </Row>
+        <ImageForm images={images} onDelete={handleImageDelete} />
       </Modal>
     </Wrapper>
   );
