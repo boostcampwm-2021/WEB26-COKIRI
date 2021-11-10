@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDropleftCircle } from 'react-icons/io';
@@ -9,12 +8,11 @@ import { Wrapper } from './style';
 
 interface Props {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  buttonRef: React.RefObject<HTMLDivElement>;
 }
 
-function LefSlideButton({ onClick, buttonRef }: Props) {
+function LefSlideButton({ onClick }: Props) {
   return (
-    <Wrapper className='disappear' ref={buttonRef}>
+    <Wrapper>
       <Common onClick={onClick}>
         <IoIosArrowDropleftCircle />
       </Common>
@@ -24,7 +22,6 @@ function LefSlideButton({ onClick, buttonRef }: Props) {
 
 LefSlideButton.propsType = {
   onClick: PropTypes.func.isRequired,
-  buttonRef: PropTypes.object.isRequired,
 };
 
 export default LefSlideButton;

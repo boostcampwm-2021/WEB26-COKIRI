@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';

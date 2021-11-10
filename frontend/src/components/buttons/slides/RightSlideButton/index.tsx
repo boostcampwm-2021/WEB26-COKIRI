@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-use-before-define
 import React from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDroprightCircle } from 'react-icons/io';
@@ -9,12 +8,11 @@ import { Wrapper } from './style';
 
 interface Props {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  buttonRef: React.RefObject<HTMLDivElement>;
 }
 
-function RightSlideButton({ onClick, buttonRef }: Props) {
+function RightSlideButton({ onClick }: Props) {
   return (
-    <Wrapper ref={buttonRef}>
+    <Wrapper>
       <Common onClick={onClick}>
         <IoIosArrowDroprightCircle />
       </Common>

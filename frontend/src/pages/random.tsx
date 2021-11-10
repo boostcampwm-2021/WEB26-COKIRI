@@ -2,15 +2,14 @@ import Head from 'next/head';
 
 import Header from 'src/components/Header';
 
+import descriptions from 'src/utils/descriptions';
+
 function Random() {
   return (
     <div>
       <Head>
         <title>COCOO</title>
-        <meta
-          name='description'
-          content='COCOO 사용자의 포스틀 랜덤으로 구경할 수 있습니다. COCOO에서 다른 사용자의 포스트를 구경하세요'
-        />
+        <meta name='description' content={descriptions.random} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

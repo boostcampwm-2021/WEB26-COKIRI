@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 const Wrapper = styled.header`
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;
