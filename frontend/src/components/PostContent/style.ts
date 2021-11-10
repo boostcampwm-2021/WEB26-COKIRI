@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 `;
 
 const Button = styled.button`
-  color: #888;
+  color: #888888;
 `;
 
 export { Wrapper, Button };

@@ -15,9 +15,6 @@ import LikeListModal from 'src/components/modals/LikeListModal';
 import { Wrapper, Buttons } from './style';
 
 function Post() {
-  const content = `asfdsgasfdafsd
-  fasdafsdafsdafsdasfdfasdafsdasdfasfdasfdafsdasfdafsdafsdafdsaf
-  dsafsdsdsdsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddds`;
   const [isLikeListModal, setIsLikeListModal] = useState(false);
   const openModal = useCallback(() => setIsLikeListModal(true), []);
   const closeModal = useCallback(() => setIsLikeListModal(false), []);
@@ -40,7 +37,7 @@ function Post() {
         </Buttons>
       </Row>
       <LikeListButton length='4' handleClick={openModal} />
-      <PostContent content={content} />
+      <PostContent content={'hihi'} />
       <PostReview />
       {isLikeListModal && <LikeListModal onClose={closeModal} />}
     </Wrapper>

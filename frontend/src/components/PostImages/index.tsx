@@ -36,8 +36,8 @@ function PostImages() {
         </li>
       </ImageHolder>
       <SlideButtons>
-        {slideIndex === 0 ? null : <LeftSlideButton onClick={slideLeft} />}
-        {slideIndex === 3 ? null : <RightSlideButton onClick={slideRight} />}
+        {slideIndex !== 0 && <LeftSlideButton onClick={slideLeft} />}
+        {slideIndex !== 3 && <RightSlideButton onClick={slideRight} />}
       </SlideButtons>
     </Wrapper>
   );

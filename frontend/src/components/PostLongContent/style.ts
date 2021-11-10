@@ -10,7 +10,7 @@ const Wrapper = styled.div<Props>`
 `;
 
 const Button = styled.button`
-  color: #888;
+  color: #888888;
 `;
 
 Wrapper.propTypes = {
