@@ -66,6 +66,7 @@ export interface PostType {
   title?: string;
   content?: string;
   userID?: Types.ObjectId;
+  githubUsername?: string;
   images?: string[];
   comments?: CommentType[];
   likes?: LikeType[];
