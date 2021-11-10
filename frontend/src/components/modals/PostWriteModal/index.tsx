@@ -21,7 +21,7 @@ function PostWriteModal({ onClose }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.postPost(user, content), {
+  const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
     onSuccess: () => onClose(),
   });
 
