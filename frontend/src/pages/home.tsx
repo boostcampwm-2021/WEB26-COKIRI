@@ -62,8 +62,4 @@ export async function getServerSideProps(context: any) {
   };
 }
 
-Home.propTypes = {
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
-};
-
 export default Home;

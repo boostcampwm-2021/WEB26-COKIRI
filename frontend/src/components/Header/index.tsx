@@ -1,3 +1,4 @@
+import { useRecoilValue } from 'recoil';
 import Image from 'next/image';
 import {
   IoHomeOutline,
@@ -13,9 +14,13 @@ import ImageButton from 'src/components/buttons/ImageButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchBox from 'src/components/SearchBox';
 
+import userAtom from 'src/recoil/user';
+
 import { Wrapper, Section } from './style';
 
 function Header() {
+  const user = useRecoilValue(userAtom);
+
   return (
     <Wrapper>
       <Row>
@@ -42,7 +47,7 @@ function Header() {
           <IconButton>
             <IoHeartOutline />
           </IconButton>
-          <NavigateButton href='/users/tiger'>
+          <NavigateButton href={`/users/${user.username}`}>
             <IoPersonCircleOutline />
           </NavigateButton>
         </Section>

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Main = styled.main`
+const Main = styled.div`
   margin-top: 96px;
 `;
 
