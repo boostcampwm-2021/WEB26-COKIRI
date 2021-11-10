@@ -6,11 +6,11 @@ import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ObjectID } from 'src/utils';
 
 class UserService {
-  static async existsUser(user: UserType): Promise<boolean> {
+  async existsUser(user: UserType): Promise<boolean> {
     return User.exists({ _id: user.userID });
   }
 
-  static async existsRegisteredUser(user: UserType): Promise<boolean> {
+  async existsRegisteredUser(user: UserType): Promise<boolean> {
     const result = await User.findOne({ _id: user.userID }).select({
       isRegistered: true,
     });
@@ -18,22 +18,18 @@ class UserService {
     return result.isRegistered!;
   }
 
-  static async existsUserForUsername(user: { username: string }): Promise<boolean> {
+  async existsUserForUsername(user: { username: string }): Promise<boolean> {
     return User.exists({ username: user.username });
   }
 
-  static async findOneUserForProvider(
-    userAuthProvider: UserAuthProvider,
-  ): Promise<UserType | undefined> {
-    const result = await User.findOne(userAuthProvider).select({
-      _id: true,
-    });
+  async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
+    const result = await User.findOne(userAuthProvider).select({ _id: true });
     if (result === null) return undefined;
     return { userID: ObjectID.objectIDToString(result._id) };
   }
 
-  static async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
-    const user = await UserService.findOneUserForProvider(userAuthProvider);
+  async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
+    const user = await this.findOneUserForProvider(userAuthProvider);
     if (!user) {
       const newUser = await User.create({ ...userAuthProvider, username: nanoid(20) });
       return { userID: ObjectID.objectIDToString(newUser._id) };
@@ -41,7 +37,7 @@ class UserService {
     return user;
   }
 
-  static async findOneUserForID(user: UserType) {
+  async findOneUserForID(user: UserType) {
     return User.findOne({ _id: user.userID }).select({
       _id: true,
       isRegistered: true,
@@ -51,7 +47,7 @@ class UserService {
     });
   }
 
-  static async findOneUserProfileForID(userID: string) {
+  async findOneUserProfileForID(userID: string) {
     const result = await User.aggregate([
       {
         $project: {
@@ -60,7 +56,6 @@ class UserService {
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',
-          posts: '$posts',
         },
       },
       { $match: { _id: userID } },
@@ -68,7 +63,11 @@ class UserService {
     return result[0];
   }
 
-  static async findOneUserSettingForID(userID: string) {
+  async findOneUserPostsForID(userID: string) {
+    return User.findOne({ _id: userID }).select({ posts: true }).populate({ path: 'posts' });
+  }
+
+  async findOneUserSettingForID(userID: string) {
     return User.findOne({ _id: userID }).select({
       dashboard: false,
       notifies: false,
@@ -81,7 +80,7 @@ class UserService {
     });
   }
 
-  static async findOneFollows(userID: string) {
+  async findOneFollows(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'follows', select: ['username', 'profileImage'] });
@@ -89,7 +88,7 @@ class UserService {
     return result.follows!;
   }
 
-  static async findOneFollowers(userID: string) {
+  async findOneFollowers(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'followers', select: ['username', 'profileImage'] });
@@ -97,7 +96,7 @@ class UserService {
     return result.followers!;
   }
 
-  static async findRandomUserSuggestions() {
+  async findRandomUserSuggestions() {
     return User.aggregate([
       {
         $project: {
@@ -110,7 +109,7 @@ class UserService {
     ]);
   }
 
-  static async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
+  async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
     if (!userConfig.username) throw new Error('잘못된 요청입니다.');
     blockList.forEach((property: string) => {
@@ -123,7 +122,7 @@ class UserService {
     );
   }
 
-  static async addToSetFollows(user: UserType, followID: string) {
+  async addToSetFollows(user: UserType, followID: string) {
     await User.updateOne(
       { _id: user.userID },
       { $addToSet: { follows: followID } },
@@ -136,7 +135,7 @@ class UserService {
     );
   }
 
-  static async pullFollows(user: UserType, followID: string) {
+  async pullFollows(user: UserType, followID: string) {
     await User.updateOne(
       { _id: user.userID },
       { $pull: { follows: followID } },
@@ -150,4 +149,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export default new UserService();

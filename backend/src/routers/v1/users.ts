@@ -22,7 +22,7 @@ export default class UsersRouter {
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
     const user = await UserService.findOneUserForID({ userID: request.user!.userID });
-    return response.json({ user });
+    return response.json(user);
   }
 
   @Get('/logout')
@@ -35,10 +35,20 @@ export default class UsersRouter {
   async getUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
+      throw new Error('Permission Denied.');
     }
     const userProfile = await UserService.findOneUserProfileForID(userID);
-    return response.json({ userProfile });
+    return response.json(userProfile);
+  }
+
+  @Get('/:userID/posts')
+  async getUserPosts(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error('Permission Denied.');
+    }
+    const userPosts = await UserService.findOneUserPostsForID(userID);
+    return response.json(userPosts);
   }
 
   @Get('/:userID/settings')
@@ -47,7 +57,8 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error('Permission Denied.');
     }
-    return response.json(await UserService.findOneUserSettingForID(userID));
+    const userSettings = await UserService.findOneUserSettingForID(userID);
+    return response.json(userSettings);
   }
 
   @Get('/:userID/suggestions')
@@ -57,8 +68,9 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error('Permission Denied.');
     }
+    const randomUserSuggestions = await UserService.findRandomUserSuggestions();
     // @TODO 사용자 정보 기반 추천
-    return response.json(await UserService.findRandomUserSuggestions());
+    return response.json(randomUserSuggestions);
   }
 
   @Get('/:userID/follows')
@@ -82,7 +94,7 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error('Permission Denied.');
     }
-    UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
+    await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
     return response.send();
   }
 
@@ -93,7 +105,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error('같은 사용자는 Follow 할 수 없습니다.');
     }
-    UserService.addToSetFollows(request.user!, userID);
+    await UserService.addToSetFollows(request.user!, userID);
     return response.json({ code: 'Success' });
   }
 
@@ -104,7 +116,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error('같은 사용자는 Follow 할 수 없습니다.');
     }
-    UserService.pullFollows(request.user!, userID);
+    await UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });
   }
 }
