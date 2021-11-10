@@ -1,9 +1,9 @@
 import { Types, Model } from 'mongoose';
 
 class Validate {
-  stringDigit(min: number, max: number) {
+  urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {
-      const regx = new RegExp(`^.{${min},${max}}$`);
+      const regx = new RegExp(`^[a-zA-Z0-9_-]{${min},${max}}$`);
       return regx.test(str);
     };
   }

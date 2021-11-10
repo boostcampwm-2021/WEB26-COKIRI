@@ -15,11 +15,15 @@ export default class UsersRouter {
     }
     let responseJSON;
     if (query) {
-      if (typeof query !== 'string') throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      if (typeof query !== 'string') {
+        throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      }
       responseJSON = await UserService.existsUserForUsername(query as string);
     }
     if (username) {
-      if (typeof username !== 'string') throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      if (typeof username !== 'string') {
+        throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      }
       responseJSON = await UserService.findOneUserProfileForUsername(username as string);
     }
     return response.json(responseJSON);

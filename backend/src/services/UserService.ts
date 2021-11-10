@@ -38,7 +38,7 @@ class UserService {
   }
 
   async findOneUserForID(user: UserType) {
-    const result = await User.aggregate([
+    const result: any[] = await User.aggregate([
       {
         $project: {
           _id: { $toString: '$_id' },
@@ -51,11 +51,14 @@ class UserService {
       },
       { $match: { _id: user.userID } },
     ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result[0];
   }
 
   async findOneUserProfileForUsername(username: string) {
-    const result = await User.aggregate([
+    const result: any[] = await User.aggregate([
       {
         $project: {
           followerCount: { $size: '$followers' },
@@ -67,6 +70,9 @@ class UserService {
       },
       { $match: { username } },
     ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result[0];
   }
 
@@ -74,7 +80,9 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ posts: true, _id: false })
       .populate({ path: 'posts' });
-    if (!result) throw new Error(Enums.error.NO_USERS);
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result.posts!;
   }
 
@@ -95,7 +103,9 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) throw new Error(Enums.error.NO_USERS);
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result.follows!;
   }
 
@@ -103,12 +113,14 @@ class UserService {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) throw new Error(Enums.error.NO_USERS);
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result.followers!;
   }
 
   async findRandomUserSuggestions() {
-    return User.aggregate([
+    const result: any[] = await User.aggregate([
       {
         $project: {
           _id: { $toString: '$_id' },
@@ -118,14 +130,21 @@ class UserService {
       },
       { $sample: { size: 20 } },
     ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
+    return result[0];
   }
 
   async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
-    if (!userConfig.username) throw new Error(Enums.error.WRONG_BODY_TYPE);
+    if (!userConfig.username) {
+      throw new Error(Enums.error.WRONG_BODY_TYPE);
+    }
     blockList.forEach((property: string) => {
-      if (userConfig[property as keyof UserSchemaType])
+      if (userConfig[property as keyof UserSchemaType]) {
         throw new Error(Enums.error.WRONG_BODY_TYPE);
+      }
     });
     await User.updateOne(
       { _id: user.userID },
