@@ -1,11 +1,12 @@
 import Head from 'next/head';
+import { useQuery } from 'react-query';
 
 import Header from 'src/components/Header';
 import UserInfo from 'src/components/UserInfo';
 import Timeline from 'src/components/Timeline';
 import { Col } from 'src/components/Grid';
 
-import { UserType } from 'src/types';
+import { UserType, PostType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
@@ -13,10 +14,14 @@ import { Main } from 'src/styles/pages/users/user';
 
 interface Props {
   user: UserType;
-  isMe: boolean;
+  targetUser: UserType;
 }
 
-function User({ user, isMe }: Props) {
+function User({ user, targetUser }: Props) {
+  const { data } = useQuery<PostType[]>(['posts', targetUser._id], () =>
+    Fetcher.getUsersPosts(user),
+  );
+
   return (
     <div>
       <Head>
@@ -28,8 +33,8 @@ function User({ user, isMe }: Props) {
       <Header />
       <Main>
         <Col>
-          <UserInfo user={user} />
-          <Timeline />
+          <UserInfo user={targetUser} />
+          <Timeline posts={data} />
         </Col>
       </Main>
 
@@ -41,10 +46,20 @@ function User({ user, isMe }: Props) {
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
   const token = context.req?.cookies.jwt;
-  const user: UserType = await Fetcher.getUsersByUsername(token, username);
-  console.log(user);
+  if (token === undefined) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/',
+      },
+    };
+  }
+  const usersByUsernameRequest = Fetcher.getUsersByUsername(token, username);
+  const usersMeRequests = Fetcher.getUsersMe(token);
+  const targetUser = await usersByUsernameRequest;
+  const user = await usersMeRequests;
   return {
-    props: { user: { ...user, token } },
+    props: { user: { ...user, token }, targetUser },
   };
 }
 
