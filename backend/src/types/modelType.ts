@@ -44,7 +44,6 @@ export interface UserType {
   followers?: Types.ObjectId[];
   follows?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
-  notifies?: NotifyType[];
   dashboard?: DashboardType;
   createdAt?: Date;
   updatedAt?: Date;
