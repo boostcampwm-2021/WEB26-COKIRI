@@ -3,7 +3,7 @@ import { Types, Model } from 'mongoose';
 import { UserType, PostType, TagType, LanguageType, EchoRoomType } from 'src/types';
 
 class Validate {
-  static UserModel: Model<UserType> | undefined = undefined;
+  static UserModel: Model<UserType> | undefined;
 
   static PostModel: Model<PostType> | undefined;
 
