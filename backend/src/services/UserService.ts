@@ -157,13 +157,13 @@ class UserService {
     await User.updateOne(
       { _id: user.userID },
       { $addToSet: { follows: followID } },
-      { runValidators: true },
+      { runValidators: true, upsert: true, new: true },
     );
-    await User.updateOne(
-      { _id: followID },
-      { $addToSet: { followers: user.userID } },
-      { runValidators: true },
-    );
+    // await User.updateOne(
+    //   { _id: followID },
+    //   { $push: { followers: user.userID } },
+    //   { runValidators: true, setDefaultsOnInsert: true, upsert: true, new: true },
+    // );
   }
 
   async pullFollows(user: UserType, followID: string) {

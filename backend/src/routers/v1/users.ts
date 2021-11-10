@@ -94,7 +94,7 @@ export default class UsersRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
-    return response.send();
+    return response.json({ code: 'Success' });
   }
 
   @Put('/:userID/follows')

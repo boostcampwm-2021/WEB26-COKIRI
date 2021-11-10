@@ -19,8 +19,8 @@ const notifySchema = new Schema<NotifyType>(
       enum: ['postLike', 'postComment', 'commentLike', 'follow', 'follower'],
       required: true,
     },
-    userID: { type: Types.ObjectId, ref: 'User', required: true },
-    postID: { type: Types.ObjectId, ref: 'Post' },
+    userID: { type: Types.ObjectId, ref: 'User', required: true, validate: Validate.userObjectID },
+    postID: { type: Types.ObjectId, ref: 'Post', validate: Validate.postObjectID },
   },
   { timestamps: { createdAt: true, updatedAt: false } },
 );
@@ -48,11 +48,22 @@ const userSchema = new Schema<UserType>(
     school: { type: String, trim: true },
     company: { type: String, trim: true },
     region: { type: String, trim: true },
-    languages: [{ type: Types.ObjectId, required: true, ref: 'Language' }],
-    posts: [{ type: Types.ObjectId, required: true, ref: 'Post' }],
-    likes: [{ type: Types.ObjectId, required: true, ref: 'Post' }],
-    followers: [{ type: Types.ObjectId, required: true, ref: 'User' }],
-    follows: [{ type: Types.ObjectId, required: true, ref: 'User' }],
+    languages: [
+      {
+        type: Types.ObjectId,
+        required: true,
+        ref: 'Language',
+        validate: Validate.languageObjectID,
+      },
+    ],
+    posts: [{ type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID }],
+    likes: [{ type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID }],
+    followers: [
+      { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
+    ],
+    follows: [
+      { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
+    ],
     notifyRange: notifyRangeSchema,
     notifies: [notifySchema],
     dashboard: {
@@ -68,5 +79,4 @@ const userSchema = new Schema<UserType>(
   { timestamps: true, versionKey: false },
 );
 
-export { notifySchema, userSchema };
 export default model<UserType>('User', userSchema);
