@@ -68,7 +68,7 @@ export interface PostType {
   title?: string;
   content?: string;
   userID?: Types.ObjectId;
-  image?: string;
+  images?: string[];
   comments?: CommentType[];
   likes?: LikeType[];
   tags?: Types.ObjectId[];
