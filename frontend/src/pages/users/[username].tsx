@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import { useQuery } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 
 import Header from 'src/components/Header';
 import UserInfo from 'src/components/UserInfo';
 import Timeline from 'src/components/Timeline';
+import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
 import { UserType, PostType } from 'src/types';
@@ -12,16 +14,20 @@ import { Fetcher } from 'src/utils';
 
 import { Main } from 'src/styles/pages/users/user';
 
+import userAtom from 'src/recoil/user';
+import { useEffect } from 'react';
+
 interface Props {
   user: UserType;
   targetUser: UserType;
 }
 
 function User({ user, targetUser }: Props) {
+  const setUser = useSetRecoilState(userAtom);
+  useEffect(() => setUser(user), []);
   const { data } = useQuery<PostType[]>(['posts', targetUser._id], () =>
-    Fetcher.getUsersPosts(user),
+    Fetcher.getUserPosts(user),
   );
-
   return (
     <div>
       <Head>
@@ -37,7 +43,7 @@ function User({ user, targetUser }: Props) {
           <Timeline posts={data} />
         </Col>
       </Main>
-
+      <FloatingButton />
       <footer />
     </div>
   );
