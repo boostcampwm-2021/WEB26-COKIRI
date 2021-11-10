@@ -26,12 +26,11 @@ function Post({ post }: Props) {
   const openModal = useCallback(() => setIsLikeListModal(true), []);
   const closeModal = useCallback(() => setIsLikeListModal(false), []);
   const writer = 'tiger';
-  const images: string[] = [];
   const likeCount = 3;
   return (
     <Wrapper>
       <Profile href={`users/${writer}`} imageSrc='/images/logo.svg' userName={writer} />
-      <PostImages images={images} />
+      <PostImages images={[]} />
       <Row justifyContent='flex-start'>
         <Buttons>
           <CommentButton>
@@ -58,6 +57,6 @@ Post.propTypes = {
 };
 
 Post.defaultProps = {
-  post: [],
+  post: {},
 };
 export default Post;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Wrapper, Button } from './style';
 
 interface Props {
-  length: string;
+  length: number;
   handleClick: () => void;
 }
 
@@ -16,7 +16,7 @@ function LikeListButton({ length, handleClick }: Props) {
 }
 
 LikeListButton.propsType = {
-  length: PropTypes.string.isRequired,
+  length: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
 };
 export default LikeListButton;
