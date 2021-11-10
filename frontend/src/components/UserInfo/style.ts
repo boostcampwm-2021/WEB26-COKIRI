@@ -1,10 +1,17 @@
 import styled from '@emotion/styled';
 
+import { Row } from 'src/components/Grid';
+
 const Wrapper = styled.div`
   img {
-    border-radius: 50px;
+    border-radius: 128px;
+  }
+
+  ${Row} {
+    height: unset;
   }
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+const Username = styled.p``;
+
+export { Wrapper, Username };
