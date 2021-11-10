@@ -1,12 +1,17 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
 import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
-function PostImages() {
+interface Props {
+  images: string[];
+}
+
+function PostImages({ images }: Props) {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -22,18 +27,11 @@ function PostImages() {
   return (
     <Wrapper>
       <ImageHolder ref={imageHolderRef}>
-        <li>
-          <Image src='/images/logo.svg' width='600' height='300' />
-        </li>
-        <li>
-          <Image src='/images/logo.svg' width='600' height='300' />
-        </li>
-        <li>
-          <Image src='/images/logo.svg' width='600' height='300' />
-        </li>
-        <li>
-          <Image src='/images/logo.svg' width='600' height='300' />
-        </li>
+        {images.map((image) => (
+          <li key={image}>
+            <Image src={image} width='600' height='300' />
+          </li>
+        ))}
       </ImageHolder>
       <SlideButtons>
         {slideIndex !== 0 && <LeftSlideButton onClick={slideLeft} />}
@@ -42,5 +40,9 @@ function PostImages() {
     </Wrapper>
   );
 }
+
+PostImages.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 export default PostImages;

@@ -1,5 +1,6 @@
 import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 
 import Profile from 'src/components/Profile';
 import CommentButton from 'src/components/buttons/CommentButton';
@@ -12,17 +13,25 @@ import { Row } from 'src/components/Grid';
 import LikeListButton from 'src/components/buttons/LikeListButton';
 import LikeListModal from 'src/components/modals/LikeListModal';
 
+import PostType from 'src/types/post';
+
 import { Wrapper, Buttons } from './style';
 
-function Post() {
+interface Props {
+  post?: PostType;
+}
+
+function Post({ post }: Props) {
   const [isLikeListModal, setIsLikeListModal] = useState(false);
   const openModal = useCallback(() => setIsLikeListModal(true), []);
   const closeModal = useCallback(() => setIsLikeListModal(false), []);
-
+  const writer = 'tiger';
+  const images: string[] = [];
+  const likeCount = 3;
   return (
     <Wrapper>
-      <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
-      <PostImages />
+      <Profile href={`users/${writer}`} imageSrc='/images/logo.svg' userName={writer} />
+      <PostImages images={images} />
       <Row justifyContent='flex-start'>
         <Buttons>
           <CommentButton>
@@ -36,12 +45,19 @@ function Post() {
           </EchoButton>
         </Buttons>
       </Row>
-      <LikeListButton length='4' handleClick={openModal} />
-      <PostContent content={'hihi'} />
+      <LikeListButton length={likeCount} handleClick={openModal} />
+      <PostContent content='hihi' />
       <PostReview />
       {isLikeListModal && <LikeListModal onClose={closeModal} />}
     </Wrapper>
   );
 }
 
+Post.propTypes = {
+  post: PropTypes.objectOf(PropTypes.any),
+};
+
+Post.defaultProps = {
+  post: [],
+};
 export default Post;
