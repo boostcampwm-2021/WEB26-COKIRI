@@ -67,7 +67,10 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const randomUserSuggestions = await UserService.findRandomUserSuggestions();
+    if (typeof userID !== 'string') {
+      throw new Error(Enums.error.WRONG_QUERY_TYPE);
+    }
+    const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID as string);
     // @TODO 사용자 정보 기반 추천
     return response.json(randomUserSuggestions);
   }
