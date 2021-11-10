@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { JWT } from 'src/utils';
+import { Enums, JWT } from 'src/utils';
 
 @Controller('/socials')
 export default class SocialsRouter {
@@ -20,6 +20,22 @@ export default class SocialsRouter {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
     });
+  }
+
+  @Get('/tistory')
+  @Redirect(
+    `${Enums.openAPIUrl.TISTORY_AUTHORIZATION_CODE}client_id=${process.env.TISTORY_CLIENT_ID}&redirect_uri=${process.env.TISTORY_CALLBACK_URL}&response_type=code&state=${process.env.TISTORY_STATE}`,
+  )
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  getTistory() {}
+
+  @Get('/tistory/callback')
+  @Redirect(`${process.env.CLIENT_URL}`)
+  getTistoryCallback(@Req() request: Request, @Res() response: Response) {
+    const { code, state } = request.query;
+    if (state !== process.env.TISTORY_STATE) {
+      throw new Error(Enums.error.INVALID_TISTORY_STATE);
+    }
   }
 
   @Get('/github')
