@@ -12,7 +12,7 @@ interface Props {
   onDelete: (index: number) => void;
 }
 
-function ImageForm({ images, onDelete }: Props) {
+function ImagesPreview({ images, onDelete }: Props) {
   return (
     <Wrapper>
       <Row>
@@ -34,13 +34,13 @@ function ImageForm({ images, onDelete }: Props) {
   );
 }
 
-ImageForm.propTypes = {
+ImagesPreview.propTypes = {
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
   onDelete: PropTypes.func,
 };
 
-ImageForm.defaultProps = {
+ImagesPreview.defaultProps = {
   onDelete: () => {},
 };
 
-export default ImageForm;
+export default ImagesPreview;

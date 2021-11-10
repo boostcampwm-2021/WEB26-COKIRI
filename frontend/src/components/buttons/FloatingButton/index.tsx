@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import PostModal from 'src/components/modals/PostModal';
+import PostWriteModal from 'src/components/modals/PostWriteModal';
 
 import { Wrapper, Button } from './style';
 
@@ -17,7 +17,7 @@ function FloatingButton() {
 
   return (
     <Wrapper>
-      {isModalShow && <PostModal onClose={handleClose} />}
+      {isModalShow && <PostWriteModal onClose={handleClose} />}
       <Button onClick={changeModalShow}>작성</Button>
     </Wrapper>
   );
