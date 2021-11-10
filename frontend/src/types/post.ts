@@ -1,11 +1,12 @@
 import commentType from './comment';
 
 export default interface postType {
-  postId: string;
+  _id: string;
   content: string;
-  writer: string;
-  image?: string[];
-  link?: string;
+  images: string[];
+  userID: string;
   likeCount: number;
   comments: commentType[];
+  createdAt: Date;
+  likes: string[];
 }
