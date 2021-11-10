@@ -34,7 +34,6 @@ function Post() {
           </EchoButton>
         </Buttons>
       </Row>
-      <LikeListButton length='4' onClick={likeListModal} />
       <PostContent content={content} />
       <PostReview />
     </Wrapper>
