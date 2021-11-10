@@ -3,26 +3,37 @@ import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'rou
 import * as passport from 'passport';
 
 import { UserService } from 'src/services';
+import { Enums } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
   @Get('/')
   async getUsersValidUsername(@Req() request: Request, @Res() response: Response) {
-    const { username } = request.query;
-    if (!username) {
-      throw new Error('잘못된 형식의 Query 입니다.');
+    const { username, query } = request.query;
+    if (!username && !query) {
+      throw new Error(Enums.error.WRONG_QUERY_TYPE);
     }
-    const isExistUsername = await UserService.existsUserForUsername({
-      username: username as string,
-    });
-    return response.json({ isExistUsername });
+    let responseJSON;
+    if (query) {
+      if (typeof query !== 'string') {
+        throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      }
+      responseJSON = await UserService.existsUserForUsername(query as string);
+    }
+    if (username) {
+      if (typeof username !== 'string') {
+        throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      }
+      responseJSON = await UserService.findOneUserProfileForUsername(username as string);
+    }
+    return response.json(responseJSON);
   }
 
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
     const user = await UserService.findOneUserForID({ userID: request.user!.userID });
-    return response.json({ user });
+    return response.json(user);
   }
 
   @Get('/logout')
@@ -31,20 +42,22 @@ export default class UsersRouter {
     response.clearCookie('jwt');
   }
 
-  @Get('/:userID')
-  async getUser(@Req() request: Request, @Res() response: Response) {
+  @Get('/:userID/posts')
+  async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
-    }
-    const userProfile = await UserService.findOneUserProfileForID(userID);
-    return response.json({ userProfile });
+    const userPosts = await UserService.findOneUserPostsForID(userID);
+    return response.json(userPosts);
   }
 
-  @Get('/:userID/setting')
+  @Get('/:userID/settings')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    return response.json(await UserService.findOneUserSettingForID(userID));
+    if (userID !== request.user!.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    const userSettings = await UserService.findOneUserSettingForID(userID);
+    return response.json(userSettings);
   }
 
   @Get('/:userID/suggestions')
@@ -52,10 +65,11 @@ export default class UsersRouter {
   async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
+    const randomUserSuggestions = await UserService.findRandomUserSuggestions();
     // @TODO 사용자 정보 기반 추천
-    return response.json(await UserService.findRandomUserSuggestions());
+    return response.json(randomUserSuggestions);
   }
 
   @Get('/:userID/follows')
@@ -72,12 +86,12 @@ export default class UsersRouter {
     return response.json(followList);
   }
 
-  @Put('/:userID')
+  @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error('잘못된 형식의 Path Params 입니다.');
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
     return response.send();
@@ -88,7 +102,7 @@ export default class UsersRouter {
   async putUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID === request.user!.userID) {
-      throw new Error('같은 사용자는 Follow 할 수 없습니다.');
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await UserService.addToSetFollows(request.user!, userID);
     return response.json({ code: 'Success' });
@@ -99,7 +113,7 @@ export default class UsersRouter {
   async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID === request.user!.userID) {
-      throw new Error('같은 사용자는 Follow 할 수 없습니다.');
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await UserService.pullFollows(request.user!, userID);
     return response.json({ code: 'Success' });

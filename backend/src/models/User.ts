@@ -31,7 +31,7 @@ const userSchema = new Schema<UserType>(
     username: {
       type: String,
       trim: true,
-      validate: [Validate.stringDigit(1, 20), '유저네임 형식이 잘못되었습니다.'],
+      validate: [Validate.urlSafeStringDigit(1, 20), '유저네임 형식이 잘못되었습니다.'],
       unique: true,
     },
     isRegistered: { type: Boolean, require: true, default: false },

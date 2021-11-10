@@ -3,14 +3,14 @@ import { nanoid } from 'nanoid';
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
-import { ObjectID } from 'src/utils';
+import { Enums, ObjectID } from 'src/utils';
 
 class UserService {
-  static async existsUser(user: UserType): Promise<boolean> {
+  async existsUser(user: UserType): Promise<boolean> {
     return User.exists({ _id: user.userID });
   }
 
-  static async existsRegisteredUser(user: UserType): Promise<boolean> {
+  async existsRegisteredUser(user: UserType): Promise<boolean> {
     const result = await User.findOne({ _id: user.userID }).select({
       isRegistered: true,
     });
@@ -18,22 +18,18 @@ class UserService {
     return result.isRegistered!;
   }
 
-  static async existsUserForUsername(user: { username: string }): Promise<boolean> {
-    return User.exists({ username: user.username });
+  async existsUserForUsername(query: string): Promise<boolean> {
+    return User.exists({ username: query });
   }
 
-  static async findOneUserForProvider(
-    userAuthProvider: UserAuthProvider,
-  ): Promise<UserType | undefined> {
-    const result = await User.findOne(userAuthProvider).select({
-      _id: true,
-    });
+  async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
+    const result = await User.findOne(userAuthProvider).select({ _id: true });
     if (result === null) return undefined;
     return { userID: ObjectID.objectIDToString(result._id) };
   }
 
-  static async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
-    const user = await UserService.findOneUserForProvider(userAuthProvider);
+  async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
+    const user = await this.findOneUserForProvider(userAuthProvider);
     if (!user) {
       const newUser = await User.create({ ...userAuthProvider, username: nanoid(20) });
       return { userID: ObjectID.objectIDToString(newUser._id) };
@@ -41,18 +37,28 @@ class UserService {
     return user;
   }
 
-  static async findOneUserForID(user: UserType) {
-    return User.findOne({ _id: user.userID }).select({
-      _id: true,
-      isRegistered: true,
-      profileImage: true,
-      username: true,
-      name: true,
-    });
+  async findOneUserForID(user: UserType) {
+    const result: any[] = await User.aggregate([
+      {
+        $project: {
+          _id: { $toString: '$_id' },
+          followCount: { $size: '$followers' },
+          username: '$username',
+          isRegistered: '$isRegistered',
+          name: '$name',
+          profileImage: '$profileImage',
+        },
+      },
+      { $match: { _id: user.userID } },
+    ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
+    return result[0];
   }
 
-  static async findOneUserProfileForID(userID: string) {
-    const result = await User.aggregate([
+  async findOneUserProfileForUsername(username: string) {
+    const result: any[] = await User.aggregate([
       {
         $project: {
           followerCount: { $size: '$followers' },
@@ -60,15 +66,27 @@ class UserService {
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',
-          posts: '$posts',
         },
       },
-      { $match: { _id: userID } },
+      { $match: { username } },
     ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result[0];
   }
 
-  static async findOneUserSettingForID(userID: string) {
+  async findOneUserPostsForID(userID: string) {
+    const result = await User.findOne({ _id: userID })
+      .select({ posts: true, _id: false })
+      .populate({ path: 'posts' });
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
+    return result.posts!;
+  }
+
+  async findOneUserSettingForID(userID: string) {
     return User.findOne({ _id: userID }).select({
       dashboard: false,
       notifies: false,
@@ -81,24 +99,28 @@ class UserService {
     });
   }
 
-  static async findOneFollows(userID: string) {
+  async findOneFollows(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result.follows!;
   }
 
-  static async findOneFollowers(userID: string) {
+  async findOneFollowers(userID: string) {
     const result = await User.findOne({ _id: userID })
       .select({ follows: true })
       .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) throw new Error('잘못된 요청입니다.');
+    if (!result) {
+      throw new Error(Enums.error.NO_USERS);
+    }
     return result.followers!;
   }
 
-  static async findRandomUserSuggestions() {
-    return User.aggregate([
+  async findRandomUserSuggestions() {
+    const result: any[] = await User.aggregate([
       {
         $project: {
           _id: { $toString: '$_id' },
@@ -108,37 +130,49 @@ class UserService {
       },
       { $sample: { size: 20 } },
     ]);
+    if (result.length === 0) {
+      throw new Error(Enums.error.NO_USERS);
+    }
+    return result[0];
   }
 
-  static async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
+  async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
     const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
-    if (!userConfig.username) throw new Error('잘못된 요청입니다.');
+    if (!userConfig.username) {
+      throw new Error(Enums.error.WRONG_BODY_TYPE);
+    }
     blockList.forEach((property: string) => {
-      if (userConfig[property as keyof UserSchemaType]) throw new Error('잘못된 요청입니다.');
+      if (userConfig[property as keyof UserSchemaType]) {
+        throw new Error(Enums.error.WRONG_BODY_TYPE);
+      }
     });
-    User.updateOne(
+    await User.updateOne(
       { _id: user.userID },
       { ...userConfig, isRegistered: true },
-      { runValidators: true },
+      { runValidators: true, upsert: true },
     );
   }
 
-  static async addToSetFollows(user: UserType, followID: string) {
-    User.updateOne(
+  async addToSetFollows(user: UserType, followID: string) {
+    await User.updateOne(
       { _id: user.userID },
       { $addToSet: { follows: followID } },
       { runValidators: true },
     );
-    User.updateOne(
+    await User.updateOne(
       { _id: followID },
       { $addToSet: { followers: user.userID } },
       { runValidators: true },
     );
   }
 
-  static async pullFollows(user: UserType, followID: string) {
-    User.updateOne({ _id: user.userID }, { $pull: { follows: followID } }, { runValidators: true });
-    User.updateOne(
+  async pullFollows(user: UserType, followID: string) {
+    await User.updateOne(
+      { _id: user.userID },
+      { $pull: { follows: followID } },
+      { runValidators: true },
+    );
+    await User.updateOne(
       { _id: followID },
       { $pull: { followers: user.userID } },
       { runValidators: true },
@@ -146,4 +180,4 @@ class UserService {
   }
 }
 
-export default UserService;
+export default new UserService();
