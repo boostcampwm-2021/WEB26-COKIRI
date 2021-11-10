@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { User } from 'src/models';
+import { User, Post } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { Enums, ObjectID } from 'src/utils';
@@ -78,13 +78,7 @@ class UserService {
   }
 
   async findOneUserPostsForID(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ posts: true, _id: false })
-      .populate({ path: 'posts' });
-    if (!result) {
-      throw new Error(Enums.error.NO_USERS);
-    }
-    return result.posts!;
+    return Post.find({ userID });
   }
 
   async findOneUserSettingForID(userID: string) {
@@ -120,8 +114,9 @@ class UserService {
     return result.followers!;
   }
 
-  async findRandomUserSuggestions() {
+  async findRandomUserSuggestions(userID: string) {
     const result: any[] = await User.aggregate([
+      { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] } } },
       {
         $project: {
           _id: { $toString: '$_id' },
@@ -134,7 +129,7 @@ class UserService {
     if (result.length === 0) {
       throw new Error(Enums.error.NO_USERS);
     }
-    return result[0];
+    return result;
   }
 
   async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {

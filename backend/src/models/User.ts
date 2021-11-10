@@ -1,6 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 
-import { UserType, NotifyRangeType, NotifyType } from 'src/types/modelType';
+import { UserType, NotifyRangeType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
 
 const notifyRangeSchema = new Schema<NotifyRangeType>(
@@ -10,19 +10,6 @@ const notifyRangeSchema = new Schema<NotifyRangeType>(
     commentLike: { type: Boolean, required: true, default: true },
   },
   { _id: false },
-);
-
-const notifySchema = new Schema<NotifyType>(
-  {
-    type: {
-      type: String,
-      enum: ['postLike', 'postComment', 'commentLike', 'follow', 'follower'],
-      required: true,
-    },
-    userID: { type: Types.ObjectId, ref: 'User', required: true, validate: Validate.userObjectID },
-    postID: { type: Types.ObjectId, ref: 'Post', validate: Validate.postObjectID },
-  },
-  { timestamps: { createdAt: true, updatedAt: false } },
 );
 
 const userSchema = new Schema<UserType>(
@@ -56,7 +43,6 @@ const userSchema = new Schema<UserType>(
         validate: Validate.languageObjectID,
       },
     ],
-    posts: [{ type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID }],
     likes: [{ type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID }],
     followers: [
       { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
@@ -65,7 +51,6 @@ const userSchema = new Schema<UserType>(
       { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     ],
     notifyRange: notifyRangeSchema,
-    notifies: [notifySchema],
     dashboard: {
       github: String,
       blog: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
