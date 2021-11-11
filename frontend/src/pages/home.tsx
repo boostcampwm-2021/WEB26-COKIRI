@@ -18,7 +18,7 @@ import { Page } from 'src/styles';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 interface Props {
   user: UserType;

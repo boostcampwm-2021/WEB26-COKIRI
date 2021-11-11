@@ -12,7 +12,7 @@ import { Col } from 'src/components/Grid';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 

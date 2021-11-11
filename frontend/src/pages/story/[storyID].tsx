@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 function Story() {
   const router = useRouter();

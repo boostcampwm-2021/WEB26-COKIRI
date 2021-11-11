@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
 
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 function Post() {
   const router = useRouter();

@@ -8,6 +8,8 @@ import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+
 import { Wrapper, ImageHolder, Username } from './style';
 
 interface Props {
@@ -22,11 +24,7 @@ function UserInfoCard({ targetUser, isMe }: Props) {
       <Card width={512} height={196}>
         <Row justifyContent='start'>
           <ImageHolder>
-            {profileImage === undefined ? (
-              <Image width={128} height={128} src='/images/default_profile_image.jpg' />
-            ) : (
-              <Image width={128} height={128} src={profileImage} />
-            )}
+            <Image width={128} height={128} src={profileImage ?? DEFAULT_PROFILE_IMAGE} />
           </ImageHolder>
           <Col alignItems='start'>
             <Row justifyContent='start'>

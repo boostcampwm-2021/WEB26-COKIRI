@@ -8,13 +8,15 @@ import {
   IoPersonCircleOutline,
 } from 'react-icons/io5';
 
-import { Row } from 'src/components/Grid';
 import NavigateButton from 'src/components/buttons/NavigateButton';
 import ImageButton from 'src/components/buttons/ImageButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchBox from 'src/components/SearchBox';
+import { Row } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
+
+import { LOGO_IMAGE } from 'src/globals/constants';
 
 import { Wrapper, Section } from './style';
 
@@ -26,7 +28,7 @@ function Header() {
       <Row>
         <Section>
           <ImageButton href='/home'>
-            <Image src='/images/logo.svg' width='64' height='24' />
+            <Image src={LOGO_IMAGE} width={64} height={24} />
           </ImageButton>
           <SearchBox />
         </Section>

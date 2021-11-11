@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 
@@ -6,7 +7,8 @@ import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import { useState } from 'react';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+
 import { Wrapper, ImageHolder, ImageCoverButton, SaveButton } from './style';
 
 interface Props {
@@ -14,7 +16,7 @@ interface Props {
 }
 
 function UserSettingsCard({ user }: Props) {
-  const [profileImage, setProfileImage] = useState(user.profileImage);
+  const [profileImage, setProfileImage] = useState(user.profileImage ?? DEFAULT_PROFILE_IMAGE);
   const [username, setUsername] = useState(user.username);
   const [name, setName] = useState(user.name);
   const [bio, SetBio] = useState(user.bio);
@@ -25,11 +27,7 @@ function UserSettingsCard({ user }: Props) {
         <Col justifyContent='start'>
           <ImageHolder>
             <ImageCoverButton>변경</ImageCoverButton>
-            {profileImage === undefined ? (
-              <Image width={168} height={168} src='/images/default_profile_image.jpg' />
-            ) : (
-              <Image width={168} height={168} src={profileImage} />
-            )}
+            <Image width={168} height={168} src={profileImage} />
           </ImageHolder>
           <Row>
             <p>username</p>
