@@ -36,4 +36,10 @@ const postSchema = new Schema<PostType>(
   { versionKey: false, timestamps: true },
 );
 
+postSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userID',
+  foreignField: '_id',
+});
+
 export default model<PostType>('Post', postSchema);

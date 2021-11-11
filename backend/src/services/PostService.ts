@@ -23,10 +23,28 @@ export default class PostService {
 
     const result = !followList
       ? []
-      : Post.find({ userID: { $in: followList.follows } }).populate({
-          path: 'userID',
-          select: 'username profileImage -_id',
-        });
+      : Post.aggregate([
+          { $match: { userID: { $in: followList.follows } } },
+          {
+            $lookup: {
+              from: 'users',
+              let: { id: '$userID' },
+              pipeline: [{ $project: { username: 1, profileImage: 1 } }],
+              as: 'user',
+            },
+          },
+          { $unwind: { path: '$user' } },
+          { $project: { userID: 0 } },
+        ]);
+
+    // localField: 'userID',
+    //       foreignField: '_id',
+
+    // 변경 전 버전
+    // Post.find({ userID: { $in: followList.follows } }).populate({
+    //   path: 'userID',
+    //   select: 'username profileImage -_id',
+    // });
     return result;
   }
 
