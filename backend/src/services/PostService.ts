@@ -53,10 +53,7 @@ class PostService {
 
   async findPostLikeList(postID: string) {
     const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
-      .populate({
-        path: 'likes.userID',
-        select: 'username profileImage -_id',
-      })
+      .populate({ path: 'likes.userID', select: 'username profileImage -_id' })
       .lean();
     const result: any = likesList?.likes?.map((v: any) => ({
       ...v.userID,

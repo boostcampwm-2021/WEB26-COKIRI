@@ -6,16 +6,18 @@ export default class CommentService {
   }
 
   static async createCommentLike(userID: string, postID: string, commentID: string) {
-    await User.findOneAndUpdate(
+    const likeResult = await User.findOneAndUpdate(
       { _id: userID },
       { $push: { $commentLikes: { userID } } },
-      { new: true },
     );
-    return Post.findOneAndUpdate(
-      { _id: postID, comments: { $elemMatch: { _id: commentID } } },
-      { $push: { 'comments.$.likes': { userID } } },
-      { new: true },
-    );
+    if (likeResult) {
+      return Post.findOneAndUpdate(
+        { _id: postID, comments: { $elemMatch: { _id: commentID } } },
+        { $push: { 'comments.$.likes': { userID } } },
+        { new: true },
+      );
+    }
+    return undefined;
   }
 
   static async removeComment(postID: string, commentID: string) {
