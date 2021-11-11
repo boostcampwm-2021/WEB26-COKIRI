@@ -40,7 +40,8 @@ export interface UserType {
   company?: string;
   region?: string;
   languages?: Types.ObjectId[];
-  likes?: Types.ObjectId[];
+  postLikes?: Types.ObjectId[];
+  commentLikes?: Types.ObjectId[];
   followers?: Types.ObjectId[];
   follows?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
