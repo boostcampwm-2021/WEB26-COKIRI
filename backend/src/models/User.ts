@@ -22,7 +22,11 @@ const userSchema = new Schema<UserType>(
       unique: true,
     },
     isRegistered: { type: Boolean, require: true, default: false },
-    profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    profileImage: {
+      type: String,
+      validate: [Validate.url, 'URL 형식이 잘못되었습니다.'],
+      default: '/images/default_profile_image.jpg',
+    },
     authProvider: { type: String, enum: ['kakao', 'google', 'github'], required: true },
     authProviderID: { type: String, required: true },
     phoneNumber: {
