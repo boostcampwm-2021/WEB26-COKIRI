@@ -16,7 +16,7 @@ const commentSchema = new Schema<CommentType>(
     content: { type: String, required: true },
     likes: { type: [likeSchema], default: [] },
   },
-  { timestamps: true },
+  { _id: true, timestamps: true },
 );
 
 const postSchema = new Schema<PostType>(
@@ -25,7 +25,10 @@ const postSchema = new Schema<PostType>(
     content: { type: String, required: true, trim: true },
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     githubUsername: { type: String, trim: true },
-    images: { type: [String], validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    images: {
+      type: [{ type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] }],
+      default: [],
+    },
     comments: { type: [commentSchema], default: [] },
     likes: { type: [likeSchema], default: [] },
     tags: {

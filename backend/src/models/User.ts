@@ -51,6 +51,8 @@ const userSchema = new Schema<UserType>(
       { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     ],
     notifyRange: notifyRangeSchema,
+    tistoryAccessToken: String,
+    tistoryURL: String,
     dashboard: {
       github: String,
       blog: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },

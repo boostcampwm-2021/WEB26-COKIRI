@@ -37,24 +37,22 @@ class UserService {
     return user;
   }
 
-  async findOneUserForID(user: UserType) {
-    const result: any[] = await User.aggregate([
-      {
-        $project: {
-          _id: { $toString: '$_id' },
-          followCount: { $size: '$followers' },
-          username: '$username',
-          isRegistered: '$isRegistered',
-          name: '$name',
-          profileImage: '$profileImage',
-        },
-      },
-      { $match: { _id: user.userID } },
-    ]);
-    if (result.length === 0) {
+  async findOneUserForID(userID: string) {
+    const result = await User.findOne({ _id: userID })
+      .select({
+        username: true,
+        isRegistered: true,
+        name: true,
+        profileImage: true,
+        follows: true,
+        followers: true,
+      })
+      .populate({ path: 'follows', select: ['_id'] })
+      .populate({ path: 'followers', select: ['_id'] });
+    if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }
-    return result[0];
+    return result;
   }
 
   async findOneUserProfileForUsername(username: string) {
@@ -62,8 +60,7 @@ class UserService {
       {
         $project: {
           followerCount: { $size: '$followers' },
-          followCount: { $size: '$followers' },
-          postCount: { $size: '$posts' },
+          followCount: { $size: '$follows' },
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',
@@ -133,7 +130,7 @@ class UserService {
   }
 
   async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
-    const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
+    const blockList = Enums.auth.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
       throw new Error(Enums.error.WRONG_BODY_TYPE);
     }

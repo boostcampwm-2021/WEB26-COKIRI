@@ -4,7 +4,7 @@ import * as GitHubStrategy from 'passport-github';
 
 import { UserService } from 'src/services';
 
-export default function passportLoader(app: Application): void {
+export default function passportGithubLoader(): void {
   const githubStrategyOptions = {
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_SECRET_ID!,

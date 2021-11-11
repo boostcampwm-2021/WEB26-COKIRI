@@ -44,6 +44,8 @@ export interface UserType {
   followers?: Types.ObjectId[];
   follows?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
+  tistoryAccessToken?: string;
+  tistoryURL?: string;
   dashboard?: DashboardType;
   createdAt?: Date;
   updatedAt?: Date;
@@ -55,6 +57,7 @@ export interface LikeType {
 }
 
 export interface CommentType {
+  _id?: Types.ObjectId;
   userID?: Types.ObjectId;
   content?: string;
   likes?: LikeType[];
