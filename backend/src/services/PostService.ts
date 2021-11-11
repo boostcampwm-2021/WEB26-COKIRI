@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Post, User } from 'src/models';
 import { PostType } from 'src/types/modelType';
 import { ObjectID, MongooseParse } from 'src/utils';
@@ -9,12 +11,18 @@ class PostService {
   }
 
   static async createPostLike(userID: string, postID: string) {
-    await User.findOneAndUpdate(
+    const likeResult = await User.findOneAndUpdate(
       { _id: userID },
       { $push: { $postLikes: { userID } } },
-      { new: true },
     );
-    return Post.findOneAndUpdate({ _id: postID }, { $push: { likes: { userID } } }, { new: true });
+    if (likeResult) {
+      return Post.findOneAndUpdate(
+        { _id: postID },
+        { $push: { likes: { userID } } },
+        { new: true },
+      );
+    }
+    return undefined;
   }
 
   async findRandomPost() {
