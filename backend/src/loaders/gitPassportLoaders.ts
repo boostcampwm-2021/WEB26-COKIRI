@@ -10,7 +10,6 @@ export default function passportLoader(app: Application): void {
     clientSecret: process.env.GITHUB_SECRET_ID!,
     callbackURL: process.env.GITHUB_CALLBACK_URL!,
   };
-  console.log(githubStrategyOptions);
 
   const verifyGithubUser = async (
     accessToken: string,
