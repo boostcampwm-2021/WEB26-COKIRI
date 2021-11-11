@@ -18,7 +18,6 @@ export default function passportLoader(app: Application): void {
     cb: any,
   ) => {
     try {
-      /* eslint-disable-next-line no-underscore-dangle */
       const { id, login: username } = profile._json;
       const user = await UserService.findOrCreateUserForProvider({
         authProvider: 'github',
