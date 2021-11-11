@@ -2,39 +2,47 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 
 import Card from 'src/components/cards/Common';
+import FollowButton from 'src/components/buttons/FollowButton';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import { Wrapper, Username } from './style';
+import { Wrapper, ImageHolder, Username } from './style';
 
 interface Props {
-  user: UserType;
+  targetUser: UserType;
+  isMe: boolean;
 }
 
-function UserInfo({ user }: Props) {
+function UserInfo({ targetUser, isMe }: Props) {
+  const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
   return (
     <Wrapper>
-      <Card width={496} height={256}>
+      <Card width={512} height={196}>
         <Row>
-          <Image width={256} height={256} src='/images/default_profile_image.jpg' />
-
+          <ImageHolder>
+            {profileImage === undefined ? (
+              <Image width={256} height={256} src='/images/default_profile_image.jpg' />
+            ) : (
+              <Image width={256} height={256} src={profileImage} />
+            )}
+          </ImageHolder>
           <Col alignItems='start'>
             <Row justifyContent='start'>
-              <Username>{user.username}</Username>
-              <button type='button'>follow</button>
-            </Row>
-
-            <Row justifyContent='start'>
-              <p>{user.postCount} posts</p>
-              <p>{user.followerCount} followers</p>
-              <p>{user.followCount} following</p>
+              <Username>{username}</Username>
+              {!isMe && <FollowButton />}
+              {isMe && <button type='button'>settings</button>}
             </Row>
             <Row justifyContent='start'>
-              <p>이름</p>
+              <p>{postCount} posts</p>
+              <p>{followerCount} followers</p>
+              <p>{followCount} following</p>
             </Row>
             <Row justifyContent='start'>
-              <p>BIO</p>
+              <p>{name}</p>
+            </Row>
+            <Row justifyContent='start'>
+              <p>{bio}</p>
             </Row>
           </Col>
         </Row>
@@ -45,5 +53,7 @@ function UserInfo({ user }: Props) {
 
 UserInfo.prototype = {
   user: PropTypes.objectOf(PropTypes.any).isRequired,
+  isMe: PropTypes.bool.isRequired,
 };
+
 export default UserInfo;
