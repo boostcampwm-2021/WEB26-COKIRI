@@ -34,7 +34,7 @@ export default class UsersRouter {
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
-    const user = await UserService.findOneUserForID({ userID: request.user!.userID });
+    const user = await UserService.findOneUserForID(request.user!.userID);
     return response.json(user);
   }
 

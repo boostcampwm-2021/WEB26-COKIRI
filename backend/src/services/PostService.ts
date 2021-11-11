@@ -3,6 +3,8 @@ import { Types } from 'mongoose';
 import { Post, User } from 'src/models';
 import { PostType } from 'src/types/modelType';
 import { ObjectID } from 'src/utils';
+import MongooseParse from 'src/utils/MongooseParse';
+import { ObjectType } from 'src/types';
 
 export default class PostService {
   static async createPost(data: PostType) {
@@ -22,13 +24,15 @@ export default class PostService {
   }
 
   static async findUserTimeline(userID: string) {
-    const posts = await Post.find({ userID })
+    const posts: ObjectType<any>[] = await Post.find({ userID })
       .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments' })
+      .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
+      .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
       .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] });
-    console.log(posts);
-    return posts;
+      .populate({ path: 'userID', select: ['username', 'profileImage'] })
+      .lean();
+
+    return MongooseParse.convertToPostArrayFormat(posts);
   }
 
   static async findTimeline(userID: string, offset: string) {
