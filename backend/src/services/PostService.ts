@@ -2,6 +2,7 @@ import { Types } from 'mongoose';
 
 import { Post, User } from 'src/models';
 import { PostType } from 'src/types/modelType';
+import { ObjectID } from 'src/utils';
 
 export default class PostService {
   static async createPost(data: PostType) {
@@ -58,6 +59,15 @@ export default class PostService {
 
   static async findPost(postID: string) {
     return Post.findOne({ _id: postID });
+  }
+
+  static async findPostCount(userID: string) {
+    const postCount = await Post.aggregate([
+      { $match: { userID: ObjectID.stringToObjectID(userID) } },
+      { $count: 'postCount' },
+    ]);
+    if (postCount.length === 0) return { postCount: 0 };
+    return postCount[0];
   }
 
   static async removePostLike(postID: string, likeID: string) {

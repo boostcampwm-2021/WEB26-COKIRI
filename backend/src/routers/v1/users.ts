@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
+import { PostService, UserService, GitService } from 'src/services';
 import { Enums } from 'src/utils';
-import { UserService, GitService } from 'src/services';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -24,7 +24,9 @@ export default class UsersRouter {
       if (typeof username !== 'string') {
         throw new Error(Enums.error.WRONG_QUERY_TYPE);
       }
-      responseJSON = await UserService.findOneUserProfileForUsername(username as string);
+      const userProfile = await UserService.findOneUserProfileForUsername(username as string);
+      const postCount = await PostService.findPostCount(userProfile._id);
+      responseJSON = { ...userProfile, ...postCount };
     }
     return response.json(responseJSON);
   }
