@@ -1,6 +1,14 @@
 import { Types, Model } from 'mongoose';
 
-import { UserType, PostType, TagType, LanguageType, EchoRoomType, NotifyType } from 'src/types';
+import {
+  UserType,
+  PostType,
+  TagType,
+  LanguageType,
+  EchoRoomType,
+  NotifyType,
+  CommentType,
+} from 'src/types';
 
 class Validate {
   static UserModel: Model<UserType> | undefined;
@@ -14,6 +22,8 @@ class Validate {
   static EchoRoomModel: Model<EchoRoomType> | undefined;
 
   static NotifyModel: Model<NotifyType> | undefined;
+
+  static CommentModel: Model<CommentType> | undefined;
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {
@@ -46,6 +56,10 @@ class Validate {
 
   static postObjectID(value: Types.ObjectId): Promise<boolean> {
     return Validate.objectIDLogic(Validate.PostModel, value);
+  }
+
+  static commentObjectID(value: Types.ObjectId): Promise<boolean> {
+    return Validate.objectIDLogic(Validate.CommentModel, value);
   }
 
   static languageObjectID(value: Types.ObjectId): Promise<boolean> {

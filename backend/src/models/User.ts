@@ -47,7 +47,12 @@ const userSchema = new Schema<UserType>(
         validate: Validate.languageObjectID,
       },
     ],
-    likes: [{ type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID }],
+    postLikes: [
+      { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID },
+    ],
+    commentLikes: [
+      { type: Types.ObjectId, required: true, ref: 'Comment', validate: Validate.commentObjectID },
+    ],
     followers: [
       { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     ],
