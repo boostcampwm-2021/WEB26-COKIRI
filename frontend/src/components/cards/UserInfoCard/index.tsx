@@ -20,12 +20,12 @@ function UserInfoCard({ targetUser, isMe }: Props) {
   return (
     <Wrapper>
       <Card width={512} height={196}>
-        <Row>
+        <Row justifyContent='start'>
           <ImageHolder>
             {profileImage === undefined ? (
-              <Image width={256} height={256} src='/images/default_profile_image.jpg' />
+              <Image width={128} height={128} src='/images/default_profile_image.jpg' />
             ) : (
-              <Image width={256} height={256} src={profileImage} />
+              <Image width={128} height={128} src={profileImage} />
             )}
           </ImageHolder>
           <Col alignItems='start'>
