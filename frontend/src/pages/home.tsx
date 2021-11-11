@@ -1,5 +1,6 @@
-import { useSetRecoilState } from 'recoil';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
 // import RecommendationCard from 'src/components/cards/RecommendationCard';
@@ -25,7 +26,7 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  setUser(user);
+  useEffect(() => setUser(user), [setUser, user]);
 
   const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
 

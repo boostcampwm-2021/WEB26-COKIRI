@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
@@ -24,8 +25,9 @@ interface Props {
 
 function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  setUser(user);
-  const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(user));
+  useEffect(() => setUser(user), [setUser, user]);
+
+  const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(targetUser));
 
   return (
     <div>
