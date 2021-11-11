@@ -11,7 +11,7 @@ export default class SocialsRouter {
   @Get('/google')
   @UseBefore(passport.authenticate('google', { session: false, scope: ['profile'] }))
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getGoogle(@Req() request: Request, @Res() response: Response) {}
+  getGoogle() {}
 
   @Get('/google/callback')
   @UseBefore(passport.authenticate('google', { session: false }))
