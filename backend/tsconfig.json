@@ -6,10 +6,12 @@
     "sourceMap": true,
     "sourceRoot": "./src/bin",
     "strict": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"]
-    }
+    },
+    "typeRoots": ["./src/types"]
   },
   "exclude": ["node_modules"]
 }

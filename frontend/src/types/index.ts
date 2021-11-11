@@ -1,4 +1,4 @@
-import { UserState } from './state';
+import UserType from './user';
+import PostType from './post';
 
-// eslint-disable-next-line import/prefer-default-export
-export type { UserState };
+export type { UserType, PostType };

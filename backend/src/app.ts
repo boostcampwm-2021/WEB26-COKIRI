@@ -1,13 +1,13 @@
+import 'reflect-metadata';
 import * as express from 'express';
-import * as cookieParser from 'cookie-parser';
-import * as logger from 'morgan';
+import * as dotenv from 'dotenv';
+
+import loadersInit from 'src/loaders';
+
+dotenv.config();
 
 const app: express.Application = express();
 
-app.use(logger('dev'));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+loadersInit(app);
 
 export default app;
