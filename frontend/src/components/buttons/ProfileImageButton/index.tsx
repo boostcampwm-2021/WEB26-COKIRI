@@ -6,15 +6,15 @@ import { Wrapper } from './style';
 
 interface Props {
   username: string;
-  imageSrc: string;
+  image: string;
 }
 
-function ProfileImageButton({ username, imageSrc }: Props) {
+function ProfileImageButton({ username, image }: Props) {
   return (
     <Wrapper>
       <Link href={`/users/${username}`}>
         <a href={`/users/${username}`}>
-          <Image src={imageSrc} width='36' height='36' />
+          <Image src={image} width='36' height='36' />
         </a>
       </Link>
     </Wrapper>
@@ -23,7 +23,7 @@ function ProfileImageButton({ username, imageSrc }: Props) {
 
 ProfileImageButton.propsType = {
   href: PropTypes.string.isRequired,
-  imageSrc: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default ProfileImageButton;

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 import Modal from 'src/components/modals/Common';
 import Profile from 'src/components/Profile';
-import { Row, Col } from 'src/components/Grid';
 import FollowButton from 'src/components/buttons/FollowButton';
+import { Row, Col } from 'src/components/Grid';
 
 import { Wrapper, Title } from './style';
 
@@ -18,27 +18,27 @@ function LikeListModal({ onClose }: Props) {
         <Title>좋아요</Title>
         <Col>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile href='users/123' imageSrc='/images/logo.svg' userName='tiger' />
+            <Profile image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
         </Col>

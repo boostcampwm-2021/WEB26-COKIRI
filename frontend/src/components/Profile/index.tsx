@@ -7,15 +7,15 @@ import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Wrapper } from './style';
 
 interface Props {
-  imageSrc: string;
+  image: string;
   username: string;
 }
 
-function Profile({ imageSrc, username }: Props) {
+function Profile({ image, username }: Props) {
   return (
     <Wrapper>
       <Row justifyContent='flex-start'>
-        <ProfileImageButton imageSrc={imageSrc} username={username} />
+        <ProfileImageButton image={image} username={username} />
         <UsernameButton username={username} />
       </Row>
     </Wrapper>
@@ -23,7 +23,7 @@ function Profile({ imageSrc, username }: Props) {
 }
 
 Profile.propTypes = {
-  imageSrc: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 };
 

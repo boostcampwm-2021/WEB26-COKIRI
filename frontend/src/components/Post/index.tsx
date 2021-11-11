@@ -1,6 +1,6 @@
-import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
 import Profile from 'src/components/Profile';
 import CommentButton from 'src/components/buttons/CommentButton';
@@ -29,7 +29,7 @@ function Post({ post }: Props) {
   return (
     <Wrapper>
       <Card width={600} height={600}>
-        <Profile imageSrc='/images/logo.svg' username='beomseok' />
+        <Profile image='/images/logo.svg' username='beomseok' />
         <PostImages images={post.images} />
         <Row justifyContent='flex-start'>
           <Buttons>
