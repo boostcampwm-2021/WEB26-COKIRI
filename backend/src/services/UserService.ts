@@ -65,6 +65,7 @@ class UserService {
           _id: { $toString: '$_id' },
           username: '$username',
           bio: '$bio',
+          name: '$name',
         },
       },
       { $match: { username } },
