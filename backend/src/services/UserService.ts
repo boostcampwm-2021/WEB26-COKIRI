@@ -132,7 +132,7 @@ class UserService {
   }
 
   async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
-    const blockList = ['followers', 'follows', 'posts', 'likes', 'notifies', 'dashboard'];
+    const blockList = Enums.auth.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
       throw new Error(Enums.error.WRONG_BODY_TYPE);
     }

@@ -1,4 +1,18 @@
 const Enums = {
+  auth: {
+    SETTING_BLOCK_LIST: [
+      'githubUsername',
+      'tistoryAccessToken',
+      'authProvider',
+      'authProviderID',
+      'createdAt',
+      'lastVisitedAt',
+      'likes',
+      'followers',
+      'follows',
+      'dashboard',
+    ],
+  },
   error: {
     PERMISSION_DENIED: 'Permission Denied.',
     WRONG_QUERY_TYPE: 'Query 형태가 잘못 되었습니다.',

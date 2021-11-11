@@ -21,6 +21,16 @@ export default class PostService {
     return Post.aggregate([{ $sample: { size: 20 } }, { $sort: { createdAt: -1 } }]);
   }
 
+  static async findUserTimeline(userID: string) {
+    const posts = await Post.find({ userID })
+      .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
+      .populate({ path: 'comments' })
+      .populate({ path: 'tags' })
+      .populate({ path: 'userID', select: ['username', 'profileImage'] });
+    console.log(posts);
+    return posts;
+  }
+
   static async findTimeline(userID: string, offset: string) {
     const followList = await User.findOne({ _id: userID }, 'follows -_id');
 

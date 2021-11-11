@@ -47,7 +47,7 @@ export default class UsersRouter {
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    const userPosts = await UserService.findOneUserPostsForID(userID);
+    const userPosts = await PostService.findUserTimeline(userID);
     return response.json(userPosts);
   }
 
