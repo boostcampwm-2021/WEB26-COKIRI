@@ -8,12 +8,13 @@ class PostService {
     return Post.create(data);
   }
 
-  async createPostLike(data: string, postID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID },
-      { $push: { likes: { userID: data } } },
+  static async createPostLike(userID: string, postID: string) {
+    await User.findOneAndUpdate(
+      { _id: userID },
+      { $push: { $postLikes: { userID } } },
       { new: true },
     );
+    return Post.findOneAndUpdate({ _id: postID }, { $push: { likes: { userID } } }, { new: true });
   }
 
   async findRandomPost() {
