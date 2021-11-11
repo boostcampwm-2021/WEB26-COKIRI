@@ -21,7 +21,7 @@ function UserInfoCard({ targetUser, isMe }: Props) {
   const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
   return (
     <Wrapper>
-      <Card width={512} height={196}>
+      <Card width={512}>
         <Row justifyContent='start'>
           <ImageHolder>
             <Image width={128} height={128} src={profileImage ?? DEFAULT_PROFILE_IMAGE} />
