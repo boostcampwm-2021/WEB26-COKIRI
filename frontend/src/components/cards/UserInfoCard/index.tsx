@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 
 import Card from 'src/components/cards/Common';
@@ -14,7 +15,7 @@ interface Props {
   isMe: boolean;
 }
 
-function UserInfo({ targetUser, isMe }: Props) {
+function UserInfoCard({ targetUser, isMe }: Props) {
   const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
   return (
     <Wrapper>
@@ -31,7 +32,7 @@ function UserInfo({ targetUser, isMe }: Props) {
             <Row justifyContent='start'>
               <Username>{username}</Username>
               {!isMe && <FollowButton />}
-              {isMe && <button type='button'>settings</button>}
+              {isMe && <Link href={`/users/${targetUser.username}/settings`}>settings</Link>}
             </Row>
             <Row justifyContent='start'>
               <p>{postCount} posts</p>
@@ -51,9 +52,9 @@ function UserInfo({ targetUser, isMe }: Props) {
   );
 }
 
-UserInfo.prototype = {
+UserInfoCard.prototype = {
   user: PropTypes.objectOf(PropTypes.any).isRequired,
   isMe: PropTypes.bool.isRequired,
 };
 
-export default UserInfo;
+export default UserInfoCard;

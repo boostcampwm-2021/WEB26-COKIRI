@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import Header from 'src/components/Header';
-import UserInfo from 'src/components/UserInfo';
+import UserInfoCard from 'src/components/cards/UserInfoCard';
 import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
@@ -39,7 +39,7 @@ function User({ user, targetUser }: Props) {
       <Header />
       <Page.Main>
         <Col>
-          <UserInfo targetUser={targetUser} isMe={targetUser._id === user._id} />
+          <UserInfoCard targetUser={targetUser} isMe={targetUser._id === user._id} />
           <Timeline posts={data} />
         </Col>
       </Page.Main>
@@ -55,7 +55,7 @@ export async function getServerSideProps(context: any) {
   if (token === undefined) {
     return {
       redirect: {
-        permanent: true,
+        permanent: false,
         destination: '/',
       },
     };
