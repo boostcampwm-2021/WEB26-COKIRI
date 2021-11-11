@@ -18,6 +18,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "camelcase": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
