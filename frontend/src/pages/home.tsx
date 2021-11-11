@@ -13,7 +13,7 @@ import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
 
-import { Main } from 'src/styles/pages/home';
+import { Page } from 'src/styles';
 
 import { UserType } from 'src/types';
 
@@ -40,13 +40,13 @@ function Home({ user }: Props) {
       </Head>
 
       <Header />
-      <Main>
+      <Page.Main>
         <Col>
           {!isAuthenticated && <SigninCard />}
           {/* {isAuthenticated && <RecommendationCard />} */}
           {isAuthenticated && <Timeline posts={data} />}
         </Col>
-      </Main>
+      </Page.Main>
       <FloatingButton />
       <RegisterModal />
     </>

@@ -14,7 +14,7 @@ import { UserType } from 'src/types';
 import { Fetcher } from 'src/utils';
 import descriptions from 'src/utils/descriptions';
 
-import { Main } from 'src/styles/pages/users/username';
+import { Page } from 'src/styles';
 
 import userAtom from 'src/recoil/user';
 
@@ -37,12 +37,12 @@ function User({ user, targetUser }: Props) {
       </Head>
 
       <Header />
-      <Main>
+      <Page.Main>
         <Col>
           <UserInfo targetUser={targetUser} isMe={targetUser._id === user._id} />
           <Timeline posts={data} />
         </Col>
-      </Main>
+      </Page.Main>
       <FloatingButton />
       <footer />
     </div>
