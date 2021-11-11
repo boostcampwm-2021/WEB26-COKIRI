@@ -21,4 +21,17 @@ export default class SocialsRouter {
       httpOnly: true,
     });
   }
+
+  @Get('/github')
+  @UseBefore(passport.authenticate('github', { session: false }))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  getGithub() {}
+
+  @Get('/github/callback')
+  @UseBefore(passport.authenticate('github', { session: false }))
+  @Redirect(`${process.env.CLIENT_URL}`)
+  getGithubCallback(@Req() request: Request, @Res() response: Response) {
+    console.log(request.user!);
+    response.json({});
+  }
 }

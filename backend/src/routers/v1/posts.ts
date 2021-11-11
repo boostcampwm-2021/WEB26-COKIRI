@@ -7,9 +7,10 @@ import { PostService, CommentService } from 'src/services';
 export default class PostsRouter {
   @Get('/')
   async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
-    const { type, userID, offset } = request.query;
+    const { type, user_id: userID, offset } = request.query;
     if (type === 'random') return response.json(await PostService.findRandomPost());
-    return response.json(await PostService.findTimeline(userID as string, offset as string));
+    const timelineResult = await PostService.findTimeline(userID as string, offset as string);
+    return response.json(timelineResult);
   }
 
   @Get('/:postId/likes')

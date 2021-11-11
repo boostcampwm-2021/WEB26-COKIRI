@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { UserService } from 'src/services';
 import { Enums } from 'src/utils';
+import { UserService, GitService } from 'src/services';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -87,6 +87,23 @@ export default class UsersRouter {
     const { userID } = request.params;
     const followList = await UserService.findOneFollowers(userID);
     return response.json(followList);
+  }
+
+  @Get('/:userID/repositories')
+  async getRepoList(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    /**
+     * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
+     */
+    const result = await GitService.findRepoList(userID);
+    return response.json(result);
+  }
+
+  @Get('/:githubUsername/repositories/:repoName')
+  async getRepo(@Req() request: Request, @Res() response: Response) {
+    const { githubUsername, repoName } = request.params;
+    const result = await GitService.findRepo(githubUsername, repoName);
+    return response.json(result);
   }
 
   @Put('/:userID/settings')

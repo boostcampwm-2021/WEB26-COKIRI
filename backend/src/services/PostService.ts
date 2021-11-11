@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Post, User } from 'src/models';
 import { PostType } from 'src/types/modelType';
 
@@ -20,12 +22,37 @@ export default class PostService {
 
   static async findTimeline(userID: string, offset: string) {
     const followList = await User.findOne({ _id: userID }, 'follows -_id');
-    return !followList ? [] : Post.find({ userID: { $in: followList.follows } });
+
+    const result = !followList
+      ? []
+      : Post.aggregate([
+          { $match: { userID: { $in: followList.follows } } },
+          {
+            $lookup: {
+              from: 'users',
+              let: { id: '$userID' },
+              pipeline: [{ $project: { username: 1, profileImage: 1 } }],
+              as: 'user',
+            },
+          },
+          { $unwind: { path: '$user' } },
+          { $project: { userID: 0 } },
+        ]);
+    return result;
   }
 
   static async findPostLikeList(postID: string) {
-    const likesOid = await Post.findOne({ _id: postID }, 'likes -_id');
-    const result = (await likesOid?.populate({ path: 'likes' }))?.likes;
+    const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
+      .populate({
+        path: 'likes.userID',
+        select: 'username profileImage -_id',
+      })
+      .lean();
+    const result: any = likesList?.likes?.map((v: any) => ({
+      ...v.userID,
+      createdAt: v.createdAt,
+    }));
+
     return result;
   }
 
