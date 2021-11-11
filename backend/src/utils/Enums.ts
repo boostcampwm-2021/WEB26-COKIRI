@@ -29,5 +29,13 @@ const Enums = {
     TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
   },
 };
+  };
+}
+export const GITREPOLISTAPI = (username: string) =>
+  `https://api.github.com/users/${username}/repos`;
+export const GITREPOINFOAPI = (githubUsername: string, repoName: string) =>
+  `https://api.github.com/repos/${githubUsername}/${repoName}`;
+export const GITREPOREADMEAPI = (githubUsername: string, repoName: string) =>
+  `https://api.github.com/repos/${githubUsername}/${repoName}/readme`;
 
 export default Enums;
