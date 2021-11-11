@@ -30,6 +30,7 @@ class Validate {
   }
 
   static url(url: string): boolean {
+    if (url === '/images/default_profile_image.jpg') return true;
     const regx = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
     return regx.test(url);
   }

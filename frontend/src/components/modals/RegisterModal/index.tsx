@@ -13,8 +13,8 @@ function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
   const [username, setUsername] = useState('');
   const isModalShow = useMemo(() => user.isRegistered === false, [user]);
-  const putUsersUsername = () => Fetcher.putUsersUsername(username, user);
-  const mutation = useMutation(putUsersUsername, {
+  const putUserSettings = () => Fetcher.putUserSettings({ username }, user);
+  const mutation = useMutation(putUserSettings, {
     onSuccess: () => setUser({ ...user, isRegistered: true }),
   });
   const handleOnConfirm = () => mutation.mutate();
