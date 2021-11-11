@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
-import Profile from 'src/components/Profile';
+import ProfileSet from 'src/components/ProfileSet';
 import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
@@ -28,9 +28,9 @@ function Post({ post }: Props) {
   const handleClose = useCallback(() => setIsLikeListModal(false), []);
   return (
     <Wrapper>
-      <Card width={600} height={600}>
-        <Profile image='/images/logo.svg' username='beomseok' />
-        <PostImages images={post.images} />
+      <Card width={600} height={0}>
+        <ProfileSet image='' username='beomseok' />
+        {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
           <Buttons>
             <CommentButton>

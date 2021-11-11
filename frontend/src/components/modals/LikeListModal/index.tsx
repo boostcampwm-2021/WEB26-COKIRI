@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 import Modal from 'src/components/modals/Common';
-import Profile from 'src/components/Profile';
+import ProfileSet from 'src/components/ProfileSet';
 import FollowButton from 'src/components/buttons/FollowButton';
 import { Row, Col } from 'src/components/Grid';
 
@@ -18,27 +18,27 @@ function LikeListModal({ onClose }: Props) {
         <Title>좋아요</Title>
         <Col>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
           <Row justifyContent='space-between'>
-            <Profile image='/images/logo.svg' username='tiger' />
+            <ProfileSet image='/images/logo.svg' username='tiger' />
             <FollowButton />
           </Row>
         </Col>
