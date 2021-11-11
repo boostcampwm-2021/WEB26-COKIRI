@@ -14,9 +14,9 @@ interface Props {
 function PostImages({ images }: Props) {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
-
   const sliderWidth = 600;
-
+  const isLeftButton = slideIndex !== 0;
+  const isRightButton = images.length !== 1 && slideIndex !== images.length - 1;
   const slideLeft = () => setSlideIndex(slideIndex - 1);
   const slideRight = () => setSlideIndex(slideIndex + 1);
 
@@ -34,8 +34,8 @@ function PostImages({ images }: Props) {
         ))}
       </ImageHolder>
       <SlideButtons>
-        {slideIndex !== 0 && <LeftSlideButton onClick={slideLeft} />}
-        {slideIndex !== 3 && <RightSlideButton onClick={slideRight} />}
+        {isLeftButton && <LeftSlideButton onClick={slideLeft} />}
+        {isRightButton && <RightSlideButton onClick={slideRight} />}
       </SlideButtons>
     </Wrapper>
   );

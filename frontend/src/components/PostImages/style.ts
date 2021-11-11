@@ -14,7 +14,6 @@ const ImageHolder = styled.ul`
   transition: 0.5s ease-in-out;
   width: 2400px;
   li {
-    width: 100%;
     height: 100%;
   }
   img {

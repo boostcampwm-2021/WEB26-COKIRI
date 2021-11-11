@@ -28,9 +28,9 @@ function Post({ post }: Props) {
   const handleClose = useCallback(() => setIsLikeListModal(false), []);
   return (
     <Wrapper>
-      <Card width={600} height={600}>
+      <Card width={600} height={0}>
         <Profile image='/images/logo.svg' username='beomseok' />
-        <PostImages images={post.images} />
+        {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
           <Buttons>
             <CommentButton>
