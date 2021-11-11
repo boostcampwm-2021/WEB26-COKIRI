@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
 
-import descriptions from 'src/globals/descriptions';
+import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
 
 function Post() {
   const router = useRouter();
@@ -13,7 +13,7 @@ function Post() {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.posts} />
+        <meta name='description' content={POSTS_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

@@ -10,7 +10,7 @@ import { Row } from 'src/components/Grid';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/globals/descriptions';
+import { SETTING_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 
@@ -28,7 +28,7 @@ function Settings({ user }: Props) {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.setting} />
+        <meta name='description' content={SETTING_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

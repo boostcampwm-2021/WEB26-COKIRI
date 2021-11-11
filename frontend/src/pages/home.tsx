@@ -18,7 +18,7 @@ import { Page } from 'src/styles';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/globals/descriptions';
+import { HOME_DESCRIPTION } from 'src/globals/descriptions';
 
 interface Props {
   user: UserType;
@@ -35,7 +35,7 @@ function Home({ user }: Props) {
     <>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.home} />
+        <meta name='description' content={HOME_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

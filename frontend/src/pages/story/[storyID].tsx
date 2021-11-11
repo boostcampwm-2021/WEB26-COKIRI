@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import descriptions from 'src/globals/descriptions';
+import { STORY_DESCRIPTION } from 'src/globals/descriptions';
 
 function Story() {
   const router = useRouter();
@@ -11,7 +11,7 @@ function Story() {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.story} />
+        <meta name='description' content={STORY_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

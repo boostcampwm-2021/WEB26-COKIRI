@@ -2,14 +2,14 @@ import Head from 'next/head';
 
 import Header from 'src/components/Header';
 
-import descriptions from 'src/globals/descriptions';
+import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
 
 function Dashboard() {
   return (
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.dashboard} />
+        <meta name='description' content={DASHBOARD_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

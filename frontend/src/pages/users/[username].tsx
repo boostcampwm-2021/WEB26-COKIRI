@@ -12,7 +12,7 @@ import { Col } from 'src/components/Grid';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/globals/descriptions';
+import { USERS_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 
@@ -32,7 +32,7 @@ function User({ user, targetUser }: Props) {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.users} />
+        <meta name='description' content={USERS_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { IMAGE_WIDTH } from 'src/globals/constants';
+
 interface Props {
   count: number;
 }
@@ -15,7 +17,7 @@ const ImageHolder = styled.ul<Props>`
   display: flex;
   list-style: none;
   transition: 0.5s ease-in-out;
-  width: ${({ count }) => count * 600}px;
+  width: ${({ count }) => count * IMAGE_WIDTH}px;
   li {
     height: 100%;
   }
