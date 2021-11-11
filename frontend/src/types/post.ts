@@ -1,14 +1,14 @@
 import commentType from './comment';
-import WriterType from './writer';
-import PostLikeType from './postLike';
+import LikeType from './like';
+import UserType from './user';
 
 export default interface postType {
   _id: string;
   content: string;
   images: string[];
-  user: WriterType;
+  user: UserType;
   likeCount: number;
   comments: commentType[];
   createdAt: Date;
-  likes: PostLikeType[];
+  likes: LikeType[];
 }
