@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 function Echo() {
   const router = useRouter();

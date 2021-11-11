@@ -1,5 +1,6 @@
-import { useSetRecoilState } from 'recoil';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
 // import RecommendationCard from 'src/components/cards/RecommendationCard';
@@ -12,12 +13,12 @@ import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
 
-import { Main } from 'src/styles/pages/home';
+import { Page } from 'src/styles';
 
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/utils/descriptions';
+import descriptions from 'src/globals/descriptions';
 
 interface Props {
   user: UserType;
@@ -25,7 +26,7 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  setUser(user);
+  useEffect(() => setUser(user), [setUser, user]);
 
   const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
 
@@ -39,13 +40,13 @@ function Home({ user }: Props) {
       </Head>
 
       <Header />
-      <Main>
+      <Page.Main>
         <Col>
           {!isAuthenticated && <SigninCard />}
           {/* {isAuthenticated && <RecommendationCard />} */}
           {isAuthenticated && <Timeline posts={data} />}
         </Col>
-      </Main>
+      </Page.Main>
       <FloatingButton />
       <RegisterModal />
     </>

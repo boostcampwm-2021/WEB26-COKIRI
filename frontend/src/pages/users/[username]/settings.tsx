@@ -1,13 +1,11 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
 import Header from 'src/components/Header';
-import UserInfoCard from 'src/components/cards/UserInfoCard';
-import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import { Col } from 'src/components/Grid';
+import UserSettingsCard from 'src/components/cards/UserSettingsCard';
+import { Row } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
@@ -20,28 +18,25 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   user: UserType;
-  targetUser: UserType;
 }
 
-function User({ user, targetUser }: Props) {
+function Settings({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), [setUser, user]);
-  const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(targetUser));
 
   return (
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.users} />
+        <meta name='description' content={descriptions.setting} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <Header />
       <Page.Main>
-        <Col>
-          <UserInfoCard targetUser={targetUser} isMe={targetUser._id === user._id} />
-          <Timeline posts={data} />
-        </Col>
+        <Row>
+          <UserSettingsCard user={user} />
+        </Row>
       </Page.Main>
       <FloatingButton />
       <footer />
@@ -52,21 +47,23 @@ function User({ user, targetUser }: Props) {
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
   const token = context.req?.cookies.jwt;
+  const redirect = {
+    permanent: false,
+    destination: '/',
+  };
   if (token === undefined) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
+    return { redirect };
   }
   const usersByUsernameRequest = Fetcher.getUsersByUsername(token, username);
   const usersMeRequests = Fetcher.getUsersMe(token);
   const targetUser = await usersByUsernameRequest;
   const user = await usersMeRequests;
+  if (targetUser._id !== user._id) {
+    return { redirect };
+  }
   return {
-    props: { user: { ...user, token }, targetUser },
+    props: { user: { ...user, token } },
   };
 }
 
-export default User;
+export default Settings;
