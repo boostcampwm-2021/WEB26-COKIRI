@@ -24,8 +24,8 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  width: 100,
-  height: 100,
+  width: 0,
+  height: 0,
 };
 
 export default Card;
