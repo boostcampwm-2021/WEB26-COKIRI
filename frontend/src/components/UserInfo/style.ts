@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Username = styled.p`
   font-size: 36px;
-  margin: 0 24px;
+  padding: 0 12px 0 0;
 `;
 
 const ImageHolder = styled.div`
