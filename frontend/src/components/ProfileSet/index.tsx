@@ -12,10 +12,12 @@ interface Props {
 }
 
 function Profile({ image, username }: Props) {
+  const profileImage = image || '/images/default_profile_image.jpg';
+
   return (
     <Wrapper>
       <Row justifyContent='flex-start'>
-        <ProfileImageButton image={image} username={username} />
+        <ProfileImageButton image={profileImage} username={username} />
         <UsernameButton username={username} />
       </Row>
     </Wrapper>
