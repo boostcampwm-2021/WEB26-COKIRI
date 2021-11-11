@@ -1,12 +1,7 @@
 import styled from '@emotion/styled';
 
-import { Row } from 'src/components/Grid';
-
 const Wrapper = styled.div`
-  padding: 50px 0;
-  ${Row} {
-    height: unset;
-  }
+  margin: 64px 0;
 `;
 const Buttons = styled.div`
   display: flex;
