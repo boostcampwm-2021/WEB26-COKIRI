@@ -7,7 +7,7 @@ interface Props {
 
 const Wrapper = styled.div<Props>`
   margin: 32px 32px;
-  padding: 7px;
+  padding: 50px 10px;
   border-radius: 50px;
   background: #444444;
   box-shadow: 14px 14px 27px #3a3a3a, -14px -14px 27px #4e4e4e;

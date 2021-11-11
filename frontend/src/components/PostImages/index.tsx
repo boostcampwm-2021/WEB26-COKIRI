@@ -26,7 +26,7 @@ function PostImages({ images }: Props) {
 
   return (
     <Wrapper>
-      <ImageHolder ref={imageHolderRef}>
+      <ImageHolder ref={imageHolderRef} imageNumber={images.length}>
         {images.map((image) => (
           <li key={image}>
             <Image src={image} width='600' height='300' />

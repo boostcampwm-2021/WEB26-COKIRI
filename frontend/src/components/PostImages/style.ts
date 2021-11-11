@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 
+interface Props {
+  imageNumber: number;
+}
 const Wrapper = styled.div`
   width: 100%;
   height: 300px;
@@ -8,11 +11,11 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 
-const ImageHolder = styled.ul`
+const ImageHolder = styled.ul<Props>`
   display: flex;
   list-style: none;
   transition: 0.5s ease-in-out;
-  width: 2400px;
+  width: ${({ imageNumber }) => imageNumber * 600}px;
   li {
     height: 100%;
   }
