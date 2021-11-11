@@ -16,7 +16,7 @@ const commentSchema = new Schema<CommentType>(
     content: { type: String, required: true },
     likes: { type: [likeSchema], default: [] },
   },
-  { timestamps: true },
+  { _id: true, timestamps: true },
 );
 
 const postSchema = new Schema<PostType>(

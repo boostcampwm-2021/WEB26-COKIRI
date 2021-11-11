@@ -1,16 +1,18 @@
 import { ObjectType } from 'src/types';
 
 class MongooseParse {
-  convertPropertyInArray(
+  convertPropertyInLikes(
     array: ObjectType<any>[],
     propertyMap: ObjectType<{ oldKey: string; newKey: string }>[],
   ) {
     const newArray = array.map((element) => {
-      const newElement = { ...element };
+      let newElement = { ...element.toObject() };
       propertyMap.forEach((property) => {
-        newElement[property.newKey] = element[property.oldKey];
+        newElement[property.newKey] = newElement[property.oldKey];
         delete newElement[property.oldKey];
       });
+      newElement = { ...newElement, ...newElement.user };
+      delete newElement.user;
       return newElement;
     });
     return newArray;
@@ -20,7 +22,7 @@ class MongooseParse {
     obj: ObjectType<any>,
     propertyMap: ObjectType<{ oldKey: string; newKey: string }>[],
   ) {
-    const newObject = { ...obj };
+    const newObject = { ...obj.toObject() };
     propertyMap.forEach((property) => {
       newObject[property.newKey] = obj[property.oldKey];
       delete newObject[property.oldKey];
@@ -33,13 +35,14 @@ class MongooseParse {
       const newPost = this.convertProperty(post, [{ oldKey: 'userID', newKey: 'user' }]);
       const likes = !post.likes
         ? []
-        : this.convertPropertyInArray(post.likes, [{ oldKey: 'userID', newKey: 'user' }]);
+        : this.convertPropertyInLikes(post.likes, [{ oldKey: 'userID', newKey: 'user' }]);
       newPost.likes = likes;
       const comments = post.comments.map((comment: ObjectType<any>) => {
         const newComment = this.convertProperty(comment, [{ oldKey: 'userID', newKey: 'user' }]);
         const commentLikes = !comment.likes
           ? []
-          : this.convertPropertyInArray(comment.likes, [{ oldKey: 'userID', newKey: 'user' }]);
+          : this.convertPropertyInLikes(comment.likes, [{ oldKey: 'userID', newKey: 'user' }]);
+
         newComment.likes = commentLikes;
         return newComment;
       });

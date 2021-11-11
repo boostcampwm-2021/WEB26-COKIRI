@@ -26,9 +26,7 @@ class PostService {
       .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
       .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
       .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] })
-      .lean();
-
+      .populate({ path: 'userID', select: ['username', 'profileImage'] });
     return MongooseParse.convertToPostArrayFormat(posts);
   }
 
@@ -40,8 +38,7 @@ class PostService {
       .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
       .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
       .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] })
-      .lean();
+      .populate({ path: 'userID', select: ['username', 'profileImage'] });
     return MongooseParse.convertToPostArrayFormat(posts);
   }
 

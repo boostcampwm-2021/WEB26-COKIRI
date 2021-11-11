@@ -57,6 +57,7 @@ export interface LikeType {
 }
 
 export interface CommentType {
+  _id?: Types.ObjectId;
   userID?: Types.ObjectId;
   content?: string;
   likes?: LikeType[];
