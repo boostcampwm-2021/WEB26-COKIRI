@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Col, Row } from 'src/components/Grid';
+import { Col } from 'src/components/Grid';
 
 const Wrapper = styled.div`
   ${Col} {
@@ -21,5 +21,5 @@ const Title = styled.div`
   width: 100%;
   border-bottom: 1px solid #ffffff;
 `;
-// eslint-disable-next-line import/prefer-default-export
+
 export { Wrapper, Title };

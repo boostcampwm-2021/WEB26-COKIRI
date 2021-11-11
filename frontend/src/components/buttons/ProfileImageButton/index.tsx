@@ -5,16 +5,16 @@ import Image from 'next/image';
 import { Wrapper } from './style';
 
 interface Props {
-  href: string;
-  imageSrc: string;
+  username: string;
+  image: string;
 }
 
-function ProfileImageButton({ href, imageSrc }: Props) {
+function ProfileImageButton({ username, image }: Props) {
   return (
     <Wrapper>
-      <Link href={href}>
-        <a href={href}>
-          <Image src={imageSrc} width='36' height='36' />
+      <Link href={`/users/${username}`}>
+        <a href={`/users/${username}`}>
+          <Image src={image} width='36' height='36' />
         </a>
       </Link>
     </Wrapper>
@@ -23,7 +23,7 @@ function ProfileImageButton({ href, imageSrc }: Props) {
 
 ProfileImageButton.propsType = {
   href: PropTypes.string.isRequired,
-  imageSrc: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
 };
 
 export default ProfileImageButton;

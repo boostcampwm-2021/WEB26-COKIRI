@@ -1,9 +1,8 @@
 import { useSetRecoilState } from 'recoil';
-import { useEffect } from 'react';
 import Head from 'next/head';
-import PropTypes from 'prop-types';
+import { useQuery } from 'react-query';
 
-import RecommendationCard from 'src/components/cards/RecommendationCard';
+// import RecommendationCard from 'src/components/cards/RecommendationCard';
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
@@ -26,7 +25,9 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  useEffect(() => setUser(user), []);
+  setUser(user);
+
+  const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
 
   const isAuthenticated = Object.keys(user).length !== 0;
   return (
@@ -41,8 +42,8 @@ function Home({ user }: Props) {
       <Main>
         <Col>
           {!isAuthenticated && <SigninCard />}
-          {isAuthenticated && <RecommendationCard />}
-          {isAuthenticated && <Timeline />}
+          {/* {isAuthenticated && <RecommendationCard />} */}
+          {isAuthenticated && <Timeline posts={data} />}
         </Col>
       </Main>
       <FloatingButton />
