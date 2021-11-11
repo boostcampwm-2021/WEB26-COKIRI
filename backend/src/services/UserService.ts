@@ -46,6 +46,7 @@ class UserService {
         profileImage: true,
         follows: true,
         followers: true,
+        bio: true,
       })
       .populate({ path: 'follows', select: ['_id'] })
       .populate({ path: 'followers', select: ['_id'] });
