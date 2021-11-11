@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Wrapper } from './style';
 
 interface Props {
-  username: string;
+  username?: string;
   image: string;
 }
 
@@ -22,8 +22,12 @@ function ProfileImageButton({ username, image }: Props) {
 }
 
 ProfileImageButton.propsType = {
-  href: PropTypes.string.isRequired,
+  username: PropTypes.string,
   image: PropTypes.string.isRequired,
+};
+
+ProfileImageButton.defaultProps = {
+  username: '',
 };
 
 export default ProfileImageButton;

@@ -37,7 +37,7 @@ function Post({ post }: Props) {
         {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
           <Buttons>
-            <LikeButton post={post} />
+            <LikeButton />
             <CommentButton href={`/posts/${post._id}`}>
               <IoChatbubbleOutline />
             </CommentButton>

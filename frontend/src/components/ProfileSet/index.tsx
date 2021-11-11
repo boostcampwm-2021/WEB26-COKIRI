@@ -8,7 +8,7 @@ import { Wrapper } from './style';
 
 interface Props {
   image: string;
-  username: string;
+  username?: string;
 }
 
 function Profile({ image, username }: Props) {
@@ -26,7 +26,11 @@ function Profile({ image, username }: Props) {
 
 Profile.propTypes = {
   image: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
+};
+
+Profile.defaultProps = {
+  username: '',
 };
 
 export default Profile;

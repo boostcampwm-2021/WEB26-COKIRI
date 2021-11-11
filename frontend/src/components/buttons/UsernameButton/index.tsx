@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Wrapper } from './style';
 
 interface Props {
-  username: string;
+  username?: string;
 }
 
 function ProfileUsernameButton({ username }: Props) {
@@ -18,7 +18,11 @@ function ProfileUsernameButton({ username }: Props) {
 }
 
 ProfileUsernameButton.propsType = {
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
+};
+
+ProfileUsernameButton.defaultProps = {
+  username: '',
 };
 
 export default ProfileUsernameButton;
