@@ -31,13 +31,15 @@ class MongooseParse {
   convertToPostArrayFormat(posts: ObjectType<any>[]) {
     return posts.map((post) => {
       const newPost = this.convertProperty(post, [{ oldKey: 'userID', newKey: 'user' }]);
-      const likes = this.convertPropertyInArray(post.likes, [{ oldKey: 'userID', newKey: 'user' }]);
+      const likes = !post.likes
+        ? []
+        : this.convertPropertyInArray(post.likes, [{ oldKey: 'userID', newKey: 'user' }]);
       newPost.likes = likes;
       const comments = post.comments.map((comment: ObjectType<any>) => {
         const newComment = this.convertProperty(comment, [{ oldKey: 'userID', newKey: 'user' }]);
-        const commentLikes = this.convertPropertyInArray(comment.likes, [
-          { oldKey: 'userID', newKey: 'user' },
-        ]);
+        const commentLikes = !comment.likes
+          ? []
+          : this.convertPropertyInArray(comment.likes, [{ oldKey: 'userID', newKey: 'user' }]);
         newComment.likes = commentLikes;
         return newComment;
       });
