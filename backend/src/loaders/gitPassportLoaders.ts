@@ -30,5 +30,4 @@ export default function passportLoader(app: Application): void {
   };
 
   passport.use('github', new GitHubStrategy(githubStrategyOptions, verifyGithubUser));
-  app.use(passport.initialize());
 }
