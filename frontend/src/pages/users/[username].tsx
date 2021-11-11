@@ -26,7 +26,6 @@ interface Props {
 function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), [setUser, user]);
-
   const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(targetUser));
 
   return (
@@ -40,7 +39,7 @@ function User({ user, targetUser }: Props) {
       <Header />
       <Main>
         <Col>
-          <UserInfo user={targetUser} />
+          <UserInfo targetUser={targetUser} isMe={targetUser._id === user._id} />
           <Timeline posts={data} />
         </Col>
       </Main>
