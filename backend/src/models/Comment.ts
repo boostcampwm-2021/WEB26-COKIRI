@@ -9,7 +9,7 @@ const commentSchema = new Schema<CommentType>(
     postID: { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.userObjectID },
     content: { type: String, required: true },
   },
-  { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
+  { versionKey: false, timestamps: true },
 );
 
 export default model<CommentType>('Comment', commentSchema);
