@@ -68,10 +68,8 @@ export interface PostType {
   title?: string;
   content?: string;
   userID?: Types.ObjectId;
-  githubUsername?: string;
-  images?: string[];
-  likes?: LikeType[];
   tags?: Types.ObjectId[];
+  link?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
