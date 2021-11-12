@@ -26,7 +26,24 @@ class PostService {
   }
 
   async findRandomPost() {
-    return Post.aggregate([{ $sample: { size: 20 } }, { $sort: { createdAt: -1 } }]);
+    const aggregateResult = await Post.aggregate([
+      { $sample: { size: 20 } },
+      { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
+      { $lookup: { from: 'comments', localField: '_id', foreignField: 'postID', as: 'comments' } },
+      {
+        $lookup: { from: 'postlikes', localField: '_id', foreignField: 'postID', as: 'postlikes' },
+      },
+      { $lookup: { from: 'images', localField: '_id', foreignField: 'targetID', as: 'images' } },
+    ]);
+
+    const result = aggregateResult.map((v) => {
+      v.likeCount = v.postlikes.length();
+      delete v.postlikes;
+      v.user = { username: v.user.username, profileImage: v.user.username.profileImage };
+      return v;
+    });
+
+    return result;
   }
 
   async findUserTimeline(userID: string) {
@@ -55,12 +72,12 @@ class PostService {
     const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
       .populate({ path: 'likes.userID', select: 'username profileImage -_id' })
       .lean();
-    const result: any = likesList?.likes?.map((v: any) => ({
-      ...v.userID,
-      createdAt: v.createdAt,
-    }));
+    // const result: any = likesList?.likes?.map((v: any) => ({
+    //   ...v.userID,
+    //   createdAt: v.createdAt,
+    // }));
 
-    return result;
+    return [];
   }
 
   async findPost(postID: string) {

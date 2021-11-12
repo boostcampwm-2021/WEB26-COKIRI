@@ -100,7 +100,8 @@ class UserService {
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }
-    return result.follows!;
+    // return result.follows!;
+    return [];
   }
 
   async findOneFollowers(userID: string) {
@@ -110,7 +111,8 @@ class UserService {
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }
-    return result.followers!;
+    // return result.followers!;
+    return [];
   }
 
   async findRandomUserSuggestions(userID: string) {
