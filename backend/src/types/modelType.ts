@@ -66,6 +66,13 @@ export interface DashboardHistoryType {
   date?: Date;
 }
 
+export interface FollowType {
+  _id?: Types.ObjectId;
+  followID?: Types.ObjectId;
+  followerID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
 export interface LikeType {
   userID?: Types.ObjectId;
   createdAt?: Date;
