@@ -50,6 +50,15 @@ export interface UserType {
   lastVisitedAt?: Date;
 }
 
+export interface DashboardPostType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  title?: string;
+  content?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface LikeType {
   userID?: Types.ObjectId;
   createdAt?: Date;
