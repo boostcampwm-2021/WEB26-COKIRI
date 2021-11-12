@@ -1,8 +1,9 @@
-import { Post, User } from 'src/models';
+import { Post, User, Comment } from 'src/models';
 
 export default class CommentService {
   static async createComment(data: any, postID: string) {
-    return Post.findOneAndUpdate({ _id: postID }, { $push: { comments: data } }, { new: true });
+    data.postID = postID;
+    return Comment.create(data);
   }
 
   static async createCommentLike(userID: string, postID: string, commentID: string) {
