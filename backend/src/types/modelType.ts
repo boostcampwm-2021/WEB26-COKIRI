@@ -57,22 +57,12 @@ export interface LikeType {
   createdAt?: Date;
 }
 
-export interface CommentType {
-  _id?: Types.ObjectId;
-  userID?: Types.ObjectId;
-  content?: string;
-  likes?: LikeType[];
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
 export interface PostType {
   title?: string;
   content?: string;
   userID?: Types.ObjectId;
   githubUsername?: string;
   images?: string[];
-  comments?: CommentType[];
   likes?: LikeType[];
   tags?: Types.ObjectId[];
   createdAt?: Date;
@@ -84,6 +74,15 @@ export interface PostLikeType {
   userID?: Types.ObjectId;
   postID?: Types.ObjectId;
   createdAt?: Date;
+}
+
+export interface CommentType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  postID?: Types.ObjectId;
+  content?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface MessageType {
