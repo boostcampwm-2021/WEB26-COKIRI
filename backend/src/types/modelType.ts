@@ -57,7 +57,14 @@ export interface LikeType {
   createdAt?: Date;
 }
 
+export interface ImageType {
+  _id?: Types.ObjectId;
+  url?: string;
+  targetID?: Types.ObjectId;
+}
+
 export interface PostType {
+  _id?: Types.ObjectId;
   title?: string;
   content?: string;
   userID?: Types.ObjectId;
