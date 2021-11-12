@@ -29,7 +29,7 @@ function Post({ post }: Props) {
   const handleClick = useCallback(() => setIsLikeListModal(true), []);
   const handleClose = useCallback(() => setIsLikeListModal(false), []);
 
-  const profileImage = post.user.profileImage || DEFAULT_PROFILE_IMAGE;
+  const profileImage = post.user.profileImage ?? DEFAULT_PROFILE_IMAGE;
   return (
     <Wrapper>
       <Card width={600} height={0}>
@@ -46,7 +46,7 @@ function Post({ post }: Props) {
             </EchoButton>
           </Buttons>
         </Row>
-        <LikeListButton count={post.likes.length} onClick={handleClick} />
+        <LikeListButton likeCount={post.likes.length} onClick={handleClick} />
         <PostContent content={post.content} />
         <PostReview />
         {isLikeListModal && <LikeListModal post={post} onClose={handleClose} />}

@@ -11,7 +11,6 @@ const Row = styled.div<Props>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   width: 100%;
-  height: unset;
 `;
 
 const Col = styled.div<Props>`
@@ -20,7 +19,6 @@ const Col = styled.div<Props>`
   align-items: ${({ alignItems }) => alignItems};
   justify-content: ${({ justifyContent }) => justifyContent};
   width: 100%;
-  height: unset;
 `;
 
 const Spacer = styled.div`

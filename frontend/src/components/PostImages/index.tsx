@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
 import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
-import { IMAGE_WIDTH } from 'src/globals/constants';
+import { POST_IMAGE_WIDTH } from 'src/globals/constants';
 
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
@@ -22,7 +22,7 @@ function PostImages({ images }: Props) {
   const slideRight = () => setSlideIndex(slideIndex + 1);
 
   useEffect(() => {
-    imageHolderRef.current!.style.marginLeft = `-${slideIndex * IMAGE_WIDTH}px`;
+    imageHolderRef.current!.style.marginLeft = `-${slideIndex * POST_IMAGE_WIDTH}px`;
   }, [slideIndex]);
 
   return (
@@ -30,7 +30,7 @@ function PostImages({ images }: Props) {
       <ImageHolder ref={imageHolderRef} count={images.length}>
         {images.map((image) => (
           <li key={image}>
-            <Image src={image} width={IMAGE_WIDTH} height='300' />
+            <Image src={image} width={POST_IMAGE_WIDTH} height='300' />
           </li>
         ))}
       </ImageHolder>

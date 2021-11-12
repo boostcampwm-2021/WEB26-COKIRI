@@ -28,9 +28,9 @@ function LikeListModal({ post, onClose }: Props) {
     <Wrapper>
       <Modal onClose={onClose} close='닫기'>
         <Title>좋아요</Title>
-        <Col justifyContent='flex-start'>
+        <Col>
           {data?.map((like) => {
-            const image = like.profileImage || '';
+            const image = like.profileImage ?? '';
             return (
               <Row justifyContent='space-between' key={like.username}>
                 <ProfileSet image={image} username={like.username} />
