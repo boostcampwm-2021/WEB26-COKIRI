@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
+import { IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
 import ProfileSet from 'src/components/ProfileSet';
 import CommentButton from 'src/components/buttons/CommentButton';
@@ -16,6 +16,8 @@ import { Row } from 'src/components/Grid';
 
 import PostType from 'src/types/post';
 
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+
 import { Wrapper, Buttons } from './style';
 
 interface Props {
@@ -26,28 +28,28 @@ function Post({ post }: Props) {
   const [isLikeListModal, setIsLikeListModal] = useState(false);
   const handleClick = useCallback(() => setIsLikeListModal(true), []);
   const handleClose = useCallback(() => setIsLikeListModal(false), []);
+
+  const profileImage = post.user.profileImage || DEFAULT_PROFILE_IMAGE;
   return (
     <Wrapper>
       <Card width={600} height={0}>
-        <ProfileSet image='' username='beomseok' />
+        <ProfileSet image={profileImage} username={post.user.username} />
         {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
           <Buttons>
-            <CommentButton>
-              <IoHeartOutline />
-            </CommentButton>
-            <LikeButton>
+            <LikeButton post={post} />
+            <CommentButton href={`/posts/${post._id}`}>
               <IoChatbubbleOutline />
-            </LikeButton>
+            </CommentButton>
             <EchoButton href='echo/123'>
               <IoPaperPlaneOutline />
             </EchoButton>
           </Buttons>
         </Row>
-        <LikeListButton length={post.likes.length} onClick={handleClick} />
+        <LikeListButton count={post.likes.length} onClick={handleClick} />
         <PostContent content={post.content} />
         <PostReview />
-        {isLikeListModal && <LikeListModal onClose={handleClose} />}
+        {isLikeListModal && <LikeListModal post={post} onClose={handleClose} />}
       </Card>
     </Wrapper>
   );
