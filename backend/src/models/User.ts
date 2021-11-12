@@ -1,6 +1,6 @@
 import { Schema, model, Types } from 'mongoose';
 
-import { UserType, NotifyRangeType } from 'src/types/modelType';
+import { UserType, NotifyRangeType, DashboardType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
 
 const notifyRangeSchema = new Schema<NotifyRangeType>(
@@ -8,6 +8,18 @@ const notifyRangeSchema = new Schema<NotifyRangeType>(
     postLike: { type: Boolean, required: true, default: true },
     postComment: { type: Boolean, required: true, default: true },
     commentLike: { type: Boolean, required: true, default: true },
+  },
+  { _id: false },
+);
+
+const dashboardSchema = new Schema<DashboardType>(
+  {
+    github: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    blog: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    solvedac: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    email: { type: String, validate: [Validate.email, 'Email 형식이 잘못되었습니다.'] },
+    profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
+    jobObjectives: [{ type: String, required: true }],
   },
   { _id: false },
 );
@@ -21,7 +33,9 @@ const userSchema = new Schema<UserType>(
       validate: [Validate.urlSafeStringDigit(1, 20), '유저네임 형식이 잘못되었습니다.'],
       unique: true,
     },
-    isRegistered: { type: Boolean, require: true, default: false },
+    githubUsername: { type: String, trim: true },
+    tistoryAccessToken: { type: String, trim: true },
+    tistoryURL: String,
     profileImage: {
       type: String,
       validate: [Validate.url, 'URL 형식이 잘못되었습니다.'],
@@ -29,6 +43,7 @@ const userSchema = new Schema<UserType>(
     },
     authProvider: { type: String, enum: ['kakao', 'google', 'github'], required: true },
     authProviderID: { type: String, required: true },
+    isRegistered: { type: Boolean, require: true, default: false },
     phoneNumber: {
       type: String,
       //  @TODO phone number string validate
@@ -47,32 +62,11 @@ const userSchema = new Schema<UserType>(
         validate: Validate.languageObjectID,
       },
     ],
-    postLikes: [
-      { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID },
-    ],
-    commentLikes: [
-      { type: Types.ObjectId, required: true, ref: 'Comment', validate: Validate.commentObjectID },
-    ],
-    followers: [
-      { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
-    ],
-    follows: [
-      { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
-    ],
     notifyRange: notifyRangeSchema,
-    tistoryAccessToken: String,
-    tistoryURL: String,
-    dashboard: {
-      github: String,
-      blog: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
-      solvedac: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
-      histories: [{ date: { type: Date }, content: { type: String } }],
-      email: { type: String, validate: [Validate.email, 'Email 형식이 잘못되었습니다.'] },
-      profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
-      jobObjectives: [{ jobObject: String }],
-    },
+    dashboard: dashboardSchema,
+    lastVisitedAt: { type: Date, default: Date.now },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 
 export default model<UserType>('User', userSchema);

@@ -1,11 +1,5 @@
 import { Types } from 'mongoose';
 
-export interface NotifyRangeType {
-  postLike?: boolean;
-  postComment?: boolean;
-  commentLike?: boolean;
-}
-
 export interface NotifyType {
   _id?: Types.ObjectId;
   type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
@@ -15,11 +9,18 @@ export interface NotifyType {
   createdAt?: Date;
 }
 
+export interface NotifyRangeType {
+  postLike?: boolean;
+  postComment?: boolean;
+  commentLike?: boolean;
+  follow?: boolean;
+  follower?: boolean;
+}
+
 export interface DashboardType {
   github: string;
   blog: string;
   solvedac: string;
-  histories: { date: Date; content: string }[];
   email: string;
   profileImage: string;
   jobObjectives: string[];
@@ -29,6 +30,9 @@ export interface UserType {
   _id?: Types.ObjectId;
   name?: string;
   username?: string;
+  githubUsername?: string;
+  tistoryAccessToken?: string;
+  tistoryURL?: string;
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
@@ -41,16 +45,9 @@ export interface UserType {
   company?: string;
   region?: string;
   languages?: Types.ObjectId[];
-  postLikes?: Types.ObjectId[];
-  commentLikes?: Types.ObjectId[];
-  followers?: Types.ObjectId[];
-  follows?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
-  tistoryAccessToken?: string;
-  tistoryURL?: string;
   dashboard?: DashboardType;
-  createdAt?: Date;
-  updatedAt?: Date;
+  lastVisitedAt?: Date;
 }
 
 export interface LikeType {
