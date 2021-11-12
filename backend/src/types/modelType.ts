@@ -109,8 +109,6 @@ export interface MessageType {
 export interface EchoRoomType {
   _id?: Types.ObjectId;
   users?: Types.ObjectId[];
-  messages?: MessageType[];
-  updatedAt?: Date;
 }
 
 export interface EchoMessageType {
