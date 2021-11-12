@@ -113,6 +113,14 @@ export interface EchoRoomType {
   updatedAt?: Date;
 }
 
+export interface EchoMessageType {
+  _id?: Types.ObjectId;
+  roomID?: Types.ObjectId;
+  content?: string;
+  isRead?: boolean;
+  createdAt?: Date;
+}
+
 export interface TagType {
   _id?: Types.ObjectId;
   content?: string;
