@@ -85,6 +85,13 @@ export interface CommentType {
   updatedAt?: Date;
 }
 
+export interface CommentLikeType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  commentID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
 export interface MessageType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;

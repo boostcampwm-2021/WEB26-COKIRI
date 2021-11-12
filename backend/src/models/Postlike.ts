@@ -6,7 +6,7 @@ import { Validate } from 'src/utils';
 const postLikeSchema = new Schema<PostLikeType>(
   {
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
-    postID: { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.userObjectID },
+    postID: { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID },
   },
   { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
 );
