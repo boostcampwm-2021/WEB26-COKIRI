@@ -79,6 +79,13 @@ export interface PostType {
   updatedAt?: Date;
 }
 
+export interface PostLikeType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  postID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
 export interface MessageType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
