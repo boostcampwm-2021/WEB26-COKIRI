@@ -12,4 +12,4 @@ const dashboardHistorySchema = new Schema<DashboardHistoryType>(
   { versionKey: false },
 );
 
-export default model<DashboardHistoryType>('DashboardPost', dashboardHistorySchema);
+export default model<DashboardHistoryType>('DashboardHistory', dashboardHistorySchema);
