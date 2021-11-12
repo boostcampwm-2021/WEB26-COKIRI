@@ -10,7 +10,7 @@ class PostService {
     return Post.create(data);
   }
 
-  static async createPostLike(userID: string, postID: string) {
+  async createPostLike(userID: string, postID: string) {
     const likeResult = await User.findOneAndUpdate(
       { _id: userID },
       { $push: { $postLikes: { userID } } },
