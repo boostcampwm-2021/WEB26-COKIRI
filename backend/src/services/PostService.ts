@@ -1,13 +1,23 @@
 import { Types } from 'mongoose';
 
-import { Post, User } from 'src/models';
-import { PostType } from 'src/types/modelType';
+import { Post, User, Image } from 'src/models';
 import { ObjectID, MongooseParse } from 'src/utils';
 import { ObjectType } from 'src/types';
 
 class PostService {
-  async createPost(data: PostType) {
-    return Post.create(data);
+  async createPost(data: any) {
+    let { images } = data;
+    delete data.images;
+    const post = await Post.create(data);
+
+    if (images?.length > 0) {
+      images = images.map((v: any) => ({
+        url: v,
+        targetID: post._id,
+      }));
+      await Image.insertMany(images);
+    }
+    return {};
   }
 
   async createPostLike(userID: string, postID: string) {
