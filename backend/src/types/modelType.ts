@@ -9,8 +9,9 @@ export interface NotifyRangeType {
 export interface NotifyType {
   _id?: Types.ObjectId;
   type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
-  postID?: Types.ObjectId;
+  content?: string;
   userID?: Types.ObjectId;
+  postID?: Types.ObjectId;
   createdAt?: Date;
 }
 
