@@ -121,6 +121,8 @@ export interface EchoMessageType {
 
 export interface TagType {
   _id?: Types.ObjectId;
+  con1?: string;
+  con3?: string;
   content?: string;
   count?: number;
 }
