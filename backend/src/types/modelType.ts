@@ -59,6 +59,13 @@ export interface DashboardPostType {
   updatedAt?: Date;
 }
 
+export interface DashboardHistoryType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  content?: string;
+  date?: Date;
+}
+
 export interface LikeType {
   userID?: Types.ObjectId;
   createdAt?: Date;
