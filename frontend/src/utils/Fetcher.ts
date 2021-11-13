@@ -101,5 +101,21 @@ class Fetcher {
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
+
+  static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
+    await axios.put(
+      `${baseURL}/v1/users/${targetUserID}/follows`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+  }
+
+  static async deleteUserFollow(user: UserType, targetUserID: string): Promise<void> {
+    await axios.delete(`${baseURL}/v1/users/${targetUserID}/follows`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
 }
 export default Fetcher;

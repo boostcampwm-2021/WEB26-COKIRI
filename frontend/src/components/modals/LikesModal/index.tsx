@@ -30,7 +30,7 @@ function LikesModal({ postID, onClose }: Props) {
           {data?.map((like) => (
             <Row justifyContent='space-between' key={like.username}>
               <ProfileSet profileImage={like.profileImage} username={like.username} />
-              <FollowButton />
+              <FollowButton targetUserID={like.username} />
             </Row>
           ))}
         </Col>

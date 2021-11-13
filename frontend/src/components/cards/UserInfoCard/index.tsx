@@ -30,7 +30,7 @@ function UserInfoCard({ targetUser, isMe }: Props) {
           <Col alignItems='start'>
             <Row justifyContent='start'>
               <Username>{username}</Username>
-              {!isMe && <FollowButton />}
+              {!isMe && <FollowButton targetUserID={targetUser._id!} />}
               {isMe && (
                 <NavigateIconButton href={`/users/${targetUser.username}/settings`}>
                   <IoSettingsOutline />
