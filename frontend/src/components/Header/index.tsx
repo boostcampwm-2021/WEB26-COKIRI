@@ -1,5 +1,4 @@
 import { useRecoilValue } from 'recoil';
-import Image from 'next/image';
 import {
   IoHomeOutline,
   IoCompassOutline,
