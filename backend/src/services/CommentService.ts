@@ -1,9 +1,8 @@
 import { Post, User, Comment } from 'src/models';
 
 export default class CommentService {
-  static async createComment(data: any, postID: string) {
-    data.postID = postID;
-    return Comment.create(data);
+  static async createComment(userID: string, content: string, postID: string) {
+    return Comment.create({ userID, content, postID });
   }
 
   static async createCommentLike(userID: string, postID: string, commentID: string) {

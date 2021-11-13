@@ -34,12 +34,19 @@ export default class PostsRouter {
     return response.json(result);
   }
 
-  @Post('/:postId/comments')
+  @Post('/:postID/comments')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postComment(@Req() request: Request, @Res() response: Response) {
-    const { postId } = request.params;
-    const data = request.body;
-    const result = await CommentService.createComment(data, postId);
-    return response.json(result);
+    const { postID } = request.params;
+    const { userID, content } = request.body;
+    if (!userID || !content) {
+      throw new Error(Enums.error.WRONG_BODY_TYPE);
+    }
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    const result = await CommentService.createComment(userID, content, postID);
+    return response.json({ code: Enums.responseCode.SUCCESS, _id: result._id });
   }
 
   @Post('/:postId/comments/:commentId/likes')
