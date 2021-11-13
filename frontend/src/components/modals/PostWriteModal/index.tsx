@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
+import { IoMdImages } from 'react-icons/io';
 import PropTypes from 'prop-types';
 
 import Modal from 'src/components/modals/Common';
@@ -11,7 +12,7 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { Textarea } from './style';
+import { Textarea, IconHolder } from './style';
 
 interface Props {
   onClose: () => void;
@@ -48,7 +49,11 @@ function PostWriteModal({ onClose }: Props) {
 
   return (
     <Modal close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
-      <ImageInput onImageUpload={handleImageUpload} />
+      <ImageInput onImageUpload={handleImageUpload}>
+        <IconHolder>
+          <IoMdImages />
+        </IconHolder>
+      </ImageInput>
       <Textarea autoFocus value={content} onChange={handleTextareaChange} />
       <ImagesPreview images={images} onDelete={handleImageDelete} />
     </Modal>

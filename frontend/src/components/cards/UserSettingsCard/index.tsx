@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 
 import Card from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
+import ImageInput from 'src/components/inputs/ImageInput';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -13,14 +14,13 @@ import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
 
 import { Fetcher } from 'src/utils';
 
-import { Wrapper, ImageHolder, ImageCoverButton, SaveButton } from './style';
+import { Wrapper, ImageHolder, ImageCover, SaveButton } from './style';
 
 interface Props {
   user: UserType;
 }
 
 function UserSettingsCard({ user }: Props) {
-  // eslint-disable-next-line no-unused-vars
   const [profileImage, setProfileImage] = useState(user.profileImage);
   const [username, setUsername] = useState(user.username);
   const [name, setName] = useState(user.name);
@@ -33,12 +33,18 @@ function UserSettingsCard({ user }: Props) {
     mutation.mutate();
   };
 
+  const handleImageUpload = (url: string) => {
+    setProfileImage(url);
+  };
+
   return (
     <Wrapper>
       <Card width={812}>
         <Col justifyContent='start'>
           <ImageHolder>
-            <ImageCoverButton>변경</ImageCoverButton>
+            <ImageInput onImageUpload={handleImageUpload}>
+              <ImageCover>변경</ImageCover>
+            </ImageInput>
             <Image width={168} height={168} src={profileImage ?? DEFAULT_PROFILE_IMAGE} />
           </ImageHolder>
           <Row>

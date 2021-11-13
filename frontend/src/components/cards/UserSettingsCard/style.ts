@@ -35,8 +35,11 @@ const SaveButton = styled.button`
   box-shadow: 5px 5px 10px #3a3a3a, -5px -5px 10px #4e4e4e;
 `;
 
-const ImageCoverButton = styled.button`
+const ImageCover = styled.div`
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   left: 0;
   top: 0;
   float: left;
@@ -58,4 +61,4 @@ const ImageHolder = styled.div`
   width: 168px;
 `;
 
-export { Wrapper, ImageHolder, ImageCoverButton, SaveButton };
+export { Wrapper, ImageHolder, ImageCover, SaveButton };

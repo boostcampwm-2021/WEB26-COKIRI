@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
-import { IoMdImages } from 'react-icons/io';
 
 import { Uploader } from 'src/utils';
+
 import { Wrapper } from './style';
 
 interface Props {
+  children: ReactNode;
   // eslint-disable-next-line no-unused-vars
   onImageUpload: (image: string) => void;
 }
 
-function ImageInput({ onImageUpload }: Props) {
+function ImageInput({ onImageUpload, children }: Props) {
   const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
     const requests = files.map((file) => Uploader.uploadPostImage(file));
@@ -21,7 +22,7 @@ function ImageInput({ onImageUpload }: Props) {
   return (
     <Wrapper>
       <label htmlFor='image'>
-        <IoMdImages />
+        {children}
         <input
           id='image'
           type='file'
@@ -35,6 +36,7 @@ function ImageInput({ onImageUpload }: Props) {
 }
 
 ImageInput.propTypes = {
+  children: PropTypes.node.isRequired,
   onImageUpload: PropTypes.func.isRequired,
 };
 
