@@ -10,7 +10,7 @@ import {
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
-import SearchBox from 'src/components/SearchBox';
+import SearchInput from 'src/components/inputs/SearchInput';
 import { Row } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -25,7 +25,7 @@ function Header() {
       <Row>
         <Section>
           <LogoButton />
-          <SearchBox />
+          <SearchInput />
         </Section>
 
         <Section>
