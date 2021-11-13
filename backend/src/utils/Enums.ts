@@ -13,6 +13,10 @@ const Enums = {
       'dashboard',
     ],
   },
+  responseCode: {
+    SUCCESS: '성공',
+    OVERLAP: '중복된 요청입니다.',
+  },
   error: {
     PERMISSION_DENIED: 'Permission Denied.',
     WRONG_QUERY_TYPE: 'Query 형태가 잘못 되었습니다.',

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post, Delete, Get } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-controllers';
 
 import { PostService, CommentService, PostLikeService } from 'src/services';
 import { Enums } from 'src/utils';
+import * as passport from 'passport';
 
 @Controller('/posts')
 export default class PostsRouter {
@@ -50,14 +51,21 @@ export default class PostsRouter {
   }
 
   @Post('/:postID/likes')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postPostLike(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
     const { userID } = request.body;
     if (!userID) {
       throw new Error(Enums.error.WRONG_BODY_TYPE);
     }
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     const result = await PostLikeService.createPostLike(userID, postID);
-    return response.json(result);
+    const responseJSON = result.upsertedId
+      ? { code: Enums.responseCode.SUCCESS, _id: result.upsertedId }
+      : { code: Enums.responseCode.OVERLAP };
+    return response.json(responseJSON);
   }
 
   @Delete('/:postId/comments/:commentId')
@@ -74,10 +82,18 @@ export default class PostsRouter {
     return response.json(result);
   }
 
-  @Delete('/:postId/likes/:likeId')
+  @Delete('/:postID/likes/:likeID')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deletePostLike(@Req() request: Request, @Res() response: Response) {
-    const { postId, likeId } = request.params;
-    const result = await PostService.removePostLike(postId, likeId);
-    return response.json(result);
+    const { postID, likeID } = request.params;
+    const { userID } = request.user!;
+    if (!postID || !likeID) {
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
+    }
+    const result = await PostLikeService.removePostLike(userID, postID, likeID);
+    const responseCode = result.deletedCount
+      ? Enums.responseCode.SUCCESS
+      : Enums.responseCode.OVERLAP;
+    return response.json({ code: responseCode });
   }
 }

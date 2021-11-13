@@ -86,14 +86,6 @@ class PostService {
     if (postCount.length === 0) return { postCount: 0 };
     return postCount[0];
   }
-
-  async removePostLike(postID: string, likeID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID, 'likes._id': likeID },
-      { $pull: { likes: { _id: likeID } } },
-      { new: true },
-    );
-  }
 }
 
 export default new PostService();
