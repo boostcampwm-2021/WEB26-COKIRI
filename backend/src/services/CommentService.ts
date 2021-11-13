@@ -34,14 +34,6 @@ class CommentService {
       { new: true },
     );
   }
-
-  async removeCommentLike(postID: string, commentID: string, userID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID, comments: { $elemMatch: { _id: commentID } } },
-      { $pull: { 'comments.$.likes': { userID } } },
-      { new: true },
-    );
-  }
 }
 
 export default new CommentService();

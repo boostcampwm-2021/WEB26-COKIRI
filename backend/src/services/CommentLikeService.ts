@@ -21,6 +21,10 @@ class CommentLikeService {
       return like;
     });
   }
+
+  async removeCommentLike(commentID: string, likeID: string) {
+    return CommentLike.remove({ commentID, likeID });
+  }
 }
 
 export default new CommentLikeService();

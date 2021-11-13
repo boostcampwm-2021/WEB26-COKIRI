@@ -98,22 +98,24 @@ export default class PostsRouter {
     return response.json(result);
   }
 
-  @Delete('/:postId/comments/:commentId/likes/:likeId')
-  async deleteCommentLike(@Req() request: Request, @Res() response: Response) {
-    const { postId, commentId, likeId } = request.params;
-    const result = await CommentService.removeCommentLike(postId, commentId, likeId);
-    return response.json(result);
-  }
-
   @Delete('/:postID/likes/:likeID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deletePostLike(@Req() request: Request, @Res() response: Response) {
     const { postID, likeID } = request.params;
     const { userID } = request.user!;
-    if (!postID || !likeID) {
-      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
-    }
     const result = await PostLikeService.removePostLike(userID, postID, likeID);
+    const responseCode = result.deletedCount
+      ? Enums.responseCode.SUCCESS
+      : Enums.responseCode.OVERLAP;
+    return response.json({ code: responseCode });
+  }
+
+  @Delete('/:postID/comments/:commentID/likes/:likeID')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async deleteCommentLike(@Req() request: Request, @Res() response: Response) {
+    const { postID, commentID, likeID } = request.params;
+    await CommentService.existsComment(postID, commentID);
+    const result = await CommentLikeService.removeCommentLike(commentID, likeID);
     const responseCode = result.deletedCount
       ? Enums.responseCode.SUCCESS
       : Enums.responseCode.OVERLAP;
