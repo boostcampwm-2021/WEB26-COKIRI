@@ -93,6 +93,7 @@ export interface PostType {
   link?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  getPostFormat?: Function;
 }
 
 export interface PostLikeType {

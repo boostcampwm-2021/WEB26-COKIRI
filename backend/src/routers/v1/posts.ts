@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-controllers';
-
-import { PostService, CommentService, PostLikeService } from 'src/services';
-import { Enums } from 'src/utils';
 import * as passport from 'passport';
+
+import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
+import { Enums } from 'src/utils';
 
 @Controller('/posts')
 export default class PostsRouter {
@@ -21,10 +21,15 @@ export default class PostsRouter {
     return response.json(await PostService.findPostLikeList(postId));
   }
 
-  @Get('/:postId')
+  @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
-    const { postId } = request.params;
-    return response.json(await PostService.findPost(postId));
+    const { postID } = request.params;
+    const results = await Promise.all([
+      PostService.findPost(postID),
+      CommentService.findComments(postID),
+      PostLikeService.findPostLikes(postID),
+    ]);
+    return response.json({ ...results[0], comments: results[1], likes: results[2] });
   }
 
   @Post('/')

@@ -9,7 +9,21 @@ const commentSchema = new Schema<CommentType>(
     postID: { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID },
     content: { type: String, required: true },
   },
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true, toJSON: { virtuals: true } },
 );
+
+commentSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userID',
+  foreignField: '_id',
+  justOne: true,
+});
+
+commentSchema.virtual('post', {
+  ref: 'Post',
+  localField: 'postID',
+  foreignField: '_id',
+  justOne: true,
+});
 
 export default model<CommentType>('Comment', commentSchema);

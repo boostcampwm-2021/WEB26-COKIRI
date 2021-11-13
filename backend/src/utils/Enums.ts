@@ -14,8 +14,8 @@ const Enums = {
     ],
   },
   responseCode: {
-    SUCCESS: '성공',
-    OVERLAP: '중복된 요청입니다.',
+    SUCCESS: 'Success',
+    OVERLAP: 'Overlap Request',
   },
   error: {
     PERMISSION_DENIED: 'Permission Denied.',
@@ -23,6 +23,7 @@ const Enums = {
     WRONG_PARAMS_TYPE: 'Params 형태가 잘못 되었습니다.',
     WRONG_BODY_TYPE: 'Body 형태가 잘못 되었습니다.',
     NO_USERS: '사용자가 존재하지 않습니다.',
+    NO_POSTS: '게시글이 존재하지 않습니다.',
     INVALID_TISTORY_STATE: 'Tistory Authorization State 가 잘못 되었습니다',
   },
   openAPIUrl: {
@@ -31,6 +32,9 @@ const Enums = {
     TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
     TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
     TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
+  },
+  select: {
+    USER: 'username profileImage',
   },
 };
 

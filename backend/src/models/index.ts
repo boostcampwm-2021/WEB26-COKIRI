@@ -20,6 +20,13 @@ Validate.TagModel = Tag;
 Validate.EchoRoomModel = EchoRoom;
 Validate.LanguageModel = Language;
 Validate.NotifyModel = Notify;
+Validate.PostLikeModel = PostLike;
+Validate.ImageModel = Image;
+Validate.FollowModel = Follow;
+Validate.EchoMessageModel = EchoMessage;
+Validate.DashboardPostModel = DashboardPost;
+Validate.DashboardHistoryModel = DashboardHistory;
+Validate.CommentLikeModel = CommentLike;
 
 export {
   Comment,

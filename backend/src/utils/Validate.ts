@@ -8,6 +8,13 @@ import {
   EchoRoomType,
   NotifyType,
   CommentType,
+  PostLikeType,
+  ImageType,
+  FollowType,
+  EchoMessageType,
+  DashboardPostType,
+  DashboardHistoryType,
+  CommentLikeType,
 } from 'src/types';
 
 class Validate {
@@ -24,6 +31,20 @@ class Validate {
   static NotifyModel: Model<NotifyType> | undefined;
 
   static CommentModel: Model<CommentType> | undefined;
+
+  static PostLikeModel: Model<PostLikeType> | undefined;
+
+  static ImageModel: Model<ImageType> | undefined;
+
+  static FollowModel: Model<FollowType> | undefined;
+
+  static EchoMessageModel: Model<EchoMessageType> | undefined;
+
+  static DashboardPostModel: Model<DashboardPostType> | undefined;
+
+  static DashboardHistoryModel: Model<DashboardHistoryType> | undefined;
+
+  static CommentLikeModel: Model<CommentLikeType> | undefined;
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {

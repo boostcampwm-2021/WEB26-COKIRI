@@ -1,4 +1,5 @@
 import { Schema, model, Types } from 'mongoose';
+import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 
 import { PostType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
@@ -14,7 +15,16 @@ const postSchema = new Schema<PostType>(
     },
     link: { type: String, trim: true },
   },
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true, toJSON: { virtuals: true } },
 );
+
+postSchema.virtual('user', {
+  ref: 'User',
+  localField: 'userID',
+  foreignField: '_id',
+  justOne: true,
+});
+
+postSchema.plugin(mongooseLeanVirtuals);
 
 export default model<PostType>('Post', postSchema);

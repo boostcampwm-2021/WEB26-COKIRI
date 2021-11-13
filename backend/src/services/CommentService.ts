@@ -1,4 +1,7 @@
-import { Post, User, Comment } from 'src/models';
+import { Post, User, Comment, CommentLike } from 'src/models';
+import { Enums } from 'src/utils';
+import { CommentLikeService } from 'src/services';
+import { CommentType } from 'src/types';
 
 export default class CommentService {
   static async createComment(userID: string, content: string, postID: string) {
@@ -18,6 +21,18 @@ export default class CommentService {
       );
     }
     return undefined;
+  }
+
+  static async findComments(postID: string) {
+    const comments: CommentType[] = await Comment.find({ postID }, '-postID')
+      .populate('user', Enums.select.USER)
+      .lean();
+    return Promise.all(
+      comments.map(async (comment) => {
+        const likes = await CommentLikeService.findCommentLikes(comment._id!);
+        return { ...comment, likes };
+      }),
+    );
   }
 
   static async removeComment(postID: string, commentID: string) {

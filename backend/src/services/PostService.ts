@@ -1,7 +1,5 @@
-import { Types } from 'mongoose';
-
 import { Post, User, Image } from 'src/models';
-import { ObjectID, MongooseParse } from 'src/utils';
+import { ObjectID, MongooseParse, Enums } from 'src/utils';
 import { ObjectType } from 'src/types';
 
 class PostService {
@@ -64,7 +62,7 @@ class PostService {
 
   async findPostLikeList(postID: string) {
     const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
-      .populate({ path: 'likes.userID', select: 'username profileImage -_id' })
+      .populate({ path: 'likes.userID', select: Enums.select.USER })
       .lean();
     // const result: any = likesList?.likes?.map((v: any) => ({
     //   ...v.userID,
@@ -75,7 +73,15 @@ class PostService {
   }
 
   async findPost(postID: string) {
-    return Post.findOne({ _id: postID });
+    const post = await Post.findOne({ _id: postID })
+      .populate({
+        path: 'user',
+        select: Enums.select.USER,
+      })
+      .lean();
+    if (!post) throw new Error(Enums.error.NO_POSTS);
+    delete post!.userID;
+    return post;
   }
 
   async findPostCount(userID: string) {
