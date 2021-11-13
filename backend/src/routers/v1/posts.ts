@@ -50,8 +50,8 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const result = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id: result._id });
+    const _id = await CommentService.createComment(userID, content, postID);
+    return response.json({ code: Enums.responseCode.SUCCESS, _id });
   }
 
   @Post('/:postID/comments/:commentID/likes')
@@ -65,12 +65,9 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID);
-    const result = await CommentLikeService.createCommentLike(userID, postID, commentID);
-    const responseJSON = result.upsertedId
-      ? { code: Enums.responseCode.SUCCESS, _id: result.upsertedId }
-      : { code: Enums.responseCode.OVERLAP };
-    return response.json(responseJSON);
+    await CommentService.existsComment(userID, postID, commentID);
+    const _id = await CommentLikeService.createCommentLike(userID, commentID);
+    return response.json({ code: Enums.responseCode.SUCCESS, _id });
   }
 
   @Post('/:postID/likes')
@@ -84,11 +81,8 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const result = await PostLikeService.createPostLike(userID, postID);
-    const responseJSON = result.upsertedId
-      ? { code: Enums.responseCode.SUCCESS, _id: result.upsertedId }
-      : { code: Enums.responseCode.OVERLAP };
-    return response.json(responseJSON);
+    const _id = await PostLikeService.createPostLike(userID, postID);
+    return response.json({ code: Enums.responseCode.SUCCESS, _id });
   }
 
   @Delete('/:postId/comments/:commentId')
@@ -103,22 +97,17 @@ export default class PostsRouter {
   async deletePostLike(@Req() request: Request, @Res() response: Response) {
     const { postID, likeID } = request.params;
     const { userID } = request.user!;
-    const result = await PostLikeService.removePostLike(userID, postID, likeID);
-    const responseCode = result.deletedCount
-      ? Enums.responseCode.SUCCESS
-      : Enums.responseCode.OVERLAP;
-    return response.json({ code: responseCode });
+    await PostLikeService.removePostLike(userID, postID, likeID);
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 
   @Delete('/:postID/comments/:commentID/likes/:likeID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deleteCommentLike(@Req() request: Request, @Res() response: Response) {
     const { postID, commentID, likeID } = request.params;
-    await CommentService.existsComment(postID, commentID);
-    const result = await CommentLikeService.removeCommentLike(commentID, likeID);
-    const responseCode = result.deletedCount
-      ? Enums.responseCode.SUCCESS
-      : Enums.responseCode.OVERLAP;
-    return response.json({ code: responseCode });
+    const { userID } = request.user!;
+    await CommentService.existsComment(userID, postID, commentID);
+    await CommentLikeService.removeCommentLike(commentID, likeID);
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 }

@@ -1,11 +1,11 @@
-import { Post, Comment } from 'src/models';
+import { Comment } from 'src/models';
 import { Enums } from 'src/utils';
 import { CommentLikeService } from 'src/services';
 import { CommentType } from 'src/types';
 
 class CommentService {
-  async existsComment(postID: string, commentID: string) {
-    const isExist = await Comment.exists({ postID, _id: commentID });
+  async existsComment(userID: string, postID: string, commentID: string) {
+    const isExist = await Comment.exists({ _id: commentID, postID, userID });
     if (!isExist) {
       throw new Error(Enums.error.NO_COMMENTS);
     }
@@ -28,11 +28,7 @@ class CommentService {
   }
 
   async removeComment(postID: string, commentID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID, 'comments._id': commentID },
-      { $pull: { comments: { _id: commentID } } },
-      { new: true },
-    );
+    return Comment.remove({ postID, _id: commentID });
   }
 }
 

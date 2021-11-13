@@ -3,11 +3,16 @@ import { Enums } from 'src/utils';
 
 class PostLikeService {
   async createPostLike(userID: string, postID: string) {
-    return PostLike.updateOne(
+    const upsertLike = await PostLike.updateOne(
       { userID, postID },
       { $setOnInsert: { userID, postID } },
       { upsert: true, runValidators: true, new: true },
     );
+    if (!upsertLike.upsertedId) {
+      const likeID = await PostLike.findOne({ userID, postID }, '_id').lean();
+      return likeID!._id;
+    }
+    return upsertLike.upsertedId;
   }
 
   async findPostLikes(postID: string) {
@@ -21,7 +26,7 @@ class PostLikeService {
   }
 
   async removePostLike(userID: string, postID: string, likeID: string) {
-    return PostLike.remove({ userID, postID, _id: likeID });
+    return PostLike.remove({ _id: likeID, userID, postID });
   }
 }
 

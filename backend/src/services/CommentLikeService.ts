@@ -4,12 +4,17 @@ import { CommentLike } from 'src/models';
 import { Enums } from 'src/utils';
 
 class CommentLikeService {
-  async createCommentLike(userID: string, postID: string, commentID: string) {
-    return CommentLike.updateOne(
+  async createCommentLike(userID: string, commentID: string) {
+    const upsertLike: any = CommentLike.updateOne(
       { userID, commentID },
-      { $setOnInsert: { userID, postID } },
+      { $setOnInsert: { userID, commentID } },
       { upsert: true, runValidators: true, new: true },
     );
+    if (!upsertLike.upsertedId) {
+      const likeID = await CommentLike.findOne({ userID, commentID }, '_id').lean();
+      return likeID!._id;
+    }
+    return upsertLike.upsertedId;
   }
 
   async findCommentLikes(commentID: Types.ObjectId) {

@@ -97,7 +97,7 @@ class Validate {
 
   static objectIDLogic(model: Model<any> | undefined, value: Types.ObjectId): Promise<boolean> {
     return new Promise((resolve) => {
-      if (typeof model === 'undefined') {
+      if (model === undefined) {
         resolve(false);
       }
       model!.exists({ _id: value }).then((isValidate) => resolve(isValidate));

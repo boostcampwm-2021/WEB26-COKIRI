@@ -26,6 +26,7 @@ Validate.FollowModel = Follow;
 Validate.EchoMessageModel = EchoMessage;
 Validate.DashboardPostModel = DashboardPost;
 Validate.DashboardHistoryModel = DashboardHistory;
+Validate.CommentModel = Comment;
 Validate.CommentLikeModel = CommentLike;
 
 export {
