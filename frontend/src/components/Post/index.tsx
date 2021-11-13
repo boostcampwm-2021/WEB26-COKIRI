@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
-import ProfileSet from 'src/components/ProfileSet';
+import ProfileSet from 'src/components/sets/ProfileSet';
 import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
 import Modal from 'src/components/modals/Common';
-import ProfileSet from 'src/components/ProfileSet';
+import ProfileSet from 'src/components/sets/ProfileSet';
 import FollowButton from 'src/components/buttons/FollowButton';
 import { Row, Col } from 'src/components/Grid';
 

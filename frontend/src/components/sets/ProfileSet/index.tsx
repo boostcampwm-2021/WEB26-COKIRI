@@ -11,12 +11,12 @@ interface Props {
   username?: string;
 }
 
-function Profile({ image, username }: Props) {
-  const profileImage = image || '/images/default_profile_image.jpg';
+function ProfileSet({ image, username }: Props) {
+  const profileImage = image ?? '/images/default_profile_image.jpg';
 
   return (
     <Wrapper>
-      <Row justifyContent='flex-start'>
+      <Row justifyContent='start'>
         <ProfileImageButton image={profileImage} username={username} />
         <UsernameButton username={username} />
       </Row>
@@ -24,13 +24,13 @@ function Profile({ image, username }: Props) {
   );
 }
 
-Profile.propTypes = {
+ProfileSet.propTypes = {
   image: PropTypes.string.isRequired,
   username: PropTypes.string,
 };
 
-Profile.defaultProps = {
+ProfileSet.defaultProps = {
   username: '',
 };
 
-export default Profile;
+export default ProfileSet;
