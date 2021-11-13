@@ -1,14 +1,10 @@
 import Button from 'src/components/buttons/Common';
 
-import {
-  FOLLOW_BUTTON_WIDTH,
-  FOLLOW_BUTTON_HEIGHT,
-  FOLLOW_BUTTON_MARGIN,
-} from 'src/globals/constants';
+import { FOLLOW_BUTTON_WIDTH, FOLLOW_BUTTON_HEIGHT } from 'src/globals/constants';
 
 function FollowButton() {
   return (
-    <Button width={FOLLOW_BUTTON_WIDTH} height={FOLLOW_BUTTON_HEIGHT} margin={FOLLOW_BUTTON_MARGIN}>
+    <Button width={FOLLOW_BUTTON_WIDTH} height={FOLLOW_BUTTON_HEIGHT}>
       팔로우
     </Button>
   );

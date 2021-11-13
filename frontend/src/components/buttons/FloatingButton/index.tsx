@@ -1,14 +1,9 @@
 import { useCallback, useState } from 'react';
 
 import Button from 'src/components/buttons/Common';
-
 import PostWriteModal from 'src/components/modals/PostWriteModal';
 
-import {
-  FLOATING_BUTTON_WIDTH,
-  FLOATING_BUTTON_HEIGHT,
-  FLOATING_BUTTON_MARGIN,
-} from 'src/globals/constants';
+import { FLOATING_BUTTON_WIDTH, FLOATING_BUTTON_HEIGHT } from 'src/globals/constants';
 
 import { Wrapper } from './style';
 
@@ -30,7 +25,6 @@ function FloatingButton() {
         onClick={changeModalShow}
         width={FLOATING_BUTTON_WIDTH}
         height={FLOATING_BUTTON_HEIGHT}
-        margin={FLOATING_BUTTON_MARGIN}
       >
         작성
       </Button>

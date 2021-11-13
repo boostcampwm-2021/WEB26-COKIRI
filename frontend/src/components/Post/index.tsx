@@ -16,7 +16,7 @@ import { Row } from 'src/components/Grid';
 
 import PostType from 'src/types/post';
 
-import { DEFAULT_PROFILE_IMAGE, POST_CARD_WIDTH, POST_CARD_HEIGHT } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE, POST_CARD_WIDTH } from 'src/globals/constants';
 
 import { Wrapper, Buttons } from './style';
 
@@ -33,7 +33,7 @@ function Post({ post }: Props) {
   const profileImage = post.user.profileImage ?? DEFAULT_PROFILE_IMAGE;
   return (
     <Wrapper>
-      <Card width={POST_CARD_WIDTH} height={POST_CARD_HEIGHT}>
+      <Card width={POST_CARD_WIDTH}>
         <ProfileSet image={profileImage} username={post.user.username} />
         {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
