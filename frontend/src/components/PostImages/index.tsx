@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
 import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
-import { POST_IMAGE_WIDTH } from 'src/globals/constants';
+import { POST_IMAGE_WIDTH, POST_IMAGE_HEIGHT } from 'src/globals/constants';
 
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
@@ -30,7 +30,7 @@ function PostImages({ images }: Props) {
       <ImageHolder ref={imageHolderRef} count={images.length}>
         {images.map((image) => (
           <li key={image}>
-            <Image src={image} width={POST_IMAGE_WIDTH} height='300' />
+            <Image src={image} width={POST_IMAGE_WIDTH} height={POST_IMAGE_HEIGHT} />
           </li>
         ))}
       </ImageHolder>

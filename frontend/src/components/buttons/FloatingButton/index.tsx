@@ -1,8 +1,16 @@
 import { useCallback, useState } from 'react';
 
+import Button from 'src/components/buttons/Common';
+
 import PostWriteModal from 'src/components/modals/PostWriteModal';
 
-import { Wrapper, Button } from './style';
+import {
+  FLOATING_BUTTON_WIDTH,
+  FLOATING_BUTTON_HEIGHT,
+  FLOATING_BUTTON_MARGIN,
+} from 'src/globals/constants';
+
+import { Wrapper } from './style';
 
 function FloatingButton() {
   const [isModalShow, setIsModalShow] = useState(false);
@@ -18,7 +26,14 @@ function FloatingButton() {
   return (
     <Wrapper>
       {isModalShow && <PostWriteModal onClose={handleClose} />}
-      <Button onClick={changeModalShow}>작성</Button>
+      <Button
+        onClick={changeModalShow}
+        width={FLOATING_BUTTON_WIDTH}
+        height={FLOATING_BUTTON_HEIGHT}
+        margin={FLOATING_BUTTON_MARGIN}
+      >
+        작성
+      </Button>
     </Wrapper>
   );
 }

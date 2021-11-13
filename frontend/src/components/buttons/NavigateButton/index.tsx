@@ -3,7 +3,9 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
-import { Wrapper } from './style';
+import Button from 'src/components/buttons/Common';
+
+import { HEADER_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   href: string;
@@ -12,13 +14,13 @@ interface Props {
 
 function NavigateButton({ href, children }: Props) {
   return (
-    <Wrapper>
+    <Button>
       <Link href={href}>
         <a href={href}>
-          <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
+          <IconContext.Provider value={{ size: HEADER_ICON_SIZE }}>{children}</IconContext.Provider>
         </a>
       </Link>
-    </Wrapper>
+    </Button>
   );
 }
 
