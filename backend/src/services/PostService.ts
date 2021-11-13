@@ -7,7 +7,6 @@ import { ObjectType } from 'src/types';
 class PostService {
   async createPost(data: any) {
     let { images } = data;
-    delete data.images;
     const post = await Post.create(data);
 
     if (images?.length > 0) {
@@ -15,24 +14,9 @@ class PostService {
         url: v,
         targetID: post._id,
       }));
-      await Image.insertMany(images);
+      if (images) await Image.insertMany(images);
     }
     return {};
-  }
-
-  async createPostLike(userID: string, postID: string) {
-    const likeResult = await User.findOneAndUpdate(
-      { _id: userID },
-      { $push: { $postLikes: { userID } } },
-    );
-    if (likeResult) {
-      return Post.findOneAndUpdate(
-        { _id: postID },
-        { $push: { likes: { userID } } },
-        { new: true },
-      );
-    }
-    return undefined;
   }
 
   async findRandomPost() {

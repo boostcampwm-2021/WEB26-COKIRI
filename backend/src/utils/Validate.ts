@@ -55,6 +55,7 @@ class Validate {
   }
 
   static postObjectID(value: Types.ObjectId): Promise<boolean> {
+    console.log(value);
     return Validate.objectIDLogic(Validate.PostModel, value);
   }
 

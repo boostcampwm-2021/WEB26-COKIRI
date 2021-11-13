@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get } from 'routing-controllers';
 
-import { PostService, CommentService } from 'src/services';
+import { PostService, CommentService, PostLikeService } from 'src/services';
+import { Enums } from 'src/utils';
 
 @Controller('/posts')
 export default class PostsRouter {
@@ -48,11 +49,14 @@ export default class PostsRouter {
     return response.json(result);
   }
 
-  @Post('/:postId/likes')
+  @Post('/:postID/likes')
   async postPostLike(@Req() request: Request, @Res() response: Response) {
-    const { postId } = request.params;
-    const data = request.body;
-    const result = await PostService.createPostLike(data.userID, postId);
+    const { postID } = request.params;
+    const { userID } = request.body;
+    if (!userID) {
+      throw new Error(Enums.error.WRONG_BODY_TYPE);
+    }
+    const result = await PostLikeService.createPostLike(userID, postID);
     return response.json(result);
   }
 
