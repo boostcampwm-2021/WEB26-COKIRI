@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
@@ -9,7 +9,7 @@ import { DEFAULT_BUTTON_PADDING, DEFAULT_ICON_SIZE } from 'src/globals/constants
 interface Props {
   children: ReactNode;
   padding?: number;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 function IconButton({ children, onClick, padding }: Props) {

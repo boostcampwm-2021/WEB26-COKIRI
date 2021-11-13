@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
@@ -13,7 +13,7 @@ import {
 
 interface Props {
   children: ReactNode;
-  onClick: () => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 function Social({ children, onClick }: Props) {
