@@ -7,27 +7,25 @@ import ProfileSet from 'src/components/sets/ProfileSet';
 import FollowButton from 'src/components/buttons/FollowButton';
 import { Row, Col } from 'src/components/Grid';
 
-import { PostType } from 'src/types';
-
 import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { Wrapper, Title } from './style';
+import { Wrapper } from './style';
 
 interface Props {
-  post: PostType;
+  postID: string;
   onClose: () => void;
 }
 
-function LikeListModal({ post, onClose }: Props) {
+function LikesModal({ postID, onClose }: Props) {
   const user = useRecoilValue(userAtom);
-  const { data } = useQuery(['posts', post], () => Fetcher.getPostLikes(user, post));
+  const { data } = useQuery(['posts', postID], () => Fetcher.getPostLikes(user, postID));
 
   return (
     <Wrapper>
       <Modal onClose={onClose} close='닫기'>
-        <Title>좋아요</Title>
+        좋아요
         <Col>
           {data?.map((like) => (
             <Row justifyContent='space-between' key={like.username}>
@@ -41,12 +39,12 @@ function LikeListModal({ post, onClose }: Props) {
   );
 }
 
-LikeListModal.propTypes = {
-  post: PropTypes.objectOf(PropTypes.any).isRequired,
+LikesModal.propTypes = {
+  postID: PropTypes.string.isRequired,
   onClose: PropTypes.func,
 };
 
-LikeListModal.defaultProps = {
+LikesModal.defaultProps = {
   onClose: () => {},
 };
-export default LikeListModal;
+export default LikesModal;

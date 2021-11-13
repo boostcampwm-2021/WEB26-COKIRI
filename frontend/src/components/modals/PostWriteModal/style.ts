@@ -1,22 +1,5 @@
 import styled from '@emotion/styled';
 
-import { Col, Row } from 'src/components/Grid';
-
-const Wrapper = styled.div`
-  ${Row} {
-    justify-content: start;
-    ${Col} {
-      justify-content: start;
-      width: unset;
-      margin-right: 16px;
-      margin-bottom: 24px;
-      img {
-        border-radius: 16px;
-      }
-    }
-  }
-`;
-
 const Textarea = styled.textarea`
   width: 100%;
   height: 164px;
@@ -30,4 +13,5 @@ const Textarea = styled.textarea`
   font-size: 16px;
 `;
 
-export { Textarea, Wrapper };
+// eslint-disable-next-line import/prefer-default-export
+export { Textarea };

@@ -1,30 +1,24 @@
-import { ReactNode } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { IconContext } from 'react-icons';
+import { IoChatbubbleOutline } from 'react-icons/io5';
 
-import { Wrapper } from './style';
+import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
-  children: ReactNode;
-  href: string;
+  postID: string;
 }
 
-function CommentButton({ children, href }: Props) {
+// eslint-disable-next-line no-unused-vars
+function CommentButton({ postID }: Props) {
   return (
-    <Wrapper>
-      <Link href={href}>
-        <a>
-          <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
-        </a>
-      </Link>
-    </Wrapper>
+    <IconButton>
+      <IoChatbubbleOutline />
+    </IconButton>
   );
 }
 
 CommentButton.propsType = {
-  children: PropTypes.node.isRequired,
-  href: PropTypes.string.isRequired,
+  postID: PropTypes.string.isRequired,
 };
 
 export default CommentButton;

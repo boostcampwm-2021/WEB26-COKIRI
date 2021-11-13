@@ -7,7 +7,6 @@ interface Props {
 }
 const Wrapper = styled.div`
   width: 100%;
-  height: 300px;
   position: relative;
   margin: 0 auto;
   overflow: hidden;

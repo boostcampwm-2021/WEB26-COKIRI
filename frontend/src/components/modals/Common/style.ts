@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 
 const Background = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 2;
   top: 0;
   bottom: 0;
   left: 0;
@@ -14,9 +15,10 @@ const Background = styled.div`
 `;
 
 const Card = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 3;
   padding: 32px;
-  top: 196px;
+  top: 146px;
   left: 0;
   right: 0;
   width: 384px;

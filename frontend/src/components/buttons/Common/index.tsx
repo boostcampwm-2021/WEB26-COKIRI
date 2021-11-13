@@ -1,11 +1,7 @@
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  DEFAULT_BUTTON_WIDTH,
-  DEFAULT_BUTTON_HEIGHT,
-  DEFAULT_BUTTON_MARGIN,
-} from 'src/globals/constants';
+import { DEFAULT_BUTTON_MARGIN } from 'src/globals/constants';
 
 import { Button } from './style';
 
@@ -34,8 +30,8 @@ Common.propsType = {
 };
 
 Common.defaultProps = {
-  width: DEFAULT_BUTTON_WIDTH,
-  height: DEFAULT_BUTTON_HEIGHT,
+  width: 0,
+  height: 0,
   margin: DEFAULT_BUTTON_MARGIN,
   onClick: () => {},
 };
