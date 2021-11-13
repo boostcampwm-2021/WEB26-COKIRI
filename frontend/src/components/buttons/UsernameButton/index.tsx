@@ -10,7 +10,7 @@ interface Props {
 function UsernameButton({ username }: Props) {
   return (
     <Wrapper>
-      <Link href={`/users/${username}`}>
+      <Link href={`/users/${username}`} passHref>
         <a>{username}</a>
       </Link>
     </Wrapper>

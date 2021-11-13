@@ -14,7 +14,7 @@ interface Props {
 function ProfileImageButton({ username, profileImage }: Props) {
   return (
     <Wrapper>
-      <Link href={`/users/${username}`}>
+      <Link href={`/users/${username}`} passHref>
         <a>
           <Image
             src={profileImage}

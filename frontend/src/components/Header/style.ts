@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
 const Wrapper = styled.header`
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   right: 0;
-  position: fixed;
   height: 80px;
   background-color: #444444;
   display: flex;

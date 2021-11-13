@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 import Card from 'src/components/cards/Common';
 import FollowButton from 'src/components/buttons/FollowButton';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -30,7 +31,11 @@ function UserInfoCard({ targetUser, isMe }: Props) {
             <Row justifyContent='start'>
               <Username>{username}</Username>
               {!isMe && <FollowButton />}
-              {isMe && <Link href={`/users/${targetUser.username}/settings`}>settings</Link>}
+              {isMe && (
+                <NavigateIconButton href={`/users/${targetUser.username}/settings`}>
+                  <IoSettingsOutline />
+                </NavigateIconButton>
+              )}
             </Row>
             <Row justifyContent='start'>
               <p>{postCount} posts</p>

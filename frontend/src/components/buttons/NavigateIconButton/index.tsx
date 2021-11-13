@@ -11,8 +11,8 @@ interface Props {
 
 function NavigateIconButton({ href, children }: Props) {
   return (
-    <IconButton>
-      <Link href={href}>
+    <IconButton padding={0}>
+      <Link href={href} passHref>
         <a>{children}</a>
       </Link>
     </IconButton>
