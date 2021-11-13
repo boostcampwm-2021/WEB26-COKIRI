@@ -28,4 +28,8 @@ export default css`
   textarea:focus {
     outline: none;
   }
+
+  img {
+    object-fit: cover;
+  }
 `;

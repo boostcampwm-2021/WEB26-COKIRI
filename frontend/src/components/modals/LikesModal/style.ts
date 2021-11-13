@@ -9,17 +9,8 @@ const Wrapper = styled.div`
       height: 240px;
     }
     justify-content: start;
-    width: 100%;
   }
 `;
 
-const Title = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  width: 100%;
-  border-bottom: 1px solid #ffffff;
-`;
-
-export { Wrapper, Title };
+// eslint-disable-next-line import/prefer-default-export
+export { Wrapper };

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
-import descriptions from 'src/globals/descriptions';
+import { ECHO_DESCRIPTION } from 'src/globals/descriptions';
 
 function Echo() {
   const router = useRouter();
@@ -12,7 +12,7 @@ function Echo() {
     <div>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.echo} />
+        <meta name='description' content={ECHO_DESCRIPTION} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 

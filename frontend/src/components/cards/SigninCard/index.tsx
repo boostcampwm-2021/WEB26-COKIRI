@@ -6,7 +6,7 @@ import { Row } from 'src/components/Grid';
 
 function SigninCard() {
   return (
-    <Card width={500} height={200}>
+    <Card width={500}>
       <Row>
         <Google />
         <Github />

@@ -26,7 +26,7 @@ function UserSettingsCard({ user }: Props) {
   const [name, setName] = useState(user.name);
   const [bio, setBio] = useState(user.bio);
   const mutation = useMutation(() =>
-    Fetcher.putUserSettings({ profileImage, username, name, bio }, user),
+    Fetcher.putUserSettings(user, { profileImage, username, name, bio }),
   );
 
   const handleClick = () => {

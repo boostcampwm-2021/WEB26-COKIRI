@@ -10,7 +10,7 @@ interface Props {
   onImageUpload: (image: string) => void;
 }
 
-function ImageUploadButton({ onImageUpload }: Props) {
+function ImageInput({ onImageUpload }: Props) {
   const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
     const requests = files.map((file) => Uploader.uploadPostImage(file));
@@ -34,8 +34,8 @@ function ImageUploadButton({ onImageUpload }: Props) {
   );
 }
 
-ImageUploadButton.propTypes = {
+ImageInput.propTypes = {
   onImageUpload: PropTypes.func.isRequired,
 };
 
-export default ImageUploadButton;
+export default ImageInput;

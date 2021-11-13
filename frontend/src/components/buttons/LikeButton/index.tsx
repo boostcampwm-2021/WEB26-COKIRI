@@ -1,25 +1,54 @@
-import { ReactNode } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
+import { useMutation } from 'react-query';
 import PropTypes from 'prop-types';
-import { IconContext } from 'react-icons';
 
-import { Wrapper } from './style';
+import { Fetcher } from 'src/utils';
+
+import userAtom from 'src/recoil/user';
+
+import { PostType } from 'src/types';
+
+import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
-  children: ReactNode;
+  post: PostType;
+  setLikeCount: Dispatch<SetStateAction<number>>;
 }
 
-function LikeButton({ children }: Props) {
-  return (
-    <Wrapper>
-      <button type='button'>
-        <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
-      </button>
-    </Wrapper>
+function LikeButton({ post, setLikeCount }: Props) {
+  const user = useRecoilValue(userAtom);
+  const [isLike, setIsLike] = useState(post.likes.some((postLike) => postLike._id === user._id));
+  const likeMutation = useMutation(() => Fetcher.postPostLike(user, post._id));
+  const dislikeMutation = useMutation(() => Fetcher.deletePostLike(user, post._id));
+
+  const handleClickLike = () => {
+    likeMutation.mutate();
+    setLikeCount((prevState) => prevState - 1);
+    setIsLike(true);
+  };
+
+  const handleClickDislike = () => {
+    dislikeMutation.mutate();
+    setLikeCount((prevState) => prevState - 1);
+    setIsLike(false);
+  };
+
+  return isLike ? (
+    <IconButton onClick={handleClickLike}>
+      <IoHeartSharp />
+    </IconButton>
+  ) : (
+    <IconButton onClick={handleClickDislike}>
+      <IoHeartOutline />
+    </IconButton>
   );
 }
 
-LikeButton.propsType = {
-  children: PropTypes.node.isRequired,
+LikeButton.propTypes = {
+  post: PropTypes.objectOf(PropTypes.any).isRequired,
+  setLikeCount: PropTypes.func.isRequired,
 };
 
 export default LikeButton;

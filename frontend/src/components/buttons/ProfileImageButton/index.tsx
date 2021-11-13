@@ -2,19 +2,25 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 
+import { POST_PROFILE_IMAGE_HEIGHT, POST_PROFILE_IMAGE_WIDTH } from 'src/globals/constants';
+
 import { Wrapper } from './style';
 
 interface Props {
-  username: string;
-  image: string;
+  username?: string;
+  profileImage: string;
 }
 
-function ProfileImageButton({ username, image }: Props) {
+function ProfileImageButton({ username, profileImage }: Props) {
   return (
     <Wrapper>
-      <Link href={`/users/${username}`}>
-        <a href={`/users/${username}`}>
-          <Image src={image} width='36' height='36' />
+      <Link href={`/users/${username}`} passHref>
+        <a>
+          <Image
+            src={profileImage}
+            width={POST_PROFILE_IMAGE_WIDTH}
+            height={POST_PROFILE_IMAGE_HEIGHT}
+          />
         </a>
       </Link>
     </Wrapper>
@@ -22,8 +28,12 @@ function ProfileImageButton({ username, image }: Props) {
 }
 
 ProfileImageButton.propsType = {
-  href: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  profileImage: PropTypes.string.isRequired,
+};
+
+ProfileImageButton.defaultProps = {
+  username: '',
 };
 
 export default ProfileImageButton;

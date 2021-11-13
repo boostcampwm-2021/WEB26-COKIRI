@@ -7,18 +7,18 @@ interface Props {
   username: string;
 }
 
-function ProfileUsernameButton({ username }: Props) {
+function UsernameButton({ username }: Props) {
   return (
     <Wrapper>
-      <Link href={`/users/${username}`}>
-        <a href={`/users/${username}`}>{username}</a>
+      <Link href={`/users/${username}`} passHref>
+        <a>{username}</a>
       </Link>
     </Wrapper>
   );
 }
 
-ProfileUsernameButton.propsType = {
+UsernameButton.propsType = {
   username: PropTypes.string.isRequired,
 };
 
-export default ProfileUsernameButton;
+export default UsernameButton;

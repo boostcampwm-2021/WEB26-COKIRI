@@ -1,30 +1,24 @@
-import { ReactNode } from 'react';
-import Link from 'next/link';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { IconContext } from 'react-icons';
 
-import { Wrapper } from './style';
+import IconButton from 'src/components/buttons/IconButton';
+import { IoPaperPlaneOutline } from 'react-icons/io5';
 
 interface Props {
-  href: string;
-  children: ReactNode;
+  postID: string;
 }
 
-function EchoButton({ href, children }: Props) {
+// eslint-disable-next-line no-unused-vars
+function EchoButton({ postID }: Props) {
   return (
-    <Wrapper>
-      <Link href={href}>
-        <a href={href}>
-          <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
-        </a>
-      </Link>
-    </Wrapper>
+    <IconButton>
+      <IoPaperPlaneOutline />
+    </IconButton>
   );
 }
 
 EchoButton.propsType = {
-  href: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  postID: PropTypes.string.isRequired,
 };
 
 export default EchoButton;

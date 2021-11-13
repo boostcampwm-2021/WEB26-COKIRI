@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
 
 const Background = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 2;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  height: 100%;
   backdrop-filter: blur(4px) saturate(180%);
   -webkit-backdrop-filter: blur(4px) saturate(180%);
   background-color: rgba(35, 35, 35, 0.65);
 `;
 
 const Card = styled.div`
-  position: absolute;
+  position: fixed;
+  z-index: 2;
   padding: 32px;
-  top: 196px;
+  top: 146px;
   left: 0;
   right: 0;
   width: 384px;

@@ -1,5 +1,4 @@
 import { useRecoilValue } from 'recoil';
-import Image from 'next/image';
 import {
   IoHomeOutline,
   IoCompassOutline,
@@ -8,15 +7,13 @@ import {
   IoPersonCircleOutline,
 } from 'react-icons/io5';
 
-import NavigateButton from 'src/components/buttons/NavigateButton';
-import ImageButton from 'src/components/buttons/ImageButton';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
+import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchBox from 'src/components/SearchBox';
 import { Row } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
-
-import { LOGO_IMAGE } from 'src/globals/constants';
 
 import { Wrapper, Section } from './style';
 
@@ -27,31 +24,29 @@ function Header() {
     <Wrapper>
       <Row>
         <Section>
-          <ImageButton href='/home'>
-            <Image src={LOGO_IMAGE} width={64} height={24} />
-          </ImageButton>
+          <LogoButton />
           <SearchBox />
         </Section>
 
         <Section>
-          <NavigateButton href='/home'>
+          <NavigateIconButton href='/home'>
             <IoHomeOutline />
-          </NavigateButton>
-          <NavigateButton href='/random'>
+          </NavigateIconButton>
+          <NavigateIconButton href='/random'>
             <IoCompassOutline />
-          </NavigateButton>
-          <NavigateButton href='/echo'>
+          </NavigateIconButton>
+          <NavigateIconButton href='/echo'>
             <IoPaperPlaneOutline />
-          </NavigateButton>
+          </NavigateIconButton>
         </Section>
 
         <Section>
           <IconButton>
             <IoHeartOutline />
           </IconButton>
-          <NavigateButton href={`/users/${user.username}`}>
+          <NavigateIconButton href={`/users/${user.username}`}>
             <IoPersonCircleOutline />
-          </NavigateButton>
+          </NavigateIconButton>
         </Section>
       </Row>
     </Wrapper>
