@@ -15,7 +15,6 @@ function ProfileImageButton({ username, image }: Props) {
   return (
     <Wrapper>
       <Link href={`/users/${username}`}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a>
           <Image src={image} width={POST_PROFILE_IMAGE_WIDTH} height={POST_PROFILE_IMAGE_HEIGHT} />
         </a>

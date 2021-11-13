@@ -13,7 +13,6 @@ function NavigateIconButton({ href, children }: Props) {
   return (
     <IconButton>
       <Link href={href}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
         <a>{children}</a>
       </Link>
     </IconButton>

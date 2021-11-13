@@ -14,7 +14,7 @@ function EchoButton({ href, children }: Props) {
   return (
     <Wrapper>
       <Link href={href}>
-        <a href={href}>
+        <a>
           <IconContext.Provider value={{ size: '24px' }}>{children}</IconContext.Provider>
         </a>
       </Link>

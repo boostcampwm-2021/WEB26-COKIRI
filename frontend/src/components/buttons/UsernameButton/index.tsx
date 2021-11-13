@@ -11,7 +11,7 @@ function ProfileUsernameButton({ username }: Props) {
   return (
     <Wrapper>
       <Link href={`/users/${username}`}>
-        <a href={`/users/${username}`}>{username}</a>
+        <a>{username}</a>
       </Link>
     </Wrapper>
   );
