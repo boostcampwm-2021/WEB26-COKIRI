@@ -10,7 +10,7 @@ import Image from './Image';
 import Language from './Language';
 import Notify from './Notify';
 import Post from './Post';
-import Postlike from './Postlike';
+import PostLike from './PostLike';
 import Tag from './Tag';
 import User from './User';
 
@@ -33,7 +33,7 @@ export {
   Language,
   Notify,
   Post,
-  Postlike,
+  PostLike,
   Tag,
   User,
 };
