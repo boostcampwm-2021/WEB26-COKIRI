@@ -1,11 +1,8 @@
 import { ReactNode } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { IconContext } from 'react-icons';
 
-import Button from 'src/components/buttons/Common';
-
-import { HEADER_ICON_SIZE } from 'src/globals/constants';
+import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
   href: string;
@@ -14,13 +11,12 @@ interface Props {
 
 function NavigateIconButton({ href, children }: Props) {
   return (
-    <Button>
+    <IconButton>
       <Link href={href}>
-        <a href={href}>
-          <IconContext.Provider value={{ size: HEADER_ICON_SIZE }}>{children}</IconContext.Provider>
-        </a>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a>{children}</a>
       </Link>
-    </Button>
+    </IconButton>
   );
 }
 
