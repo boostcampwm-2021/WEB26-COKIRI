@@ -32,4 +32,9 @@ export default css`
   img {
     object-fit: cover;
   }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 `;
