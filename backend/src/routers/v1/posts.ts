@@ -54,12 +54,23 @@ export default class PostsRouter {
     return response.json({ code: Enums.responseCode.SUCCESS, _id: result._id });
   }
 
-  @Post('/:postId/comments/:commentId/likes')
+  @Post('/:postID/comments/:commentID/likes')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postCommentLike(@Req() request: Request, @Res() response: Response) {
-    const { postId, commentId } = request.params;
-    const data = request.body;
-    const result = await CommentService.createCommentLike(data.userID, postId, commentId);
-    return response.json(result);
+    const { postID, commentID } = request.params;
+    const { userID } = request.body;
+    if (!userID) {
+      throw new Error(Enums.error.WRONG_BODY_TYPE);
+    }
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    await CommentService.existsComment(postID, commentID);
+    const result = await CommentLikeService.createCommentLike(userID, postID, commentID);
+    const responseJSON = result.upsertedId
+      ? { code: Enums.responseCode.SUCCESS, _id: result.upsertedId }
+      : { code: Enums.responseCode.OVERLAP };
+    return response.json(responseJSON);
   }
 
   @Post('/:postID/likes')
