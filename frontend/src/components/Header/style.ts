@@ -6,8 +6,10 @@ const Wrapper = styled.header`
   left: 0;
   right: 0;
   position: fixed;
-  height: 80px;
+  height: 96px;
   background-color: #444444;
+  display: flex;
+  align-items: center;
 
   // @TODO scroll 이 내려갔을 때만 보더보이게 하기
   &:not([data-scroll='0']) {

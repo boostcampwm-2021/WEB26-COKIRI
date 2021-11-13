@@ -23,6 +23,7 @@ const ImageHolder = styled.ul<Props>`
   }
   img {
     background: #555555;
+    border-radius: 20px;
   }
 `;
 

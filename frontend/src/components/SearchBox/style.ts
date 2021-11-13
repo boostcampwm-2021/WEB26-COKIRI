@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.header`
+const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,7 +8,7 @@ const Wrapper = styled.header`
   width: 192px;
   height: 48px;
   padding: 0 24px 0 32px;
-  margin: 16px;
+  margin: 8px;
   border-radius: 50px;
   background: #444444;
   box-shadow: inset 9px 9px 9px #3b3b3b, inset -9px -9px 9px #4d4d4d;
