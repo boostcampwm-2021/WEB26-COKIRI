@@ -21,10 +21,10 @@ interface Props {
 }
 
 function UserSettingsCard({ user }: Props) {
-  const [profileImage, setProfileImage] = useState(user.profileImage);
-  const [username, setUsername] = useState(user.username);
-  const [name, setName] = useState(user.name);
-  const [bio, setBio] = useState(user.bio);
+  const [profileImage, setProfileImage] = useState(user.profileImage ?? DEFAULT_PROFILE_IMAGE);
+  const [username, setUsername] = useState(user.username ?? '');
+  const [name, setName] = useState(user.name ?? '');
+  const [bio, setBio] = useState(user.bio ?? '');
   const mutation = useMutation(() =>
     Fetcher.putUserSettings(user, { profileImage, username, name, bio }),
   );
@@ -45,7 +45,7 @@ function UserSettingsCard({ user }: Props) {
             <ImageInput onImageUpload={handleImageUpload}>
               <ImageCover>변경</ImageCover>
             </ImageInput>
-            <Image width={168} height={168} src={profileImage ?? DEFAULT_PROFILE_IMAGE} />
+            <Image width={168} height={168} src={profileImage} />
           </ImageHolder>
           <Row>
             <p>username</p>
