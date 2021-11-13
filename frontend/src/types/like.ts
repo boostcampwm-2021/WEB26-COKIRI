@@ -1,4 +1,6 @@
 export default interface LikeType {
-  userID: string;
+  _id: string;
+  profileImage?: string;
   createdAt: Date;
+  username: string;
 }

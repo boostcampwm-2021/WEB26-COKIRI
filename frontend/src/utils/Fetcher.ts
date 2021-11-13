@@ -88,5 +88,18 @@ class Fetcher {
   static async getSignout(): Promise<void> {
     await axios.get(`${baseURL}/v1/users/logout`);
   }
+
+  static async getPostLikes(user: UserType, post: PostType): Promise<LikeType[]> {
+    const result = await axios.get(`${baseURL}/v1/posts/${post._id}/likes`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data;
+  }
+
+  static async deletePostLike(user: UserType, post: PostType): Promise<void> {
+    await axios.delete(`${baseURL}/v1/posts/${post._id}/likes/${user._id}`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
 }
 export default Fetcher;

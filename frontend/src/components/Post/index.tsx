@@ -26,6 +26,7 @@ interface Props {
 
 function Post({ post }: Props) {
   const [isLikeListModal, setIsLikeListModal] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes.length);
   const handleClick = useCallback(() => setIsLikeListModal(true), []);
   const handleClose = useCallback(() => setIsLikeListModal(false), []);
 
@@ -37,7 +38,7 @@ function Post({ post }: Props) {
         {post.images.length !== 0 && <PostImages images={post.images} />}
         <Row justifyContent='flex-start'>
           <Buttons>
-            <LikeButton />
+            <LikeButton post={post} setLikeCount={setLikeCount} />
             <CommentButton href={`/posts/${post._id}`}>
               <IoChatbubbleOutline />
             </CommentButton>
@@ -46,7 +47,7 @@ function Post({ post }: Props) {
             </EchoButton>
           </Buttons>
         </Row>
-        <LikeListButton likeCount={post.likes.length} onClick={handleClick} />
+        {likeCount !== 0 && <LikeListButton likeCount={likeCount} onClick={handleClick} />}
         <PostContent content={post.content} />
         <PostReview />
         {isLikeListModal && <LikeListModal post={post} onClose={handleClose} />}
