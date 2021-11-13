@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDroprightCircle } from 'react-icons/io';
 
-import Common from 'src/components/buttons/slides/Common';
+import IconButton from 'src/components/buttons/IconButton';
 
 import { Wrapper } from './style';
 
@@ -13,17 +13,15 @@ interface Props {
 function RightSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <Common onClick={onClick}>
+      <IconButton onClick={onClick}>
         <IoIosArrowDroprightCircle />
-      </Common>
+      </IconButton>
     </Wrapper>
   );
 }
 
 RightSlideButton.propsType = {
-  children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
-  buttonRef: PropTypes.object.isRequired,
 };
 
 export default RightSlideButton;

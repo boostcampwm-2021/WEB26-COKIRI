@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IoIosArrowDropleftCircle } from 'react-icons/io';
 
-import Common from 'src/components/buttons/slides/Common';
+import IconButton from 'src/components/buttons/IconButton';
 
 import { Wrapper } from './style';
 
@@ -13,9 +13,9 @@ interface Props {
 function LefSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <Common onClick={onClick}>
+      <IconButton onClick={onClick}>
         <IoIosArrowDropleftCircle />
-      </Common>
+      </IconButton>
     </Wrapper>
   );
 }
