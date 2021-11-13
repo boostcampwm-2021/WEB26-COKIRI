@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-function ImageButton({ href, children }: Props) {
+function LogoButton({ href, children }: Props) {
   return (
     <Wrapper>
       <Link href={href}>
@@ -19,9 +19,9 @@ function ImageButton({ href, children }: Props) {
   );
 }
 
-ImageButton.propsType = {
+LogoButton.propsType = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default ImageButton;
+export default LogoButton;
