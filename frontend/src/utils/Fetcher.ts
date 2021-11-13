@@ -28,7 +28,7 @@ class Fetcher {
   }
 
   // for client side
-  static async putUserSettings(newUser: UserType, user: UserType): Promise<void> {
+  static async putUserSettings(user: UserType, newUser: UserType): Promise<void> {
     await axios.put(
       `${baseURL}/v1/users/${user._id}/settings`,
       {
@@ -57,9 +57,9 @@ class Fetcher {
     );
   }
 
-  static async postPostLike(user: UserType, post: PostType): Promise<LikeType> {
+  static async postPostLike(user: UserType, postID: string): Promise<LikeType> {
     const result = await axios.post(
-      `${baseURL}/v1/posts/${post._id}/likes`,
+      `${baseURL}/v1/posts/${postID}/likes`,
       {
         userID: user._id,
       },
@@ -89,15 +89,15 @@ class Fetcher {
     await axios.get(`${baseURL}/v1/users/logout`);
   }
 
-  static async getPostLikes(user: UserType, post: PostType): Promise<LikeType[]> {
-    const result = await axios.get(`${baseURL}/v1/posts/${post._id}/likes`, {
+  static async getPostLikes(user: UserType, postID: string): Promise<LikeType[]> {
+    const result = await axios.get(`${baseURL}/v1/posts/${postID}/likes`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     return result.data;
   }
 
-  static async deletePostLike(user: UserType, post: PostType): Promise<void> {
-    await axios.delete(`${baseURL}/v1/posts/${post._id}/likes/${user._id}`, {
+  static async deletePostLike(user: UserType, postID: string): Promise<void> {
+    await axios.delete(`${baseURL}/v1/posts/${postID}/likes/${user._id}`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
