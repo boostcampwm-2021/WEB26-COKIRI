@@ -8,15 +8,19 @@ import { Wrapper } from './style';
 
 interface Props {
   username?: string;
-  image: string;
+  profileImage: string;
 }
 
-function ProfileImageButton({ username, image }: Props) {
+function ProfileImageButton({ username, profileImage }: Props) {
   return (
     <Wrapper>
       <Link href={`/users/${username}`}>
         <a>
-          <Image src={image} width={POST_PROFILE_IMAGE_WIDTH} height={POST_PROFILE_IMAGE_HEIGHT} />
+          <Image
+            src={profileImage}
+            width={POST_PROFILE_IMAGE_WIDTH}
+            height={POST_PROFILE_IMAGE_HEIGHT}
+          />
         </a>
       </Link>
     </Wrapper>
@@ -25,7 +29,7 @@ function ProfileImageButton({ username, image }: Props) {
 
 ProfileImageButton.propsType = {
   username: PropTypes.string,
-  image: PropTypes.string.isRequired,
+  profileImage: PropTypes.string.isRequired,
 };
 
 ProfileImageButton.defaultProps = {

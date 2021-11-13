@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Wrapper } from './style';
 
 interface Props {
-  username?: string;
+  username: string;
 }
 
-function ProfileUsernameButton({ username }: Props) {
+function UsernameButton({ username }: Props) {
   return (
     <Wrapper>
       <Link href={`/users/${username}`}>
@@ -17,12 +17,8 @@ function ProfileUsernameButton({ username }: Props) {
   );
 }
 
-ProfileUsernameButton.propsType = {
-  username: PropTypes.string,
+UsernameButton.propsType = {
+  username: PropTypes.string.isRequired,
 };
 
-ProfileUsernameButton.defaultProps = {
-  username: '',
-};
-
-export default ProfileUsernameButton;
+export default UsernameButton;

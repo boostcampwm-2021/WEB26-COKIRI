@@ -29,15 +29,12 @@ function LikeListModal({ post, onClose }: Props) {
       <Modal onClose={onClose} close='닫기'>
         <Title>좋아요</Title>
         <Col>
-          {data?.map((like) => {
-            const image = like.profileImage ?? '';
-            return (
-              <Row justifyContent='space-between' key={like.username}>
-                <ProfileSet image={image} username={like.username} />
-                <FollowButton />
-              </Row>
-            );
-          })}
+          {data?.map((like) => (
+            <Row justifyContent='space-between' key={like.username}>
+              <ProfileSet profileImage={like.profileImage} username={like.username} />
+              <FollowButton />
+            </Row>
+          ))}
         </Col>
       </Modal>
     </Wrapper>

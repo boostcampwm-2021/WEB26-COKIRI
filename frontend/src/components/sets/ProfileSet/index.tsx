@@ -4,32 +4,33 @@ import { Row } from 'src/components/Grid';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+
 import { Wrapper } from './style';
 
 interface Props {
-  image: string;
+  profileImage?: string;
   username?: string;
 }
 
-function ProfileSet({ image, username }: Props) {
-  const profileImage = image ?? '/images/default_profile_image.jpg';
-
+function ProfileSet({ profileImage, username }: Props) {
   return (
     <Wrapper>
       <Row justifyContent='start'>
-        <ProfileImageButton image={profileImage} username={username} />
-        <UsernameButton username={username} />
+        <ProfileImageButton profileImage={profileImage!} username={username} />
+        <UsernameButton username={username!} />
       </Row>
     </Wrapper>
   );
 }
 
 ProfileSet.propTypes = {
-  image: PropTypes.string.isRequired,
+  profileImage: PropTypes.string,
   username: PropTypes.string,
 };
 
 ProfileSet.defaultProps = {
+  profileImage: DEFAULT_PROFILE_IMAGE,
   username: '',
 };
 
