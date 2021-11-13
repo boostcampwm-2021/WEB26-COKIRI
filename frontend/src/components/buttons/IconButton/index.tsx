@@ -8,11 +8,12 @@ import { DEFAULT_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   children: ReactNode;
+  onClick?: () => void;
 }
 
-function IconButton({ children }: Props) {
+function IconButton({ children, onClick }: Props) {
   return (
-    <Button>
+    <Button onClick={onClick}>
       <IconContext.Provider value={{ size: DEFAULT_ICON_SIZE }}>{children}</IconContext.Provider>
     </Button>
   );
@@ -20,6 +21,11 @@ function IconButton({ children }: Props) {
 
 IconButton.propsType = {
   children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+};
+
+IconButton.defaultProps = {
+  onClick: () => {},
 };
 
 export default IconButton;
