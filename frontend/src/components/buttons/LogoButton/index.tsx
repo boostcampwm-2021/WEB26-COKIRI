@@ -1,29 +1,27 @@
-import { ReactNode } from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 
 import Button from 'src/components/buttons/Common';
 
-import { LOGO_BUTTON_WIDTH, LOGO_BUTTON_HEIGHT } from 'src/globals/constants';
+import {
+  LOGO_BUTTON_WIDTH,
+  LOGO_BUTTON_HEIGHT,
+  LOGO_IMAGE,
+  LOGO_IMAGE_WIDTH,
+  LOGO_IMAGE_HEIGHT,
+} from 'src/globals/constants';
+import Image from 'next/image';
 
-interface Props {
-  href: string;
-  children: ReactNode;
-}
-
-function LogoButton({ href, children }: Props) {
+function LogoButton() {
   return (
     <Button width={LOGO_BUTTON_WIDTH} height={LOGO_BUTTON_HEIGHT}>
-      <Link href={href}>
-        <a href={href}>{children}</a>
+      <Link href='/home'>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a>
+          <Image src={LOGO_IMAGE} width={LOGO_IMAGE_WIDTH} height={LOGO_IMAGE_HEIGHT} />
+        </a>
       </Link>
     </Button>
   );
 }
-
-LogoButton.propsType = {
-  href: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default LogoButton;

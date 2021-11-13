@@ -8,15 +8,13 @@ import {
   IoPersonCircleOutline,
 } from 'react-icons/io5';
 
-import NavigateButton from 'src/components/buttons/NavigateButton';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchBox from 'src/components/SearchBox';
 import { Row } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
-
-import { LOGO_IMAGE, LOGO_IMAGE_WIDTH, LOGO_IMAGE_HEIGHT } from 'src/globals/constants';
 
 import { Wrapper, Section } from './style';
 
@@ -27,31 +25,29 @@ function Header() {
     <Wrapper>
       <Row>
         <Section>
-          <LogoButton href='/home'>
-            <Image src={LOGO_IMAGE} width={LOGO_IMAGE_WIDTH} height={LOGO_IMAGE_HEIGHT} />
-          </LogoButton>
+          <LogoButton />
           <SearchBox />
         </Section>
 
         <Section>
-          <NavigateButton href='/home'>
+          <NavigateIconButton href='/home'>
             <IoHomeOutline />
-          </NavigateButton>
-          <NavigateButton href='/random'>
+          </NavigateIconButton>
+          <NavigateIconButton href='/random'>
             <IoCompassOutline />
-          </NavigateButton>
-          <NavigateButton href='/echo'>
+          </NavigateIconButton>
+          <NavigateIconButton href='/echo'>
             <IoPaperPlaneOutline />
-          </NavigateButton>
+          </NavigateIconButton>
         </Section>
 
         <Section>
           <IconButton>
             <IoHeartOutline />
           </IconButton>
-          <NavigateButton href={`/users/${user.username}`}>
+          <NavigateIconButton href={`/users/${user.username}`}>
             <IoPersonCircleOutline />
-          </NavigateButton>
+          </NavigateIconButton>
         </Section>
       </Row>
     </Wrapper>
