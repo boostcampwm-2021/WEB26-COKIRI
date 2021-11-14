@@ -63,7 +63,6 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('github', { session: false }))
   @Redirect(`${process.env.CLIENT_URL}`)
   getGithubCallback(@Req() request: Request, @Res() response: Response) {
-    console.log(request.user!);
     response.json({});
   }
 }
