@@ -1,8 +1,17 @@
 import { Follow } from 'src/models';
 import { FollowType } from 'src/types';
 import { Types } from 'mongoose';
+import { Enums } from 'src/utils';
 
 class FollowService {
+  async countFollows(userID: Types.ObjectId) {
+    return Follow.countDocuments({ followerID: userID }).exec();
+  }
+
+  async countFollowers(userID: Types.ObjectId) {
+    return Follow.countDocuments({ followID: userID }).exec();
+  }
+
   async createFollow(followID: string, followerID: string) {
     return Follow.updateOne(
       { followID, followerID },
@@ -12,7 +21,7 @@ class FollowService {
   }
 
   async findFollowsID(userID: string) {
-    const follows: FollowType[] = await Follow.find({ followerID: userID }, 'followID -_id').lean();
+    const follows: FollowType[] = await Follow.find({ followerID: userID }, 'followID -_id');
     return follows.map((follow) => follow.followID);
   }
 
@@ -21,12 +30,18 @@ class FollowService {
     return followers.map((follower) => follower.followerID);
   }
 
-  async countFollows(userID: Types.ObjectId) {
-    return Follow.countDocuments({ followerID: userID }).exec();
+  async findFollows(userID: string) {
+    const follows: FollowType[] = await Follow.find({ followerID: userID })
+      .populate('follow', Enums.select.USER)
+      .lean();
+    return follows.map((follow) => follow.follow);
   }
 
-  async countFollowers(userID: Types.ObjectId) {
-    return Follow.countDocuments({ followID: userID }).exec();
+  async findFollowers(userID: string) {
+    const followers: FollowType[] = await Follow.find({ followID: userID })
+      .populate('follower', Enums.select.USER)
+      .lean();
+    return followers.map((follower) => follower.follower);
   }
 }
 

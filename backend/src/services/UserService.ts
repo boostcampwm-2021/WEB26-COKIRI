@@ -56,12 +56,7 @@ class UserService {
     if (result.length === 0) {
       throw new Error(Enums.error.NO_USERS);
     }
-    console.log(result);
     return result[0];
-  }
-
-  async findOneUserPostsForID(userID: string) {
-    return Post.find({ userID });
   }
 
   async findOneUserSettingForID(userID: string) {
@@ -75,28 +70,6 @@ class UserService {
       isRegistered: false,
       authProviderID: false,
     });
-  }
-
-  async findOneFollows(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) {
-      throw new Error(Enums.error.NO_USERS);
-    }
-    // return result.follows!;
-    return [];
-  }
-
-  async findOneFollowers(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) {
-      throw new Error(Enums.error.NO_USERS);
-    }
-    // return result.followers!;
-    return [];
   }
 
   async findRandomUserSuggestions(userID: string) {
@@ -131,19 +104,6 @@ class UserService {
       { _id: user.userID },
       { ...userConfig, isRegistered: true },
       { runValidators: true, upsert: true },
-    );
-  }
-
-  async addToSetFollows(user: UserType, followID: string) {
-    await User.updateOne(
-      { _id: user.userID },
-      { $addToSet: { follows: followID } },
-      { runValidators: true },
-    );
-    await User.updateOne(
-      { _id: followID },
-      { $push: { followers: user.userID } },
-      { runValidators: true },
     );
   }
 

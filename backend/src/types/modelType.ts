@@ -71,6 +71,8 @@ export interface FollowType {
   followID?: Types.ObjectId;
   followerID?: Types.ObjectId;
   createdAt?: Date;
+  follow?: { _id: Types.ObjectId; username: string; profileImage: string };
+  follower?: { _id: Types.ObjectId; username: string; profileImage: string };
 }
 
 export interface LikeType {
