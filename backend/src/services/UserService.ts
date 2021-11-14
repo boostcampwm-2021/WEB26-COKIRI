@@ -90,7 +90,7 @@ class UserService {
     return result;
   }
 
-  async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
+  async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
     const blockList = Enums.auth.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
       throw new Error(Enums.error.WRONG_BODY_TYPE);
@@ -101,7 +101,7 @@ class UserService {
       }
     });
     await User.updateOne(
-      { _id: user.userID },
+      { _id: userID },
       { ...userConfig, isRegistered: true },
       { runValidators: true, upsert: true },
     );

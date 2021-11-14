@@ -150,7 +150,7 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
+    await UserService.updateOneUserConfig(request.user!.userID, request.body);
     return response.json({ code: 'Success' });
   }
 
