@@ -1,81 +1,113 @@
-import { Post, User } from 'src/models';
-import { PostType } from 'src/types/modelType';
-import { ObjectID, MongooseParse } from 'src/utils';
-import { ObjectType } from 'src/types';
+import { Types } from 'mongoose';
+
+import { Post, Image } from 'src/models';
+import { Enums } from 'src/utils';
+import { CommentService, PostLikeService } from 'src/services/index';
+import ImageService from 'src/services/ImageService';
+import FollowService from 'src/services/FollowService';
+import { PostType } from 'src/types';
 
 class PostService {
-  async createPost(data: PostType) {
-    return Post.create(data);
+  async existsPost(postID: string, userID: string) {
+    const isExist = await Post.exists({ _id: postID, userID });
+    if (!isExist) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
   }
 
-  async createPostLike(data: string, postID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID },
-      { $push: { likes: { userID: data } } },
-      { new: true },
+  async getPost(postID: Types.ObjectId) {
+    const results = await Promise.all([
+      CommentService.findComments(postID.toString()),
+      PostLikeService.findPostLikes(postID.toString()),
+      ImageService.findPostImage(postID.toString()),
+    ]);
+    return { comments: results[0], likes: results[1], images: results[2] };
+  }
+
+  async getPostArray(posts: PostType[]) {
+    return Promise.all(
+      posts.map(async (post) => {
+        const newPost = { ...post };
+        delete newPost.userID;
+        const results = await this.getPost(post._id!);
+        return { ...newPost, ...results };
+      }),
     );
+  }
+
+  async createPost(data: any) {
+    let { images } = data;
+    const post = await Post.create(data);
+
+    if (images?.length > 0) {
+      images = images.map((v: any) => ({
+        url: v,
+        targetID: post._id,
+      }));
+      if (images) await Image.insertMany(images);
+    }
+    return post._id;
   }
 
   async findRandomPost() {
-    return Post.aggregate([{ $sample: { size: 20 } }, { $sort: { createdAt: -1 } }]);
+    const randomPosts = await Post.aggregate([
+      { $sample: { size: 20 } },
+      { $sort: { createdAt: -1 } },
+      { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
+      { $unwind: '$user' },
+      {
+        $project: {
+          'user._id': true,
+          'user.username': true,
+          'user.profileImage': true,
+          title: true,
+          content: true,
+          tags: true,
+          link: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    ]);
+    return this.getPostArray(randomPosts);
   }
 
   async findUserTimeline(userID: string) {
-    const posts: ObjectType<any>[] = await Post.find({ userID })
-      .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] });
-    return MongooseParse.convertToPostArrayFormat(posts);
+    const posts = await Post.find({ userID })
+      .sort({ createdAt: -1 })
+      .populate({ path: 'user', select: Enums.select.USER })
+      .lean();
+    return this.getPostArray(posts);
   }
 
   async findTimeline(userID: string, offset: string) {
-    const followList: any = await User.findOne({ _id: userID }, 'follows -_id');
-    const containsArray = !followList ? [userID] : [...followList.follows, userID];
-    const posts: ObjectType<any>[] = await Post.find({ userID: containsArray })
-      .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] });
-    return MongooseParse.convertToPostArrayFormat(posts);
-  }
-
-  async findPostLikeList(postID: string) {
-    const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
-      .populate({
-        path: 'likes.userID',
-        select: 'username profileImage -_id',
-      })
+    const follows = await FollowService.findFollowsID(userID);
+    const containsArray = !follows ? [userID] : [...follows, userID];
+    const posts = await Post.find({ userID: { $in: containsArray } })
+      .sort({ createdAt: -1 })
+      .populate({ path: 'user', select: Enums.select.USER })
       .lean();
-    const result: any = likesList?.likes?.map((v: any) => ({
-      ...v.userID,
-      createdAt: v.createdAt,
-    }));
-
-    return result;
+    return this.getPostArray(posts);
   }
 
   async findPost(postID: string) {
-    return Post.findOne({ _id: postID });
+    const post = await Post.findOne({ _id: postID })
+      .populate({
+        path: 'user',
+        select: Enums.select.USER,
+      })
+      .lean();
+    if (!post) throw new Error(Enums.error.NO_POSTS);
+    delete post!.userID;
+    return post;
   }
 
-  async findPostCount(userID: string) {
-    const postCount = await Post.aggregate([
-      { $match: { userID: ObjectID.stringToObjectID(userID) } },
-      { $count: 'postCount' },
-    ]);
-    if (postCount.length === 0) return { postCount: 0 };
-    return postCount[0];
+  async findPostCount(userID: Types.ObjectId) {
+    return Post.countDocuments({ userID }).exec();
   }
 
-  async removePostLike(postID: string, likeID: string) {
-    return Post.findOneAndUpdate(
-      { _id: postID, 'likes._id': likeID },
-      { $pull: { likes: { _id: likeID } } },
-      { new: true },
-    );
+  async removePost(postID: string) {
+    return Promise.all([Post.remove({ _id: postID }), PostLikeService.removePostLikes(postID)]);
   }
 }
 

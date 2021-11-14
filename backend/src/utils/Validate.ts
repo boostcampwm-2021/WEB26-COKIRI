@@ -1,6 +1,21 @@
 import { Types, Model } from 'mongoose';
 
-import { UserType, PostType, TagType, LanguageType, EchoRoomType, NotifyType } from 'src/types';
+import {
+  UserType,
+  PostType,
+  TagType,
+  LanguageType,
+  EchoRoomType,
+  NotifyType,
+  CommentType,
+  PostLikeType,
+  ImageType,
+  FollowType,
+  EchoMessageType,
+  DashboardPostType,
+  DashboardHistoryType,
+  CommentLikeType,
+} from 'src/types';
 
 class Validate {
   static UserModel: Model<UserType> | undefined;
@@ -14,6 +29,22 @@ class Validate {
   static EchoRoomModel: Model<EchoRoomType> | undefined;
 
   static NotifyModel: Model<NotifyType> | undefined;
+
+  static CommentModel: Model<CommentType> | undefined;
+
+  static PostLikeModel: Model<PostLikeType> | undefined;
+
+  static ImageModel: Model<ImageType> | undefined;
+
+  static FollowModel: Model<FollowType> | undefined;
+
+  static EchoMessageModel: Model<EchoMessageType> | undefined;
+
+  static DashboardPostModel: Model<DashboardPostType> | undefined;
+
+  static DashboardHistoryModel: Model<DashboardHistoryType> | undefined;
+
+  static CommentLikeModel: Model<CommentLikeType> | undefined;
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {
@@ -48,6 +79,10 @@ class Validate {
     return Validate.objectIDLogic(Validate.PostModel, value);
   }
 
+  static commentObjectID(value: Types.ObjectId): Promise<boolean> {
+    return Validate.objectIDLogic(Validate.CommentModel, value);
+  }
+
   static languageObjectID(value: Types.ObjectId): Promise<boolean> {
     return Validate.objectIDLogic(Validate.LanguageModel, value);
   }
@@ -62,7 +97,7 @@ class Validate {
 
   static objectIDLogic(model: Model<any> | undefined, value: Types.ObjectId): Promise<boolean> {
     return new Promise((resolve) => {
-      if (typeof model === 'undefined') {
+      if (model === undefined) {
         resolve(false);
       }
       model!.exists({ _id: value }).then((isValidate) => resolve(isValidate));

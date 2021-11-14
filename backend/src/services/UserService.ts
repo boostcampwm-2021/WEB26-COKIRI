@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { User, Post } from 'src/models';
+import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { Enums, ObjectID } from 'src/utils';
@@ -38,18 +38,10 @@ class UserService {
   }
 
   async findOneUserForID(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({
-        username: true,
-        isRegistered: true,
-        name: true,
-        profileImage: true,
-        follows: true,
-        followers: true,
-        bio: true,
-      })
-      .populate({ path: 'follows', select: ['_id'] })
-      .populate({ path: 'followers', select: ['_id'] });
+    const result = await User.findOne(
+      { _id: userID },
+      'username isRegistered name profileImage bio',
+    ).lean();
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }
@@ -57,27 +49,14 @@ class UserService {
   }
 
   async findOneUserProfileForUsername(username: string) {
-    const result: any[] = await User.aggregate([
-      {
-        $project: {
-          followerCount: { $size: '$followers' },
-          followCount: { $size: '$follows' },
-          _id: { $toString: '$_id' },
-          username: '$username',
-          bio: '$bio',
-          name: '$name',
-        },
-      },
-      { $match: { username } },
-    ]);
+    const result: UserSchemaType[] = await User.find(
+      { username },
+      'username isRegistered name profileImage bio',
+    ).lean();
     if (result.length === 0) {
       throw new Error(Enums.error.NO_USERS);
     }
     return result[0];
-  }
-
-  async findOneUserPostsForID(userID: string) {
-    return Post.find({ userID });
   }
 
   async findOneUserSettingForID(userID: string) {
@@ -90,31 +69,12 @@ class UserService {
       posts: false,
       isRegistered: false,
       authProviderID: false,
+      tistoryAccessToken: false,
     });
   }
 
-  async findOneFollows(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'follows', select: ['username', 'profileImage'] });
-    if (!result) {
-      throw new Error(Enums.error.NO_USERS);
-    }
-    return result.follows!;
-  }
-
-  async findOneFollowers(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({ follows: true })
-      .populate({ path: 'followers', select: ['username', 'profileImage'] });
-    if (!result) {
-      throw new Error(Enums.error.NO_USERS);
-    }
-    return result.followers!;
-  }
-
   async findRandomUserSuggestions(userID: string) {
-    const result: any[] = await User.aggregate([
+    const result: UserSchemaType[] = await User.aggregate([
       { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] } } },
       {
         $project: {
@@ -131,7 +91,7 @@ class UserService {
     return result;
   }
 
-  async updateOneUserConfig(user: UserType, userConfig: ObjectType<UserSchemaType>) {
+  async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
     const blockList = Enums.auth.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
       throw new Error(Enums.error.WRONG_BODY_TYPE);
@@ -142,35 +102,9 @@ class UserService {
       }
     });
     await User.updateOne(
-      { _id: user.userID },
+      { _id: userID },
       { ...userConfig, isRegistered: true },
       { runValidators: true, upsert: true },
-    );
-  }
-
-  async addToSetFollows(user: UserType, followID: string) {
-    await User.updateOne(
-      { _id: user.userID },
-      { $addToSet: { follows: followID } },
-      { runValidators: true },
-    );
-    await User.updateOne(
-      { _id: followID },
-      { $push: { followers: user.userID } },
-      { runValidators: true },
-    );
-  }
-
-  async pullFollows(user: UserType, followID: string) {
-    await User.updateOne(
-      { _id: user.userID },
-      { $pull: { follows: followID } },
-      { runValidators: true },
-    );
-    await User.updateOne(
-      { _id: followID },
-      { $pull: { followers: user.userID } },
-      { runValidators: true },
     );
   }
 }

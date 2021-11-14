@@ -1,4 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
+
 import { NotifyType } from 'src/types';
 import { Validate } from 'src/utils';
 
@@ -6,9 +7,10 @@ const notifySchema = new Schema<NotifyType>(
   {
     type: {
       type: String,
-      enum: ['postLike', 'postComment', 'commentLike', 'follow', 'follower'],
+      enum: ['postComment', 'postLike', 'commentLike', 'follow', 'follower'],
       required: true,
     },
+    content: { type: String, required: true },
     userID: {
       type: Types.ObjectId,
       ref: 'User',

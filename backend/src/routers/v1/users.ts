@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'routing-controllers';
+import {
+  Controller,
+  Req,
+  Res,
+  Get,
+  Post,
+  Put,
+  Delete,
+  UseBefore,
+  Redirect,
+} from 'routing-controllers';
 import * as passport from 'passport';
 
 import { PostService, UserService, GitService } from 'src/services';
 import { Enums } from 'src/utils';
+import FollowService from 'src/services/FollowService';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -25,8 +36,17 @@ export default class UsersRouter {
         throw new Error(Enums.error.WRONG_QUERY_TYPE);
       }
       const userProfile = await UserService.findOneUserProfileForUsername(username as string);
-      const postCount = await PostService.findPostCount(userProfile._id);
-      responseJSON = { ...userProfile, ...postCount };
+      const counts = await Promise.all([
+        PostService.findPostCount(userProfile._id!),
+        FollowService.countFollows(userProfile._id!),
+        FollowService.countFollowers(userProfile._id!),
+      ]);
+      responseJSON = {
+        ...userProfile,
+        postCount: counts[0],
+        followCount: counts[1],
+        followerCount: counts[2],
+      };
     }
     return response.json(responseJSON);
   }
@@ -34,8 +54,12 @@ export default class UsersRouter {
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
-    const user = await UserService.findOneUserForID(request.user!.userID);
-    return response.json(user);
+    const results = await Promise.all([
+      UserService.findOneUserForID(request.user!.userID),
+      FollowService.findFollowsID(request.user!.userID),
+      FollowService.findFollowersID(request.user!.userID),
+    ]);
+    return response.json({ ...results[0], follows: results[1], followers: results[2] });
   }
 
   @Get('/logout')
@@ -80,14 +104,14 @@ export default class UsersRouter {
   @Get('/:userID/follows')
   async getUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    const followList = await UserService.findOneFollows(userID);
-    return response.json(followList);
+    const follows = await FollowService.findFollows(userID);
+    return response.json(follows);
   }
 
   @Get('/:userID/followers')
   async getUserFollowers(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    const followList = await UserService.findOneFollowers(userID);
+    const followList = await FollowService.findFollowers(userID);
     return response.json(followList);
   }
 
@@ -108,6 +132,21 @@ export default class UsersRouter {
     return response.json(result);
   }
 
+  @Post('/:userID/follows')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putUserFollows(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    if (userID === request.user!.userID) {
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
+    }
+    await FollowService.createFollow(userID, request.user!.userID);
+    return response.json({ code: Enums.responseCode.SUCCESS });
+  }
+
   @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
@@ -115,29 +154,22 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
-    return response.json({ code: 'Success' });
-  }
-
-  @Put('/:userID/follows')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async putUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    if (userID === request.user!.userID) {
-      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
-    }
-    await UserService.addToSetFollows(request.user!, userID);
-    return response.json({ code: 'Success' });
+    await UserService.updateOneUserConfig(request.user!.userID, request.body);
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 
   @Delete('/:userID/follows')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     if (userID === request.user!.userID) {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
-    await UserService.pullFollows(request.user!, userID);
-    return response.json({ code: 'Success' });
+    await FollowService.removeFollow(request.user!.userID, userID);
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 }
