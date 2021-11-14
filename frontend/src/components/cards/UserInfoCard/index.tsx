@@ -9,7 +9,12 @@ import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+import {
+  DEFAULT_PROFILE_IMAGE,
+  USER_INFO_CARD_IMAGE_HEIGHT,
+  USER_INFO_CARD_IMAGE_WIDTH,
+  USER_INFO_CARD_WIDTH,
+} from 'src/globals/constants';
 
 import { Wrapper, ImageHolder, Username } from './style';
 
@@ -22,10 +27,14 @@ function UserInfoCard({ targetUser, isMe }: Props) {
   const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
   return (
     <Wrapper>
-      <Card width={512}>
+      <Card width={USER_INFO_CARD_WIDTH}>
         <Row justifyContent='start'>
           <ImageHolder>
-            <Image width={128} height={128} src={profileImage ?? DEFAULT_PROFILE_IMAGE} />
+            <Image
+              width={USER_INFO_CARD_IMAGE_WIDTH}
+              height={USER_INFO_CARD_IMAGE_HEIGHT}
+              src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+            />
           </ImageHolder>
           <Col alignItems='start'>
             <Row justifyContent='start'>

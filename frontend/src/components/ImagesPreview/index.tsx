@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 
 import { Row, Col } from 'src/components/Grid';
 
+import {
+  POST_WRITE_PREVIEW_IMAGE_WIDTH,
+  POST_WRITE_PREVIEW_IMAGE_HEIGHT,
+} from 'src/globals/constants';
+
 import { Wrapper } from './style';
 
 interface Props {
@@ -26,7 +31,11 @@ function ImagesPreview({ images, onDelete }: Props) {
             >
               삭제
             </button>
-            <Image width={100} height={100} src={image} />
+            <Image
+              width={POST_WRITE_PREVIEW_IMAGE_WIDTH}
+              height={POST_WRITE_PREVIEW_IMAGE_HEIGHT}
+              src={image}
+            />
           </Col>
         ))}
       </Row>
