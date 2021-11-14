@@ -16,4 +16,5 @@ const Button = styled.button`
 Wrapper.propTypes = {
   isBlockOpen: PropType.bool.isRequired,
 };
+
 export { Wrapper, Button };

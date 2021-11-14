@@ -21,7 +21,6 @@ const ImageHolder = styled.ul<Props>`
     height: 100%;
   }
   img {
-    background: #555555;
     border-radius: 20px;
   }
 `;

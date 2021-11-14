@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Uploader } from 'src/utils';
 
-import { Wrapper } from './style';
+import { Input } from './style';
 
 interface Props {
   children: ReactNode;
@@ -20,18 +20,16 @@ function ImageInput({ onImageUpload, children }: Props) {
   };
 
   return (
-    <Wrapper>
-      <label htmlFor='image'>
-        {children}
-        <input
-          id='image'
-          type='file'
-          accept='image/jpg,image/png,image/jpeg,image/gif'
-          onChange={handleOnChange}
-          multiple
-        />
-      </label>
-    </Wrapper>
+    <label htmlFor='image'>
+      {children}
+      <Input
+        id='image'
+        type='file'
+        accept='image/jpg,image/png,image/jpeg,image/gif'
+        onChange={handleOnChange}
+        multiple
+      />
+    </label>
   );
 }
 

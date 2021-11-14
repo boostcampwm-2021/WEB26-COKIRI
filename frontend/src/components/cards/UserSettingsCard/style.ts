@@ -1,41 +1,20 @@
 import styled from '@emotion/styled';
 
-import { Row } from 'src/components/Grid';
+import { ThemeType } from 'src/types';
 
-const Wrapper = styled.div`
-  p {
-    text-align: right;
-    width: 128px;
-    font-size: 24px;
-    padding: 0 24px;
-    margin: 8px;
-  }
-  input {
-    padding: 0 24px;
-    margin: 8px;
-    width: 256px;
-    height: 48px;
-    font-size: 24px;
-    border-radius: 50px;
-    background: #444444;
-    box-shadow: inset 5px 5px 10px #3a3a3a, inset -5px -5px 10px #4e4e4e;
-  }
-  ${Row} {
-    height: unset;
-  }
+interface Props {
+  theme?: ThemeType;
+}
+
+const Label = styled.div`
+  text-align: right;
+  width: 128px;
+  font-size: 24px;
+  padding: 0 24px;
+  margin: 8px;
 `;
 
-const SaveButton = styled.button`
-  margin: 24px 48px;
-  align-self: end;
-  border-radius: 50px;
-  background: #444444;
-  height: 48px;
-  width: 96px;
-  box-shadow: 5px 5px 10px #3a3a3a, -5px -5px 10px #4e4e4e;
-`;
-
-const ImageCover = styled.div`
+const ImageCover = styled.div<Props>`
   position: absolute;
   display: flex;
   align-items: center;
@@ -44,7 +23,7 @@ const ImageCover = styled.div`
   top: 0;
   float: left;
   z-index: 1;
-  background-color: #444444;
+  background-color: ${({ theme }) => theme.colors.background};
   width: 168px;
   height: 168px;
   opacity: 0.6;
@@ -61,4 +40,4 @@ const ImageHolder = styled.div`
   width: 168px;
 `;
 
-export { Wrapper, ImageHolder, ImageCover, SaveButton };
+export { Label, ImageHolder, ImageCover };

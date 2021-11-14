@@ -6,8 +6,5 @@ const Wrapper = styled.div`
   word-break: break-all;
 `;
 
-const Button = styled.button`
-  color: #888888;
-`;
-
-export { Wrapper, Button };
+// eslint-disable-next-line import/prefer-default-export
+export { Wrapper };

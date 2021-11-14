@@ -22,6 +22,7 @@ function RegisterModal() {
     setUsername(event.target.value);
   }, []);
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {isModalShow && (
         <Modal onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
