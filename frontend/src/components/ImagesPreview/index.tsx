@@ -20,7 +20,7 @@ interface Props {
 function ImagesPreview({ images, onDelete }: Props) {
   return (
     <Wrapper>
-      <Row>
+      <Row justifyContent='unset'>
         {images.map((image, index) => (
           <Col key={image}>
             <button

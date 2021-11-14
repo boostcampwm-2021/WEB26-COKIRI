@@ -5,7 +5,6 @@ import { Row } from 'src/components/Grid';
 const Wrapper = styled.div`
   ${Row} {
     margin-bottom: 24px;
-    justify-content: unset;
     img {
       border-radius: 24px;
     }

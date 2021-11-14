@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   }
   ${Row} {
     ${Col} {
-      width: unset;
       height: 80%;
     }
   }
