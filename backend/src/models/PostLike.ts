@@ -1,8 +1,8 @@
 import { Schema, model, Types } from 'mongoose';
+import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 
 import { PostLikeType } from 'src/types/modelType';
 import { Validate } from 'src/utils';
-import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 
 const postLikeSchema = new Schema<PostLikeType>(
   {

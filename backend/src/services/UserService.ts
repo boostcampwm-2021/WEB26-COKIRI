@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { User, Post } from 'src/models';
+import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { Enums, ObjectID } from 'src/utils';
@@ -73,7 +73,7 @@ class UserService {
   }
 
   async findRandomUserSuggestions(userID: string) {
-    const result: any[] = await User.aggregate([
+    const result: UserSchemaType[] = await User.aggregate([
       { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] } } },
       {
         $project: {
