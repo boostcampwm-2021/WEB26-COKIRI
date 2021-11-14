@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import PostLongContent from 'src/components/PostLongContent';
+import ButtonCommon from 'src/components/buttons/Common';
 
-import { POST_CONTENT_ONE_LINE_LENGTH } from 'src/globals/constants';
+import { POST_CONTENT_LIMIT_LENGTH } from 'src/globals/constants';
 
 import { Wrapper } from './style';
 
@@ -11,9 +12,29 @@ interface Props {
 }
 
 function PostContent({ content }: Props) {
-  const isOverLine =
-    content.length > POST_CONTENT_ONE_LINE_LENGTH || content.split('\n').length > 1;
-  return <Wrapper>{isOverLine ? <PostLongContent content={content} /> : <p>{content}</p>}</Wrapper>;
+  const [isExpand, setIsExpand] = useState(false);
+  const isShort = content.length < POST_CONTENT_LIMIT_LENGTH;
+  const shortContent = content.substr(0, POST_CONTENT_LIMIT_LENGTH);
+  const handleClick = () => {
+    setIsExpand(true);
+  };
+  if (isShort) {
+    return (
+      <Wrapper>
+        <p>{shortContent}</p>
+      </Wrapper>
+    );
+  }
+  return isExpand ? (
+    <Wrapper>
+      <p>{content}</p>
+    </Wrapper>
+  ) : (
+    <Wrapper>
+      <p>{shortContent}</p>
+      <ButtonCommon onClick={handleClick}>더보기</ButtonCommon>
+    </Wrapper>
+  );
 }
 
 PostContent.propTypes = {
