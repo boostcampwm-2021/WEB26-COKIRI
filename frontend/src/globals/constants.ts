@@ -11,6 +11,9 @@ export const POST_PROFILE_IMAGE_HEIGHT = 36;
 export const USER_INFO_CARD_IMAGE_WIDTH = 128;
 export const USER_INFO_CARD_IMAGE_HEIGHT = 128;
 
+export const USER_SETTING_PROFILE_IMAGE_WIDTH = 168;
+export const USER_SETTING_PROFILE_IMAGE_HEIGHT = 168;
+
 export const LOGO_IMAGE_WIDTH = 90;
 export const LOGO_IMAGE_HEIGHT = 24;
 
@@ -46,6 +49,8 @@ export const SIGNIN_CARD_WIDTH = 500;
 export const RECOMMENDATION_CARD_WIDTH = 800;
 
 export const USER_INFO_CARD_WIDTH = 500;
+
+export const USER_SETTING_CARD_WIDTH = 800;
 
 // POST
 export const POST_CONTENT_ONE_LINE_LENGTH = 20;

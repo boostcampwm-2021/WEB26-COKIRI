@@ -11,7 +11,12 @@ import { Row } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+import {
+  USER_SETTING_CARD_WIDTH,
+  DEFAULT_PROFILE_IMAGE,
+  USER_SETTING_PROFILE_IMAGE_WIDTH,
+  USER_SETTING_PROFILE_IMAGE_HEIGHT,
+} from 'src/globals/constants';
 
 import { Fetcher } from 'src/utils';
 
@@ -39,13 +44,17 @@ function UserSettingsCard({ user }: Props) {
   };
 
   return (
-    <CardCommon width={812}>
+    <CardCommon width={USER_SETTING_CARD_WIDTH}>
       <Row>
         <ImageHolder>
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
           </ImageInput>
-          <Image width={168} height={168} src={profileImage} />
+          <Image
+            width={USER_SETTING_PROFILE_IMAGE_WIDTH}
+            height={USER_SETTING_PROFILE_IMAGE_HEIGHT}
+            src={profileImage}
+          />
         </ImageHolder>
       </Row>
       <Row>
