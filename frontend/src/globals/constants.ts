@@ -53,5 +53,4 @@ export const USER_INFO_CARD_WIDTH = 500;
 export const USER_SETTING_CARD_WIDTH = 800;
 
 // POST
-export const POST_CONTENT_ONE_LINE_LENGTH = 20;
-export const POST_CONTENT_ONE_LINE_LIMIT = 16;
+export const POST_CONTENT_LIMIT_LENGTH = 100;
