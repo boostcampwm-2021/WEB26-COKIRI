@@ -38,13 +38,15 @@ class UserService {
   }
 
   async findOneUserForID(userID: string) {
-    const result = await User.findOne({ _id: userID }).select({
-      username: true,
-      isRegistered: true,
-      name: true,
-      profileImage: true,
-      bio: true,
-    });
+    const result = await User.findOne({ _id: userID })
+      .select({
+        username: true,
+        isRegistered: true,
+        name: true,
+        profileImage: true,
+        bio: true,
+      })
+      .lean();
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }

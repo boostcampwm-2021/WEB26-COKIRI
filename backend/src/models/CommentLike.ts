@@ -14,11 +14,7 @@ const commentLikeSchema = new Schema<CommentLikeType>(
       validate: Validate.commentObjectID,
     },
   },
-  {
-    versionKey: false,
-    timestamps: { createdAt: true, updatedAt: false },
-    toJSON: { virtuals: true },
-  },
+  { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
 );
 
 commentLikeSchema.virtual('user', {

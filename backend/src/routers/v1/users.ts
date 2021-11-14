@@ -45,9 +45,12 @@ export default class UsersRouter {
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
-    const user = await UserService.findOneUserForID(request.user!.userID);
-    const follows = await FollowService.findFollows(request.user!.userID);
-    return response.json(user);
+    const results = await Promise.all([
+      UserService.findOneUserForID(request.user!.userID),
+      FollowService.findFollowsID(request.user!.userID),
+      FollowService.findFollowersID(request.user!.userID),
+    ]);
+    return response.json({ ...results[0], follows: results[1], followers: results[2] });
   }
 
   @Get('/logout')

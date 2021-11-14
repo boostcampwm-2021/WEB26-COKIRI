@@ -21,6 +21,7 @@ class CommentService {
       .lean();
     return Promise.all(
       comments.map(async (comment) => {
+        delete comment.userID;
         const likes = await CommentLikeService.findCommentLikes(comment._id!);
         return { ...comment, likes };
       }),

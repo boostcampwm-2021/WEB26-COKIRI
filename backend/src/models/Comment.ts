@@ -9,7 +9,7 @@ const commentSchema = new Schema<CommentType>(
     postID: { type: Types.ObjectId, required: true, ref: 'Post', validate: Validate.postObjectID },
     content: { type: String, required: true },
   },
-  { versionKey: false, timestamps: true, toJSON: { virtuals: true } },
+  { versionKey: false, timestamps: true },
 );
 
 commentSchema.virtual('user', {

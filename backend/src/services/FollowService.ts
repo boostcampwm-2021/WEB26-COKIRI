@@ -1,4 +1,5 @@
 import { Follow } from 'src/models';
+import { FollowType } from 'src/types';
 
 class FollowService {
   async createFollow(followID: string, followerID: string) {
@@ -9,12 +10,14 @@ class FollowService {
     );
   }
 
-  async findFollows(userID: string) {
-    return Follow.find({ followerID: userID });
+  async findFollowsID(userID: string) {
+    const follows: FollowType[] = await Follow.find({ followerID: userID }, 'followID -_id').lean();
+    return follows.map((follow) => follow.followID);
   }
 
-  async findFollowers(userID: string) {
-    return Follow.find({ followID: userID });
+  async findFollowersID(userID: string) {
+    const followers: FollowType[] = await Follow.find({ followID: userID }, 'followerID -_id');
+    return followers.map((follower) => follower.followerID);
   }
 }
 

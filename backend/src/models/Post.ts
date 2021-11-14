@@ -15,7 +15,7 @@ const postSchema = new Schema<PostType>(
     },
     link: { type: String, trim: true },
   },
-  { versionKey: false, timestamps: true, toJSON: { virtuals: true } },
+  { versionKey: false, timestamps: true },
 );
 
 postSchema.virtual('user', {
