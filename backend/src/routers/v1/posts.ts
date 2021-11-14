@@ -4,6 +4,7 @@ import * as passport from 'passport';
 
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 import { Enums } from 'src/utils';
+import ImageService from 'src/services/ImageService';
 
 @Controller('/posts')
 export default class PostsRouter {
@@ -28,8 +29,14 @@ export default class PostsRouter {
       PostService.findPost(postID),
       CommentService.findComments(postID),
       PostLikeService.findPostLikes(postID),
+      ImageService.findPostImage(postID),
     ]);
-    return response.json({ ...results[0], comments: results[1], likes: results[2] });
+    return response.json({
+      ...results[0],
+      comments: results[1],
+      likes: results[2],
+      images: results[3],
+    });
   }
 
   @Post('/')
@@ -50,8 +57,8 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const _id = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id });
+    const comment = await CommentService.createComment(userID, content, postID);
+    return response.json({ code: Enums.responseCode.SUCCESS, _id: comment._id });
   }
 
   @Post('/:postID/comments/:commentID/likes')

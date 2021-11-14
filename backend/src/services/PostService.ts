@@ -3,6 +3,8 @@ import { Types } from 'mongoose';
 import { Post, User, Image } from 'src/models';
 import { MongooseParse, Enums } from 'src/utils';
 import { ObjectType } from 'src/types';
+import { CommentService, PostLikeService } from 'src/services/index';
+import ImageService from 'src/services/ImageService';
 
 class PostService {
   async createPost(data: any) {
@@ -41,13 +43,20 @@ class PostService {
   }
 
   async findUserTimeline(userID: string) {
-    const posts: ObjectType<any>[] = await Post.find({ userID })
-      .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] });
-    return MongooseParse.convertToPostArrayFormat(posts);
+    const posts = await Post.find({ userID })
+      .populate({ path: 'user', select: Enums.select.USER })
+      .lean();
+    return Promise.all(
+      posts.map(async (post) => {
+        delete post.userID;
+        const results = await Promise.all([
+          CommentService.findComments(post._id!.toString()),
+          PostLikeService.findPostLikes(post._id!.toString()),
+          ImageService.findPostImage(post._id!.toString()),
+        ]);
+        return { ...post, comments: results[0], likes: results[1], images: results[2] };
+      }),
+    );
   }
 
   async findTimeline(userID: string, offset: string) {

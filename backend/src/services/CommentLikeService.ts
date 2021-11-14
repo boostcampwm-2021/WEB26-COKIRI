@@ -5,7 +5,7 @@ import { Enums } from 'src/utils';
 
 class CommentLikeService {
   async createCommentLike(userID: string, commentID: string) {
-    const upsertLike: any = CommentLike.updateOne(
+    const upsertLike = await CommentLike.updateOne(
       { userID, commentID },
       { $setOnInsert: { userID, commentID } },
       { upsert: true, runValidators: true, new: true },
