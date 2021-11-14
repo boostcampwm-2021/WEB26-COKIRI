@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { Wrapper } from './style';
 
 interface Props {
-  bind?: [string, Dispatch<SetStateAction<string>>];
+  bind: [string, Dispatch<SetStateAction<string>>];
   placeholder?: string;
   width?: number;
 }
 
 function Input({ bind, placeholder, width }: Props) {
-  const [state, setState] = bind!;
+  const [state, setState] = bind;
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,13 +27,12 @@ function Input({ bind, placeholder, width }: Props) {
 }
 
 Input.propTypes = {
-  bind: PropTypes.arrayOf(PropTypes.any),
+  bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,
 };
 
 Input.defaultProps = {
-  bind: ['', () => {}],
   placeholder: '',
   width: 0,
 };
