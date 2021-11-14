@@ -8,6 +8,13 @@ import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
 
 class PostService {
+  async existsPost(postID: string, userID: string) {
+    const isExist = await Post.exists({ _id: postID, userID });
+    if (!isExist) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+  }
+
   async getPost(postID: Types.ObjectId) {
     const results = await Promise.all([
       CommentService.findComments(postID.toString()),
@@ -92,6 +99,10 @@ class PostService {
 
   async findPostCount(userID: Types.ObjectId) {
     return Post.countDocuments({ userID }).exec();
+  }
+
+  async removePost(postID: string) {
+    return Promise.all([Post.remove({ _id: postID }), PostLikeService.removePostLikes(postID)]);
   }
 }
 

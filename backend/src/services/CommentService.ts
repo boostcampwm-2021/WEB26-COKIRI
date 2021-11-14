@@ -29,6 +29,16 @@ class CommentService {
     );
   }
 
+  async removeComments(postID: string) {
+    const comments = await Comment.find({ postID });
+    console.log(comments);
+    return Promise.all(
+      comments.map(async (comment) => {
+        await this.removeComment(postID, comment._id);
+      }),
+    );
+  }
+
   async removeComment(postID: string, commentID: string) {
     return Promise.all([
       Comment.remove({ postID, _id: commentID }),

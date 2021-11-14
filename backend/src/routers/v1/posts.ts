@@ -101,6 +101,19 @@ export default class PostsRouter {
     return response.json({ code: Enums.responseCode.SUCCESS, _id });
   }
 
+  @Delete('/:postID')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async deletePost(@Req() request: Request, @Res() response: Response) {
+    const { postID } = request.params;
+    const { userID } = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    await PostService.existsPost(postID, userID);
+    await Promise.all([PostService.removePost(postID), CommentService.removeComments(postID)]);
+    return response.json({ code: Enums.responseCode.SUCCESS });
+  }
+
   @Delete('/:postID/likes/:likeID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deletePostLike(@Req() request: Request, @Res() response: Response) {

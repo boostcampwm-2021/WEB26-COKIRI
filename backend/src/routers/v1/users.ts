@@ -140,7 +140,7 @@ export default class UsersRouter {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await FollowService.createFollow(userID, request.user!.userID);
-    return response.json({ code: 'Success' });
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 
   @Put('/:userID/settings')
@@ -151,7 +151,7 @@ export default class UsersRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
-    return response.json({ code: 'Success' });
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 
   @Delete('/:userID/follows')
@@ -162,6 +162,6 @@ export default class UsersRouter {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
     await FollowService.removeFollow(request.user!.userID, userID);
-    return response.json({ code: 'Success' });
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 }
