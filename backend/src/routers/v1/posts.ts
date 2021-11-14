@@ -16,10 +16,11 @@ export default class PostsRouter {
     return response.json(timelineResult);
   }
 
-  @Get('/:postId/likes')
+  @Get('/:postID/likes')
   async getPostLikeList(@Req() request: Request, @Res() response: Response) {
-    const { postId } = request.params;
-    return response.json(await PostService.findPostLikeList(postId));
+    const { postID } = request.params;
+    const postLikes = await PostLikeService.findPostLikes(postID);
+    return response.json(postLikes);
   }
 
   @Get('/:postID')
@@ -92,10 +93,12 @@ export default class PostsRouter {
     return response.json({ code: Enums.responseCode.SUCCESS, _id });
   }
 
-  @Delete('/:postId/comments/:commentId')
+  @Delete('/:postID/comments/:commentID')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deleteComment(@Req() request: Request, @Res() response: Response) {
-    const { postId, commentId } = request.params;
-    const result = await CommentService.removeComment(postId, commentId);
+    const { postID, commentID } = request.params;
+    await CommentService.existsComment(request.user!.userID, postID, commentID);
+    const result = await CommentService.removeComment(postID, commentID);
     return response.json(result);
   }
 

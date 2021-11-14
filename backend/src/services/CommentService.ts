@@ -29,7 +29,10 @@ class CommentService {
   }
 
   async removeComment(postID: string, commentID: string) {
-    return Comment.remove({ postID, _id: commentID });
+    return Promise.all([
+      Comment.remove({ postID, _id: commentID }),
+      CommentLikeService.removeCommentLikes(commentID),
+    ]);
   }
 }
 

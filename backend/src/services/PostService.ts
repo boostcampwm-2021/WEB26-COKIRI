@@ -1,10 +1,10 @@
 import { Types } from 'mongoose';
 
-import { Post, User, Image } from 'src/models';
+import { Post, Image } from 'src/models';
 import { MongooseParse, Enums } from 'src/utils';
-import { ObjectType } from 'src/types';
 import { CommentService, PostLikeService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
+import FollowService from 'src/services/FollowService';
 
 class PostService {
   async createPost(data: any) {
@@ -60,27 +60,22 @@ class PostService {
   }
 
   async findTimeline(userID: string, offset: string) {
-    const followList: any = await User.findOne({ _id: userID }, 'follows -_id');
-    const containsArray = !followList ? [userID] : [...followList.follows, userID];
-    const posts: ObjectType<any>[] = await Post.find({ userID: containsArray })
-      .populate({ path: 'likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'comments.likes.userID', select: ['username', 'profileImage'] })
-      .populate({ path: 'tags' })
-      .populate({ path: 'userID', select: ['username', 'profileImage'] });
-    return MongooseParse.convertToPostArrayFormat(posts);
-  }
-
-  async findPostLikeList(postID: string) {
-    const likesList = await Post.findOne({ _id: postID }, 'likes -_id')
-      .populate({ path: 'likes.userID', select: Enums.select.USER })
+    const follows = await FollowService.findFollowsID(userID);
+    const containsArray = !follows ? [userID] : [...follows, userID];
+    const posts = await Post.find({ userID: { $in: containsArray } })
+      .populate({ path: 'user', select: Enums.select.USER })
       .lean();
-    // const result: any = likesList?.likes?.map((v: any) => ({
-    //   ...v.userID,
-    //   createdAt: v.createdAt,
-    // }));
-
-    return [];
+    return Promise.all(
+      posts.map(async (post) => {
+        delete post.userID;
+        const results = await Promise.all([
+          CommentService.findComments(post._id!.toString()),
+          PostLikeService.findPostLikes(post._id!.toString()),
+          ImageService.findPostImage(post._id!.toString()),
+        ]);
+        return { ...post, comments: results[0], likes: results[1], images: results[2] };
+      }),
+    );
   }
 
   async findPost(postID: string) {
