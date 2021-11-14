@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get, UseBefore, UseAfter } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
@@ -9,11 +9,12 @@ import ImageService from 'src/services/ImageService';
 @Controller('/posts')
 export default class PostsRouter {
   @Get('/')
+  @UseAfter((request: Request, response: Response) => {})
   async getRandomPostOrTimeline(@Req() request: Request, @Res() response: Response) {
     const { type, user_id: userID, offset } = request.query;
     if (type === 'random') return response.json(await PostService.findRandomPost());
     const timelineResult = await PostService.findTimeline(userID as string, offset as string);
-    return response.json(timelineResult);
+    return response;
   }
 
   @Get('/:postID/likes')

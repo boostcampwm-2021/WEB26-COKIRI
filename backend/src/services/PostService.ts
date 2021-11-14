@@ -5,8 +5,29 @@ import { Enums } from 'src/utils';
 import { CommentService, PostLikeService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
+import { PostType } from 'src/types';
 
 class PostService {
+  async getPost(postID: Types.ObjectId) {
+    const results = await Promise.all([
+      CommentService.findComments(postID.toString()),
+      PostLikeService.findPostLikes(postID.toString()),
+      ImageService.findPostImage(postID.toString()),
+    ]);
+    return { comments: results[0], likes: results[1], images: results[2] };
+  }
+
+  async getPostArray(posts: PostType[]) {
+    return Promise.all(
+      posts.map(async (post) => {
+        const newPost = { ...post };
+        delete newPost.userID;
+        const results = await this.getPost(post._id!);
+        return { ...newPost, ...results };
+      }),
+    );
+  }
+
   async createPost(data: any) {
     let { images } = data;
     const post = await Post.create(data);
@@ -22,43 +43,30 @@ class PostService {
   }
 
   async findRandomPost() {
-    const aggregateResult = await Post.aggregate([
+    const randomPosts = await Post.aggregate([
       { $sample: { size: 20 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
-      { $lookup: { from: 'comments', localField: '_id', foreignField: 'postID', as: 'comments' } },
+      { $unwind: '$user' },
       {
-        $lookup: { from: 'postlikes', localField: '_id', foreignField: 'postID', as: 'postlikes' },
+        $project: {
+          'user._id': true,
+          'user.username': true,
+          'user.profileImage': true,
+          title: true,
+          content: true,
+          tags: true,
+          link: true,
+        },
       },
-      { $lookup: { from: 'images', localField: '_id', foreignField: 'targetID', as: 'images' } },
     ]);
-
-    const result = aggregateResult.map((v) => {
-      const newValue = { ...v };
-      newValue.likeCount = v.postlikes.length();
-      delete newValue.postlikes;
-      newValue.user = { username: v.user.username, profileImage: v.user.username.profileImage };
-      return newValue;
-    });
-
-    return result;
+    return this.getPostArray(randomPosts);
   }
 
   async findUserTimeline(userID: string) {
     const posts = await Post.find({ userID })
       .populate({ path: 'user', select: Enums.select.USER })
       .lean();
-    return Promise.all(
-      posts.map(async (post) => {
-        const newPost = { ...post };
-        delete newPost.userID;
-        const results = await Promise.all([
-          CommentService.findComments(post._id!.toString()),
-          PostLikeService.findPostLikes(post._id!.toString()),
-          ImageService.findPostImage(post._id!.toString()),
-        ]);
-        return { ...newPost, comments: results[0], likes: results[1], images: results[2] };
-      }),
-    );
+    return this.getPostArray(posts);
   }
 
   async findTimeline(userID: string, offset: string) {
@@ -67,18 +75,7 @@ class PostService {
     const posts = await Post.find({ userID: { $in: containsArray } })
       .populate({ path: 'user', select: Enums.select.USER })
       .lean();
-    return Promise.all(
-      posts.map(async (post) => {
-        const newPost = { ...post };
-        delete newPost.userID;
-        const results = await Promise.all([
-          CommentService.findComments(post._id!.toString()),
-          PostLikeService.findPostLikes(post._id!.toString()),
-          ImageService.findPostImage(post._id!.toString()),
-        ]);
-        return { ...newPost, comments: results[0], likes: results[1], images: results[2] };
-      }),
-    );
+    return this.getPostArray(posts);
   }
 
   async findPost(postID: string) {
