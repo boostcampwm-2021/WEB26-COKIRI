@@ -6,7 +6,7 @@ import { Wrapper } from './style';
 interface Props {
   children: ReactNode;
   width: number;
-  height: number;
+  height?: number;
 }
 
 function CardCommon({ children, width, height }: Props) {
