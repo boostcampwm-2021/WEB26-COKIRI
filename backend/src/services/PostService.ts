@@ -1,5 +1,7 @@
+import { Types } from 'mongoose';
+
 import { Post, User, Image } from 'src/models';
-import { ObjectID, MongooseParse, Enums } from 'src/utils';
+import { MongooseParse, Enums } from 'src/utils';
 import { ObjectType } from 'src/types';
 
 class PostService {
@@ -84,13 +86,8 @@ class PostService {
     return post;
   }
 
-  async findPostCount(userID: string) {
-    const postCount = await Post.aggregate([
-      { $match: { userID: ObjectID.stringToObjectID(userID) } },
-      { $count: 'postCount' },
-    ]);
-    if (postCount.length === 0) return { postCount: 0 };
-    return postCount[0];
+  async findPostCount(userID: Types.ObjectId) {
+    return Post.countDocuments({ userID }).exec();
   }
 }
 

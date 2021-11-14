@@ -1,5 +1,6 @@
 import { Follow } from 'src/models';
 import { FollowType } from 'src/types';
+import { Types } from 'mongoose';
 
 class FollowService {
   async createFollow(followID: string, followerID: string) {
@@ -18,6 +19,14 @@ class FollowService {
   async findFollowersID(userID: string) {
     const followers: FollowType[] = await Follow.find({ followID: userID }, 'followerID -_id');
     return followers.map((follower) => follower.followerID);
+  }
+
+  async countFollows(userID: Types.ObjectId) {
+    return Follow.countDocuments({ followerID: userID }).exec();
+  }
+
+  async countFollowers(userID: Types.ObjectId) {
+    return Follow.countDocuments({ followID: userID }).exec();
   }
 }
 

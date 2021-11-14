@@ -38,15 +38,10 @@ class UserService {
   }
 
   async findOneUserForID(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({
-        username: true,
-        isRegistered: true,
-        name: true,
-        profileImage: true,
-        bio: true,
-      })
-      .lean();
+    const result = await User.findOne(
+      { _id: userID },
+      'username isRegistered name profileImage bio',
+    ).lean();
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }
@@ -54,22 +49,14 @@ class UserService {
   }
 
   async findOneUserProfileForUsername(username: string) {
-    const result: any[] = await User.aggregate([
-      {
-        $project: {
-          followerCount: { $size: '$followers' },
-          followCount: { $size: '$follows' },
-          _id: { $toString: '$_id' },
-          username: '$username',
-          bio: '$bio',
-          name: '$name',
-        },
-      },
-      { $match: { username } },
-    ]);
+    const result: UserSchemaType[] = await User.find(
+      { username },
+      'username isRegistered name profileImage bio',
+    ).lean();
     if (result.length === 0) {
       throw new Error(Enums.error.NO_USERS);
     }
+    console.log(result);
     return result[0];
   }
 

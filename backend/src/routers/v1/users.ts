@@ -36,8 +36,17 @@ export default class UsersRouter {
         throw new Error(Enums.error.WRONG_QUERY_TYPE);
       }
       const userProfile = await UserService.findOneUserProfileForUsername(username as string);
-      const postCount = await PostService.findPostCount(userProfile._id);
-      responseJSON = { ...userProfile, ...postCount };
+      const counts = await Promise.all([
+        PostService.findPostCount(userProfile._id!),
+        FollowService.countFollows(userProfile._id!),
+        FollowService.countFollowers(userProfile._id!),
+      ]);
+      responseJSON = {
+        ...userProfile,
+        postCount: counts[0],
+        followCount: counts[1],
+        followerCount: counts[2],
+      };
     }
     return response.json(responseJSON);
   }
@@ -130,7 +139,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
-    await FollowService.createFollow(request.user!.userID, userID);
+    await FollowService.createFollow(userID, request.user!.userID);
     return response.json({ code: 'Success' });
   }
 
