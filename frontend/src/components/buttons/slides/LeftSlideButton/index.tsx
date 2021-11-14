@@ -13,7 +13,7 @@ interface Props {
 function LefSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <IconButton onClick={onClick}>
+      <IconButton onClick={onClick} plain>
         <IoIosArrowDropleftCircle />
       </IconButton>
     </Wrapper>

@@ -13,7 +13,7 @@ interface Props {
 function RightSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <IconButton onClick={onClick}>
+      <IconButton onClick={onClick} plain>
         <IoIosArrowDroprightCircle />
       </IconButton>
     </Wrapper>
