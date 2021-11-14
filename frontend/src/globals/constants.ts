@@ -21,10 +21,9 @@ export const FLOATING_BUTTON_HEIGHT = 64;
 
 export const SOCIAL_BUTTON_WIDTH = 64;
 export const SOCIAL_BUTTON_HEIGHT = 64;
-export const SOCIAL_BUTTON_MARGIN = 16;
 
-export const DEFAULT_ICON_SIZE = '24';
+export const SOCIAL_ICON_SIZE = 48;
 
-export const SOCIAL_ICON_SIZE = '32';
+export const DEFAULT_ICON_SIZE = 24;
 
 export const POST_CARD_WIDTH = 600;
