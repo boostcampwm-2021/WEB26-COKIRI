@@ -3,7 +3,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 
-import Card from 'src/components/cards/Common';
+import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
 import Button from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
@@ -39,7 +39,7 @@ function UserSettingsCard({ user }: Props) {
   };
 
   return (
-    <Card width={812}>
+    <CardCommon width={812}>
       <Row>
         <ImageHolder>
           <ImageInput onImageUpload={handleImageUpload}>
@@ -65,7 +65,7 @@ function UserSettingsCard({ user }: Props) {
           저장
         </Button>
       </Row>
-    </Card>
+    </CardCommon>
   );
 }
 

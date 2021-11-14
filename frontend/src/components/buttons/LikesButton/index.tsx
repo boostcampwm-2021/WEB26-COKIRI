@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import Button from 'src/components/buttons/Common';
+import ButtonCommon from 'src/components/buttons/Common';
 import React, { useCallback, useState } from 'react';
 import LikesModal from 'src/components/modals/LikesModal';
 
@@ -16,7 +16,7 @@ function LikesButton({ postID, likeCount }: Props) {
 
   return (
     <>
-      <Button onClick={handleClick}>좋아요 {likeCount}개</Button>
+      <ButtonCommon onClick={handleClick}>좋아요 {likeCount}개</ButtonCommon>
       {isModalShow && <LikesModal postID={postID} onClose={handleClose} />}
     </>
   );

@@ -10,7 +10,7 @@ interface Props {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Social({ children, onClick }: Props) {
+function SocialCommon({ children, onClick }: Props) {
   return (
     <IconButton
       onClick={onClick}
@@ -23,13 +23,13 @@ function Social({ children, onClick }: Props) {
   );
 }
 
-Social.propTypes = {
+SocialCommon.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
 };
 
-Social.defaultProps = {
+SocialCommon.defaultProps = {
   onClick: () => {},
 };
 
-export default Social;
+export default SocialCommon;

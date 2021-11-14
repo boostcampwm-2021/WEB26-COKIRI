@@ -15,7 +15,7 @@ interface Props {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Common({ children, width, margin, padding, height, onClick, plain }: Props) {
+function ButtonCommon({ children, width, margin, padding, height, onClick, plain }: Props) {
   return (
     <Button
       width={width}
@@ -30,7 +30,7 @@ function Common({ children, width, margin, padding, height, onClick, plain }: Pr
   );
 }
 
-Common.propsType = {
+ButtonCommon.propsType = {
   children: PropTypes.node.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -40,7 +40,7 @@ Common.propsType = {
   onClick: PropTypes.func,
 };
 
-Common.defaultProps = {
+ButtonCommon.defaultProps = {
   width: 0,
   height: 0,
   margin: DEFAULT_BUTTON_MARGIN,
@@ -49,4 +49,4 @@ Common.defaultProps = {
   onClick: () => {},
 };
 
-export default Common;
+export default ButtonCommon;

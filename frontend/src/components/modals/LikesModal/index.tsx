@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import Modal from 'src/components/modals/Common';
+import ModalCommon from 'src/components/modals/Common';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import FollowButton from 'src/components/buttons/FollowButton';
 import { Row, Col } from 'src/components/Grid';
@@ -24,7 +24,7 @@ function LikesModal({ postID, onClose }: Props) {
 
   return (
     <Wrapper>
-      <Modal onClose={onClose} close='닫기'>
+      <ModalCommon onClose={onClose} close='닫기'>
         좋아요
         <Col>
           {data?.map((like) => (
@@ -34,7 +34,7 @@ function LikesModal({ postID, onClose }: Props) {
             </Row>
           ))}
         </Col>
-      </Modal>
+      </ModalCommon>
     </Wrapper>
   );
 }

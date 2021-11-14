@@ -2,7 +2,7 @@ import React, { ReactNode, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
-import Button from 'src/components/buttons/Common';
+import ButtonCommon from 'src/components/buttons/Common';
 
 import { DEFAULT_BUTTON_PADDING, DEFAULT_ICON_SIZE } from 'src/globals/constants';
 
@@ -19,9 +19,9 @@ interface Props {
 function IconButton({ children, onClick, padding, plain, width, height, size }: Props) {
   const props = useMemo(() => ({ size: `${size}` }), [size]);
   return (
-    <Button onClick={onClick} padding={padding} plain={plain} width={width} height={height}>
+    <ButtonCommon onClick={onClick} padding={padding} plain={plain} width={width} height={height}>
       <IconContext.Provider value={props}>{children}</IconContext.Provider>
-    </Button>
+    </ButtonCommon>
   );
 }
 
