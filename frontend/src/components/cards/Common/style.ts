@@ -4,7 +4,7 @@ import { ThemeType } from 'src/types';
 
 interface Props {
   width: number;
-  height: number;
+  height?: number;
   theme?: ThemeType;
 }
 

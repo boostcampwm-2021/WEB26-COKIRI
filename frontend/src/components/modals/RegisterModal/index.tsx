@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 
-import Modal from 'src/components/modals/Common';
+import ModalCommon from 'src/components/modals/Common';
 import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -25,13 +25,13 @@ function RegisterModal() {
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {isModalShow && (
-        <Modal onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
+        <ModalCommon onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
           <Col>
             <p>회원가입에 필요한 절차에요</p>
             <p>username을 알려주세요~</p>
             <input value={username} onChange={handleInputChange} type='text' />
           </Col>
-        </Modal>
+        </ModalCommon>
       )}
     </>
   );

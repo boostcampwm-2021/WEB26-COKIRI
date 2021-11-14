@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
-import Button from 'src/components/buttons/Common';
+import ButtonCommon from 'src/components/buttons/Common';
 
 import { Fetcher } from 'src/utils';
 
@@ -18,7 +18,7 @@ function FollowButton({ targetUserID }: Props) {
   const handleClick = () => {
     mutation.mutate();
   };
-  return <Button onClick={handleClick}>팔로우</Button>;
+  return <ButtonCommon onClick={handleClick}>팔로우</ButtonCommon>;
 }
 
 FollowButton.propTypes = {

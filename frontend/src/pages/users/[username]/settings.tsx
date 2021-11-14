@@ -34,7 +34,7 @@ function Settings({ user }: Props) {
 
       <Header />
       <Page.Main>
-        <Row>
+        <Row justifyContent='center'>
           <UserSettingsCard user={user} />
         </Row>
       </Page.Main>

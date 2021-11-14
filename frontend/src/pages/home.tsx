@@ -41,7 +41,7 @@ function Home({ user }: Props) {
 
       <Header />
       <Page.Main>
-        <Col>
+        <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {/* {isAuthenticated && <RecommendationCard />} */}
           {isAuthenticated && <Timeline posts={data} />}

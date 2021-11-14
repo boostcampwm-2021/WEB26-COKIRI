@@ -3,7 +3,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 
-import Card from 'src/components/cards/Common';
+import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
 import Button from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
@@ -11,7 +11,12 @@ import { Row } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+import {
+  USER_SETTING_CARD_WIDTH,
+  DEFAULT_PROFILE_IMAGE,
+  USER_SETTING_PROFILE_IMAGE_WIDTH,
+  USER_SETTING_PROFILE_IMAGE_HEIGHT,
+} from 'src/globals/constants';
 
 import { Fetcher } from 'src/utils';
 
@@ -39,24 +44,28 @@ function UserSettingsCard({ user }: Props) {
   };
 
   return (
-    <Card width={812}>
-      <Row>
+    <CardCommon width={USER_SETTING_CARD_WIDTH}>
+      <Row justifyContent='center'>
         <ImageHolder>
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
           </ImageInput>
-          <Image width={168} height={168} src={profileImage} />
+          <Image
+            width={USER_SETTING_PROFILE_IMAGE_WIDTH}
+            height={USER_SETTING_PROFILE_IMAGE_HEIGHT}
+            src={profileImage}
+          />
         </ImageHolder>
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>username</Label>
         <Input bind={[username, setUsername]} placeholder={user.username} />
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>name</Label>
         <Input bind={[name, setName]} placeholder={user.name} />
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>bio</Label>
         <Input bind={[bio, setBio]} placeholder={user.bio} />
       </Row>
@@ -65,7 +74,7 @@ function UserSettingsCard({ user }: Props) {
           저장
         </Button>
       </Row>
-    </Card>
+    </CardCommon>
   );
 }
 

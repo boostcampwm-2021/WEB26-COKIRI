@@ -9,7 +9,7 @@ interface Props {
   width?: number;
 }
 
-function Input({ bind, placeholder, width }: Props) {
+function InputCommon({ bind, placeholder, width }: Props) {
   const [state, setState] = bind;
 
   const handleChange = useCallback(
@@ -26,15 +26,15 @@ function Input({ bind, placeholder, width }: Props) {
   );
 }
 
-Input.propTypes = {
+InputCommon.propTypes = {
   bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,
 };
 
-Input.defaultProps = {
+InputCommon.defaultProps = {
   placeholder: '',
   width: 0,
 };
 
-export default Input;
+export default InputCommon;

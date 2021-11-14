@@ -2,7 +2,7 @@ import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
-import Card from 'src/components/cards/Common';
+import CardCommon from 'src/components/cards/Common';
 import FollowButton from 'src/components/buttons/FollowButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Row, Col } from 'src/components/Grid';
@@ -27,8 +27,8 @@ function UserInfoCard({ targetUser, isMe }: Props) {
   const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
   return (
     <Wrapper>
-      <Card width={USER_INFO_CARD_WIDTH}>
-        <Row justifyContent='start'>
+      <CardCommon width={USER_INFO_CARD_WIDTH}>
+        <Row>
           <ImageHolder>
             <Image
               width={USER_INFO_CARD_IMAGE_WIDTH}
@@ -36,8 +36,8 @@ function UserInfoCard({ targetUser, isMe }: Props) {
               src={profileImage ?? DEFAULT_PROFILE_IMAGE}
             />
           </ImageHolder>
-          <Col alignItems='start'>
-            <Row justifyContent='start'>
+          <Col>
+            <Row>
               <Username>{username}</Username>
               {!isMe && <FollowButton targetUserID={targetUser._id!} />}
               {isMe && (
@@ -46,20 +46,20 @@ function UserInfoCard({ targetUser, isMe }: Props) {
                 </NavigateIconButton>
               )}
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{postCount} posts</p>
               <p>{followerCount} followers</p>
               <p>{followCount} following</p>
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{name}</p>
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{bio}</p>
             </Row>
           </Col>
         </Row>
-      </Card>
+      </CardCommon>
     </Wrapper>
   );
 }

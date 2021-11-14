@@ -7,9 +7,10 @@ import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
 import PostImages from 'src/components/PostImages';
 import PostContent from 'src/components/PostContent';
-import PostReview from 'src/components/PostReview';
+import PostComments from 'src/components/PostComments';
 import LikesButton from 'src/components/buttons/LikesButton';
 import Card from 'src/components/cards/Common';
+import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
 import PostType from 'src/types/post';
@@ -22,19 +23,20 @@ interface Props {
 
 function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes.length);
-
+  const { _id, user, images, content, comments } = post;
   return (
     <Card width={POST_CARD_WIDTH}>
-      <ProfileSet profileImage={post.user.profileImage} username={post.user.username} />
-      {post.images.length !== 0 && <PostImages images={post.images} />}
-      <Row justifyContent='start'>
+      <ProfileSet profileImage={user.profileImage} username={user.username} />
+      {images.length !== 0 && <PostImages images={images} />}
+      <Row>
         <LikeButton post={post} setLikeCount={setLikeCount} />
-        <CommentButton postID={post._id} />
-        <EchoButton postID={post._id} />
+        <CommentButton postID={_id} />
+        <EchoButton postID={_id} />
       </Row>
-      {likeCount !== 0 && <LikesButton postID={post._id} likeCount={likeCount} />}
-      <PostContent content={post.content} />
-      <PostReview />
+      {likeCount !== 0 && <LikesButton postID={_id} likeCount={likeCount} />}
+      <PostContent content={content} />
+      <PostComments comments={comments} />
+      <CommentInput />
     </Card>
   );
 }

@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { IoMdImages } from 'react-icons/io';
 import PropTypes from 'prop-types';
 
-import Modal from 'src/components/modals/Common';
+import ModalCommon from 'src/components/modals/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
 import ImagesPreview from 'src/components/ImagesPreview';
 
@@ -48,7 +48,7 @@ function PostWriteModal({ onClose }: Props) {
   }, []);
 
   return (
-    <Modal close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
+    <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
       <ImageInput onImageUpload={handleImageUpload}>
         <IconHolder>
           <IoMdImages />
@@ -56,7 +56,7 @@ function PostWriteModal({ onClose }: Props) {
       </ImageInput>
       <Textarea autoFocus value={content} onChange={handleTextareaChange} />
       <ImagesPreview images={images} onDelete={handleImageDelete} />
-    </Modal>
+    </ModalCommon>
   );
 }
 

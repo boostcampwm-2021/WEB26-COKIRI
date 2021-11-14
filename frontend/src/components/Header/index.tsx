@@ -11,7 +11,6 @@ import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchInput from 'src/components/inputs/SearchInput';
-import { Row } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
 
@@ -22,33 +21,31 @@ function Header() {
 
   return (
     <Wrapper>
-      <Row>
-        <Section>
-          <LogoButton />
-          <SearchInput />
-        </Section>
+      <Section>
+        <LogoButton />
+        <SearchInput />
+      </Section>
 
-        <Section>
-          <NavigateIconButton href='/home'>
-            <IoHomeOutline />
-          </NavigateIconButton>
-          <NavigateIconButton href='/random'>
-            <IoCompassOutline />
-          </NavigateIconButton>
-          <NavigateIconButton href='/echo'>
-            <IoPaperPlaneOutline />
-          </NavigateIconButton>
-        </Section>
+      <Section>
+        <NavigateIconButton href='/home'>
+          <IoHomeOutline />
+        </NavigateIconButton>
+        <NavigateIconButton href='/random'>
+          <IoCompassOutline />
+        </NavigateIconButton>
+        <NavigateIconButton href='/echo'>
+          <IoPaperPlaneOutline />
+        </NavigateIconButton>
+      </Section>
 
-        <Section>
-          <IconButton>
-            <IoHeartOutline />
-          </IconButton>
-          <NavigateIconButton href={`/users/${user.username}`}>
-            <IoPersonCircleOutline />
-          </NavigateIconButton>
-        </Section>
-      </Row>
+      <Section>
+        <IconButton>
+          <IoHeartOutline />
+        </IconButton>
+        <NavigateIconButton href={`/users/${user.username}`}>
+          <IoPersonCircleOutline />
+        </NavigateIconButton>
+      </Section>
     </Wrapper>
   );
 }
