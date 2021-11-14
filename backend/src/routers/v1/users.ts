@@ -161,7 +161,7 @@ export default class UsersRouter {
     if (userID === request.user!.userID) {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
-    await UserService.pullFollows(request.user!, userID);
+    await FollowService.removeFollow(request.user!.userID, userID);
     return response.json({ code: 'Success' });
   }
 }

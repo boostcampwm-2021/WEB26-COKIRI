@@ -106,19 +106,6 @@ class UserService {
       { runValidators: true, upsert: true },
     );
   }
-
-  async pullFollows(user: UserType, followID: string) {
-    await User.updateOne(
-      { _id: user.userID },
-      { $pull: { follows: followID } },
-      { runValidators: true },
-    );
-    await User.updateOne(
-      { _id: followID },
-      { $pull: { followers: user.userID } },
-      { runValidators: true },
-    );
-  }
 }
 
 export default new UserService();

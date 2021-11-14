@@ -43,6 +43,10 @@ class FollowService {
       .lean();
     return followers.map((follower) => follower.follower);
   }
+
+  async removeFollow(followerID: string, followID: string) {
+    return Follow.remove({ followerID, followID });
+  }
 }
 
 export default new FollowService();
