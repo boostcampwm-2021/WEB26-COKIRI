@@ -22,8 +22,9 @@ class CommentLikeService {
       .populate('user', Enums.select.USER)
       .lean();
     return likes.map((like) => {
-      delete like.userID;
-      return like;
+      const newLike = { ...like };
+      delete newLike.userID;
+      return newLike;
     });
   }
 

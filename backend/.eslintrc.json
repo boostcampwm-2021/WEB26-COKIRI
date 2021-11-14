@@ -28,8 +28,7 @@
     ],
     "no-underscore-dangle": ["error", { "allow": ["_id", "_json"] }],
     "@typescript-eslint/no-non-null-assertion": "off",
-    "class-methods-use-this": "off",
-    "no-param-reassign": "off"
+    "class-methods-use-this": "off"
   },
   "settings": {
     "import/resolver": {

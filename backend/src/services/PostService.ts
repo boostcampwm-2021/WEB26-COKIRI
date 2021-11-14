@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Post, Image } from 'src/models';
-import { MongooseParse, Enums } from 'src/utils';
+import { Enums } from 'src/utils';
 import { CommentService, PostLikeService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
@@ -33,10 +33,11 @@ class PostService {
     ]);
 
     const result = aggregateResult.map((v) => {
-      v.likeCount = v.postlikes.length();
-      delete v.postlikes;
-      v.user = { username: v.user.username, profileImage: v.user.username.profileImage };
-      return v;
+      const newValue = { ...v };
+      newValue.likeCount = v.postlikes.length();
+      delete newValue.postlikes;
+      newValue.user = { username: v.user.username, profileImage: v.user.username.profileImage };
+      return newValue;
     });
 
     return result;
@@ -48,13 +49,14 @@ class PostService {
       .lean();
     return Promise.all(
       posts.map(async (post) => {
-        delete post.userID;
+        const newPost = { ...post };
+        delete newPost.userID;
         const results = await Promise.all([
           CommentService.findComments(post._id!.toString()),
           PostLikeService.findPostLikes(post._id!.toString()),
           ImageService.findPostImage(post._id!.toString()),
         ]);
-        return { ...post, comments: results[0], likes: results[1], images: results[2] };
+        return { ...newPost, comments: results[0], likes: results[1], images: results[2] };
       }),
     );
   }
@@ -67,13 +69,14 @@ class PostService {
       .lean();
     return Promise.all(
       posts.map(async (post) => {
-        delete post.userID;
+        const newPost = { ...post };
+        delete newPost.userID;
         const results = await Promise.all([
           CommentService.findComments(post._id!.toString()),
           PostLikeService.findPostLikes(post._id!.toString()),
           ImageService.findPostImage(post._id!.toString()),
         ]);
-        return { ...post, comments: results[0], likes: results[1], images: results[2] };
+        return { ...newPost, comments: results[0], likes: results[1], images: results[2] };
       }),
     );
   }

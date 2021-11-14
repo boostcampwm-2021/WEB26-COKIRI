@@ -21,9 +21,10 @@ class CommentService {
       .lean();
     return Promise.all(
       comments.map(async (comment) => {
-        delete comment.userID;
+        const newComment = { ...comment };
+        delete newComment.userID;
         const likes = await CommentLikeService.findCommentLikes(comment._id!);
-        return { ...comment, likes };
+        return { ...newComment, likes };
       }),
     );
   }
