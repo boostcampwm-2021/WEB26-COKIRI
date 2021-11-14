@@ -1,9 +1,14 @@
 import styled from '@emotion/styled';
 
 const Wrapper = styled.div`
-  margin-left: 15px;
-  width: 575px;
-  word-break: break-all;
+  position: relative;
+  svg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 28px;
+  }
 `;
 
 // eslint-disable-next-line import/prefer-default-export

@@ -27,18 +27,9 @@ const Card = styled.div`
   border-radius: 50px;
   background: #1e1e1e;
   box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
-  input {
-    padding: 0 24px;
-    height: 36px;
-    width: 256px;
-    border-radius: 50px;
-    background: #1e1e1e;
-    box-shadow: inset 8px 8px 16px #1a1a1a, inset -8px -8px 16px #232323;
-  }
 `;
 
 const Button = styled.button`
-  color: #cccccc;
   margin: 0 24px;
   width: 96px;
   height: 48px;
@@ -47,7 +38,10 @@ const Button = styled.button`
   box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
 `;
 
-const CloseButton = styled(Button)``;
+const CloseButton = styled(Button)`
+  background: #231e1e;
+  box-shadow: 5px 5px 10px #1f1a1a, -5px -5px 10px #282323;
+`;
 
 const ConfirmButton = styled(Button)``;
 

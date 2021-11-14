@@ -13,5 +13,16 @@ const Textarea = styled.textarea`
   font-size: 16px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Textarea };
+const IconHolder = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e1e1e;
+  box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
+  align-self: start;
+  margin-bottom: 24px;
+  width: 48px;
+  height: 48px;
+`;
+
+export { Textarea, IconHolder };
