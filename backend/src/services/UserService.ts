@@ -38,18 +38,13 @@ class UserService {
   }
 
   async findOneUserForID(userID: string) {
-    const result = await User.findOne({ _id: userID })
-      .select({
-        username: true,
-        isRegistered: true,
-        name: true,
-        profileImage: true,
-        follows: true,
-        followers: true,
-        bio: true,
-      })
-      .populate({ path: 'follows', select: ['_id'] })
-      .populate({ path: 'followers', select: ['_id'] });
+    const result = await User.findOne({ _id: userID }).select({
+      username: true,
+      isRegistered: true,
+      name: true,
+      profileImage: true,
+      bio: true,
+    });
     if (!result) {
       throw new Error(Enums.error.NO_USERS);
     }

@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, Put, Delete, UseBefore, Redirect } from 'routing-controllers';
+import {
+  Controller,
+  Req,
+  Res,
+  Get,
+  Post,
+  Put,
+  Delete,
+  UseBefore,
+  Redirect,
+} from 'routing-controllers';
 import * as passport from 'passport';
 
 import { PostService, UserService, GitService } from 'src/services';
 import { Enums } from 'src/utils';
+import FollowService from 'src/services/FollowService';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -35,6 +46,7 @@ export default class UsersRouter {
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
     const user = await UserService.findOneUserForID(request.user!.userID);
+    const follows = await FollowService.findFollows(request.user!.userID);
     return response.json(user);
   }
 
@@ -108,6 +120,17 @@ export default class UsersRouter {
     return response.json(result);
   }
 
+  @Post('/:userID/follows')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putUserFollows(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID === request.user!.userID) {
+      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
+    }
+    await FollowService.createFollow(request.user!.userID, userID);
+    return response.json({ code: 'Success' });
+  }
+
   @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
@@ -116,17 +139,6 @@ export default class UsersRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig({ userID: request.user!.userID }, request.body);
-    return response.json({ code: 'Success' });
-  }
-
-  @Put('/:userID/follows')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async putUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    if (userID === request.user!.userID) {
-      throw new Error(Enums.error.WRONG_PARAMS_TYPE);
-    }
-    await UserService.addToSetFollows(request.user!, userID);
     return response.json({ code: 'Success' });
   }
 
