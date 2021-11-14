@@ -38,7 +38,7 @@ function User({ user, targetUser }: Props) {
 
       <Header />
       <Page.Main>
-        <Col>
+        <Col alignItems='center'>
           <UserInfoCard targetUser={targetUser} isMe={targetUser._id === user._id} />
           <Timeline posts={data} />
         </Col>

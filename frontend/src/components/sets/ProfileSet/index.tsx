@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-import { Row } from 'src/components/Grid';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 
@@ -16,10 +15,8 @@ interface Props {
 function ProfileSet({ profileImage, username }: Props) {
   return (
     <Wrapper>
-      <Row justifyContent='start'>
-        <ProfileImageButton profileImage={profileImage!} username={username} />
-        <UsernameButton username={username!} />
-      </Row>
+      <ProfileImageButton profileImage={profileImage!} username={username} />
+      <UsernameButton username={username!} />
     </Wrapper>
   );
 }

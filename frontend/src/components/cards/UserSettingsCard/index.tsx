@@ -45,7 +45,7 @@ function UserSettingsCard({ user }: Props) {
 
   return (
     <CardCommon width={USER_SETTING_CARD_WIDTH}>
-      <Row>
+      <Row justifyContent='center'>
         <ImageHolder>
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
@@ -57,15 +57,15 @@ function UserSettingsCard({ user }: Props) {
           />
         </ImageHolder>
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>username</Label>
         <Input bind={[username, setUsername]} placeholder={user.username} />
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>name</Label>
         <Input bind={[name, setName]} placeholder={user.name} />
       </Row>
-      <Row>
+      <Row justifyContent='center'>
         <Label>bio</Label>
         <Input bind={[bio, setBio]} placeholder={user.bio} />
       </Row>

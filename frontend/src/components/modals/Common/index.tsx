@@ -18,7 +18,7 @@ function ModalCommon({ children, onClose, onConfirm, close, confirm }: Props) {
     <>
       <Background onClick={onClose} />
       <Card>
-        <Col>
+        <Col alignItems='center'>
           {children}
           <Row>
             <Spacer />

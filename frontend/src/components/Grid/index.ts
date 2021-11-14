@@ -26,13 +26,13 @@ const Spacer = styled.div`
 `;
 
 Row.defaultProps = {
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: 'unset',
+  alignItems: 'unset',
 };
 
 Col.defaultProps = {
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: 'unset',
+  alignItems: 'unset',
 };
 
 export { Row, Col, Spacer };

@@ -28,7 +28,7 @@ function UserInfoCard({ targetUser, isMe }: Props) {
   return (
     <Wrapper>
       <CardCommon width={USER_INFO_CARD_WIDTH}>
-        <Row justifyContent='start'>
+        <Row>
           <ImageHolder>
             <Image
               width={USER_INFO_CARD_IMAGE_WIDTH}
@@ -36,8 +36,8 @@ function UserInfoCard({ targetUser, isMe }: Props) {
               src={profileImage ?? DEFAULT_PROFILE_IMAGE}
             />
           </ImageHolder>
-          <Col alignItems='start'>
-            <Row justifyContent='start'>
+          <Col>
+            <Row>
               <Username>{username}</Username>
               {!isMe && <FollowButton targetUserID={targetUser._id!} />}
               {isMe && (
@@ -46,15 +46,15 @@ function UserInfoCard({ targetUser, isMe }: Props) {
                 </NavigateIconButton>
               )}
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{postCount} posts</p>
               <p>{followerCount} followers</p>
               <p>{followCount} following</p>
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{name}</p>
             </Row>
-            <Row justifyContent='start'>
+            <Row>
               <p>{bio}</p>
             </Row>
           </Col>
