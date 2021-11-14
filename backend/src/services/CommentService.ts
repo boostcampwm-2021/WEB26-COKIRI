@@ -17,6 +17,7 @@ class CommentService {
 
   async findComments(postID: string) {
     const comments: CommentType[] = await Comment.find({ postID }, '-postID')
+      .sort({ createdAt: 1 })
       .populate('user', Enums.select.USER)
       .lean();
     return Promise.all(

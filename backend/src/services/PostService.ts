@@ -46,7 +46,7 @@ class PostService {
       }));
       if (images) await Image.insertMany(images);
     }
-    return {};
+    return post._id;
   }
 
   async findRandomPost() {

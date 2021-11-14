@@ -136,6 +136,10 @@ export default class UsersRouter {
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     if (userID === request.user!.userID) {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }
@@ -158,6 +162,10 @@ export default class UsersRouter {
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     if (userID === request.user!.userID) {
       throw new Error(Enums.error.WRONG_PARAMS_TYPE);
     }

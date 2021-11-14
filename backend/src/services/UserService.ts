@@ -69,6 +69,7 @@ class UserService {
       posts: false,
       isRegistered: false,
       authProviderID: false,
+      tistoryAccessToken: false,
     });
   }
 
