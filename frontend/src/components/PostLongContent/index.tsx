@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
+import { POST_CONTENT_ONE_LINE_LENGTH, POST_CONTENT_ONE_LINE_LIMIT } from 'src/globals/constants';
+
 import { Wrapper, Button } from './style';
 
 interface Props {
@@ -10,7 +12,9 @@ interface Props {
 function PostContent({ content }: Props) {
   const firstSentence = content.split('\n')[0];
   const [longContent, setLongContentBlock] = useState<string[]>(
-    firstSentence.length > 16 ? [firstSentence.substring(0, 20)] : [firstSentence],
+    firstSentence.length > POST_CONTENT_ONE_LINE_LIMIT
+      ? [firstSentence.substring(0, POST_CONTENT_ONE_LINE_LENGTH)]
+      : [firstSentence],
   );
   const [isBlockOpen, setIsBlockOpen] = useState(true);
 

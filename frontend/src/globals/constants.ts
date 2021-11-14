@@ -46,3 +46,7 @@ export const SIGNIN_CARD_WIDTH = 500;
 export const RECOMMENDATION_CARD_WIDTH = 800;
 
 export const USER_INFO_CARD_WIDTH = 500;
+
+// POST
+export const POST_CONTENT_ONE_LINE_LENGTH = 20;
+export const POST_CONTENT_ONE_LINE_LIMIT = 16;
