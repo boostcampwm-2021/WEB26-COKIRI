@@ -1,4 +1,4 @@
-import { Comment } from 'src/models';
+import { Comment, User } from 'src/models';
 import { Enums } from 'src/utils';
 import { CommentLikeService } from 'src/services';
 import { CommentType } from 'src/types';
@@ -12,7 +12,13 @@ class CommentService {
   }
 
   async createComment(userID: string, content: string, postID: string) {
-    return Comment.create({ userID, content, postID });
+    const comment = await Comment.create({ userID, content, postID });
+    const newComment = await Comment.findById(comment._id)
+      .populate('user', Enums.select.USER)
+      .lean();
+    delete newComment!.userID;
+    delete newComment!.postID;
+    return newComment;
   }
 
   async findComments(postID: string) {

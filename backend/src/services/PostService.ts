@@ -40,13 +40,14 @@ class PostService {
     const post = await Post.create(data);
 
     if (images?.length > 0) {
-      images = images.map((v: any) => ({
-        url: v,
+      images = images.map((uri: string) => ({
+        url: uri,
         targetID: post._id,
       }));
       if (images) await Image.insertMany(images);
     }
-    return post._id;
+    const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
+    return { ...newPostConfig[0], ...newPostConfig[1] };
   }
 
   async findRandomPost() {

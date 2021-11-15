@@ -52,8 +52,8 @@ export default class PostsRouter {
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
-    const _id = await PostService.createPost(data);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id });
+    const post = await PostService.createPost(data);
+    return response.json({ code: Enums.responseCode.SUCCESS, post });
   }
 
   @Post('/:postID/comments')
@@ -68,7 +68,7 @@ export default class PostsRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const comment = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id: comment._id });
+    return response.json({ code: Enums.responseCode.SUCCESS, comment });
   }
 
   @Post('/:postID/likes')
