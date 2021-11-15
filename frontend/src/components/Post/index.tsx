@@ -22,22 +22,22 @@ interface Props {
 }
 
 function Post({ post }: Props) {
-  const [likeCount, setLikeCount] = useState(post.likes.length);
-  const [comments, setComments] = useState(post.comments);
+  const [likeCount, setLikeCount] = useState(post.likes!.length);
+  const [comments, setComments] = useState(post.comments!);
   const { _id, user, images, content, likes } = post;
   return (
     <Card width={POST_CARD_WIDTH}>
-      <ProfileSet profileImage={user.profileImage} username={user.username} />
-      {images.length !== 0 && <PostImages images={images} />}
+      <ProfileSet profileImage={user!.profileImage} username={user!.username} />
+      {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
-        <LikeButton postID={_id} postLikes={likes} setLikeCount={setLikeCount} />
-        <CommentButton postID={_id} />
-        <EchoButton postID={_id} />
+        <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
+        <CommentButton postID={_id!} />
+        <EchoButton postID={_id!} />
       </Row>
-      {likeCount !== 0 && <LikesButton postID={_id} likeCount={likeCount} />}
-      <PostContent content={content} />
-      <PostComments comments={comments} />
-      <CommentInput postID={_id} setComments={setComments} />
+      {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
+      <PostContent content={content!} />
+      <PostComments postID={_id!} comments={comments!} />
+      <CommentInput postID={_id!} setComments={setComments} />
     </Card>
   );
 }
