@@ -125,6 +125,13 @@ export default class UsersRouter {
     return response.json(result);
   }
 
+  @Get('/:userID/repositories/contribution')
+  async getRepoContribution(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await GitService.findContribution(userID);
+    return response.json({ code: Enums.responseCode.SUCCESS, result });
+  }
+
   @Get('/:githubUsername/repositories/:repoName')
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { githubUsername, repoName } = request.params;
