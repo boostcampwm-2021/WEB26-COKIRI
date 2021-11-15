@@ -69,6 +69,10 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('github', { session: false }))
   @Redirect(`${process.env.CLIENT_URL}`)
   getGithubCallback(@Req() request: Request, @Res() response: Response) {
-    response.json({});
+    const accessToken = JWT.createAccessToken(request.user!);
+    response.cookie('jwt', accessToken, {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+    });
   }
 }

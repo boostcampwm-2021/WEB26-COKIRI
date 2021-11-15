@@ -10,6 +10,10 @@ class UserService {
     return User.exists({ _id: user.userID });
   }
 
+  async existGithubUser(username: string): Promise<boolean> {
+    return User.exists({ githubUsername: username });
+  }
+
   async existsRegisteredUser(user: UserType): Promise<boolean> {
     const result = await User.findOne({ _id: user.userID }).select({
       isRegistered: true,
@@ -89,6 +93,10 @@ class UserService {
       throw new Error(Enums.error.NO_USERS);
     }
     return result;
+  }
+
+  async updateGithubUserInfo(username: string, info: any) {
+    return User.findOneAndUpdate({ githubUsername: username }, info, { new: true });
   }
 
   async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
