@@ -23,7 +23,6 @@ const Enums = {
     NO_USERS: '사용자가 존재하지 않습니다.',
     NO_POSTS: '게시글이 존재하지 않습니다.',
     NO_COMMENTS: '댓글이 존재하지 않습니다.',
-    INVALID_TISTORY_STATE: 'Tistory Authorization State 가 잘못 되었습니다',
   },
   openAPIUrl: {
     PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
