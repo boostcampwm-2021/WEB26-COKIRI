@@ -30,17 +30,16 @@ const Enums = {
     TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
     TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
     TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
+    GITREPOLISTAPI: (username: string) => `https://api.github.com/users/${username}/repos`,
+    GITREPOINFOAPI: (githubUsername: string, repoName: string) =>
+      `https://api.github.com/repos/${githubUsername}/${repoName}`,
+    GITREPOREADMEAPI: (githubUsername: string, repoName: string) =>
+      `https://api.github.com/repos/${githubUsername}/${repoName}/readme`,
+    GITURL: (username: string) => `https://github.com/${username}`,
   },
   select: {
     USER: 'username profileImage',
   },
 };
-
-export const GITREPOLISTAPI = (username: string) =>
-  `https://api.github.com/users/${username}/repos`;
-export const GITREPOINFOAPI = (githubUsername: string, repoName: string) =>
-  `https://api.github.com/repos/${githubUsername}/${repoName}`;
-export const GITREPOREADMEAPI = (githubUsername: string, repoName: string) =>
-  `https://api.github.com/repos/${githubUsername}/${repoName}/readme`;
 
 export default Enums;
