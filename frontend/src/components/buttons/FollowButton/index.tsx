@@ -10,7 +10,7 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
-  isFollower: boolean;
+  isFollower?: boolean;
 }
 
 function FollowButton({ targetUserID, isFollower }: Props) {
@@ -24,7 +24,11 @@ function FollowButton({ targetUserID, isFollower }: Props) {
 
 FollowButton.propTypes = {
   targetUserID: PropTypes.string.isRequired,
-  isFollower: PropTypes.bool.isRequired,
+  isFollower: PropTypes.bool,
+};
+
+FollowButton.defaultProps = {
+  isFollower: false,
 };
 
 export default FollowButton;
