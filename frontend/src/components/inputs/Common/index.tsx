@@ -7,7 +7,7 @@ interface Props {
   bind: [string, Dispatch<SetStateAction<string>>];
   placeholder?: string;
   width?: number;
-  icon: ReactNode;
+  icon?: ReactNode;
 }
 
 function InputCommon({ bind, placeholder, width, icon }: Props) {
@@ -32,12 +32,13 @@ InputCommon.propTypes = {
   bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
 };
 
 InputCommon.defaultProps = {
   placeholder: '',
   width: 0,
+  icon: '',
 };
 
 export default InputCommon;
