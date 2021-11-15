@@ -15,7 +15,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const posts = await PostService.findTimeline(userID as string, offset as string);
+    const posts = await PostService.findTimeline(userID as string, +offset!);
     return response.json(posts);
   }
 

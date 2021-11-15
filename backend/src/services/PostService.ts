@@ -52,7 +52,7 @@ class PostService {
 
   async findRandomPost() {
     const randomPosts = await Post.aggregate([
-      { $sample: { size: 20 } },
+      { $sample: { size: Enums.PERPAGE } },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
@@ -81,11 +81,13 @@ class PostService {
     return this.getPostArray(posts);
   }
 
-  async findTimeline(userID: string, offset: string) {
+  async findTimeline(userID: string, offset: number) {
     const follows = await FollowService.findFollowsID(userID);
     const containsArray = !follows ? [userID] : [...follows, userID];
     const posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
+      .skip(Enums.PERPAGE * offset)
+      .limit(Enums.PERPAGE)
       .populate({ path: 'user', select: Enums.select.USER })
       .lean();
     return this.getPostArray(posts);

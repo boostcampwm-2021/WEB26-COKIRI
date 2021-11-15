@@ -41,6 +41,7 @@ const Enums = {
   select: {
     USER: 'username profileImage',
   },
+  PERPAGE: 20,
 };
 
 export default Enums;
