@@ -10,11 +10,16 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
+  onUnfollow: () => void;
 }
 
-function UnfollowButton({ targetUserID }: Props) {
+function UnfollowButton({ targetUserID, onUnfollow }: Props) {
   const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.deleteUserFollow(user, targetUserID));
+  const mutation = useMutation(() => Fetcher.deleteUserFollow(user, targetUserID), {
+    onSuccess: () => {
+      onUnfollow();
+    },
+  });
   const handleClick = () => {
     mutation.mutate();
   };
@@ -23,6 +28,11 @@ function UnfollowButton({ targetUserID }: Props) {
 
 UnfollowButton.propTypes = {
   targetUserID: PropTypes.string.isRequired,
+  onUnfollow: PropTypes.func,
+};
+
+UnfollowButton.defaultProps = {
+  onUnfollow: () => {},
 };
 
 export default UnfollowButton;

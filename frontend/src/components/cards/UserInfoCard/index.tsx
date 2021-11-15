@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
@@ -25,10 +25,22 @@ interface Props {
 }
 
 function UserInfoCard({ targetUser, user }: Props) {
-  const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
-  const isMe = targetUser._id === user._id;
-  const isFollow = user.follows?.includes(targetUser._id!);
-  const isFollower = user.followers?.includes(targetUser._id!);
+  const { profileImage, username, postCount, followCount, name, bio } = targetUser;
+  const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
+  const [isFollow, setIsFollow] = useState(user.follows?.includes(targetUser._id!));
+  const handleFollow = useCallback(() => {
+    setFollowerCount((prevState) => prevState + 1);
+    setIsFollow(true);
+  }, []);
+  const handleUnfollow = useCallback(() => {
+    setFollowerCount((prevState) => prevState - 1);
+    setIsFollow(false);
+  }, []);
+  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
+  const isFollower = useMemo(
+    () => user.followers?.includes(targetUser._id!),
+    [targetUser._id, user.followers],
+  );
 
   return (
     <Wrapper>
@@ -50,9 +62,17 @@ function UserInfoCard({ targetUser, user }: Props) {
               ) : (
                 (() => {
                   if (isFollow) {
-                    return <UnfollowButton targetUserID={targetUser._id!} />;
+                    return (
+                      <UnfollowButton targetUserID={targetUser._id!} onUnfollow={handleUnfollow} />
+                    );
                   }
-                  return <FollowButton isFollower={isFollower!} targetUserID={targetUser._id!} />;
+                  return (
+                    <FollowButton
+                      isFollower={isFollower!}
+                      targetUserID={targetUser._id!}
+                      onFollow={handleFollow}
+                    />
+                  );
                 })()
               )}
             </Row>
