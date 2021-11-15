@@ -145,5 +145,34 @@ class Fetcher {
     );
     return result.data;
   }
+
+  static async postCommentLike(
+    user: UserType,
+    postID: string,
+    commentID: string,
+  ): Promise<ReturnType<LikeType>> {
+    const result = await axios.post(
+      `${baseURL}/v1/posts/${postID}/comments/${commentID}/likes`,
+      {
+        userID: user._id,
+      },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    return result.data;
+  }
+
+  static async deleteCommentLike(
+    user: UserType,
+    postID: string,
+    commentID: string,
+    likeID: string,
+  ): Promise<void> {
+    await axios.delete(`${baseURL}/v1/posts/${postID}/comments/${commentID}/likes/${likeID}`, {
+      data: { userID: `${user._id}` },
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
 }
 export default Fetcher;

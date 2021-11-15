@@ -1,33 +1,36 @@
 import PropTypes from 'prop-types';
 
-import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
-import UsernameButton from 'src/components/buttons/UsernameButton';
-import { Row } from 'src/components/Grid';
+import Comment from 'src/components/Comment';
 
 import { CommentType } from 'src/types';
 
 import { Wrapper } from './style';
 
 interface Props {
+  postID: string;
   comments: CommentType[];
 }
 
-// eslint-disable-next-line no-unused-vars
-function PostComments({ comments }: Props) {
+function PostComments({ postID, comments }: Props) {
   return (
     <Wrapper>
       {comments.map((comment) => (
-        <Row key={comment._id}>
-          <ProfileImageButton size={28} profileImage={comment.user.profileImage} />
-          <UsernameButton username={comment.user.username!} />
-          <p>{comment.content}</p>
-        </Row>
+        <Comment
+          key={comment._id}
+          postID={postID}
+          commentID={comment._id}
+          commentLikes={comment.likes}
+          profileImage={comment.user.profileImage}
+          username={comment.user.username!}
+          content={comment.content}
+        />
       ))}
     </Wrapper>
   );
 }
 
 PostComments.propTypes = {
+  postID: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 

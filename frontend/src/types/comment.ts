@@ -5,5 +5,6 @@ export default interface CommentType {
   _id: string;
   content: string;
   user: UserType;
-  likes: LikeType;
+  likes: LikeType[];
+  createdAt: Date;
 }
