@@ -1,12 +1,9 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import Image from 'next/image';
 
-import {
-  DEFAULT_PROFILE_IMAGE,
-  POST_PROFILE_IMAGE_HEIGHT,
-  POST_PROFILE_IMAGE_WIDTH,
-} from 'src/globals/constants';
+import ProfileImage from 'src/components/ProfileImage';
+
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
 
 import { Wrapper } from './style';
 
@@ -20,11 +17,7 @@ function ProfileImageButton({ username, profileImage }: Props) {
     <Wrapper>
       <Link href={`/users/${username}`} passHref>
         <a>
-          <Image
-            src={profileImage!}
-            width={POST_PROFILE_IMAGE_WIDTH}
-            height={POST_PROFILE_IMAGE_HEIGHT}
-          />
+          <ProfileImage profileImage={profileImage!} />
         </a>
       </Link>
     </Wrapper>

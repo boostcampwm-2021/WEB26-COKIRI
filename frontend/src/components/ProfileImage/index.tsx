@@ -11,26 +11,28 @@ import { Wrapper } from './style';
 
 interface Props {
   profileImage?: string;
+  width?: number;
+  height?: number;
 }
 
-function ProfileImage({ profileImage }: Props) {
+function ProfileImage({ profileImage, width, height }: Props) {
   return (
-    <Wrapper>
-      <Image
-        src={profileImage!}
-        width={POST_PROFILE_IMAGE_WIDTH}
-        height={POST_PROFILE_IMAGE_HEIGHT}
-      />
+    <Wrapper width={width!}>
+      <Image src={profileImage!} width={width} height={height} />
     </Wrapper>
   );
 }
 
 ProfileImage.propsType = {
   profileImage: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 ProfileImage.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
+  width: POST_PROFILE_IMAGE_WIDTH,
+  height: POST_PROFILE_IMAGE_HEIGHT,
 };
 
 export default ProfileImage;
