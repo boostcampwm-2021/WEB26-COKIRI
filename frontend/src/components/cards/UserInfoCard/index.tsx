@@ -4,6 +4,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 
 import CardCommon from 'src/components/cards/Common';
 import FollowButton from 'src/components/buttons/FollowButton';
+import UnfollowButton from 'src/components/buttons/UnfollowButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Row, Col } from 'src/components/Grid';
 
@@ -20,11 +21,15 @@ import { Wrapper, ImageHolder, Username } from './style';
 
 interface Props {
   targetUser: UserType;
-  isMe: boolean;
+  user: UserType;
 }
 
-function UserInfoCard({ targetUser, isMe }: Props) {
+function UserInfoCard({ targetUser, user }: Props) {
   const { profileImage, username, postCount, followCount, followerCount, name, bio } = targetUser;
+  const isMe = targetUser._id === user._id;
+  const isFollow = user.follows?.includes(targetUser._id!);
+  const isFollower = user.followers?.includes(targetUser._id!);
+
   return (
     <Wrapper>
       <CardCommon width={USER_INFO_CARD_WIDTH}>
@@ -39,11 +44,17 @@ function UserInfoCard({ targetUser, isMe }: Props) {
           <Col>
             <Row>
               <Username>{username}</Username>
-              {!isMe && <FollowButton targetUserID={targetUser._id!} />}
-              {isMe && (
+              {isMe ? (
                 <NavigateIconButton href={`/users/${targetUser.username}/settings`}>
                   <IoSettingsOutline />
                 </NavigateIconButton>
+              ) : (
+                (() => {
+                  if (isFollow) {
+                    return <UnfollowButton targetUserID={targetUser._id!} />;
+                  }
+                  return <FollowButton isFollower={isFollower!} targetUserID={targetUser._id!} />;
+                })()
               )}
             </Row>
             <Row>
@@ -65,8 +76,8 @@ function UserInfoCard({ targetUser, isMe }: Props) {
 }
 
 UserInfoCard.prototype = {
+  targetUser: PropTypes.objectOf(PropTypes.any).isRequired,
   user: PropTypes.objectOf(PropTypes.any).isRequired,
-  isMe: PropTypes.bool.isRequired,
 };
 
 export default UserInfoCard;

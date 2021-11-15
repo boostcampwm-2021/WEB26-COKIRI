@@ -103,9 +103,9 @@ class Fetcher {
   }
 
   static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
-    await axios.put(
+    await axios.post(
       `${baseURL}/v1/users/${targetUserID}/follows`,
-      {},
+      { userID: user._id },
       {
         headers: { Authorization: `Bearer ${user.token}` },
       },
@@ -114,6 +114,9 @@ class Fetcher {
 
   static async deleteUserFollow(user: UserType, targetUserID: string): Promise<void> {
     await axios.delete(`${baseURL}/v1/users/${targetUserID}/follows`, {
+      data: {
+        userID: user._id,
+      },
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }

@@ -9,4 +9,6 @@ export default interface UserType {
   postCount?: number;
   followerCount?: number;
   followCount?: number;
+  followers?: string[];
+  follows?: string[];
 }
