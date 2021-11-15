@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
+import ProfileImage from 'src/components/ProfileImage';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 
 import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
@@ -15,7 +15,7 @@ interface Props {
 function ProfileSet({ profileImage, username }: Props) {
   return (
     <Wrapper>
-      <ProfileImageButton profileImage={profileImage!} username={username} />
+      <ProfileImage profileImage={profileImage!} username={username} isButton />
       <UsernameButton username={username!} />
     </Wrapper>
   );
