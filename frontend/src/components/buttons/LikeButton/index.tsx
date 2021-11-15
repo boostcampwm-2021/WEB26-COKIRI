@@ -20,9 +20,9 @@ interface Props {
 
 function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const user = useRecoilValue(userAtom);
-  const like = postLikes.filter((postLike) => postLike.user._id === user._id);
-  const [isLike, setIsLike] = useState(like.length !== 0);
-  const [likeID, setLikeID] = useState(like.length !== 0 ? like[0]._id : '');
+  const like = postLikes.find((postLike) => postLike.user._id === user._id);
+  const [isLike, setIsLike] = useState(like !== undefined);
+  const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
   const postPostLike = () => Fetcher.postPostLike(user, postID);
   const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
   const likeMutation = useMutation(postPostLike, {
