@@ -23,7 +23,8 @@ interface Props {
 
 function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes.length);
-  const { _id, user, images, content, comments, likes } = post;
+  const [comments, setComments] = useState(post.comments);
+  const { _id, user, images, content, likes } = post;
   return (
     <Card width={POST_CARD_WIDTH}>
       <ProfileSet profileImage={user.profileImage} username={user.username} />
@@ -36,7 +37,7 @@ function Post({ post }: Props) {
       {likeCount !== 0 && <LikesButton postID={_id} likeCount={likeCount} />}
       <PostContent content={content} />
       <PostComments comments={comments} />
-      <CommentInput />
+      <CommentInput postID={_id} setComments={setComments} />
     </Card>
   );
 }

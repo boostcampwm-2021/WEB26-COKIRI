@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useMutation } from 'react-query';
 import { BiSend, BiComment } from 'react-icons/bi';
+import PropTypes from 'prop-types';
 
 import InputCommon from 'src/components/inputs/Common';
 import ProfileImage from 'src/components/images/ProfileImage';
@@ -11,19 +13,43 @@ import { COMMENT_INPUT_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
 
-function CommentInput() {
+import { CommentType } from 'src/types';
+
+import { Fetcher } from 'src/utils';
+
+interface Props {
+  postID: string;
+  setComments: Dispatch<SetStateAction<CommentType[]>>;
+}
+
+function CommentInput({ postID, setComments }: Props) {
   const [value, setValue] = useState('');
   const user = useRecoilValue(userAtom);
+  const postPostComment = () => Fetcher.postPostComment(user, postID, value);
+  const mutation = useMutation(postPostComment, {
+    onSuccess: (data) => {
+      setComments((prevState: CommentType[]) => [...prevState, data.result]);
+      setValue('');
+    },
+  });
+
+  const handleClick = () => {
+    mutation.mutate();
+  };
 
   return (
     <Row justifyContent='center' alignItems='center'>
       <ProfileImage profileImage={user.profileImage} />
       <InputCommon bind={[value, setValue]} width={COMMENT_INPUT_WIDTH} icon={<BiComment />} />
-      <IconButton>
+      <IconButton onClick={handleClick}>
         <BiSend />
       </IconButton>
     </Row>
   );
 }
+
+CommentInput.propTypes = {
+  postID: PropTypes.string.isRequired,
+};
 
 export default CommentInput;

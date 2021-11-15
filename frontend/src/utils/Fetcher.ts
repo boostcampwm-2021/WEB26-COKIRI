@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UserType, PostType, LikeType, ReturnType } from 'src/types';
+import { UserType, PostType, LikeType, ReturnType, CommentType } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -126,6 +126,24 @@ class Fetcher {
       },
       headers: { Authorization: `Bearer ${user.token}` },
     });
+  }
+
+  static async postPostComment(
+    user: UserType,
+    postID: string,
+    content: string,
+  ): Promise<ReturnType<CommentType>> {
+    const result = await axios.post(
+      `${baseURL}/v1/posts/${postID}/comments`,
+      {
+        userID: user._id,
+        content,
+      },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    return result.data;
   }
 }
 export default Fetcher;

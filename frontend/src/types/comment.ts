@@ -1,5 +1,9 @@
+import LikeType from './like';
+import UserType from './user';
+
 export default interface CommentType {
-  writer: string;
+  _id: string;
   content: string;
-  likeCount?: number;
+  user: UserType;
+  likes: LikeType;
 }
