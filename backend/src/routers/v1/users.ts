@@ -116,8 +116,12 @@ export default class UsersRouter {
   }
 
   @Get('/:userID/repositories')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepoList(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     /**
      * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
      */
@@ -126,15 +130,23 @@ export default class UsersRouter {
   }
 
   @Get('/:userID/repositories/contribution')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepoContribution(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     const result = await GitService.findContribution(userID);
     return response.json({ code: Enums.responseCode.SUCCESS, result });
   }
 
   @Get('/:githubUsername/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { githubUsername, repoName } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
     const result = await GitService.findRepo(githubUsername, repoName);
     return response.json(result);
   }
