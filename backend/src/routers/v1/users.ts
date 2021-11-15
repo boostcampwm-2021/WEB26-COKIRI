@@ -140,12 +140,16 @@ export default class UsersRouter {
     return response.json({ code: Enums.responseCode.SUCCESS, result });
   }
 
-  @Get('/:githubUsername/repositories/:repoName')
+  @Get('/:userID/repositories/:repoName')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepo(@Req() request: Request, @Res() response: Response) {
-    const { githubUsername, repoName } = request.params;
+    const { userID, repoName } = request.params;
     if (userID !== request.user!.userID) {
       throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    const githubUsername = await UserService.findUserGithubUsername(userID);
+    if (githubUsername === undefined) {
+      throw new Error(Enums.error.NO_GITHUBUSERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
     return response.json(result);

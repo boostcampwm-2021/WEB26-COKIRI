@@ -26,6 +26,12 @@ class UserService {
     return User.exists({ username: query });
   }
 
+  async findUserGithubUsername(userID: string): Promise<string | undefined> {
+    const result = await User.findOne({ _id: userID }, 'githubUsername -_id');
+    if (result === null) return undefined;
+    return result.githubUsername;
+  }
+
   async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
     const result = await User.findOne(userAuthProvider).select({ _id: true });
     if (result === null) return undefined;

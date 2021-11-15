@@ -24,6 +24,7 @@ const Enums = {
     NO_POSTS: '게시글이 존재하지 않습니다.',
     NO_COMMENTS: '댓글이 존재하지 않습니다.',
     NO_QUERY: '검색 내용이 존재하지 않습니다.',
+    NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
   },
   openAPIUrl: {
     PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
