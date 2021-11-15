@@ -12,12 +12,14 @@ import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
+import postsAtom from 'src/recoil/posts';
 
 import { Page } from 'src/styles';
 
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
+
 import { HOME_DESCRIPTION } from 'src/globals/descriptions';
 
 interface Props {
@@ -26,9 +28,18 @@ interface Props {
 
 function Home({ user }: Props) {
   const setUser = useSetRecoilState(userAtom);
-  useEffect(() => setUser(user), [setUser, user]);
+  const setPosts = useSetRecoilState(postsAtom);
 
-  const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
+  useEffect(() => setUser(user), [setUser, user]);
+  const { isSuccess, data: posts } = useQuery(['home', 'posts', user._id], () =>
+    Fetcher.getPosts(user),
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      setPosts(posts!);
+    }
+  }, [isSuccess, posts, setPosts]);
 
   const isAuthenticated = Object.keys(user).length !== 0;
   return (
@@ -44,7 +55,7 @@ function Home({ user }: Props) {
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {/* {isAuthenticated && <RecommendationCard />} */}
-          {isAuthenticated && <Timeline posts={data} />}
+          {isAuthenticated && <Timeline />}
         </Col>
       </Page.Main>
       <FloatingButton />

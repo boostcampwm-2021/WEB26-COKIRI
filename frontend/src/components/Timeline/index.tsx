@@ -1,29 +1,18 @@
-import PropTypes from 'prop-types';
+import { useRecoilValue } from 'recoil';
 
 import Post from 'src/components/Post';
 
-import { PostType } from 'src/types';
+import postsAtom from 'src/recoil/posts';
 
-interface Props {
-  posts?: PostType[];
-}
-
-function Timeline({ posts }: Props) {
+function Timeline() {
+  const posts = useRecoilValue(postsAtom);
   return (
     <>
-      {posts!.map((post) => (
+      {posts.map((post) => (
         <Post post={post} key={post._id} />
       ))}
     </>
   );
 }
-
-Timeline.prototype = {
-  posts: PropTypes.arrayOf(PropTypes.any),
-};
-
-Timeline.defaultProps = {
-  posts: [],
-};
 
 export default Timeline;
