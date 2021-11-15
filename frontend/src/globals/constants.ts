@@ -5,8 +5,7 @@ export const LOGO_IMAGE = '/images/logo_image.svg';
 export const POST_IMAGE_WIDTH = 600;
 export const POST_IMAGE_HEIGHT = 360;
 
-export const POST_PROFILE_IMAGE_WIDTH = 36;
-export const POST_PROFILE_IMAGE_HEIGHT = 36;
+export const DEFAULT_PROFILE_IMAGE_SIZE = 36;
 
 export const USER_INFO_CARD_IMAGE_WIDTH = 128;
 export const USER_INFO_CARD_IMAGE_HEIGHT = 128;

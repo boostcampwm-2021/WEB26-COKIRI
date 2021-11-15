@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { BiSend, BiComment } from 'react-icons/bi';
 
 import InputCommon from 'src/components/inputs/Common';
-import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
+import ProfileImage from 'src/components/ProfileImage';
 import IconButton from 'src/components/buttons/IconButton';
 import { Row } from 'src/components/Grid';
 
@@ -17,7 +17,7 @@ function CommentInput() {
 
   return (
     <Row justifyContent='center' alignItems='center'>
-      <ProfileImageButton username={user.username} profileImage={user.profileImage} />
+      <ProfileImage profileImage={user.profileImage} />
       <InputCommon bind={[value, setValue]} width={COMMENT_INPUT_WIDTH} icon={<BiComment />} />
       <IconButton>
         <BiSend />
