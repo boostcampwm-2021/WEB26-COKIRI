@@ -7,10 +7,12 @@ import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
 
 import { POST_IMAGE_WIDTH, POST_IMAGE_HEIGHT } from 'src/globals/constants';
 
+import { ImageType } from 'src/types';
+
 import { Wrapper, ImageHolder, SlideButtons } from './style';
 
 interface Props {
-  images: string[];
+  images: ImageType[];
 }
 
 function PostImages({ images }: Props) {
@@ -29,8 +31,8 @@ function PostImages({ images }: Props) {
     <Wrapper>
       <ImageHolder ref={imageHolderRef} count={images.length}>
         {images.map((image) => (
-          <li key={image}>
-            <Image src={image} width={POST_IMAGE_WIDTH} height={POST_IMAGE_HEIGHT} />
+          <li key={image._id}>
+            <Image src={image.url} width={POST_IMAGE_WIDTH} height={POST_IMAGE_HEIGHT} />
           </li>
         ))}
       </ImageHolder>
@@ -43,7 +45,7 @@ function PostImages({ images }: Props) {
 }
 
 PostImages.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  images: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default PostImages;
