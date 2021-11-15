@@ -7,10 +7,10 @@ interface Props {
   bind: [string, Dispatch<SetStateAction<string>>];
   placeholder?: string;
   width?: number;
-  children: ReactNode;
+  icon: ReactNode;
 }
 
-function InputCommon({ bind, placeholder, width, children }: Props) {
+function InputCommon({ bind, placeholder, width, icon }: Props) {
   const [state, setState] = bind;
 
   const handleChange = useCallback(
@@ -23,7 +23,7 @@ function InputCommon({ bind, placeholder, width, children }: Props) {
   return (
     <Wrapper width={width!}>
       <Input width={width!} value={state} onChange={handleChange} placeholder={placeholder} />
-      {children}
+      {icon}
     </Wrapper>
   );
 }
@@ -32,7 +32,7 @@ InputCommon.propTypes = {
   bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,
-  children: PropTypes.node.isRequired,
+  icon: PropTypes.node.isRequired,
 };
 
 InputCommon.defaultProps = {

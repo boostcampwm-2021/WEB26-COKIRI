@@ -8,9 +8,12 @@ import { SEARCH_INPUT_WIDTH } from 'src/globals/constants';
 function SearchInput() {
   const [value, setValue] = useState('');
   return (
-    <InputCommon bind={[value, setValue]} placeholder='search' width={SEARCH_INPUT_WIDTH}>
-      <IoSearchSharp />
-    </InputCommon>
+    <InputCommon
+      bind={[value, setValue]}
+      placeholder='search'
+      width={SEARCH_INPUT_WIDTH}
+      icon={<IoSearchSharp />}
+    />
   );
 }
 

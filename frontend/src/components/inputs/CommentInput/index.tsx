@@ -18,9 +18,7 @@ function CommentInput() {
   return (
     <Row justifyContent='center' alignItems='center'>
       <ProfileImageButton username={user.username} profileImage={user.profileImage} />
-      <InputCommon bind={[value, setValue]} width={COMMENT_INPUT_WIDTH}>
-        <BiComment />
-      </InputCommon>
+      <InputCommon bind={[value, setValue]} width={COMMENT_INPUT_WIDTH} icon={<BiComment />} />
       <IconButton>
         <BiSend />
       </IconButton>
