@@ -40,10 +40,7 @@ class PostService {
     const post = await Post.create(data);
 
     if (images?.length > 0) {
-      images = images.map((uri: string) => ({
-        url: uri,
-        targetID: post._id,
-      }));
+      images = images.map((v: any) => ({ url: v, targetID: post._id }));
       if (images) await Image.insertMany(images);
     }
     const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
@@ -95,8 +92,7 @@ class PostService {
 
   async findPost(postID: string) {
     const post = await Post.findOne({ _id: postID })
-      .populate({
-        path: 'user',
+      .populate({        path: 'user',
         select: SELECT.USER,
       })
       .lean();

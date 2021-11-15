@@ -12,7 +12,7 @@ import {
 } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, UserService, GitService } from 'src/services';
+import { PostService, UserService, GitService, TistoryService } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 import FollowService from 'src/services/FollowService';
 
@@ -108,6 +108,9 @@ export default class UsersRouter {
     return response.json(follows);
   }
 
+  @Get('/:userID/tistory/blogs')
+  async getUserTistory(@Req() request: Request, @Res() response: Response) {}
+
   @Get('/:userID/followers')
   async getUserFollowers(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
@@ -175,10 +178,10 @@ export default class UsersRouter {
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
-    return response.json({ code: RESPONSECODE.SUCCESS });
+    return response.json({ code: Enums.responseCode.SUCCESS });
   }
 
   @Delete('/:userID/follows')

@@ -95,6 +95,7 @@ export interface PostType {
   link?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  type?: 'normal' | 'blog' | 'algorithm' | 'github';
 }
 
 export interface PostLikeType {
