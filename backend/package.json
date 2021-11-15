@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/passport-github": "^1.1.6",
     "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
