@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { BiSend, BiComment } from 'react-icons/bi';
 
 import InputCommon from 'src/components/inputs/Common';
-import ProfileImage from 'src/components/ProfileImage';
+import ProfileImage from 'src/components/images/ProfileImage';
 import IconButton from 'src/components/buttons/IconButton';
 import { Row } from 'src/components/Grid';
 

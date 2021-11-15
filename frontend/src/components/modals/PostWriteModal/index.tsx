@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import ModalCommon from 'src/components/modals/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
-import ImagesPreview from 'src/components/ImagesPreview';
+import PreviewImages from 'src/components/images/PreviewImages';
 
 import { Fetcher } from 'src/utils';
 
@@ -55,7 +55,7 @@ function PostWriteModal({ onClose }: Props) {
         </IconHolder>
       </ImageInput>
       <Textarea autoFocus value={content} onChange={handleTextareaChange} />
-      <ImagesPreview images={images} onDelete={handleImageDelete} />
+      <PreviewImages images={images} onDelete={handleImageDelete} />
     </ModalCommon>
   );
 }

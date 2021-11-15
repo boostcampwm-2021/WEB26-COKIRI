@@ -5,7 +5,7 @@ import ProfileSet from 'src/components/sets/ProfileSet';
 import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
-import PostImages from 'src/components/PostImages';
+import PostImages from 'src/components/images/PostImages';
 import PostContent from 'src/components/PostContent';
 import PostComments from 'src/components/PostComments';
 import LikesButton from 'src/components/buttons/LikesButton';
