@@ -5,13 +5,35 @@ import { User } from 'src/models';
 import { BlogService, UserService } from 'src/services/index';
 
 class TistoryService {
+  async getPostInPage(identity: string, accessToken: string, page = 1): Promise<any[]> {
+    const result = await axios.get(Enums.openAPIUrl.TISTORY_POSTS, {
+      params: {
+        access_token: accessToken,
+        output: 'json',
+        blogName: identity,
+        page,
+      },
+    });
+    const { posts } = result.data.tistory.item;
+    if (posts) {
+      const nextPagePosts = await this.getPostInPage(identity, accessToken, page + 1);
+      return [...posts, ...nextPagePosts];
+    }
+    return [];
+  }
+
   async getAllPosts(userID: string, identity: string) {
     const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
     if (!accessToken) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
     }
-
-    return [];
+    const posts = await this.getPostInPage(identity, accessToken);
+    return posts.map((post) => ({
+      postID: post.id,
+      postTitle: post.title,
+      type: 'tistory',
+      identity,
+    }));
   }
 
   async updateOneUserAccessToken(code: string, userID: string) {

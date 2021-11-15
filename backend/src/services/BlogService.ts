@@ -16,17 +16,19 @@ class BlogService {
       // @TODO 나중에 blog 선택 api 로 변경해야됨
       await TistoryService.updateOneUserBlogURL(userID);
     }
-    blogs.map(async (blog) => {
-      const { type, identity } = blog;
-      let posts: any[] = [];
-      switch (type) {
-        case 'tistory':
-          posts = await TistoryService.getAllPosts(userID, identity!);
-          break;
-        default:
-      }
-      return posts;
-    });
+    return Promise.all(
+      blogs.map(async (blog) => {
+        const { type, identity } = blog;
+        let posts: any[] = [];
+        switch (type) {
+          case 'tistory':
+            posts = await TistoryService.getAllPosts(userID, identity!);
+            break;
+          default:
+        }
+        return posts;
+      }),
+    );
   }
 }
 
