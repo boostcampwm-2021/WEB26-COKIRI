@@ -6,7 +6,7 @@ import CardCommon from 'src/components/cards/Common';
 import FollowButton from 'src/components/buttons/FollowButton';
 import UnfollowButton from 'src/components/buttons/UnfollowButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
-import ProfileImage from 'src/components/ProfileImage';
+import ProfileImage from 'src/components/images/ProfileImage';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';

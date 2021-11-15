@@ -6,7 +6,7 @@ import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
 import Button from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
-import ProfileImage from 'src/components/ProfileImage';
+import ProfileImage from 'src/components/images/ProfileImage';
 import { Row } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
