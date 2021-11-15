@@ -157,3 +157,11 @@ export interface LanguageType {
   language?: string;
   color?: string;
 }
+
+export interface BlogType {
+  _id?: Types.ObjectId;
+  identity?: string;
+  url?: string;
+  type?: 'tistory';
+  userID?: Types.ObjectId;
+}

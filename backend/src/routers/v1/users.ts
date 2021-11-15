@@ -12,7 +12,7 @@ import {
 } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, UserService, GitService, TistoryService } from 'src/services';
+import { PostService, UserService, GitService, BlogService } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 import FollowService from 'src/services/FollowService';
 
@@ -80,7 +80,7 @@ export default class UsersRouter {
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const userSettings = await UserService.findOneUserSettingForID(userID);
     return response.json(userSettings);
@@ -91,10 +91,10 @@ export default class UsersRouter {
   async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
     if (typeof userID !== 'string') {
-      throw new Error(ERROR.WRONG_QUERY_TYPE);
+      throw new Error(Enums.error.WRONG_QUERY_TYPE);
     }
     const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID as string);
     // @TODO 사용자 정보 기반 추천

@@ -13,6 +13,7 @@ import Post from './Post';
 import PostLike from './PostLike';
 import Tag from './Tag';
 import User from './User';
+import Blog from './Blog';
 
 Validate.UserModel = User;
 Validate.PostModel = Post;
@@ -44,4 +45,5 @@ export {
   PostLike,
   Tag,
   User,
+  Blog,
 };
