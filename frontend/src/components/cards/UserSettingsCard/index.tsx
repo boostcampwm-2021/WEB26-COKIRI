@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Image from 'next/image';
 import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
 
@@ -7,6 +6,7 @@ import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
 import Button from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
+import ProfileImage from 'src/components/images/ProfileImage';
 import { Row } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -14,8 +14,7 @@ import { UserType } from 'src/types';
 import {
   USER_SETTING_CARD_WIDTH,
   DEFAULT_PROFILE_IMAGE,
-  USER_SETTING_PROFILE_IMAGE_WIDTH,
-  USER_SETTING_PROFILE_IMAGE_HEIGHT,
+  USER_SETTING_PROFILE_IMAGE_SIZE,
 } from 'src/globals/constants';
 
 import { Fetcher } from 'src/utils';
@@ -50,11 +49,7 @@ function UserSettingsCard({ user }: Props) {
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
           </ImageInput>
-          <Image
-            width={USER_SETTING_PROFILE_IMAGE_WIDTH}
-            height={USER_SETTING_PROFILE_IMAGE_HEIGHT}
-            src={profileImage}
-          />
+          <ProfileImage size={USER_SETTING_PROFILE_IMAGE_SIZE} profileImage={profileImage} />
         </ImageHolder>
       </Row>
       <Row justifyContent='center'>

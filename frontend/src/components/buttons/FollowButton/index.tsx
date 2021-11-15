@@ -11,11 +11,16 @@ import userAtom from 'src/recoil/user';
 interface Props {
   targetUserID: string;
   isFollower?: boolean;
+  onFollow: () => void;
 }
 
-function FollowButton({ targetUserID, isFollower }: Props) {
+function FollowButton({ targetUserID, isFollower, onFollow }: Props) {
   const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.putUserFollow(user, targetUserID));
+  const mutation = useMutation(() => Fetcher.putUserFollow(user, targetUserID), {
+    onSuccess: () => {
+      onFollow();
+    },
+  });
   const handleClick = () => {
     mutation.mutate();
   };
@@ -25,10 +30,12 @@ function FollowButton({ targetUserID, isFollower }: Props) {
 FollowButton.propTypes = {
   targetUserID: PropTypes.string.isRequired,
   isFollower: PropTypes.bool,
+  onFollow: PropTypes.func,
 };
 
 FollowButton.defaultProps = {
   isFollower: false,
+  onFollow: () => {},
 };
 
 export default FollowButton;
