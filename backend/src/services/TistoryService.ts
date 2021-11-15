@@ -34,7 +34,7 @@ class TistoryService {
         }
         return false;
       });
-      await User.updateOne({ userID });
+      await User.updateOne({ userID }, { $addToSet: {} });
     } catch (error) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
     }

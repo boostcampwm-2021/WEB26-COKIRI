@@ -32,7 +32,6 @@ export interface UserType {
   username?: string;
   githubUsername?: string;
   tistoryAccessToken?: string;
-  tistoryURL?: string;
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
