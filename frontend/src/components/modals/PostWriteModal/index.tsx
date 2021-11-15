@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useMutation } from 'react-query';
 import { IoMdImages } from 'react-icons/io';
 import PropTypes from 'prop-types';
@@ -11,6 +11,9 @@ import PreviewImages from 'src/components/images/PreviewImages';
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
+import postsAtom from 'src/recoil/posts';
+
+import { PostType } from 'src/types';
 
 import { Textarea, IconHolder } from './style';
 
@@ -21,9 +24,13 @@ interface Props {
 function PostWriteModal({ onClose }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
+  const setPosts = useSetRecoilState(postsAtom);
   const user = useRecoilValue(userAtom);
   const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
-    onSuccess: () => onClose(),
+    onSuccess: ({ result: post }) => {
+      setPosts((posts: PostType[]) => [post, ...posts]);
+      onClose();
+    },
   });
 
   const handleConfirm = () => {

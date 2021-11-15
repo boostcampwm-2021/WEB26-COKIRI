@@ -18,6 +18,7 @@ import { USERS_DESCRIPTION } from 'src/globals/descriptions';
 import { Page } from 'src/styles';
 
 import userAtom from 'src/recoil/user';
+import postsAtom from 'src/recoil/posts';
 
 interface Props {
   user: UserType;
@@ -26,14 +27,21 @@ interface Props {
 
 function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
+  const setPosts = useSetRecoilState(postsAtom);
   useEffect(() => setUser(user), [setUser, user]);
+
   const isUserExist = Object.keys(targetUser).length !== 0;
-  const { data } = useQuery(['posts', targetUser._id], () => {
+  const { isSuccess, data: posts } = useQuery(['user', 'posts', targetUser._id], () => {
     if (isUserExist) {
       return Fetcher.getUserPosts(targetUser);
     }
     return [];
   });
+  useEffect(() => {
+    if (isSuccess) {
+      setPosts(posts!);
+    }
+  }, [isSuccess, posts, setPosts]);
 
   return (
     <>
@@ -49,7 +57,7 @@ function User({ user, targetUser }: Props) {
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} user={user} />
-              <Timeline posts={data} />
+              <Timeline />
             </>
           ) : (
             <>없다!</>
