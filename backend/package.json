@@ -7,6 +7,7 @@
     "pm2": "pm2 restart node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts"
   },
   "dependencies": {
+    "@types/cheerio": "^0.22.30",
     "@types/passport-github": "^1.1.6",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
