@@ -6,14 +6,14 @@ import CardCommon from 'src/components/cards/Common';
 import FollowButton from 'src/components/buttons/FollowButton';
 import UnfollowButton from 'src/components/buttons/UnfollowButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
+import ProfileImage from 'src/components/ProfileImage';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
 import {
   DEFAULT_PROFILE_IMAGE,
-  USER_INFO_CARD_IMAGE_HEIGHT,
-  USER_INFO_CARD_IMAGE_WIDTH,
+  USER_INFO_PROFILE_IMAGE_SIZE,
   USER_INFO_CARD_WIDTH,
 } from 'src/globals/constants';
 
@@ -35,10 +35,9 @@ function UserInfoCard({ targetUser, user }: Props) {
       <CardCommon width={USER_INFO_CARD_WIDTH}>
         <Row>
           <ImageHolder>
-            <Image
-              width={USER_INFO_CARD_IMAGE_WIDTH}
-              height={USER_INFO_CARD_IMAGE_HEIGHT}
-              src={profileImage ?? DEFAULT_PROFILE_IMAGE}
+            <ProfileImage
+              size={USER_INFO_PROFILE_IMAGE_SIZE}
+              profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
             />
           </ImageHolder>
           <Col>
