@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
 interface Props {
-  width: number;
+  size: number;
 }
 
 const Wrapper = styled.div<Props>`
   img {
-    border-radius: ${({ width }) => width / 2}px;
+    border-radius: ${({ size }) => size / 2}px;
   }
 `;
 
