@@ -27,9 +27,10 @@ function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), [setUser, user]);
   const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(targetUser));
+  const isUserExist = Object.keys(targetUser).length !== 0;
 
   return (
-    <div>
+    <>
       <Head>
         <title>COCOO</title>
         <meta name='description' content={USERS_DESCRIPTION} />
@@ -39,13 +40,19 @@ function User({ user, targetUser }: Props) {
       <Header />
       <Page.Main>
         <Col alignItems='center'>
-          <UserInfoCard targetUser={targetUser} isMe={targetUser._id === user._id} />
-          <Timeline posts={data} />
+          {isUserExist ? (
+            <>
+              <UserInfoCard targetUser={targetUser} user={user} />
+              <Timeline posts={data} />
+            </>
+          ) : (
+            <>없다!</>
+          )}
         </Col>
       </Page.Main>
       <FloatingButton />
       <footer />
-    </div>
+    </>
   );
 }
 
