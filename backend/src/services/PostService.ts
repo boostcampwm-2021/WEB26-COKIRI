@@ -37,8 +37,33 @@ class PostService {
 
   async createPost(data: any) {
     let { images } = data;
-    const post = await Post.create(data);
+    const { link, type, blog, blogIdentity } = data;
+    switch (type) {
+      case undefined:
+      case 'normal':
+        if (link || blog || blogIdentity) {
+          throw new Error(Enums.error.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'blog':
+        if (!link || !blog || !blogIdentity) {
+          throw new Error(Enums.error.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'github':
+        if (!link || blog || blogIdentity) {
+          throw new Error(Enums.error.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'algorithm':
+        if (!link || blog || blogIdentity) {
+          throw new Error(Enums.error.WRONG_BODY_TYPE);
+        }
+        break;
+      default:
+    }
 
+    const post = await Post.create(data);
     if (images?.length > 0) {
       images = images.map((v: any) => ({ url: v, targetID: post._id }));
       if (images) await Image.insertMany(images);
