@@ -1,15 +1,16 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Wrapper } from './style';
+import { Wrapper, Input } from './style';
 
 interface Props {
   bind: [string, Dispatch<SetStateAction<string>>];
   placeholder?: string;
   width?: number;
+  children: ReactNode;
 }
 
-function InputCommon({ bind, placeholder, width }: Props) {
+function InputCommon({ bind, placeholder, width, children }: Props) {
   const [state, setState] = bind;
 
   const handleChange = useCallback(
@@ -21,7 +22,8 @@ function InputCommon({ bind, placeholder, width }: Props) {
 
   return (
     <Wrapper width={width!}>
-      <input value={state} onChange={handleChange} placeholder={placeholder} />
+      <Input width={width!} value={state} onChange={handleChange} placeholder={placeholder} />
+      {children}
     </Wrapper>
   );
 }
@@ -30,6 +32,7 @@ InputCommon.propTypes = {
   bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,
+  children: PropTypes.node.isRequired,
 };
 
 InputCommon.defaultProps = {
