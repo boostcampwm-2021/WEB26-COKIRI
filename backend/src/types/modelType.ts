@@ -97,6 +97,7 @@ export interface PostType {
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
   blog?: 'tistory';
   blogIdentity?: string;
+  blogPostID?: string;
 }
 
 export interface PostLikeType {

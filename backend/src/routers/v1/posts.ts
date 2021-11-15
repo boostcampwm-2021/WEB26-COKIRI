@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
@@ -34,6 +34,29 @@ export default class PostsRouter {
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
+    const results = await Promise.all([
+      PostService.findPost(postID),
+      CommentService.findComments(postID),
+      PostLikeService.findPostLikes(postID),
+      ImageService.findPostImage(postID),
+    ]);
+    return response.json({
+      ...results[0],
+      comments: results[1],
+      likes: results[2],
+      images: results[3],
+    });
+  }
+
+  @Put('/:postID/tistory')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putTistoryPost(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.body;
+    const { postID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    await PostService.updateTistoryPost(userID, postID);
     const results = await Promise.all([
       PostService.findPost(postID),
       CommentService.findComments(postID),

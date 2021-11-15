@@ -55,7 +55,15 @@ class TistoryService {
         },
       });
       const { title, content, tags, postUrl } = postResponse.data.tistory.item;
-      return { title, content, tags: tags.tag, postURL: postUrl };
+      return {
+        title,
+        content,
+        tags: tags.tag,
+        link: postUrl,
+        blog: 'tistory',
+        blogPostID: postID,
+        blogIdentity: identity,
+      };
     } catch (error) {
       throw new Error(Enums.error.INVALID_TISTORY_ACCESS_TOKEN);
     }
