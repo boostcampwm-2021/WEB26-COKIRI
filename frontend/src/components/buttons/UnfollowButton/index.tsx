@@ -10,21 +10,19 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
-  isFollower: boolean;
 }
 
-function FollowButton({ targetUserID, isFollower }: Props) {
+function UnfollowButton({ targetUserID }: Props) {
   const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.putUserFollow(user, targetUserID));
+  const mutation = useMutation(() => Fetcher.deleteUserFollow(user, targetUserID));
   const handleClick = () => {
     mutation.mutate();
   };
-  return <ButtonCommon onClick={handleClick}>{isFollower ? '맞Follow' : 'Follow'}</ButtonCommon>;
+  return <ButtonCommon onClick={handleClick}>Unfollow</ButtonCommon>;
 }
 
-FollowButton.propTypes = {
+UnfollowButton.propTypes = {
   targetUserID: PropTypes.string.isRequired,
-  isFollower: PropTypes.bool.isRequired,
 };
 
-export default FollowButton;
+export default UnfollowButton;
