@@ -6,20 +6,24 @@ import { BlogService, UserService } from 'src/services/index';
 
 class TistoryService {
   async getPostInPage(identity: string, accessToken: string, page = 1): Promise<any[]> {
-    const result = await axios.get(Enums.openAPIUrl.TISTORY_POSTS, {
-      params: {
-        access_token: accessToken,
-        output: 'json',
-        blogName: identity,
-        page,
-      },
-    });
-    const { posts } = result.data.tistory.item;
-    if (posts) {
-      const nextPagePosts = await this.getPostInPage(identity, accessToken, page + 1);
-      return [...posts, ...nextPagePosts];
+    try {
+      const result = await axios.get(Enums.openAPIUrl.TISTORY_POSTS, {
+        params: {
+          access_token: accessToken,
+          output: 'json',
+          blogName: identity,
+          page,
+        },
+      });
+      const { posts } = result.data.tistory.item;
+      if (posts) {
+        const nextPagePosts = await this.getPostInPage(identity, accessToken, page + 1);
+        return [...posts, ...nextPagePosts];
+      }
+      return [];
+    } catch (error) {
+      throw new Error(Enums.error.INVALID_TISTORY_ACCESS_TOKEN);
     }
-    return [];
   }
 
   async getAllPosts(userID: string, identity: string) {
@@ -34,6 +38,27 @@ class TistoryService {
       type: 'tistory',
       identity,
     }));
+  }
+
+  async getPostContent(userID: string, identity: string, postID: string) {
+    const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
+    if (!accessToken) {
+      throw new Error(Enums.error.INVALID_TISTORY_ACCESS_TOKEN);
+    }
+    try {
+      const postResponse = await axios.get(Enums.openAPIUrl.TISTORY_POST_READ, {
+        params: {
+          access_token: accessToken,
+          blogName: identity,
+          postId: postID,
+          output: 'json',
+        },
+      });
+      const { title, content, tags, postUrl } = postResponse.data.tistory.item;
+      return { title, content, tags: tags.tag, postURL: postUrl };
+    } catch (error) {
+      throw new Error(Enums.error.INVALID_TISTORY_ACCESS_TOKEN);
+    }
   }
 
   async updateOneUserAccessToken(code: string, userID: string) {

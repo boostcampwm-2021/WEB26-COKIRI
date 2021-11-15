@@ -30,6 +30,7 @@ const Enums = {
     TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
     TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
     TISTORY_POSTS: 'https://www.tistory.com/apis/post/list',
+    TISTORY_POST_READ: 'https://www.tistory.com/apis/post/read',
     TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
   },
   select: {

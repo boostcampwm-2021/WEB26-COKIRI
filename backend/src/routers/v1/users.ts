@@ -12,7 +12,7 @@ import {
 } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, UserService, GitService, BlogService } from 'src/services';
+import { PostService, UserService, GitService, BlogService, TistoryService } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 import FollowService from 'src/services/FollowService';
 
@@ -140,19 +140,18 @@ export default class UsersRouter {
     return response.json(result);
   }
 
-  @Get('/:userID/repositories/contribution')
+  @Get('/:userID/tistory/:identity/posts/:postID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async getRepoContribution(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    if (userID !== request.user!.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
+  async getTistoryPostContent(@Req() request: Request, @Res() response: Response) {
+    const { userID, identity, postID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
     }
-    const result = await GitService.findContribution(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, result });
+    const postContent = await TistoryService.getPostContent(userID, identity, postID);
+    return response.json(postContent);
   }
 
-  @Get('/:userID/repositories/:repoName')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  @Get('/:githubUsername/repositories/:repoName')
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { userID, repoName } = request.params;
     if (userID !== request.user!.userID) {
