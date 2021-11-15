@@ -53,7 +53,7 @@ export default class PostsRouter {
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
     const post = await PostService.createPost(data);
-    return response.json({ code: Enums.responseCode.SUCCESS, post });
+    return response.json({ code: Enums.responseCode.SUCCESS, result: post });
   }
 
   @Post('/:postID/comments')
@@ -68,7 +68,7 @@ export default class PostsRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const comment = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, comment });
+    return response.json({ code: Enums.responseCode.SUCCESS, result: comment });
   }
 
   @Post('/:postID/likes')
@@ -83,7 +83,7 @@ export default class PostsRouter {
       throw new Error(Enums.error.PERMISSION_DENIED);
     }
     const _id = await PostLikeService.createPostLike(userID, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id });
+    return response.json({ code: Enums.responseCode.SUCCESS, result: { _id } });
   }
 
   @Post('/:postID/comments/:commentID/likes')
@@ -99,7 +99,7 @@ export default class PostsRouter {
     }
     await CommentService.existsComment(userID, postID, commentID);
     const _id = await CommentLikeService.createCommentLike(userID, commentID);
-    return response.json({ code: Enums.responseCode.SUCCESS, _id });
+    return response.json({ code: Enums.responseCode.SUCCESS, result: { _id } });
   }
 
   @Delete('/:postID')
