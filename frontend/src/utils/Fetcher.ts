@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { UserType, PostType, LikeType } from 'src/types';
+
+import { UserType, PostType, LikeType, ReturnType } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -43,8 +44,12 @@ class Fetcher {
     );
   }
 
-  static async postPost(user: UserType, content: string, images: string[]): Promise<void> {
-    await axios.post(
+  static async postPost(
+    user: UserType,
+    content: string,
+    images: string[],
+  ): Promise<ReturnType<PostType>> {
+    const result = await axios.post(
       `${baseURL}/v1/posts`,
       {
         userID: user._id,
@@ -55,6 +60,7 @@ class Fetcher {
         headers: { Authorization: `Bearer ${user.token}` },
       },
     );
+    return result.data;
   }
 
   static async postPostLike(user: UserType, postID: string): Promise<LikeType> {
