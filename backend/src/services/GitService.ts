@@ -2,6 +2,7 @@
 import axios from 'axios';
 import * as Base64 from 'js-base64';
 
+import { calculateLanguage } from 'src/utils/Calculate';
 import { GITREPOLISTAPI, GITREPOINFOAPI, GITREPOREADMEAPI } from 'src/utils/Enums';
 
 class GitService {
@@ -12,10 +13,12 @@ class GitService {
   }
 
   async findRepo(githubUsername: string, repoName: string) {
-    const apiData = await axios.get(GITREPOINFOAPI(githubUsername, repoName));
-    const readmeData = await axios.get(GITREPOREADMEAPI(githubUsername, repoName));
-    const { name, html_url, stargazers_count, forks_count } = apiData.data;
-    const { content } = readmeData.data;
+    const apiData = (await axios.get(GITREPOINFOAPI(githubUsername, repoName))).data;
+    const readmeData = (await axios.get(GITREPOREADMEAPI(githubUsername, repoName))).data;
+    const { name, html_url, stargazers_count, forks_count, languages_url } = apiData;
+    const languageData = (await axios.get(languages_url)).data;
+    const languageInfo = calculateLanguage(languageData);
+    const { content } = readmeData;
     const decodeContent = Base64.decode(content);
     const result = {
       repoName: name,
@@ -23,6 +26,7 @@ class GitService {
       startCount: stargazers_count,
       forkCount: forks_count,
       content: decodeContent,
+      languageInfo,
     };
     return result;
   }
