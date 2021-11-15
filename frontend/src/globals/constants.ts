@@ -41,6 +41,8 @@ export const DEFAULT_ICON_SIZE = 24;
 // INPUT
 export const SEARCH_INPUT_WIDTH = 136;
 
+export const COMMENT_INPUT_WIDTH = 340;
+
 // CARD
 export const POST_CARD_WIDTH = 600;
 

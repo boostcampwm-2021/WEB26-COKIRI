@@ -7,6 +7,8 @@ import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import IconButton from 'src/components/buttons/IconButton';
 import { Row } from 'src/components/Grid';
 
+import { COMMENT_INPUT_WIDTH } from 'src/globals/constants';
+
 import userAtom from 'src/recoil/user';
 
 function CommentInput() {
@@ -16,7 +18,7 @@ function CommentInput() {
   return (
     <Row justifyContent='center' alignItems='center'>
       <ProfileImageButton username={user.username} profileImage={user.profileImage} />
-      <InputCommon bind={[value, setValue]} width={340}>
+      <InputCommon bind={[value, setValue]} width={COMMENT_INPUT_WIDTH}>
         <BiComment />
       </InputCommon>
       <IconButton>
