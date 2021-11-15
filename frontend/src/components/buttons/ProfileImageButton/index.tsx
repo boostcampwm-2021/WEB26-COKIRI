@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
-import ProfileImage from 'src/components/ProfileImage';
+import ProfileImage from 'src/components/images/ProfileImage';
 
 import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
 
