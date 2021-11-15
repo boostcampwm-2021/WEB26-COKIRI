@@ -14,6 +14,8 @@ interface Props {
 function ImageInput({ onImageUpload, children }: Props) {
   const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
+    // eslint-disable-next-line no-param-reassign
+    event.target.value = '';
     const requests = files.map((file) => Uploader.uploadPostImage(file));
     const responses = await Promise.all(requests);
     responses.forEach((url) => onImageUpload(url));
