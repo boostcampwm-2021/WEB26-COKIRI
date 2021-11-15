@@ -12,6 +12,7 @@ import { Col } from 'src/components/Grid';
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
+
 import { USERS_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
@@ -26,8 +27,13 @@ interface Props {
 function User({ user, targetUser }: Props) {
   const setUser = useSetRecoilState(userAtom);
   useEffect(() => setUser(user), [setUser, user]);
-  const { data } = useQuery(['posts', targetUser._id], () => Fetcher.getUserPosts(targetUser));
   const isUserExist = Object.keys(targetUser).length !== 0;
+  const { data } = useQuery(['posts', targetUser._id], () => {
+    if (isUserExist) {
+      return Fetcher.getUserPosts(targetUser);
+    }
+    return [];
+  });
 
   return (
     <>
