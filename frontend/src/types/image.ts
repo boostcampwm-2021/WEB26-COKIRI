@@ -1,4 +1,4 @@
-export default interface imageType {
+export default interface ImageType {
   _id: string;
   url: string;
 }
