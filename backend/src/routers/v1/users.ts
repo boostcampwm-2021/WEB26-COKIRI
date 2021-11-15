@@ -109,7 +109,15 @@ export default class UsersRouter {
   }
 
   @Get('/:userID/tistory/blogs')
-  async getUserTistory(@Req() request: Request, @Res() response: Response) {}
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getUserTistory(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(Enums.error.PERMISSION_DENIED);
+    }
+    await TistoryService.updateOneUserBlogURL(userID);
+    return response.json({});
+  }
 
   @Get('/:userID/followers')
   async getUserFollowers(@Req() request: Request, @Res() response: Response) {

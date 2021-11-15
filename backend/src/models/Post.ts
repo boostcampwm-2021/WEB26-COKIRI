@@ -20,6 +20,8 @@ const postSchema = new Schema<PostType>(
       default: 'normal',
     },
     link: { type: String, trim: true },
+    blog: { type: String, enum: ['tistory'] },
+    blogIdentity: String,
   },
   { versionKey: false, timestamps: true },
 );

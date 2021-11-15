@@ -96,6 +96,8 @@ export interface PostType {
   createdAt?: Date;
   updatedAt?: Date;
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  blog?: 'tistory';
+  blogIdentity?: string;
 }
 
 export interface PostLikeType {

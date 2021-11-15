@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { OPENAPIURL } from 'src/utils';
+import { OPENAPIURL, ERROR } from 'src/utils';
 import { User } from 'src/models';
 
 class TistoryService {
@@ -17,19 +17,27 @@ class TistoryService {
     return User.updateOne({ _id: userID }, { tistoryAccessToken: result.data.access_token });
   }
 
-  async updateOneUserURL(userID: string) {
+  async updateOneUserBlogURL(userID: string) {
     const result = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
-    if (!result!.tistoryAccessToken) throw new Error('토큰 없습니다~~');
-    const tistoryInfoResult = await axios.get(OPENAPIURL.TISTORY_INFO, {
-      params: {
-        access_token: result!.tistoryAccessToken,
-        output: 'json',
-      },
-    });
-    return User.updateOne(
-      { _id: userID },
-      { tistoryURL: tistoryInfoResult.data.tistory.item.blogs[0].url },
-    );
+    try {
+      const tistoryInfoResult = await axios.get(OPENAPIURL.TISTORY_INFO, {
+        params: {
+          access_token: result!.tistoryAccessToken,
+          output: 'json',
+        },
+      });
+      const { blogs } = tistoryInfoResult.data.tistory.item;
+      let tistoryBlog;
+      blogs.every((blog: any) => {
+        if (blog.role === '소유자' && blog.isEmpty === 'false') {
+          tistoryBlog = blog;
+        }
+        return false;
+      });
+      await User.updateOne({ userID });
+    } catch (error) {
+      throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
+    }
   }
 }
 
