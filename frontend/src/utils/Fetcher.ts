@@ -96,8 +96,9 @@ class Fetcher {
     return result.data;
   }
 
-  static async deletePostLike(user: UserType, postID: string): Promise<void> {
-    await axios.delete(`${baseURL}/v1/posts/${postID}/likes/${user._id}`, {
+  static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
+    await axios.delete(`${baseURL}/v1/posts/${postID}/likes/${likeID}`, {
+      data: { userID: `${user._id}` },
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }

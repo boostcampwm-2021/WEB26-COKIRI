@@ -23,13 +23,13 @@ interface Props {
 
 function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes.length);
-  const { _id, user, images, content, comments } = post;
+  const { _id, user, images, content, comments, likes } = post;
   return (
     <Card width={POST_CARD_WIDTH}>
       <ProfileSet profileImage={user.profileImage} username={user.username} />
       {images.length !== 0 && <PostImages images={images} />}
       <Row>
-        <LikeButton post={post} setLikeCount={setLikeCount} />
+        <LikeButton postID={_id} postLikes={likes} setLikeCount={setLikeCount} />
         <CommentButton postID={_id} />
         <EchoButton postID={_id} />
       </Row>

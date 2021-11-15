@@ -8,24 +8,31 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { PostType } from 'src/types';
+import { LikeType } from 'src/types';
 
 import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
-  post: PostType;
+  postID: string;
+  postLikes: LikeType[];
   setLikeCount: Dispatch<SetStateAction<number>>;
 }
 
-function LikeButton({ post, setLikeCount }: Props) {
+function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const user = useRecoilValue(userAtom);
-  const [isLike, setIsLike] = useState(post.likes.some((postLike) => postLike._id === user._id));
-  const likeMutation = useMutation(() => Fetcher.postPostLike(user, post._id));
-  const dislikeMutation = useMutation(() => Fetcher.deletePostLike(user, post._id));
+  const like = postLikes.find((postLike) => postLike.user._id === user._id);
+  const [isLike, setIsLike] = useState(like !== undefined);
+  const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
+  const postPostLike = () => Fetcher.postPostLike(user, postID);
+  const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
+  const likeMutation = useMutation(postPostLike, {
+    onSuccess: (data) => setLikeID(data._id),
+  });
+  const dislikeMutation = useMutation(deletePostLike);
 
   const handleClickLike = () => {
     likeMutation.mutate();
-    setLikeCount((prevState) => prevState - 1);
+    setLikeCount((prevState) => prevState + 1);
     setIsLike(true);
   };
 
@@ -36,18 +43,19 @@ function LikeButton({ post, setLikeCount }: Props) {
   };
 
   return isLike ? (
-    <IconButton onClick={handleClickLike}>
+    <IconButton onClick={handleClickDislike}>
       <IoHeartSharp />
     </IconButton>
   ) : (
-    <IconButton onClick={handleClickDislike}>
+    <IconButton onClick={handleClickLike}>
       <IoHeartOutline />
     </IconButton>
   );
 }
 
 LikeButton.propTypes = {
-  post: PropTypes.objectOf(PropTypes.any).isRequired,
+  postID: PropTypes.string.isRequired,
+  postLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
   setLikeCount: PropTypes.func.isRequired,
 };
 

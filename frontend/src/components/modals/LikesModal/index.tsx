@@ -22,17 +22,23 @@ function LikesModal({ postID, onClose }: Props) {
   const user = useRecoilValue(userAtom);
   const { data } = useQuery(['posts', postID], () => Fetcher.getPostLikes(user, postID));
 
+  const isFollowButton = (targetUserID: string) =>
+    !(user.follows!.some((follow) => follow === targetUserID) || targetUserID === user._id);
+
   return (
     <Wrapper>
       <ModalCommon onClose={onClose} close='닫기'>
         좋아요
         <Col>
-          {data?.map((like) => (
-            <Row justifyContent='space-between' key={like.username}>
-              <ProfileSet profileImage={like.profileImage} username={like.username} />
-              <FollowButton targetUserID={like.username} />
-            </Row>
-          ))}
+          {data?.map((like) => {
+            const targetUserID = like.user._id!;
+            return (
+              <Row justifyContent='space-between' key={like.user.username}>
+                <ProfileSet profileImage={like.profileImage} username={like.user.username} />
+                {isFollowButton(targetUserID) && <FollowButton targetUserID={targetUserID} />}
+              </Row>
+            );
+          })}
         </Col>
       </ModalCommon>
     </Wrapper>
