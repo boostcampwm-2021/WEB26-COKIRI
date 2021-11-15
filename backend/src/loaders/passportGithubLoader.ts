@@ -22,7 +22,8 @@ export default function passportGithubLoader(): void {
       const userIsExist = await UserService.existGithubUser(username);
       let user;
       if (userIsExist) {
-        user = await UserService.updateGithubUserInfo(username, { githubUsername: username });
+        const temp = await UserService.updateGithubUserInfo(username, { githubUsername: username });
+        user = { userID: temp };
       } else {
         user = await UserService.findOrCreateUserForProvider({
           authProvider: 'github',
