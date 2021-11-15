@@ -10,6 +10,13 @@ import userAtom from 'src/recoil/user';
 
 import { LikeType } from 'src/types';
 
+import {
+  COMMENT_LIKE_BUTTON_WIDTH,
+  COMMENT_LIKE_BUTTON_HEIGHT,
+  COMMENT_LIKE_BUTTON_SIZE,
+  COMMENT_LIKE_BUTTON_PADDING,
+} from 'src/globals/constants';
+
 import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
@@ -44,11 +51,25 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount }: Pr
   };
 
   return isLike ? (
-    <IconButton onClick={handleClickDislike}>
+    <IconButton
+      onClick={handleClickDislike}
+      plain
+      width={COMMENT_LIKE_BUTTON_WIDTH}
+      height={COMMENT_LIKE_BUTTON_HEIGHT}
+      size={COMMENT_LIKE_BUTTON_SIZE}
+      padding={COMMENT_LIKE_BUTTON_PADDING}
+    >
       <IoHeartSharp />
     </IconButton>
   ) : (
-    <IconButton onClick={handleClickLike}>
+    <IconButton
+      onClick={handleClickLike}
+      plain
+      width={COMMENT_LIKE_BUTTON_WIDTH}
+      height={COMMENT_LIKE_BUTTON_HEIGHT}
+      size={COMMENT_LIKE_BUTTON_SIZE}
+      padding={COMMENT_LIKE_BUTTON_PADDING}
+    >
       <IoHeartOutline />
     </IconButton>
   );
