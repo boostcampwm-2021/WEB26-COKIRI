@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
-import axios from 'axios';
 
 import { Enums, JWT, Query } from 'src/utils';
 import { TistoryService } from 'src/services';
@@ -9,42 +8,49 @@ import { TistoryService } from 'src/services';
 @Controller('/socials')
 export default class SocialsRouter {
   @Get('/google')
-  @UseBefore(passport.authenticate('google', { session: false, scope: ['profile'] }))
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getGoogle() {}
+  getGoogle(@Req() request: Request, @Res() response: Response) {
+    const { redirect_uri: redirectURIQuery } = request.query;
+    const redirectURI: string = (redirectURIQuery as string) || '/';
+    passport.authenticate('google', {
+      session: false,
+      scope: ['profile'],
+      state: redirectURI,
+    })(request, response);
+    return response;
+  }
 
   @Get('/google/callback')
   @UseBefore(passport.authenticate('google', { session: false }))
-  @Redirect(`${process.env.CLIENT_URL}`)
+  @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
     response.cookie('jwt', accessToken, {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
     });
+    return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
   @Get('/tistory')
-  @Redirect(
-    `${Enums.openAPIUrl.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
+  @Redirect('/')
+  getTistory(@Req() request: Request, @Res() response: Response) {
+    const { redirect_uri: redirectURIQuery } = request.query;
+    const redirectURI: string = (redirectURIQuery as string) || '/';
+    return `${Enums.openAPIUrl.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
       client_id: process.env.TISTORY_CLIENT_ID,
       redirect_uri: process.env.TISTORY_CALLBACK_URL,
       response_type: 'code',
-      state: process.env.TISTORY_STATE,
-    })}`,
-  )
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getTistory() {}
+      state: redirectURI,
+    })}`;
+  }
 
   @Get('/tistory/callback')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  @Redirect(`${process.env.CLIENT_URL}`)
+  @Redirect('/')
   async getTistoryCallback(@Req() request: Request, @Res() response: Response) {
-    const { code, state } = request.query;
-    if (state !== process.env.TISTORY_STATE) {
-      throw new Error(Enums.error.INVALID_TISTORY_STATE);
-    }
+    const { code } = request.query;
     await TistoryService.updateOneUserAccessToken(code as string, request.user!.userID);
+    return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
   @Get('/tistory/url')
