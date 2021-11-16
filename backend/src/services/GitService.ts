@@ -4,21 +4,19 @@ import * as Base64 from 'js-base64';
 import * as cheerio from 'cheerio';
 
 import { calculateLanguage } from 'src/utils/Calculate';
-import { Enums } from 'src/utils';
+import { OPENAPIURL } from 'src/utils';
 
 class GitService {
   async findRepoList(username: string) {
-    const apiData = await axios.get(Enums.openAPIUrl.GITREPOLISTAPI(username));
+    const apiData = await axios.get(OPENAPIURL.GITREPOLISTAPI(username));
     const result = apiData.data.map((v: any) => ({ name: v.name, url: v.html_url }));
     return result;
   }
 
   async findRepo(githubUsername: string, repoName: string) {
-    const apiData = (await axios.get(Enums.openAPIUrl.GITREPOINFOAPI(githubUsername, repoName)))
+    const apiData = (await axios.get(OPENAPIURL.GITREPOINFOAPI(githubUsername, repoName))).data;
+    const readmeData = (await axios.get(OPENAPIURL.GITREPOREADMEAPI(githubUsername, repoName)))
       .data;
-    const readmeData = (
-      await axios.get(Enums.openAPIUrl.GITREPOREADMEAPI(githubUsername, repoName))
-    ).data;
     const { name, html_url, stargazers_count, forks_count, languages_url } = apiData;
     const languageData = (await axios.get(languages_url)).data;
     const languageInfo = calculateLanguage(languageData);
@@ -37,7 +35,7 @@ class GitService {
 
   async findContribution(githubUsername: string) {
     const result: { [key: string]: number } = {};
-    const getHtml = await axios.get(Enums.openAPIUrl.GITURL(githubUsername));
+    const getHtml = await axios.get(OPENAPIURL.GITURL(githubUsername));
     const $ = cheerio.load(getHtml.data);
     const $itemList = $('.js-calendar-graph-svg > g')
       .children('g')

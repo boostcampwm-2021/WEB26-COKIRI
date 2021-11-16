@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
-import { Enums, ObjectID } from 'src/utils';
+import { ERROR, AUTH, ObjectID } from 'src/utils';
 
 class UserService {
   async existsUser(user: UserType): Promise<boolean> {
@@ -53,7 +53,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (!result) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result;
   }
@@ -64,7 +64,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (result.length === 0) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result[0];
   }
@@ -96,7 +96,7 @@ class UserService {
       { $sample: { size: 20 } },
     ]);
     if (result.length === 0) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result;
   }
@@ -106,13 +106,13 @@ class UserService {
   }
 
   async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
-    const blockList = Enums.auth.SETTING_BLOCK_LIST;
+    const blockList = AUTH.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
-      throw new Error(Enums.error.WRONG_BODY_TYPE);
+      throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     blockList.forEach((property: string) => {
       if (userConfig[property as keyof UserSchemaType]) {
-        throw new Error(Enums.error.WRONG_BODY_TYPE);
+        throw new Error(ERROR.WRONG_BODY_TYPE);
       }
     });
     await User.updateOne(

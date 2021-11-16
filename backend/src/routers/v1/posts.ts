@@ -3,7 +3,7 @@ import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-cont
 import * as passport from 'passport';
 
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
-import { Enums } from 'src/utils';
+import { ERROR, RESPONSECODE } from 'src/utils';
 import ImageService from 'src/services/ImageService';
 
 @Controller('/posts')
@@ -13,7 +13,7 @@ export default class PostsRouter {
   async getTimeline(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID, offset } = request.query;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await PostService.findTimeline(userID as string, +offset!);
     return response.json(posts);
@@ -53,7 +53,7 @@ export default class PostsRouter {
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
     const post = await PostService.createPost(data);
-    return response.json({ code: Enums.responseCode.SUCCESS, result: post });
+    return response.json({ code: RESPONSECODE.SUCCESS, result: post });
   }
 
   @Post('/:postID/comments')
@@ -62,13 +62,13 @@ export default class PostsRouter {
     const { postID } = request.params;
     const { userID, content } = request.body;
     if (!userID || !content) {
-      throw new Error(Enums.error.WRONG_BODY_TYPE);
+      throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const comment = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, result: comment });
+    return response.json({ code: RESPONSECODE.SUCCESS, result: comment });
   }
 
   @Post('/:postID/likes')
@@ -77,13 +77,13 @@ export default class PostsRouter {
     const { postID } = request.params;
     const { userID } = request.body;
     if (!userID) {
-      throw new Error(Enums.error.WRONG_BODY_TYPE);
+      throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const _id = await PostLikeService.createPostLike(userID, postID);
-    return response.json({ code: Enums.responseCode.SUCCESS, result: { _id } });
+    return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
   }
 
   @Post('/:postID/comments/:commentID/likes')
@@ -92,14 +92,14 @@ export default class PostsRouter {
     const { postID, commentID } = request.params;
     const { userID } = request.body;
     if (!userID) {
-      throw new Error(Enums.error.WRONG_BODY_TYPE);
+      throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await CommentService.existsComment(userID, postID, commentID);
     const _id = await CommentLikeService.createCommentLike(userID, commentID);
-    return response.json({ code: Enums.responseCode.SUCCESS, result: { _id } });
+    return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
   }
 
   @Delete('/:postID')
@@ -108,7 +108,7 @@ export default class PostsRouter {
     const { postID } = request.params;
     const { userID } = request.body;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await PostService.existsPost(postID, userID);
     await Promise.all([
@@ -116,7 +116,7 @@ export default class PostsRouter {
       ImageService.removePostImage(postID),
       CommentService.removeComments(postID),
     ]);
-    return response.json({ code: Enums.responseCode.SUCCESS });
+    return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
   @Delete('/:postID/likes/:likeID')
@@ -125,10 +125,10 @@ export default class PostsRouter {
     const { postID, likeID } = request.params;
     const { userID } = request.body;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await PostLikeService.removePostLike(userID, postID, likeID);
-    return response.json({ code: Enums.responseCode.SUCCESS });
+    return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
   @Delete('/:postID/comments/:commentID')
@@ -137,11 +137,11 @@ export default class PostsRouter {
     const { postID, commentID } = request.params;
     const { userID } = request.body;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await CommentService.existsComment(request.user!.userID, postID, commentID);
     await CommentService.removeComment(postID, commentID);
-    return response.json({ code: Enums.responseCode.SUCCESS });
+    return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
   @Delete('/:postID/comments/:commentID/likes/:likeID')
@@ -150,10 +150,10 @@ export default class PostsRouter {
     const { postID, commentID, likeID } = request.params;
     const { userID } = request.body;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await CommentService.existsComment(userID, postID, commentID);
     await CommentLikeService.removeCommentLike(commentID, likeID);
-    return response.json({ code: Enums.responseCode.SUCCESS });
+    return response.json({ code: RESPONSECODE.SUCCESS });
   }
 }

@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import { Enums } from 'src/utils';
+import { OPENAPIURL } from 'src/utils';
 import { User } from 'src/models';
 
 class TistoryService {
   async updateOneUserAccessToken(code: string, userID: string) {
-    const result = await axios.get(Enums.openAPIUrl.TISTORY_ACCESS_TOKEN, {
+    const result = await axios.get(OPENAPIURL.TISTORY_ACCESS_TOKEN, {
       params: {
         client_id: process.env.TISTORY_CLIENT_ID,
         client_secret: process.env.TISTORY_SECRET_ID,
@@ -20,7 +20,7 @@ class TistoryService {
   async updateOneUserURL(userID: string) {
     const result = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
     if (!result!.tistoryAccessToken) throw new Error('토큰 없습니다~~');
-    const tistoryInfoResult = await axios.get(Enums.openAPIUrl.TISTORY_INFO, {
+    const tistoryInfoResult = await axios.get(OPENAPIURL.TISTORY_INFO, {
       params: {
         access_token: result!.tistoryAccessToken,
         output: 'json',

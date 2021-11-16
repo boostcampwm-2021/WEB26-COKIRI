@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Post, Image } from 'src/models';
-import { Enums } from 'src/utils';
+import { ERROR, SELECT, PERPAGE } from 'src/utils';
 import { CommentService, PostLikeService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
@@ -11,7 +11,7 @@ class PostService {
   async existsPost(postID: string, userID: string) {
     const isExist = await Post.exists({ _id: postID, userID });
     if (!isExist) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
   }
 
@@ -52,7 +52,7 @@ class PostService {
 
   async findRandomPost() {
     const randomPosts = await Post.aggregate([
-      { $sample: { size: Enums.PERPAGE } },
+      { $sample: { size: PERPAGE } },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
@@ -76,7 +76,7 @@ class PostService {
   async findUserTimeline(userID: string) {
     const posts = await Post.find({ userID })
       .sort({ createdAt: -1 })
-      .populate({ path: 'user', select: Enums.select.USER })
+      .populate({ path: 'user', select: SELECT.USER })
       .lean();
     return this.getPostArray(posts);
   }
@@ -86,9 +86,9 @@ class PostService {
     const containsArray = !follows ? [userID] : [...follows, userID];
     const posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
-      .skip(Enums.PERPAGE * offset)
-      .limit(Enums.PERPAGE)
-      .populate({ path: 'user', select: Enums.select.USER })
+      .skip(PERPAGE * offset)
+      .limit(PERPAGE)
+      .populate({ path: 'user', select: SELECT.USER })
       .lean();
     return this.getPostArray(posts);
   }
@@ -97,10 +97,10 @@ class PostService {
     const post = await Post.findOne({ _id: postID })
       .populate({
         path: 'user',
-        select: Enums.select.USER,
+        select: SELECT.USER,
       })
       .lean();
-    if (!post) throw new Error(Enums.error.NO_POSTS);
+    if (!post) throw new Error(ERROR.NO_POSTS);
     delete post!.userID;
     return post;
   }
