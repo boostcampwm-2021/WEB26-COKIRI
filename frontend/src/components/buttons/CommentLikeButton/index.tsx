@@ -10,25 +10,29 @@ import userAtom from 'src/recoil/user';
 
 import { LikeType } from 'src/types';
 
+import { COMMENT_LIKE_BUTTON_SIZE, COMMENT_LIKE_BUTTON_PADDING } from 'src/globals/constants';
+
 import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
   postID: string;
-  postLikes: LikeType[];
+  commentID: string;
+  commentLikes?: LikeType[];
+  margin?: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
 }
 
-function LikeButton({ postID, postLikes, setLikeCount }: Props) {
+function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, margin }: Props) {
   const user = useRecoilValue(userAtom);
-  const like = postLikes.find((postLike) => postLike.user._id === user._id);
+  const like = commentLikes!.find((commentLike) => commentLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
   const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
-  const postPostLike = () => Fetcher.postPostLike(user, postID);
-  const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
-  const likeMutation = useMutation(postPostLike, {
+  const postCommentLike = () => Fetcher.postCommentLike(user, postID, commentID);
+  const deleteCommentLike = () => Fetcher.deleteCommentLike(user, postID, commentID, likeID);
+  const likeMutation = useMutation(postCommentLike, {
     onSuccess: ({ result }) => setLikeID(result._id),
   });
-  const dislikeMutation = useMutation(deletePostLike);
+  const dislikeMutation = useMutation(deleteCommentLike);
 
   const handleClickLike = () => {
     likeMutation.mutate();
@@ -43,20 +47,36 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   };
 
   return isLike ? (
-    <IconButton onClick={handleClickDislike}>
+    <IconButton
+      onClick={handleClickDislike}
+      size={COMMENT_LIKE_BUTTON_SIZE}
+      padding={COMMENT_LIKE_BUTTON_PADDING}
+      margin={margin}
+    >
       <IoHeartSharp />
     </IconButton>
   ) : (
-    <IconButton onClick={handleClickLike}>
+    <IconButton
+      onClick={handleClickLike}
+      size={COMMENT_LIKE_BUTTON_SIZE}
+      padding={COMMENT_LIKE_BUTTON_PADDING}
+      margin={margin}
+    >
       <IoHeartOutline />
     </IconButton>
   );
 }
 
-LikeButton.propTypes = {
+CommentLikeButton.propTypes = {
   postID: PropTypes.string.isRequired,
-  postLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
+  commentLikes: PropTypes.arrayOf(PropTypes.any),
   setLikeCount: PropTypes.func.isRequired,
+  margin: PropTypes.number,
 };
 
-export default LikeButton;
+CommentLikeButton.defaultProps = {
+  margin: 0,
+  commentLikes: [],
+};
+
+export default CommentLikeButton;

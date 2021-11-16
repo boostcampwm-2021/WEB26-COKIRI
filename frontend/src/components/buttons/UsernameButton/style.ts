@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
+interface Props {
+  marginRight: number;
+}
+
+const Wrapper = styled.div<Props>`
+  margin-right: ${({ marginRight }) => (marginRight === 0 ? 'unset' : `${marginRight}px`)};
   a {
     text-decoration: none;
   }
