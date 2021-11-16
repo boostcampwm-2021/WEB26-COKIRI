@@ -4,8 +4,8 @@ import { CommentLikeService } from 'src/services';
 import { CommentType } from 'src/types';
 
 class CommentService {
-  async existsComment(userID: string, postID: string, commentID: string) {
-    const isExist = await Comment.exists({ _id: commentID, postID, userID });
+  async existsComment(postID: string, commentID: string) {
+    const isExist = await Comment.exists({ _id: commentID, postID });
     if (!isExist) {
       throw new Error(ERROR.NO_COMMENTS);
     }
