@@ -68,14 +68,14 @@ export default class SocialsRouter {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
     });
+    return response;
   }
 
-  @Put('/velog')
-  @UseBefore(passport.authenticate('github', { session: false }))
+  @Get('/velog')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getVelog(@Req() request: Request, @Res() response: Response) {
     const { velogURL } = request.body;
-    console.log(velogURL);
-    // await VelogService.findUserEmail(velogURL);
-    return response.json({});
+    const html = await VelogService.findUserEmail(velogURL);
+    return response.send(html);
   }
 }
