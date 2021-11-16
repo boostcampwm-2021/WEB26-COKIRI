@@ -7,47 +7,42 @@ import FollowButton from 'src/components/buttons/FollowButton';
 
 import userAtom, { followersSelector, followsSelector } from 'src/recoil/user';
 
-import { UserType } from 'src/types';
-
 interface Props {
-  targetUser: UserType;
+  targetUserID: string;
   onFollow: () => void;
   onUnfollow: () => void;
 }
 
-function FollowSet({ targetUser, onFollow, onUnfollow }: Props) {
+function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
   const user = useRecoilValue(userAtom);
   const followers = useRecoilValue(followersSelector);
   const [follows, setFollows] = useRecoilState<string[]>(followsSelector);
 
-  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
-  const isFollower = useMemo(
-    () => followers?.includes(targetUser._id!),
-    [targetUser._id, followers],
-  );
-  const isFollow = useMemo(() => follows?.includes(targetUser._id!), [targetUser._id, follows]);
+  const isMe = useMemo(() => targetUserID === user._id, [targetUserID, user._id]);
+  const isFollower = useMemo(() => followers?.includes(targetUserID!), [targetUserID, followers]);
+  const isFollow = useMemo(() => follows?.includes(targetUserID!), [targetUserID, follows]);
 
   const handleFollow = useCallback(() => {
-    setFollows((prevState) => [...prevState, targetUser._id!]);
+    setFollows((prevState) => [...prevState, targetUserID!]);
     onFollow();
-  }, [onFollow, setFollows, targetUser._id]);
+  }, [onFollow, setFollows, targetUserID]);
 
   const handleUnfollow = useCallback(() => {
-    setFollows((prevState) => prevState.filter((id) => id !== targetUser._id));
+    setFollows((prevState) => prevState.filter((id) => id !== targetUserID));
     onUnfollow();
-  }, [onUnfollow, setFollows, targetUser._id]);
+  }, [onUnfollow, setFollows, targetUserID]);
   if (isMe) {
     return null;
   }
   return isFollow ? (
-    <UnfollowButton targetUserID={targetUser._id!} onUnfollow={handleUnfollow} />
+    <UnfollowButton targetUserID={targetUserID} onUnfollow={handleUnfollow} />
   ) : (
-    <FollowButton isFollower={isFollower!} targetUserID={targetUser._id!} onFollow={handleFollow} />
+    <FollowButton isFollower={isFollower!} targetUserID={targetUserID} onFollow={handleFollow} />
   );
 }
 
 FollowSet.propTypes = {
-  targetUser: PropTypes.objectOf(PropTypes.any).isRequired,
+  targetUserID: PropTypes.string.isRequired,
   onFollow: PropTypes.func,
   onUnfollow: PropTypes.func,
 };

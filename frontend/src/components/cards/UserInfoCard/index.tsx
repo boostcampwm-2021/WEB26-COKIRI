@@ -58,7 +58,7 @@ function UserInfoCard({ targetUser }: Props) {
                 </NavigateIconButton>
               ) : (
                 <FollowSet
-                  targetUser={targetUser}
+                  targetUserID={targetUser._id!}
                   onFollow={handleFollow}
                   onUnfollow={handleUnfollow}
                 />
