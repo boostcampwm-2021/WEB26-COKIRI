@@ -15,19 +15,10 @@ interface Props {
 
 function PostComments({ postID, comments }: Props) {
   const [isExpand, setIsExpand] = useState(false);
-  const isShort = comments.length <= 2;
+  const isLong = comments.length > 2;
   const handleClick = () => {
     setIsExpand(true);
   };
-  if (isShort) {
-    return (
-      <Wrapper>
-        {comments.map((comment) => (
-          <Comment key={comment._id} postID={postID} comment={comment} />
-        ))}
-      </Wrapper>
-    );
-  }
   return (
     <Wrapper>
       {isExpand
@@ -35,7 +26,7 @@ function PostComments({ postID, comments }: Props) {
         : comments
             .slice(0, 2)
             .map((comment) => <Comment key={comment._id} postID={postID} comment={comment} />)}
-      {!isExpand && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
+      {!isExpand && isLong && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
     </Wrapper>
   );
 }
