@@ -13,7 +13,7 @@ import Card from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
-import PostType from 'src/types/post';
+import { PostType } from 'src/types';
 
 import { POST_CARD_WIDTH } from 'src/globals/constants';
 
@@ -25,6 +25,7 @@ function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes!.length);
   const [comments, setComments] = useState(post.comments!);
   const { _id, user, images, content, likes } = post;
+
   return (
     <Card width={POST_CARD_WIDTH}>
       <ProfileSet profileImage={user!.profileImage} username={user!.username} />

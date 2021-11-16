@@ -11,6 +11,7 @@ import {
   COMMENT_PROFILE_IMAGE_SIZE,
   COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT,
   COMMENT_USERNAME_BUTTON_MARGIN_RIGHT,
+  COMMENT_LIKE_BUTTON_MARGIN,
 } from 'src/globals/constants';
 
 import { CommentType } from 'src/types';
@@ -45,6 +46,7 @@ function Comment({ postID, comment }: Props) {
           commentID={comment?._id!}
           commentLikes={comment?.likes}
           setLikeCount={setLikeCount}
+          margin={COMMENT_LIKE_BUTTON_MARGIN}
         />
       </Row>
     </Row>
