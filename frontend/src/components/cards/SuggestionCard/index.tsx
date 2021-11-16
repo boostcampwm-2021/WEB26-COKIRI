@@ -1,6 +1,6 @@
+import { useRecoilValue } from 'recoil';
 import { useCallback, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
-import PropTypes from 'prop-types';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 
 import CardCommon from 'src/components/cards/Common';
@@ -14,17 +14,14 @@ import {
   SUGGESTION_PROFILE_IMAGE_SIZE,
 } from 'src/globals/constants';
 
-import { UserType } from 'src/types';
-
 import { Fetcher } from 'src/utils';
+
+import userAtom from 'src/recoil/user';
 
 import { Title } from './style';
 
-interface Props {
-  user: UserType;
-}
-
-function SuggestionCard({ user }: Props) {
+function SuggestionCard() {
+  const user = useRecoilValue(userAtom);
   const { data: users } = useQuery(['suggestion', 'posts', user._id], () =>
     Fetcher.getUserSuggestions(user),
   );
@@ -73,9 +70,5 @@ function SuggestionCard({ user }: Props) {
     </CardCommon>
   );
 }
-
-SuggestionCard.propTypes = {
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
-};
 
 export default SuggestionCard;

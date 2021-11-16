@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useMutation } from 'react-query';
+import { useRecoilValue } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
@@ -8,8 +8,6 @@ import Button from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
 import ProfileImage from 'src/components/images/ProfileImage';
 import { Row } from 'src/components/Grid';
-
-import { UserType } from 'src/types';
 
 import {
   USER_SETTING_CARD_WIDTH,
@@ -19,13 +17,12 @@ import {
 
 import { Fetcher } from 'src/utils';
 
+import userAtom from 'src/recoil/user';
+
 import { Label, ImageHolder, ImageCover } from './style';
 
-interface Props {
-  user: UserType;
-}
-
-function UserSettingsCard({ user }: Props) {
+function UserSettingsCard() {
+  const user = useRecoilValue(userAtom);
   const [profileImage, setProfileImage] = useState(user.profileImage ?? DEFAULT_PROFILE_IMAGE);
   const [username, setUsername] = useState(user.username ?? '');
   const [name, setName] = useState(user.name ?? '');
@@ -72,9 +69,5 @@ function UserSettingsCard({ user }: Props) {
     </CardCommon>
   );
 }
-
-UserSettingsCard.prototype = {
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
-};
 
 export default UserSettingsCard;

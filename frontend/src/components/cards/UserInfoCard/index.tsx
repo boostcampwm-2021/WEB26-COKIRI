@@ -1,3 +1,4 @@
+import { useRecoilValue } from 'recoil';
 import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -16,14 +17,16 @@ import {
   USER_INFO_CARD_WIDTH,
 } from 'src/globals/constants';
 
+import userAtom from 'src/recoil/user';
+
 import { Wrapper, ImageHolder, Username } from './style';
 
 interface Props {
   targetUser: UserType;
-  user: UserType;
 }
 
-function UserInfoCard({ targetUser, user }: Props) {
+function UserInfoCard({ targetUser }: Props) {
+  const user = useRecoilValue(userAtom);
   const { profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
 
@@ -81,7 +84,6 @@ function UserInfoCard({ targetUser, user }: Props) {
 
 UserInfoCard.prototype = {
   targetUser: PropTypes.objectOf(PropTypes.any).isRequired,
-  user: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default UserInfoCard;

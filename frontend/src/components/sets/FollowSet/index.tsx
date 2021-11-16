@@ -37,7 +37,7 @@ function FollowSet({ targetUser, onFollow, onUnfollow }: Props) {
     onUnfollow();
   }, [onUnfollow, setFollows, targetUser._id]);
   if (isMe) {
-    return '';
+    return null;
   }
   return isFollow ? (
     <UnfollowButton targetUserID={targetUser._id!} onUnfollow={handleUnfollow} />
