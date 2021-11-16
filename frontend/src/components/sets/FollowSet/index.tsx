@@ -18,7 +18,7 @@ interface Props {
 function FollowSet({ targetUser, onFollow, onUnfollow }: Props) {
   const user = useRecoilValue(userAtom);
   const followers = useRecoilValue(followersSelector);
-  const [follows, setFollows] = useRecoilState(followsSelector);
+  const [follows, setFollows] = useRecoilState<string[]>(followsSelector);
 
   const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
   const isFollower = useMemo(
