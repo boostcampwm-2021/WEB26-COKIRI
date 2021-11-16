@@ -155,7 +155,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID, userID);
+    await CommentService.existsComment(postID, commentID, undefined);
     await CommentLikeService.removeCommentLike(commentID, likeID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }

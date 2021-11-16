@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { OPENAPIURL, JWT, Query } from 'src/utils';
-import { TistoryService } from 'src/services';
+import { TistoryService, VelogService } from 'src/services';
 
 @Controller('/socials')
 export default class SocialsRouter {
@@ -68,5 +68,14 @@ export default class SocialsRouter {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
     });
+  }
+
+  @Put('/velog')
+  @UseBefore(passport.authenticate('github', { session: false }))
+  async getVelog(@Req() request: Request, @Res() response: Response) {
+    const { velogURL } = request.body;
+    console.log(velogURL);
+    // await VelogService.findUserEmail(velogURL);
+    return response.json({});
   }
 }
