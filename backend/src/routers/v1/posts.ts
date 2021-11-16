@@ -120,7 +120,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID);
+    await CommentService.existsComment(postID, commentID, undefined);
     const _id = await CommentLikeService.createCommentLike(userID, commentID);
     return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
   }
@@ -162,7 +162,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID);
+    await CommentService.existsComment(postID, commentID, userID);
     await CommentService.removeComment(postID, commentID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
@@ -175,7 +175,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID);
+    await CommentService.existsComment(postID, commentID, userID);
     await CommentLikeService.removeCommentLike(commentID, likeID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
