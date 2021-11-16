@@ -10,19 +10,19 @@ import { Wrapper } from './style';
 
 interface Props {
   postID: string;
-  comments?: CommentType[];
+  comments: CommentType[];
 }
 
 function PostComments({ postID, comments }: Props) {
   const [isExpand, setIsExpand] = useState(false);
-  const isShort = comments!.length <= 2;
+  const isShort = comments.length <= 2;
   const handleClick = () => {
     setIsExpand(true);
   };
   if (isShort) {
     return (
       <Wrapper>
-        {comments!.map((comment) => (
+        {comments.map((comment) => (
           <Comment key={comment._id} postID={postID} comment={comment} />
         ))}
       </Wrapper>
@@ -31,10 +31,8 @@ function PostComments({ postID, comments }: Props) {
   return (
     <Wrapper>
       {isExpand
-        ? comments!.map((comment) => (
-            <Comment key={comment._id} postID={postID} comment={comment} />
-          ))
-        : comments!
+        ? comments.map((comment) => <Comment key={comment._id} postID={postID} comment={comment} />)
+        : comments
             .slice(0, 2)
             .map((comment) => <Comment key={comment._id} postID={postID} comment={comment} />)}
       {!isExpand && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
@@ -44,10 +42,6 @@ function PostComments({ postID, comments }: Props) {
 
 PostComments.propTypes = {
   postID: PropTypes.string.isRequired,
-  comments: PropTypes.arrayOf(PropTypes.any),
-};
-
-PostComments.defaultProps = {
-  comments: [],
+  comments: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 export default PostComments;

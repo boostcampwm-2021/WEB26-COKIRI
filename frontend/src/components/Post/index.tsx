@@ -25,7 +25,6 @@ function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes!.length);
   const [comments, setComments] = useState(post.comments!);
   const { _id, user, images, content, likes } = post;
-
   return (
     <Card width={POST_CARD_WIDTH}>
       <ProfileSet profileImage={user!.profileImage} username={user!.username} />
