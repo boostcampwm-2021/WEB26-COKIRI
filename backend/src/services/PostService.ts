@@ -121,7 +121,12 @@ class PostService {
       .lean();
     if (!post) throw new Error(ERROR.NO_POSTS);
     delete post!.userID;
-    return post;
+    const results = await Promise.all([
+      CommentService.findComments(postID),
+      PostLikeService.findPostLikes(postID),
+      ImageService.findPostImage(postID),
+    ]);
+    return { ...post, comments: results[0], likes: results[1], images: results[2] };
   }
 
   async findPostCount(userID: Types.ObjectId) {

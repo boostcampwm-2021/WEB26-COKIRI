@@ -34,18 +34,8 @@ export default class PostsRouter {
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
-    const results = await Promise.all([
-      PostService.findPost(postID),
-      CommentService.findComments(postID),
-      PostLikeService.findPostLikes(postID),
-      ImageService.findPostImage(postID),
-    ]);
-    return response.json({
-      ...results[0],
-      comments: results[1],
-      likes: results[2],
-      images: results[3],
-    });
+    const post = await PostService.findPost(postID);
+    return response.json(post);
   }
 
   @Put('/:postID/tistory')
@@ -57,18 +47,8 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     await PostService.updateTistoryPost(userID, postID);
-    const results = await Promise.all([
-      PostService.findPost(postID),
-      CommentService.findComments(postID),
-      PostLikeService.findPostLikes(postID),
-      ImageService.findPostImage(postID),
-    ]);
-    return response.json({
-      ...results[0],
-      comments: results[1],
-      likes: results[2],
-      images: results[3],
-    });
+    const post = await PostService.findPost(postID);
+    return response.json(post);
   }
 
   @Post('/')

@@ -54,11 +54,10 @@ class TistoryService {
           output: 'json',
         },
       });
-      const { title, content, tags, postUrl } = postResponse.data.tistory.item;
+      const { title, content, postUrl } = postResponse.data.tistory.item;
       return {
         title,
         content,
-        tags: tags.tag,
         link: postUrl,
         blog: 'tistory',
         blogPostID: postID,
