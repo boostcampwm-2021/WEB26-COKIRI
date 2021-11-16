@@ -109,6 +109,10 @@ class UserService {
     return result;
   }
 
+  async updateOneUserVelogAuthenticationToken(nanoID: string, userID: string) {
+    return User.updateOne({ _id: userID }, { velogAuthenticationToken: nanoID });
+  }
+
   async updateGithubUserInfo(username: string, info: any) {
     return User.findOneAndUpdate({ githubUsername: username }, info, { new: true });
   }

@@ -96,8 +96,8 @@ export default class SocialsRouter {
     if (isExistsBlog) {
       throw new Error(ERROR.IS_EXIST_VELOG);
     }
-    const html = await VelogService.sendAuthorizationEmail(userID, blogUsername);
-    return response.send(html);
+    await VelogService.sendAuthorizationEmail(userID, blogUsername);
+    return response.send();
   }
 
   @Get('/velog/callback')

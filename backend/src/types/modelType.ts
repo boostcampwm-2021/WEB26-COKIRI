@@ -32,6 +32,7 @@ export interface UserType {
   username?: string;
   githubUsername?: string;
   tistoryAccessToken?: string;
+  velogAuthenticationToken?: string;
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;

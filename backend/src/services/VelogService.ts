@@ -1,13 +1,13 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { nanoid } from 'nanoid';
 
 import { ERROR, Mailer, VELOG_URL } from 'src/utils';
-import { BlogService } from 'src/services/index';
+import { UserService } from 'src/services/index';
 
 class VelogService {
   async sendAuthorizationEmail(userID: string, blogUsername: string) {
     const url = VELOG_URL(blogUsername);
-
     const velogHTML = (await axios.get(url)).data;
     const $ = cheerio.load(velogHTML);
     const emailAddress = $('a[href^="mailto:"]').attr('href');
@@ -15,8 +15,10 @@ class VelogService {
       throw new Error(ERROR.IS_NOT_EXIST_VELOG_EMAIL);
     }
 
-    const result = await Mailer.sendVelogEmailAuthentication(url, emailAddress);
-    return velogHTML;
+    const nanoID = nanoid();
+    const query = { identity: blogUsername, userID, token: nanoID };
+    await UserService.updateOneUserVelogAuthenticationToken(nanoID, userID);
+    Mailer.sendVelogEmailAuthentication(url, emailAddress, query);
   }
 }
 
