@@ -1,5 +1,7 @@
 import userAtom from './atom';
 import isAuthenticatedSelector from './isAuthenticated';
+import followsSelector from './follows';
+import followersSelector from './followers';
 
-export { isAuthenticatedSelector };
+export { isAuthenticatedSelector, followersSelector, followsSelector };
 export default userAtom;
