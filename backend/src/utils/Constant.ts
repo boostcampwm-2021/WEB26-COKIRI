@@ -34,12 +34,12 @@ export const OPENAPIURL = {
   TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
   TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
   TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
-  GITREPOLISTAPI: (username: string) => `https://api.github.com/users/${username}/repos`,
-  GITREPOINFOAPI: (githubUsername: string, repoName: string) =>
+  GIT_REPOLIST_API: (username: string) => `https://api.github.com/users/${username}/repos`,
+  GIT_REPOINFO_API: (githubUsername: string, repoName: string) =>
     `https://api.github.com/repos/${githubUsername}/${repoName}`,
-  GITREPOREADMEAPI: (githubUsername: string, repoName: string) =>
+  GIT_REPOREADME_API: (githubUsername: string, repoName: string) =>
     `https://api.github.com/repos/${githubUsername}/${repoName}/readme`,
-  GITURL: (username: string) => `https://github.com/${username}`,
+  GIT_URL: (username: string) => `https://github.com/${username}`,
 };
 
 export const SELECT = {
