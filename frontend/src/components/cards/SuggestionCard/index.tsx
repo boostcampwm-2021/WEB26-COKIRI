@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 
@@ -16,16 +16,22 @@ import {
 
 import { Fetcher } from 'src/utils';
 
-import userAtom from 'src/recoil/user';
+import userAtom, { isRegisteredSelector } from 'src/recoil/user';
 
 import { Title } from './style';
 
 function SuggestionCard() {
   const user = useRecoilValue(userAtom);
-  const { data: users } = useQuery(['suggestion', 'posts', user._id], () =>
+  const isRegister = useRecoilValue(isRegisteredSelector);
+  const { data: users, refetch } = useQuery(['suggestion', 'posts', user._id], () =>
     Fetcher.getUserSuggestions(user),
   );
   const [startIndex, setStartIndex] = useState(0);
+  useEffect(() => {
+    if (isRegister) {
+      refetch();
+    }
+  }, [refetch, isRegister]);
 
   const handleClickLeft = useCallback(() => {
     setStartIndex((prevState) => prevState - 1);

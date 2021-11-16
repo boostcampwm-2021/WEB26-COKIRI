@@ -3,6 +3,8 @@ import { ThemeProvider, Global } from '@emotion/react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
+import RegisterModal from 'src/components/modals/RegisterModal';
+
 import { theme, global } from 'src/styles';
 
 import { UserType } from 'src/types';
@@ -30,6 +32,7 @@ function MyApp({ user, Component, pageProps }: Props) {
           <Global styles={global(theme)} />
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
+          <RegisterModal />
         </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
