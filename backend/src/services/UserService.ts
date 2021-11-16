@@ -26,6 +26,10 @@ class UserService {
     return User.exists({ username: query });
   }
 
+  async findOneUserVelogToken(userID: string) {
+    return User.findOne({ _id: userID }, 'blogAuthentication.velog -_id').lean();
+  }
+
   async findUserGithubUsername(userID: string): Promise<string | undefined> {
     const result = await User.findOne({ _id: userID }, 'githubUsername -_id');
     if (result === null) return undefined;
@@ -112,7 +116,13 @@ class UserService {
   async updateOneUserVelogAuthentication(nanoID: string, userID: string) {
     return User.updateOne(
       { _id: userID },
-      { 'blogAuthentication.velog': { token: nanoID, ttl: 300, createdAt: Date.now() } },
+      {
+        'blogAuthentication.velog': {
+          token: nanoID,
+          ttl: Number(process.env.VELOG_TOKEN_TTL),
+          createdAt: Date.now(),
+        },
+      },
     );
   }
 

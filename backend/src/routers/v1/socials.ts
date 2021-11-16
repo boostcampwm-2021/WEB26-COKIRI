@@ -102,6 +102,17 @@ export default class SocialsRouter {
 
   @Get('/velog/callback')
   async getVelogCallback(@Req() request: Request, @Res() response: Response) {
-    return response.send('<script>alert("인증이 완료되었습니다."); window.close();</script > ');
+    const { identity, user_id: userID, token } = request.query;
+    let alertMessage;
+    if (!identity || !userID || !token) {
+      alertMessage = ERROR.INVALID_REQUEST;
+    } else {
+      alertMessage = await VelogService.compassAuthorization(
+        userID as string,
+        identity as string,
+        token as string,
+      );
+    }
+    return response.send(`<script>alert("${alertMessage}"); window.close();</script > `);
   }
 }
