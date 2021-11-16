@@ -17,11 +17,22 @@ interface Props {
   padding?: number;
   margin?: number;
   plain?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   size?: number;
+  hidden?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function IconButton({ children, onClick, padding, margin, plain, width, height, size }: Props) {
+function IconButton({
+  children,
+  onClick,
+  padding,
+  margin,
+  plain,
+  hidden,
+  width,
+  height,
+  size,
+}: Props) {
   const props = useMemo(() => ({ size: `${size}` }), [size]);
   return (
     <ButtonCommon
@@ -31,6 +42,7 @@ function IconButton({ children, onClick, padding, margin, plain, width, height, 
       width={width}
       height={height}
       margin={margin}
+      hidden={hidden}
     >
       <IconContext.Provider value={props}>{children}</IconContext.Provider>
     </ButtonCommon>
@@ -45,6 +57,7 @@ IconButton.propsType = {
   padding: PropTypes.number,
   margin: PropTypes.number,
   plain: PropTypes.bool,
+  hidden: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -55,6 +68,7 @@ IconButton.defaultProps = {
   margin: DEFAULT_BUTTON_MARGIN,
   padding: DEFAULT_BUTTON_PADDING,
   plain: false,
+  hidden: false,
   onClick: () => {},
 };
 
