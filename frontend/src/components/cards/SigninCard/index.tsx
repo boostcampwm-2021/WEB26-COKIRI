@@ -9,7 +9,7 @@ import { SIGNIN_CARD_WIDTH } from 'src/globals/constants';
 function SigninCard() {
   return (
     <CardCommon width={SIGNIN_CARD_WIDTH}>
-      <Row>
+      <Row justifyContent='center'>
         <Google />
         <Github />
         <Kakao />
