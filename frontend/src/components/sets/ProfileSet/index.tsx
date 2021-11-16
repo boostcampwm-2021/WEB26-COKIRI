@@ -13,7 +13,7 @@ import { Wrapper } from './style';
 
 interface Props {
   profileImage?: string;
-  username?: string;
+  username: string;
 }
 
 function ProfileSet({ profileImage, username }: Props) {
@@ -21,22 +21,21 @@ function ProfileSet({ profileImage, username }: Props) {
     <Wrapper>
       <ProfileImageButton
         profileImage={profileImage!}
-        username={username!}
+        username={username}
         marginRight={POST_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
       />
-      <UsernameButton username={username!} marginRight={POST_USERNAME_BUTTON_MARGIN_RIGHT} />
+      <UsernameButton username={username} marginRight={POST_USERNAME_BUTTON_MARGIN_RIGHT} />
     </Wrapper>
   );
 }
 
 ProfileSet.propTypes = {
   profileImage: PropTypes.string,
-  username: PropTypes.string,
+  username: PropTypes.string.isRequired,
 };
 
 ProfileSet.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
-  username: '',
 };
 
 export default ProfileSet;
