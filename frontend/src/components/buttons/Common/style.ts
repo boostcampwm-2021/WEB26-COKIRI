@@ -6,6 +6,7 @@ interface Props {
   margin?: number;
   padding?: number;
   plain?: boolean;
+  hidden?: boolean;
 }
 
 const Button = styled.button<Props>`
@@ -18,6 +19,7 @@ const Button = styled.button<Props>`
   padding: ${({ padding }) => (padding ? `${padding}px` : 0)};
   border-radius: 50px;
   box-shadow: ${({ plain }) => (plain ? 'unset' : '5px 5px 10px #3a3a3a, -5px -5px 10px #4e4e4e')};
+  visibility: ${({ hidden }) => (hidden ? 'hidden' : 'unset')};
 
   a {
     padding: 16px;

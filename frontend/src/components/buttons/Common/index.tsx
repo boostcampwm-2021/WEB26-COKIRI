@@ -11,11 +11,12 @@ interface Props {
   margin?: number;
   padding?: number;
   plain?: boolean;
+  hidden?: boolean;
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function ButtonCommon({ children, width, margin, padding, height, onClick, plain }: Props) {
+function ButtonCommon({ children, width, margin, padding, height, onClick, plain, hidden }: Props) {
   return (
     <Button
       width={width}
@@ -24,6 +25,7 @@ function ButtonCommon({ children, width, margin, padding, height, onClick, plain
       padding={padding}
       onClick={onClick}
       plain={plain}
+      hidden={hidden}
     >
       {children}
     </Button>
@@ -37,6 +39,7 @@ ButtonCommon.propsType = {
   margin: PropTypes.number,
   padding: PropTypes.number,
   plain: PropTypes.bool,
+  hidden: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -45,6 +48,7 @@ ButtonCommon.defaultProps = {
   height: 0,
   margin: DEFAULT_BUTTON_MARGIN,
   padding: DEFAULT_BUTTON_PADDING,
+  hidden: false,
   plain: false,
   onClick: () => {},
 };
