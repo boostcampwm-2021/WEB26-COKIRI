@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
 import Timeline from 'src/components/Timeline';
@@ -11,26 +11,21 @@ import FloatingButton from 'src/components/buttons/FloatingButton';
 import SuggestionCard from 'src/components/cards/SuggestionCard';
 import { Col } from 'src/components/Grid';
 
-import userAtom from 'src/recoil/user';
+import userAtom, { followsSelector, isAuthenticatedSelector } from 'src/recoil/user';
 import postsAtom from 'src/recoil/posts';
 
 import { Page } from 'src/styles';
-
-import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
 import { HOME_DESCRIPTION } from 'src/globals/descriptions';
 
-interface Props {
-  user: UserType;
-}
-
-function Home({ user }: Props) {
-  const setUser = useSetRecoilState(userAtom);
+function Home() {
+  const user = useRecoilValue(userAtom);
+  const follows = useRecoilValue(followsSelector);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const setPosts = useSetRecoilState(postsAtom);
 
-  useEffect(() => setUser(user), [setUser, user]);
   const { isSuccess, data: posts } = useQuery(['home', 'posts', user._id], () =>
     Fetcher.getPosts(user),
   );
@@ -41,7 +36,6 @@ function Home({ user }: Props) {
     }
   }, [isSuccess, posts, setPosts]);
 
-  const isAuthenticated = Object.keys(user).length !== 0;
   return (
     <>
       <Head>
@@ -54,25 +48,14 @@ function Home({ user }: Props) {
       <Page.Main>
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {user.follows?.length === 0 && <SuggestionCard user={user} />}
+          {follows?.length === 0 && <SuggestionCard />}
           {isAuthenticated && <Timeline />}
         </Col>
       </Page.Main>
-      <FloatingButton />
+      {isAuthenticated && <FloatingButton />}
       <RegisterModal />
     </>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const token = context.req?.cookies.jwt;
-  if (token === undefined) {
-    return { props: { user: {} } };
-  }
-  const user: UserType = await Fetcher.getUsersMe(token);
-  return {
-    props: { user: { ...user, token } },
-  };
 }
 
 export default Home;

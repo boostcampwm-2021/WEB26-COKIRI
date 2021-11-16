@@ -17,18 +17,14 @@ import { USERS_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 
-import userAtom from 'src/recoil/user';
 import postsAtom from 'src/recoil/posts';
 
 interface Props {
-  user: UserType;
   targetUser: UserType;
 }
 
-function User({ user, targetUser }: Props) {
-  const setUser = useSetRecoilState(userAtom);
+function User({ targetUser }: Props) {
   const setPosts = useSetRecoilState(postsAtom);
-  useEffect(() => setUser(user), [setUser, user]);
 
   const isUserExist = Object.keys(targetUser).length !== 0;
   const { isSuccess, data: posts } = useQuery(['user', 'posts', targetUser._id], () => {
@@ -56,7 +52,7 @@ function User({ user, targetUser }: Props) {
         <Col alignItems='center'>
           {isUserExist ? (
             <>
-              <UserInfoCard targetUser={targetUser} user={user} />
+              <UserInfoCard targetUser={targetUser} />
               <Timeline />
             </>
           ) : (
@@ -81,12 +77,9 @@ export async function getServerSideProps(context: any) {
       },
     };
   }
-  const usersByUsernameRequest = Fetcher.getUsersByUsername(token, username);
-  const usersMeRequests = Fetcher.getUsersMe(token);
-  const targetUser = await usersByUsernameRequest;
-  const user = await usersMeRequests;
+  const targetUser = await Fetcher.getUsersByUsername(token, username);
   return {
-    props: { user: { ...user, token }, targetUser },
+    props: { targetUser },
   };
 }
 
