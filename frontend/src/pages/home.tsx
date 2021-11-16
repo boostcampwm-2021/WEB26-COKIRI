@@ -8,7 +8,7 @@ import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import RegisterModal from 'src/components/modals/RegisterModal';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import RecommendationCard from 'src/components/cards/RecommendationCard';
+import SuggestionCard from 'src/components/cards/SuggestionCard';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -54,7 +54,7 @@ function Home({ user }: Props) {
       <Page.Main>
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {user.follows?.length === 0 && <RecommendationCard user={user} />}
+          {user.follows?.length === 0 && <SuggestionCard user={user} />}
           {isAuthenticated && <Timeline />}
         </Col>
       </Page.Main>

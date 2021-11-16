@@ -9,7 +9,7 @@ import IconButton from 'src/components/buttons/IconButton';
 import { Row, Col } from 'src/components/Grid';
 
 import {
-  RECOMMENDATION_CARD_WIDTH,
+  SUGGESTION_CARD_WIDTH,
   SUGGESTION_COUNT,
   SUGGESTION_PROFILE_IMAGE_SIZE,
 } from 'src/globals/constants';
@@ -24,7 +24,7 @@ interface Props {
   user: UserType;
 }
 
-function RecommendationCard({ user }: Props) {
+function SuggestionCard({ user }: Props) {
   const { data: users } = useQuery(['suggestion', 'posts', user._id], () =>
     Fetcher.getUserSuggestions(user),
   );
@@ -44,7 +44,7 @@ function RecommendationCard({ user }: Props) {
   );
 
   return (
-    <CardCommon width={RECOMMENDATION_CARD_WIDTH}>
+    <CardCommon width={SUGGESTION_CARD_WIDTH}>
       <Row>
         <IconButton hidden={isFirst} onClick={handleClickLeft}>
           <AiOutlineLeft />
@@ -74,8 +74,8 @@ function RecommendationCard({ user }: Props) {
   );
 }
 
-RecommendationCard.propTypes = {
+SuggestionCard.propTypes = {
   user: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default RecommendationCard;
+export default SuggestionCard;
