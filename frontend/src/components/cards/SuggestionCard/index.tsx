@@ -18,6 +18,8 @@ import { Fetcher } from 'src/utils';
 
 import userAtom, { isRegisteredSelector } from 'src/recoil/user';
 
+import FollowSet from 'src/components/sets/FollowSet';
+import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Title } from './style';
 
 function SuggestionCard() {
@@ -59,12 +61,14 @@ function SuggestionCard() {
               .slice(startIndex, startIndex + SUGGESTION_COUNT)
               .map((suggestedUser) => (
                 <Col alignItems='center' key={suggestedUser._id}>
-                  <p>{suggestedUser.username}</p>
+                  <UsernameButton username={suggestedUser.username!} />
                   <ProfileImageButton
                     size={SUGGESTION_PROFILE_IMAGE_SIZE}
                     username={suggestedUser.username!}
                     profileImage={suggestedUser.profileImage}
+                    marginTop={8}
                   />
+                  <FollowSet targetUserID={suggestedUser._id!} />
                 </Col>
               ))}
           </Row>

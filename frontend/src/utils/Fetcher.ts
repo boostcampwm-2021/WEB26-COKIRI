@@ -48,6 +48,9 @@ class Fetcher {
   }
 
   static async getUserPosts(user: UserType): Promise<PostType[]> {
+    if (user._id === undefined) {
+      return [];
+    }
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/posts`);
     return result.data;
   }

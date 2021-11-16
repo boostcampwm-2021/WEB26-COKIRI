@@ -1,6 +1,7 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
 import Input from 'src/components/inputs/Common';
@@ -22,13 +23,20 @@ import userAtom from 'src/recoil/user';
 import { Label, ImageHolder, ImageCover } from './style';
 
 function UserSettingsCard() {
-  const user = useRecoilValue(userAtom);
+  const router = useRouter();
+  const [user, setUser] = useRecoilState(userAtom);
   const [profileImage, setProfileImage] = useState(user.profileImage ?? DEFAULT_PROFILE_IMAGE);
   const [username, setUsername] = useState(user.username ?? '');
   const [name, setName] = useState(user.name ?? '');
   const [bio, setBio] = useState(user.bio ?? '');
-  const mutation = useMutation(() =>
-    Fetcher.putUserSettings(user, { profileImage, username, name, bio }),
+  const mutation = useMutation(
+    () => Fetcher.putUserSettings(user, { profileImage, username, name, bio }),
+    {
+      onSuccess: () => {
+        setUser({ ...user, profileImage, username, name, bio });
+        router.push(`/users/${username}/settings`, '', { shallow: true });
+      },
+    },
   );
 
   const handleClick = () => {
