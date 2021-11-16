@@ -17,7 +17,7 @@ class VelogService {
 
     const nanoID = nanoid();
     const query = { identity: blogUsername, userID, token: nanoID };
-    await UserService.updateOneUserVelogAuthenticationToken(nanoID, userID);
+    await UserService.updateOneUserVelogAuthentication(nanoID, userID);
     Mailer.sendVelogEmailAuthentication(url, emailAddress, query);
   }
 }

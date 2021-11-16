@@ -1,8 +1,7 @@
 export const AUTH = {
   SETTING_BLOCK_LIST: [
     'githubUsername',
-    'tistoryAccessToken',
-    'tistoryURL',
+    'blogAuthentication',
     'authProvider',
     'authProviderID',
     'createdAt',

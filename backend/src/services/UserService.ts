@@ -33,11 +33,11 @@ class UserService {
   }
 
   async findOneUserTistoryAccessToken(userID: string) {
-    const user = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
+    const user = await User.findOne({ _id: userID }, 'blogAuthentication.tistory -_id').lean();
     if (!user) {
       throw new Error(ERROR.NO_USERS);
     }
-    return user!.tistoryAccessToken;
+    return user.blogAuthentication!.tistory;
   }
 
   async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
@@ -87,7 +87,7 @@ class UserService {
       posts: false,
       isRegistered: false,
       authProviderID: false,
-      tistoryAccessToken: false,
+      blogAuthentication: false,
     });
   }
 
@@ -109,8 +109,11 @@ class UserService {
     return result;
   }
 
-  async updateOneUserVelogAuthenticationToken(nanoID: string, userID: string) {
-    return User.updateOne({ _id: userID }, { velogAuthenticationToken: nanoID });
+  async updateOneUserVelogAuthentication(nanoID: string, userID: string) {
+    return User.updateOne(
+      { _id: userID },
+      { 'blogAuthentication.velog': { token: nanoID, ttl: 300, createdAt: Date.now() } },
+    );
   }
 
   async updateGithubUserInfo(username: string, info: any) {
