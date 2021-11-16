@@ -3,7 +3,7 @@ import * as cheerio from 'cheerio';
 import { nanoid } from 'nanoid';
 
 import { ERROR, Mailer, RESPONSECODE, VELOG_URL } from 'src/utils';
-import { UserService } from 'src/services/index';
+import { BlogService, UserService } from 'src/services/index';
 
 class VelogService {
   async sendAuthorizationEmail(userID: string, blogUsername: string) {
@@ -18,7 +18,7 @@ class VelogService {
     const nanoID = nanoid();
     const query = { identity: blogUsername, user_id: userID, token: nanoID };
     await UserService.updateOneUserVelogAuthentication(nanoID, userID);
-    // Mailer.sendVelogEmailAuthentication(url, emailAddress, query);
+    Mailer.sendVelogEmailAuthentication(url, emailAddress, query);
   }
 
   async compassAuthorization(userID: string, blogUsername: string, token: string) {
@@ -34,6 +34,12 @@ class VelogService {
     if (elapsedTime > Number(process.env.VELOG_TOKEN_TTL)) {
       return ERROR.EXPIRED_VELOG_TOKEN;
     }
+    await BlogService.createBlog({
+      url: VELOG_URL(blogUsername),
+      type: 'velog',
+      identity: blogUsername,
+      userID,
+    });
     return RESPONSECODE.COMPLETED_VELOG_AUTHORIZATION;
   }
 }

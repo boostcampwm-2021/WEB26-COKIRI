@@ -7,7 +7,7 @@ const blogSchema = new Schema<BlogType>(
   {
     url: { type: String, required: true },
     identity: { type: String, required: true },
-    type: { type: String, required: true, enum: ['tistory'] },
+    type: { type: String, required: true, enum: ['tistory', 'velog'] },
     userID: { type: Types.ObjectId, required: true, validate: Validate.userObjectID },
   },
   { versionKey: false, timestamps: false },
