@@ -2,9 +2,15 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
-import { ERROR, RESPONSECODE } from 'src/utils';
-import ImageService from 'src/services/ImageService';
+import { ERROR, RESPONSECODE, Urlparser } from 'src/utils';
+import {
+  PostService,
+  CommentService,
+  PostLikeService,
+  CommentLikeService,
+  ObjectStroageService,
+  ImageService,
+} from 'src/services';
 
 @Controller('/posts')
 export default class PostsRouter {

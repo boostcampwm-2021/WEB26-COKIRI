@@ -8,3 +8,5 @@ export { default as CommentLikeService } from './CommentLikeService';
 export { default as BlogService } from './BlogService';
 export { default as SearchService } from './SearchService';
 export { default as VelogService } from './VelogService';
+export { default as ImageService } from './ImageService';
+export { default as ObjectStroageService } from './ObjectStroageService';
