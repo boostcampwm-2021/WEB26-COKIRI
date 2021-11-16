@@ -8,7 +8,7 @@ import { DEFAULT_PROFILE_IMAGE, DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/c
 import { Wrapper } from './style';
 
 interface Props {
-  username?: string;
+  username: string;
   profileImage?: string;
   size?: number;
   marginRight?: number;
@@ -27,14 +27,13 @@ function ProfileImageButton({ username, profileImage, size, marginRight }: Props
 }
 
 ProfileImageButton.propsType = {
-  username: PropTypes.string,
+  username: PropTypes.string.isRequired,
   profileImage: PropTypes.string,
   size: PropTypes.number,
   marginRight: PropTypes.number,
 };
 
 ProfileImageButton.defaultProps = {
-  username: '',
   profileImage: DEFAULT_PROFILE_IMAGE,
   size: DEFAULT_PROFILE_IMAGE_SIZE,
   marginRight: 0,

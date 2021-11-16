@@ -27,9 +27,7 @@ function CommentInput({ postID, setComments }: Props) {
   const user = useRecoilValue(userAtom);
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
-    onSuccess: ({ result }) => {
-      setComments((prevState: CommentType[]) => [...prevState, result]);
-    },
+    onSuccess: ({ result }) => setComments((prevState: CommentType[]) => [...prevState, result]),
   });
 
   const handleClick = () => {
@@ -50,6 +48,7 @@ function CommentInput({ postID, setComments }: Props) {
 
 CommentInput.propTypes = {
   postID: PropTypes.string.isRequired,
+  setComments: PropTypes.func.isRequired,
 };
 
 export default CommentInput;

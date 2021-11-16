@@ -68,7 +68,7 @@ class Fetcher {
     return result.data;
   }
 
-  static async postPostLike(user: UserType, postID: string): Promise<LikeType> {
+  static async postPostLike(user: UserType, postID: string): Promise<ReturnType<LikeType>> {
     const result = await axios.post(
       `${baseURL}/v1/posts/${postID}/likes`,
       { userID: user._id },

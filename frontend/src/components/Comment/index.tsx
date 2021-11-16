@@ -29,7 +29,7 @@ function Comment({ postID, comment }: Props) {
         <ProfileImageButton
           size={COMMENT_PROFILE_IMAGE_SIZE}
           profileImage={profileImage}
-          username={comment?.user.username}
+          username={comment?.user.username!}
           marginRight={COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
         />
         <UsernameButton

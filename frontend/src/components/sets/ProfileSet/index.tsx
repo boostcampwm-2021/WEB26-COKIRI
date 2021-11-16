@@ -21,7 +21,7 @@ function ProfileSet({ profileImage, username }: Props) {
     <Wrapper>
       <ProfileImageButton
         profileImage={profileImage!}
-        username={username}
+        username={username!}
         marginRight={POST_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
       />
       <UsernameButton username={username!} marginRight={POST_USERNAME_BUTTON_MARGIN_RIGHT} />

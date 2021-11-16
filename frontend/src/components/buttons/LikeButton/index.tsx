@@ -26,7 +26,7 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const postPostLike = () => Fetcher.postPostLike(user, postID);
   const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
   const likeMutation = useMutation(postPostLike, {
-    onSuccess: (data) => setLikeID(data._id),
+    onSuccess: ({ result }) => setLikeID(result._id),
   });
   const dislikeMutation = useMutation(deletePostLike);
 
