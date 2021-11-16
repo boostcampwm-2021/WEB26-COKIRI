@@ -1,10 +1,21 @@
 import Head from 'next/head';
 
 import Header from 'src/components/Header';
+import RandomTimeline from 'src/components/RandomTimeline';
 
 import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
 
-function Random() {
+import { Page } from 'src/styles';
+
+import { PostType } from 'src/types';
+
+import { Fetcher } from 'src/utils';
+
+interface Props {
+  posts: PostType[];
+}
+
+function Random({ posts }: Props) {
   return (
     <div>
       <Head>
@@ -14,11 +25,17 @@ function Random() {
       </Head>
 
       <Header />
-      <main>random</main>
-
+      <Page.Main>
+        <RandomTimeline posts={posts!} />
+      </Page.Main>
       <footer />
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const posts = await Fetcher.getRandomPosts();
+  return { props: { posts } };
 }
 
 export default Random;

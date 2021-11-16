@@ -69,6 +69,11 @@ class Fetcher {
     return result.data;
   }
 
+  static async getRandomPosts(): Promise<PostType[]> {
+    const result = await axios.get(`${baseURL}/${version}/posts/random`);
+    return result.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
