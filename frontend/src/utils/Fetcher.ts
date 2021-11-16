@@ -31,7 +31,7 @@ class Fetcher {
 
   // for client side
   static async getPosts(user: UserType): Promise<PostType[]> {
-    if (user._id === undefined) {
+    if (user._id === undefined || !user.isRegistered) {
       return [];
     }
     const result = await axios.get(`${baseURL}/${version}/posts/?user_id=${user._id}&offset=${0}`, {
@@ -57,6 +57,9 @@ class Fetcher {
   }
 
   static async getUserSuggestions(user: UserType): Promise<UserType[]> {
+    if (user._id === undefined || !user.isRegistered) {
+      return [];
+    }
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/suggestions`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
