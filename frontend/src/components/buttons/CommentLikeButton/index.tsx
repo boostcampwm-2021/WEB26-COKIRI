@@ -17,14 +17,14 @@ import IconButton from 'src/components/buttons/IconButton';
 interface Props {
   postID: string;
   commentID: string;
-  commentLikes?: LikeType[];
+  commentLikes: LikeType[];
   margin?: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
 }
 
 function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, margin }: Props) {
   const user = useRecoilValue(userAtom);
-  const like = commentLikes!.find((commentLike) => commentLike.user._id === user._id);
+  const like = commentLikes.find((commentLike) => commentLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
   const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
   const postCommentLike = () => Fetcher.postCommentLike(user, postID, commentID);
@@ -69,14 +69,13 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, marg
 
 CommentLikeButton.propTypes = {
   postID: PropTypes.string.isRequired,
-  commentLikes: PropTypes.arrayOf(PropTypes.any),
+  commentLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
   setLikeCount: PropTypes.func.isRequired,
   margin: PropTypes.number,
 };
 
 CommentLikeButton.defaultProps = {
   margin: 0,
-  commentLikes: [],
 };
 
 export default CommentLikeButton;

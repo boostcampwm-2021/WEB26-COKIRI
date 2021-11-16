@@ -27,7 +27,7 @@ function Post({ post }: Props) {
   const { _id, user, images, content, likes } = post;
   return (
     <Card width={POST_CARD_WIDTH}>
-      <ProfileSet profileImage={user!.profileImage} username={user!.username} />
+      <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
         <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
