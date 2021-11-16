@@ -12,11 +12,12 @@ interface Props {
   profileImage?: string;
   size?: number;
   marginRight?: number;
+  marginTop?: number;
 }
 
-function ProfileImageButton({ username, profileImage, size, marginRight }: Props) {
+function ProfileImageButton({ username, profileImage, size, marginRight, marginTop }: Props) {
   return (
-    <Wrapper marginRight={marginRight!}>
+    <Wrapper marginRight={marginRight!} marginTop={marginTop!} size={size!}>
       <Link href={`/users/${username}`} passHref>
         <a>
           <ProfileImage profileImage={profileImage!} size={size} />
@@ -31,12 +32,14 @@ ProfileImageButton.propsType = {
   profileImage: PropTypes.string,
   size: PropTypes.number,
   marginRight: PropTypes.number,
+  marginTop: PropTypes.number,
 };
 
 ProfileImageButton.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
   size: DEFAULT_PROFILE_IMAGE_SIZE,
   marginRight: 0,
+  marginTop: 0,
 };
 
 export default ProfileImageButton;
