@@ -34,7 +34,7 @@ function LikesModal({ postID, onClose }: Props) {
             const targetUserID = like.user._id!;
             return (
               <Row justifyContent='space-between' key={like.user.username}>
-                <ProfileSet profileImage={like.profileImage} username={like.user.username} />
+                <ProfileSet profileImage={like.profileImage} username={like.user.username!} />
                 {isFollowButton(targetUserID) && <FollowButton targetUserID={targetUserID} />}
               </Row>
             );

@@ -21,7 +21,8 @@ interface Props {
 }
 
 function Comment({ postID, comment }: Props) {
-  const [likeCount, setLikeCount] = useState(comment.likes?.length ?? 0);
+  const commentLikes = comment.likes ?? [];
+  const [likeCount, setLikeCount] = useState(commentLikes.length);
   return (
     <Row justifyContent='space-between'>
       <Row alignItems='center'>
@@ -42,7 +43,7 @@ function Comment({ postID, comment }: Props) {
         <CommentLikeButton
           postID={postID}
           commentID={comment._id!}
-          commentLikes={comment.likes!}
+          commentLikes={commentLikes}
           setLikeCount={setLikeCount}
           margin={COMMENT_LIKE_BUTTON_MARGIN}
         />
