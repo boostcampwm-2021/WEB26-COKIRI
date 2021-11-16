@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { CommentLike } from 'src/models';
-import { Enums } from 'src/utils';
+import { SELECT } from 'src/utils';
 
 class CommentLikeService {
   async createCommentLike(userID: string, commentID: string) {
@@ -19,7 +19,7 @@ class CommentLikeService {
 
   async findCommentLikes(commentID: Types.ObjectId) {
     const likes = await CommentLike.find({ commentID }, '-commentID')
-      .populate('user', Enums.select.USER)
+      .populate('user', SELECT.USER)
       .lean();
     return likes.map((like) => {
       const newLike = { ...like };

@@ -1,5 +1,5 @@
 import { Comment, User } from 'src/models';
-import { Enums } from 'src/utils';
+import { ERROR, SELECT } from 'src/utils';
 import { CommentLikeService } from 'src/services';
 import { CommentType } from 'src/types';
 
@@ -7,15 +7,13 @@ class CommentService {
   async existsComment(userID: string, postID: string, commentID: string) {
     const isExist = await Comment.exists({ _id: commentID, postID, userID });
     if (!isExist) {
-      throw new Error(Enums.error.NO_COMMENTS);
+      throw new Error(ERROR.NO_COMMENTS);
     }
   }
 
   async createComment(userID: string, content: string, postID: string) {
     const comment = await Comment.create({ userID, content, postID });
-    const newComment = await Comment.findById(comment._id)
-      .populate('user', Enums.select.USER)
-      .lean();
+    const newComment = await Comment.findById(comment._id).populate('user', SELECT.USER).lean();
     delete newComment!.userID;
     delete newComment!.postID;
     return newComment;
@@ -24,7 +22,7 @@ class CommentService {
   async findComments(postID: string) {
     const comments: CommentType[] = await Comment.find({ postID }, '-postID')
       .sort({ createdAt: 1 })
-      .populate('user', Enums.select.USER)
+      .populate('user', SELECT.USER)
       .lean();
     return Promise.all(
       comments.map(async (comment) => {

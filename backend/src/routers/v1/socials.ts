@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { Enums, JWT, Query } from 'src/utils';
+import { OPENAPIURL, JWT, Query } from 'src/utils';
 import { TistoryService } from 'src/services';
 
 @Controller('/socials')
@@ -36,7 +36,7 @@ export default class SocialsRouter {
   getTistory(@Req() request: Request, @Res() response: Response) {
     const { redirect_uri: redirectURIQuery } = request.query;
     const redirectURI: string = (redirectURIQuery as string) || '/';
-    return `${Enums.openAPIUrl.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
+    return `${OPENAPIURL.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
       client_id: process.env.TISTORY_CLIENT_ID,
       redirect_uri: process.env.TISTORY_CALLBACK_URL,
       response_type: 'code',
@@ -69,6 +69,10 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('github', { session: false }))
   @Redirect(`${process.env.CLIENT_URL}`)
   getGithubCallback(@Req() request: Request, @Res() response: Response) {
-    response.json({});
+    const accessToken = JWT.createAccessToken(request.user!);
+    response.cookie('jwt', accessToken, {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+    });
   }
 }

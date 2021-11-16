@@ -1,5 +1,5 @@
 import { PostLike } from 'src/models';
-import { Enums } from 'src/utils';
+import { SELECT } from 'src/utils';
 
 class PostLikeService {
   async createPostLike(userID: string, postID: string) {
@@ -16,9 +16,7 @@ class PostLikeService {
   }
 
   async findPostLikes(postID: string) {
-    const likes = await PostLike.find({ postID }, '-postID')
-      .populate('user', Enums.select.USER)
-      .lean();
+    const likes = await PostLike.find({ postID }, '-postID').populate('user', SELECT.USER).lean();
     return likes.map((like) => {
       const newLike = { ...like };
       delete newLike.userID;

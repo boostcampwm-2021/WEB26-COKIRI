@@ -3,11 +3,15 @@ import { nanoid } from 'nanoid';
 import { User } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
-import { Enums, ObjectID } from 'src/utils';
+import { ERROR, AUTH, ObjectID } from 'src/utils';
 
 class UserService {
   async existsUser(user: UserType): Promise<boolean> {
     return User.exists({ _id: user.userID });
+  }
+
+  async existGithubUser(username: string): Promise<boolean> {
+    return User.exists({ githubUsername: username });
   }
 
   async existsRegisteredUser(user: UserType): Promise<boolean> {
@@ -20,6 +24,12 @@ class UserService {
 
   async existsUserForUsername(query: string): Promise<boolean> {
     return User.exists({ username: query });
+  }
+
+  async findUserGithubUsername(userID: string): Promise<string | undefined> {
+    const result = await User.findOne({ _id: userID }, 'githubUsername -_id');
+    if (result === null) return undefined;
+    return result.githubUsername;
   }
 
   async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
@@ -43,7 +53,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (!result) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result;
   }
@@ -54,7 +64,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (result.length === 0) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result[0];
   }
@@ -86,19 +96,23 @@ class UserService {
       { $sample: { size: 20 } },
     ]);
     if (result.length === 0) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return result;
   }
 
+  async updateGithubUserInfo(username: string, info: any) {
+    return User.findOneAndUpdate({ githubUsername: username }, info, { new: true });
+  }
+
   async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
-    const blockList = Enums.auth.SETTING_BLOCK_LIST;
+    const blockList = AUTH.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
-      throw new Error(Enums.error.WRONG_BODY_TYPE);
+      throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     blockList.forEach((property: string) => {
       if (userConfig[property as keyof UserSchemaType]) {
-        throw new Error(Enums.error.WRONG_BODY_TYPE);
+        throw new Error(ERROR.WRONG_BODY_TYPE);
       }
     });
     await User.updateOne(

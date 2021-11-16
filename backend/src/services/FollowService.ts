@@ -1,7 +1,7 @@
 import { Follow } from 'src/models';
 import { FollowType } from 'src/types';
 import { Types } from 'mongoose';
-import { Enums } from 'src/utils';
+import { SELECT } from 'src/utils';
 
 class FollowService {
   async countFollows(userID: Types.ObjectId) {
@@ -32,14 +32,14 @@ class FollowService {
 
   async findFollows(userID: string) {
     const follows: FollowType[] = await Follow.find({ followerID: userID })
-      .populate('follow', Enums.select.USER)
+      .populate('follow', SELECT.USER)
       .lean();
     return follows.map((follow) => follow.follow);
   }
 
   async findFollowers(userID: string) {
     const followers: FollowType[] = await Follow.find({ followID: userID })
-      .populate('follower', Enums.select.USER)
+      .populate('follower', SELECT.USER)
       .lean();
     return followers.map((follower) => follower.follower);
   }
