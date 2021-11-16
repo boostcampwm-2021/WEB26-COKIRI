@@ -13,7 +13,7 @@ import Card from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
-import PostType from 'src/types/post';
+import { PostType } from 'src/types';
 
 import { POST_CARD_WIDTH } from 'src/globals/constants';
 

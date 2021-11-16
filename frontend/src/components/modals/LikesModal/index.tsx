@@ -20,7 +20,7 @@ interface Props {
 
 function LikesModal({ postID, onClose }: Props) {
   const user = useRecoilValue(userAtom);
-  const { data } = useQuery(['posts', postID], () => Fetcher.getPostLikes(user, postID));
+  const { data } = useQuery(['posts', 'likes', postID], () => Fetcher.getPostLikes(user, postID));
 
   const isFollowButton = (targetUserID: string) =>
     !(user.follows!.some((follow) => follow === targetUserID) || targetUserID === user._id);
