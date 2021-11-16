@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
 
@@ -27,18 +26,15 @@ function User({ targetUser }: Props) {
   const setPosts = useSetRecoilState(postsAtom);
 
   const isUserExist = Object.keys(targetUser).length !== 0;
-  const { isSuccess, data: posts } = useQuery(['user', 'posts', targetUser._id], () => {
-    if (isUserExist) {
-      return Fetcher.getUserPosts(targetUser);
-    }
-    return [];
-  });
-  useEffect(() => {
-    if (isSuccess) {
-      setPosts(posts!);
-    }
-  }, [isSuccess, posts, setPosts]);
-
+  const { isFetched } = useQuery(
+    ['user', 'posts', targetUser._id],
+    () => Fetcher.getUserPosts(targetUser),
+    {
+      onSuccess: (posts) => {
+        setPosts(posts);
+      },
+    },
+  );
   return (
     <>
       <Head>
@@ -53,7 +49,7 @@ function User({ targetUser }: Props) {
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
-              <Timeline />
+              {!isFetched && <Timeline />}
             </>
           ) : (
             <>없다!</>

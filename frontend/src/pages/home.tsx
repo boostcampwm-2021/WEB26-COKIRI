@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
@@ -11,6 +11,7 @@ import SuggestionCard from 'src/components/cards/SuggestionCard';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
+  followsSelector,
   hasFollowSelector,
   isAuthenticatedSelector,
   isRegisteredSelector,
@@ -27,27 +28,33 @@ import { HOME_DESCRIPTION } from 'src/globals/descriptions';
 function Home() {
   const user = useRecoilValue(userAtom);
   const hasFollow = useRecoilValue(hasFollowSelector);
+  const follows = useRecoilValue(followsSelector);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
   const setPosts = useSetRecoilState(postsAtom);
 
-  const {
-    isSuccess,
-    data: posts,
-    refetch,
-  } = useQuery(['home', 'posts', user._id], () => Fetcher.getPosts(user));
+  const [hasFollowTemp] = useState(hasFollow);
+  const { refetch, isFetched } = useQuery(
+    ['home', 'posts', user._id],
+    () => Fetcher.getPosts(user),
+    {
+      onSuccess: (posts) => {
+        setPosts(posts!);
+      },
+    },
+  );
 
-  useEffect(() => {
-    if (isSuccess) {
-      setPosts(posts!);
-    }
-  }, [isSuccess, posts, setPosts]);
-
+  // when registered
   useEffect(() => {
     if (isRegistered) {
       refetch();
     }
   }, [isRegistered, refetch]);
+
+  // when follows new user
+  useEffect(() => {
+    refetch();
+  }, [follows]);
 
   return (
     <>
@@ -61,8 +68,8 @@ function Home() {
       <Page.Main>
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {isAuthenticated && !hasFollow && <SuggestionCard />}
-          {isAuthenticated && isRegistered && <Timeline />}
+          {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
+          {isAuthenticated && isRegistered && isFetched && <Timeline />}
         </Col>
       </Page.Main>
       {isAuthenticated && <FloatingButton />}
