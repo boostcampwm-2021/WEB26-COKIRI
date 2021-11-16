@@ -5,11 +5,12 @@ import { Wrapper } from './style';
 
 interface Props {
   username: string;
+  marginRight?: number;
 }
 
-function UsernameButton({ username }: Props) {
+function UsernameButton({ username, marginRight }: Props) {
   return (
-    <Wrapper>
+    <Wrapper marginRight={marginRight!}>
       <Link href={`/users/${username}`} passHref>
         <a>{username}</a>
       </Link>
@@ -19,6 +20,11 @@ function UsernameButton({ username }: Props) {
 
 UsernameButton.propsType = {
   username: PropTypes.string.isRequired,
+  marginRight: PropTypes.number,
+};
+
+UsernameButton.defaultProps = {
+  marginRight: 0,
 };
 
 export default UsernameButton;
