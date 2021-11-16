@@ -35,7 +35,7 @@ class UserService {
   async findOneUserTistoryAccessToken(userID: string) {
     const user = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
     if (!user) {
-      throw new Error(Enums.error.NO_USERS);
+      throw new Error(ERROR.NO_USERS);
     }
     return user!.tistoryAccessToken;
   }

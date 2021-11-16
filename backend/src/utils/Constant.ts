@@ -26,6 +26,7 @@ export const ERROR = {
   NO_COMMENTS: '댓글이 존재하지 않습니다.',
   NO_QUERY: '검색 내용이 존재하지 않습니다.',
   NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
+  INVALID_TISTORY_ACCESS_TOKEN: 'Tistory Access Token 이 유효하지 않습니다.',
 };
 
 export const OPENAPIURL = {
@@ -33,6 +34,8 @@ export const OPENAPIURL = {
   PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
   TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
   TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
+  TISTORY_POSTS: 'https://www.tistory.com/apis/post/list',
+  TISTORY_POST_READ: 'https://www.tistory.com/apis/post/read',
   TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
   GIT_REPOLIST_API: (username: string) => `https://api.github.com/users/${username}/repos`,
   GIT_REPOINFO_API: (githubUsername: string, repoName: string) =>

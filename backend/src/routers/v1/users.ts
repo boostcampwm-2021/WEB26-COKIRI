@@ -80,7 +80,7 @@ export default class UsersRouter {
   async getUserSetting(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const userSettings = await UserService.findOneUserSettingForID(userID);
     return response.json(userSettings);
@@ -91,7 +91,7 @@ export default class UsersRouter {
   async getUserSuggestions(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID);
     // @TODO 사용자 정보 기반 추천
@@ -110,7 +110,7 @@ export default class UsersRouter {
   async getUserTistory(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await BlogService.findUserBlogs(userID);
     return response.json(posts);
@@ -142,7 +142,7 @@ export default class UsersRouter {
   async getTistoryPostContent(@Req() request: Request, @Res() response: Response) {
     const { userID, identity, postID } = request.params;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     const postContent = await TistoryService.getPostContent(userID, identity, postID);
     return response.json(postContent);
@@ -182,10 +182,10 @@ export default class UsersRouter {
   async putUser(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
-    return response.json({ code: Enums.responseCode.SUCCESS });
+    return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
   @Delete('/:userID/follows')

@@ -42,22 +42,22 @@ class PostService {
       case undefined:
       case 'normal':
         if (link || blog || blogIdentity) {
-          throw new Error(Enums.error.WRONG_BODY_TYPE);
+          throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'blog':
         if (!link || !blog || !blogIdentity || images?.length) {
-          throw new Error(Enums.error.WRONG_BODY_TYPE);
+          throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'github':
         if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(Enums.error.WRONG_BODY_TYPE);
+          throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'algorithm':
         if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(Enums.error.WRONG_BODY_TYPE);
+          throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       default:
@@ -117,9 +117,7 @@ class PostService {
 
   async findPost(postID: string) {
     const post = await Post.findOne({ _id: postID })
-      .populate({        path: 'user',
-        select: SELECT.USER,
-      })
+      .populate({ path: 'user', select: SELECT.USER })
       .lean();
     if (!post) throw new Error(ERROR.NO_POSTS);
     delete post!.userID;
@@ -136,7 +134,7 @@ class PostService {
       'blogIdentity blog blogPostID -_id',
     ).lean();
     if (post.blog !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
-      throw new Error(Enums.error.NO_POSTS);
+      throw new Error(ERROR.NO_POSTS);
     }
     const newBlogContent = await TistoryService.getPostContent(
       userID,

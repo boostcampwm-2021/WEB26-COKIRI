@@ -54,7 +54,7 @@ export default class PostsRouter {
     const { userID } = request.body;
     const { postID } = request.params;
     if (userID !== request.user?.userID) {
-      throw new Error(Enums.error.PERMISSION_DENIED);
+      throw new Error(ERROR.PERMISSION_DENIED);
     }
     await PostService.updateTistoryPost(userID, postID);
     const results = await Promise.all([
