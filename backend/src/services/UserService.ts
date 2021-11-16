@@ -93,7 +93,7 @@ class UserService {
 
   async findRandomUserSuggestions(userID: string) {
     const result: UserSchemaType[] = await User.aggregate([
-      { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] } } },
+      { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] }, isRegistered: true } },
       {
         $project: {
           _id: { $toString: '$_id' },
