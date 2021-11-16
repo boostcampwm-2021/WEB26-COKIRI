@@ -30,8 +30,6 @@ export const FLOATING_BUTTON_HEIGHT = 64;
 export const SOCIAL_BUTTON_WIDTH = 64;
 export const SOCIAL_BUTTON_HEIGHT = 64;
 
-export const COMMENT_LIKE_BUTTON_WIDTH = 24;
-export const COMMENT_LIKE_BUTTON_HEIGHT = 24;
 export const COMMENT_LIKE_BUTTON_SIZE = 20;
 export const COMMENT_LIKE_BUTTON_PADDING = 2;
 
