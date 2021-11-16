@@ -48,7 +48,7 @@ class Validate {
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {
-      const regx = new RegExp(`^[a-zA-Z0-9_-]{${min},${max}}$`);
+      const regx = new RegExp(`^[a-z0-9_-]{${min},${max}}$`);
       return regx.test(str);
     };
   }

@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { OPENAPIURL, JWT, Query } from 'src/utils';
-import { TistoryService, VelogService } from 'src/services';
+import { OPENAPIURL, JWT, Query, ERROR } from 'src/utils';
+import { BlogService, TistoryService, VelogService } from 'src/services';
 
 @Controller('/socials')
 export default class SocialsRouter {
@@ -74,8 +74,34 @@ export default class SocialsRouter {
   @Get('/velog')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getVelog(@Req() request: Request, @Res() response: Response) {
-    const { velogURL } = request.body;
-    const html = await VelogService.findUserEmail(velogURL);
+    const { user_id: userID, blog_username: blogUsername } = request.query;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const isExistsBlog = await BlogService.existsVelogBlog(
+      userID as string,
+      blogUsername as string,
+    );
+    return response.json(isExistsBlog);
+  }
+
+  @Put('/velog')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putVelog(@Req() request: Request, @Res() response: Response) {
+    const { blogUsername, userID } = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const isExistsBlog = await BlogService.existsVelogBlog(userID, blogUsername);
+    if (isExistsBlog) {
+      throw new Error(ERROR.IS_EXIST_VELOG);
+    }
+    const html = await VelogService.sendAuthorizationEmail(userID, blogUsername);
     return response.send(html);
+  }
+
+  @Get('/velog/callback')
+  async getVelogCallback(@Req() request: Request, @Res() response: Response) {
+    return response.send('<script>alert("인증이 완료되었습니다."); window.close();</script > ');
   }
 }
