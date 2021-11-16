@@ -58,7 +58,7 @@ export const POST_CARD_WIDTH = 600;
 
 export const SIGNIN_CARD_WIDTH = 500;
 
-export const RECOMMENDATION_CARD_WIDTH = 800;
+export const SUGGESTION_CARD_WIDTH = 800;
 
 export const USER_INFO_CARD_WIDTH = 500;
 
