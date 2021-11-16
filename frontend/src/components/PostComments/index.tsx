@@ -15,15 +15,7 @@ function PostComments({ postID, comments }: Props) {
   return (
     <Wrapper>
       {comments.map((comment) => (
-        <Comment
-          key={comment._id}
-          postID={postID}
-          commentID={comment._id}
-          commentLikes={comment.likes}
-          profileImage={comment.user.profileImage}
-          username={comment.user.username!}
-          content={comment.content}
-        />
+        <Comment key={comment._id} postID={postID} comment={comment} />
       ))}
     </Wrapper>
   );

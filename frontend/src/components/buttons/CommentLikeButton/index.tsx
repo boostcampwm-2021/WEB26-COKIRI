@@ -17,13 +17,14 @@ import IconButton from 'src/components/buttons/IconButton';
 interface Props {
   postID: string;
   commentID: string;
-  commentLikes: LikeType[];
+  commentLikes?: LikeType[];
+  margin?: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
 }
 
-function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount }: Props) {
+function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, margin }: Props) {
   const user = useRecoilValue(userAtom);
-  const like = commentLikes.find((commentLike) => commentLike.user._id === user._id);
+  const like = commentLikes!.find((commentLike) => commentLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
   const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
   const postCommentLike = () => Fetcher.postCommentLike(user, postID, commentID);
@@ -50,6 +51,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount }: Pr
       onClick={handleClickDislike}
       size={COMMENT_LIKE_BUTTON_SIZE}
       padding={COMMENT_LIKE_BUTTON_PADDING}
+      margin={margin}
     >
       <IoHeartSharp />
     </IconButton>
@@ -58,6 +60,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount }: Pr
       onClick={handleClickLike}
       size={COMMENT_LIKE_BUTTON_SIZE}
       padding={COMMENT_LIKE_BUTTON_PADDING}
+      margin={margin}
     >
       <IoHeartOutline />
     </IconButton>
@@ -66,8 +69,14 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount }: Pr
 
 CommentLikeButton.propTypes = {
   postID: PropTypes.string.isRequired,
-  commentLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
+  commentLikes: PropTypes.arrayOf(PropTypes.any),
   setLikeCount: PropTypes.func.isRequired,
+  margin: PropTypes.number,
+};
+
+CommentLikeButton.defaultProps = {
+  margin: 0,
+  commentLikes: [],
 };
 
 export default CommentLikeButton;

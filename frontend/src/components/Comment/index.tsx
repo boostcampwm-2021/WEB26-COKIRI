@@ -4,58 +4,59 @@ import PropTypes from 'prop-types';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 import CommentLikeButton from 'src/components/buttons/CommentLikeButton';
-import { Col, Row } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
-import { DEFAULT_PROFILE_IMAGE } from 'src/globals/constants';
+import {
+  DEFAULT_PROFILE_IMAGE,
+  COMMENT_PROFILE_IMAGE_SIZE,
+  COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT,
+  COMMENT_USERNAME_BUTTON_MARGIN_RIGHT,
+} from 'src/globals/constants';
 
-import { LikeType } from 'src/types';
+import { CommentType } from 'src/types';
 
 interface Props {
   postID: string;
-  commentID: string;
-  commentLikes?: LikeType[];
-  profileImage?: string;
-  username: string;
-  content: string;
+  comment?: CommentType;
 }
 
-function Comment({ postID, commentID, commentLikes, profileImage, username, content }: Props) {
-  const [likeCount, setLikeCount] = useState(commentLikes!.length);
+function Comment({ postID, comment }: Props) {
+  const [likeCount, setLikeCount] = useState(comment?.likes?.length ?? 0);
+  const profileImage = comment?.user.profileImage ?? DEFAULT_PROFILE_IMAGE;
   return (
-    <Col>
-      <Row justifyContent='space-between'>
-        <Row>
-          <ProfileImageButton size={28} profileImage={profileImage} />
-          <Col>
-            <Row>
-              <UsernameButton username={username} />
-              <p>{content}</p>
-            </Row>
-            <Row>{likeCount !== 0 && <p>좋아요{likeCount}개</p>}</Row>
-          </Col>
-        </Row>
+    <Row justifyContent='space-between'>
+      <Row alignItems='center'>
+        <ProfileImageButton
+          size={COMMENT_PROFILE_IMAGE_SIZE}
+          profileImage={profileImage}
+          username={comment?.user.username}
+          marginRight={COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
+        />
+        <UsernameButton
+          username={comment?.user.username!}
+          marginRight={COMMENT_USERNAME_BUTTON_MARGIN_RIGHT}
+        />
+        <p>{comment?.content}</p>
+      </Row>
+      <Row justifyContent='flex-end' alignItems='center'>
+        {likeCount !== 0 && <p>좋아요{likeCount}개</p>}
         <CommentLikeButton
           postID={postID}
-          commentID={commentID}
-          commentLikes={commentLikes!}
+          commentID={comment?._id!}
+          commentLikes={comment?.likes}
           setLikeCount={setLikeCount}
         />
       </Row>
-    </Col>
+    </Row>
   );
 }
 
 Comment.propTypes = {
   postID: PropTypes.string.isRequired,
-  commentID: PropTypes.string.isRequired,
-  commentLikes: PropTypes.arrayOf(PropTypes.any),
-  profileImage: PropTypes.string,
-  username: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  comment: PropTypes.objectOf(PropTypes.any),
 };
 
 Comment.defaultProps = {
-  commentLikes: [],
-  profileImage: DEFAULT_PROFILE_IMAGE,
+  comment: [],
 };
 export default Comment;
