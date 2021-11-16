@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Post, Delete, Get, UseBefore } from 'routing-controllers';
+import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
@@ -34,18 +34,21 @@ export default class PostsRouter {
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
-    const results = await Promise.all([
-      PostService.findPost(postID),
-      CommentService.findComments(postID),
-      PostLikeService.findPostLikes(postID),
-      ImageService.findPostImage(postID),
-    ]);
-    return response.json({
-      ...results[0],
-      comments: results[1],
-      likes: results[2],
-      images: results[3],
-    });
+    const post = await PostService.findPost(postID);
+    return response.json(post);
+  }
+
+  @Put('/:postID/tistory')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putTistoryPost(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.body;
+    const { postID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    await PostService.updateTistoryPost(userID, postID);
+    const post = await PostService.findPost(postID);
+    return response.json(post);
   }
 
   @Post('/')
@@ -97,7 +100,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(userID, postID, commentID);
+    await CommentService.existsComment(postID, commentID, undefined);
     const _id = await CommentLikeService.createCommentLike(userID, commentID);
     return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
   }
@@ -139,7 +142,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(request.user!.userID, postID, commentID);
+    await CommentService.existsComment(postID, commentID, userID);
     await CommentService.removeComment(postID, commentID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
@@ -152,7 +155,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(userID, postID, commentID);
+    await CommentService.existsComment(postID, commentID, userID);
     await CommentLikeService.removeCommentLike(commentID, likeID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }

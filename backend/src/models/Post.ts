@@ -13,7 +13,16 @@ const postSchema = new Schema<PostType>(
       type: [{ type: Types.ObjectId, ref: 'Tag', required: true, validate: Validate.tagObjectID }],
       default: [],
     },
+    type: {
+      type: String,
+      enum: ['normal', 'github', 'blog', 'algorithm'],
+      required: true,
+      default: 'normal',
+    },
     link: { type: String, trim: true },
+    blog: { type: String, enum: ['tistory'] },
+    blogIdentity: String,
+    blogPostID: String,
   },
   { versionKey: false, timestamps: true },
 );

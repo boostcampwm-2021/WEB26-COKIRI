@@ -12,7 +12,7 @@ import {
 } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, UserService, GitService } from 'src/services';
+import { PostService, UserService, GitService, BlogService, TistoryService } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 import FollowService from 'src/services/FollowService';
 
@@ -93,10 +93,7 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    if (typeof userID !== 'string') {
-      throw new Error(ERROR.WRONG_QUERY_TYPE);
-    }
-    const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID as string);
+    const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID);
     // @TODO 사용자 정보 기반 추천
     return response.json(randomUserSuggestions);
   }
@@ -106,6 +103,17 @@ export default class UsersRouter {
     const { userID } = request.params;
     const follows = await FollowService.findFollows(userID);
     return response.json(follows);
+  }
+
+  @Get('/:userID/blogs')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getUserTistory(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const posts = await BlogService.findUserBlogs(userID);
+    return response.json(posts);
   }
 
   @Get('/:userID/followers')
@@ -129,19 +137,18 @@ export default class UsersRouter {
     return response.json(result);
   }
 
-  @Get('/:userID/repositories/contribution')
+  @Get('/:userID/tistory/:identity/posts/:postID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async getRepoContribution(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    if (userID !== request.user!.userID) {
+  async getTistoryPostContent(@Req() request: Request, @Res() response: Response) {
+    const { userID, identity, postID } = request.params;
+    if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const result = await GitService.findContribution(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, result });
+    const postContent = await TistoryService.getPostContent(userID, identity, postID);
+    return response.json(postContent);
   }
 
-  @Get('/:userID/repositories/:repoName')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  @Get('/:githubUsername/repositories/:repoName')
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { userID, repoName } = request.params;
     if (userID !== request.user!.userID) {

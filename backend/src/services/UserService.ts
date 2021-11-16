@@ -32,6 +32,14 @@ class UserService {
     return result.githubUsername;
   }
 
+  async findOneUserTistoryAccessToken(userID: string) {
+    const user = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
+    if (!user) {
+      throw new Error(ERROR.NO_USERS);
+    }
+    return user!.tistoryAccessToken;
+  }
+
   async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
     const result = await User.findOne(userAuthProvider).select({ _id: true });
     if (result === null) return undefined;
@@ -85,7 +93,7 @@ class UserService {
 
   async findRandomUserSuggestions(userID: string) {
     const result: UserSchemaType[] = await User.aggregate([
-      { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] } } },
+      { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] }, isRegistered: true } },
       {
         $project: {
           _id: { $toString: '$_id' },

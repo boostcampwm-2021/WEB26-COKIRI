@@ -50,14 +50,8 @@ export default class SocialsRouter {
   async getTistoryCallback(@Req() request: Request, @Res() response: Response) {
     const { code } = request.query;
     await TistoryService.updateOneUserAccessToken(code as string, request.user!.userID);
+    await TistoryService.updateOneUserBlogURL(request.user!.userID);
     return `${process.env.CLIENT_URL}${request.query.state}`;
-  }
-
-  @Get('/tistory/url')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async getTistoryURL(@Req() request: Request, @Res() response: Response) {
-    await TistoryService.updateOneUserURL(request.user!.userID);
-    return response.json();
   }
 
   @Get('/github')

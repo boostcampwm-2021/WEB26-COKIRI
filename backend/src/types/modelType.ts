@@ -32,7 +32,6 @@ export interface UserType {
   username?: string;
   githubUsername?: string;
   tistoryAccessToken?: string;
-  tistoryURL?: string;
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
@@ -95,6 +94,10 @@ export interface PostType {
   link?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  blog?: 'tistory';
+  blogIdentity?: string;
+  blogPostID?: string;
 }
 
 export interface PostLikeType {
@@ -154,4 +157,12 @@ export interface LanguageType {
   _id?: Types.ObjectId;
   language?: string;
   color?: string;
+}
+
+export interface BlogType {
+  _id?: Types.ObjectId;
+  identity?: string;
+  url?: string;
+  type?: 'tistory';
+  userID?: Types.ObjectId;
 }

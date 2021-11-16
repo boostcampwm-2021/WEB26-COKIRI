@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 
 import { Post, Image } from 'src/models';
 import { ERROR, SELECT, PERPAGE } from 'src/utils';
-import { CommentService, PostLikeService } from 'src/services/index';
+import { CommentService, PostLikeService, TistoryService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
@@ -37,13 +37,34 @@ class PostService {
 
   async createPost(data: any) {
     let { images } = data;
+    const { link, type, blog, blogIdentity } = data;
+    switch (type) {
+      case undefined:
+      case 'normal':
+        if (link || blog || blogIdentity) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'blog':
+        if (!link || !blog || !blogIdentity || images?.length) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'github':
+        if (!link || blog || blogIdentity || images?.length) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'algorithm':
+        if (!link || blog || blogIdentity || images?.length) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      default:
+    }
     const post = await Post.create(data);
-
     if (images?.length > 0) {
-      images = images.map((uri: string) => ({
-        url: uri,
-        targetID: post._id,
-      }));
+      images = images.map((v: any) => ({ url: v, targetID: post._id }));
       if (images) await Image.insertMany(images);
     }
     const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
@@ -67,6 +88,7 @@ class PostService {
           link: true,
           createdAt: true,
           updatedAt: true,
+          type: true,
         },
       },
     ]);
@@ -95,18 +117,43 @@ class PostService {
 
   async findPost(postID: string) {
     const post = await Post.findOne({ _id: postID })
-      .populate({
-        path: 'user',
-        select: SELECT.USER,
-      })
+      .populate({ path: 'user', select: SELECT.USER })
       .lean();
     if (!post) throw new Error(ERROR.NO_POSTS);
     delete post!.userID;
-    return post;
+    const results = await Promise.all([
+      CommentService.findComments(postID),
+      PostLikeService.findPostLikes(postID),
+      ImageService.findPostImage(postID),
+    ]);
+    return { ...post, comments: results[0], likes: results[1], images: results[2] };
   }
 
   async findPostCount(userID: Types.ObjectId) {
     return Post.countDocuments({ userID }).exec();
+  }
+
+  async updateTistoryPost(userID: string, postID: string) {
+    const post: PostType = await Post.findOne(
+      { _id: postID },
+      'blogIdentity blog blogPostID -_id',
+    ).lean();
+    if (post.blog !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
+      throw new Error(ERROR.NO_POSTS);
+    }
+    const newBlogContent = await TistoryService.getPostContent(
+      userID,
+      post.blogIdentity,
+      post.blogPostID,
+    );
+    return Post.updateOne(
+      { _id: postID },
+      {
+        link: newBlogContent.link,
+        title: newBlogContent.title,
+        content: newBlogContent.content,
+      },
+    );
   }
 
   async removePost(postID: string) {
