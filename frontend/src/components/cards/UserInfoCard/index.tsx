@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import CardCommon from 'src/components/cards/Common';
-import FollowButton from 'src/components/buttons/FollowButton';
-import UnfollowButton from 'src/components/buttons/UnfollowButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import ProfileImage from 'src/components/images/ProfileImage';
+import FollowSet from 'src/components/sets/FollowSet';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -27,20 +26,15 @@ interface Props {
 function UserInfoCard({ targetUser, user }: Props) {
   const { profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
-  const [isFollow, setIsFollow] = useState(user.follows?.includes(targetUser._id!));
+
+  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
+
   const handleFollow = useCallback(() => {
     setFollowerCount((prevState) => prevState + 1);
-    setIsFollow(true);
   }, []);
   const handleUnfollow = useCallback(() => {
     setFollowerCount((prevState) => prevState - 1);
-    setIsFollow(false);
   }, []);
-  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
-  const isFollower = useMemo(
-    () => user.followers?.includes(targetUser._id!),
-    [targetUser._id, user.followers],
-  );
 
   return (
     <Wrapper>
@@ -60,20 +54,11 @@ function UserInfoCard({ targetUser, user }: Props) {
                   <IoSettingsOutline />
                 </NavigateIconButton>
               ) : (
-                (() => {
-                  if (isFollow) {
-                    return (
-                      <UnfollowButton targetUserID={targetUser._id!} onUnfollow={handleUnfollow} />
-                    );
-                  }
-                  return (
-                    <FollowButton
-                      isFollower={isFollower!}
-                      targetUserID={targetUser._id!}
-                      onFollow={handleFollow}
-                    />
-                  );
-                })()
+                <FollowSet
+                  targetUser={targetUser}
+                  onFollow={handleFollow}
+                  onUnfollow={handleUnfollow}
+                />
               )}
             </Row>
             <Row>
