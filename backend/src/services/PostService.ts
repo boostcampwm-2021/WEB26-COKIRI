@@ -106,12 +106,13 @@ class PostService {
   async findTimeline(userID: string, cursor: number) {
     const follows = await FollowService.findFollowsID(userID);
     const containsArray = !follows ? [userID] : [...follows, userID];
-    const posts = await Post.find({ userID: { $in: containsArray } })
+    let posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
       .skip(PERPAGE * (cursor - 1))
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
+    posts = posts.map((v) => ({ ...v, nextCursor: cursor + 1 }));
     return this.getPostArray(posts);
   }
 
