@@ -20,8 +20,9 @@ class Fetcher {
 
   static async getUsersByUsername(token: string, username: string): Promise<UserType> {
     try {
-      const result = await axios.get(`${baseURL}/${version}/users?username=${username}`, {
+      const result = await axios.get(`${baseURL}/${version}/users`, {
         headers: { Authorization: `Bearer ${token}` },
+        params: { username },
       });
       return result.data;
     } catch (error) {
@@ -34,8 +35,9 @@ class Fetcher {
     if (user._id === undefined || !user.isRegistered) {
       return [];
     }
-    const result = await axios.get(`${baseURL}/${version}/posts/?user_id=${user._id}&offset=${0}`, {
+    const result = await axios.get(`${baseURL}/${version}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
+      params: { user_id: user._id, offset: 0 },
     });
     return result.data;
   }
