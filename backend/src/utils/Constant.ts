@@ -55,6 +55,6 @@ export const SELECT = {
   USER: 'username profileImage',
 };
 
-export const PERPAGE = 20;
+export const PERPAGE = 10;
 
 export const VELOG_URL = (username: string) => `https://velog.io/@${username}`;

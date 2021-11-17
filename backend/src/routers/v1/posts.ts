@@ -10,11 +10,11 @@ export default class PostsRouter {
   @Get('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID, offset } = request.query;
+    const { user_id: userID, cursor } = request.query;
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const posts = await PostService.findTimeline(userID as string, +offset!);
+    const posts = await PostService.findTimeline(userID as string, +cursor!);
     return response.json(posts);
   }
 
