@@ -31,7 +31,7 @@ interface Props {
 }
 
 function DetailPost({ post }: Props) {
-  const [likeCount, setLikeCount] = useState(post.likes!.length);
+  const [likeCount, setLikeCount] = useState(post.likes?.length ?? 0);
   const [comments, setComments] = useState<CommentType[]>([]);
   useEffect(() => {
     setComments(post.comments!);
