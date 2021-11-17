@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 
@@ -12,7 +12,6 @@ import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
-  followsSelector,
   hasFollowSelector,
   isAuthenticatedSelector,
   isRegisteredSelector,
@@ -30,33 +29,16 @@ import { FAVICON } from 'src/globals/constants';
 function Home() {
   const user = useRecoilValue(userAtom);
   const hasFollow = useRecoilValue(hasFollowSelector);
-  const follows = useRecoilValue(followsSelector);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
   const setPosts = useSetRecoilState(postsAtom);
 
   const [hasFollowTemp] = useState(hasFollow);
-  const { refetch, isFetched } = useQuery(
-    ['home', 'posts', user._id],
-    () => Fetcher.getPosts(user),
-    {
-      onSuccess: (posts) => {
-        setPosts(posts!);
-      },
+  const { isFetched } = useQuery(['home', 'posts', user], () => Fetcher.getPosts(user), {
+    onSuccess: (posts) => {
+      setPosts(posts!);
     },
-  );
-
-  // when registered
-  useEffect(() => {
-    if (isRegistered) {
-      refetch();
-    }
-  }, [isRegistered, refetch]);
-
-  // when follows new user
-  useEffect(() => {
-    refetch();
-  }, [follows, refetch]);
+  });
 
   return (
     <>
