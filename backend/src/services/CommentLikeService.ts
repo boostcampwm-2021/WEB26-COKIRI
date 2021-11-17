@@ -29,7 +29,7 @@ class CommentLikeService {
   }
 
   async removeCommentLike(commentID: string, likeID: string) {
-    return CommentLike.remove({ commentID, likeID });
+    return CommentLike.remove({ commentID, _id: likeID });
   }
 
   async removeCommentLikes(commentID: string) {

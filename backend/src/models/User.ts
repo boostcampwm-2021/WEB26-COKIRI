@@ -34,7 +34,14 @@ const userSchema = new Schema<UserType>(
       unique: true,
     },
     githubUsername: { type: String, trim: true },
-    tistoryAccessToken: { type: String, trim: true },
+    blogAuthentication: {
+      tistory: String,
+      velog: {
+        token: String,
+        ttl: Number,
+        createdAt: Date,
+      },
+    },
     profileImage: {
       type: String,
       validate: [Validate.url, 'URL 형식이 잘못되었습니다.'],

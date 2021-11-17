@@ -31,7 +31,14 @@ export interface UserType {
   name?: string;
   username?: string;
   githubUsername?: string;
-  tistoryAccessToken?: string;
+  blogAuthentication?: {
+    tistory?: string;
+    velog?: {
+      token: string;
+      ttl: number;
+      createdAt: Date;
+    };
+  };
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
@@ -95,7 +102,7 @@ export interface PostType {
   createdAt?: Date;
   updatedAt?: Date;
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
-  blog?: 'tistory';
+  blog?: 'tistory' | 'velog';
   blogIdentity?: string;
   blogPostID?: string;
 }
@@ -163,6 +170,6 @@ export interface BlogType {
   _id?: Types.ObjectId;
   identity?: string;
   url?: string;
-  type?: 'tistory';
+  type?: 'tistory' | 'velog';
   userID?: Types.ObjectId;
 }

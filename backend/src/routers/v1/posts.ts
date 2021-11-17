@@ -114,11 +114,7 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     await PostService.existsPost(postID, userID);
-    await Promise.all([
-      PostService.removePost(postID),
-      ImageService.removePostImage(postID),
-      CommentService.removeComments(postID),
-    ]);
+    await PostService.removePost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
@@ -130,7 +126,10 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await PostLikeService.removePostLike(userID, postID, likeID);
+    const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
+    if (!deletedCount) {
+      throw new Error(ERROR.NO_POST_LIKES);
+    }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
 
@@ -155,8 +154,11 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await CommentService.existsComment(postID, commentID, userID);
-    await CommentLikeService.removeCommentLike(commentID, likeID);
+    await CommentService.existsComment(postID, commentID, undefined);
+    const { deletedCount } = await CommentLikeService.removeCommentLike(commentID, likeID);
+    if (!deletedCount) {
+      throw new Error(ERROR.NO_COMMENT_LIKES);
+    }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
 }

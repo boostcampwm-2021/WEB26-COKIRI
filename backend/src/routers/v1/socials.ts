@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get, UseBefore, Redirect } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { OPENAPIURL, JWT, Query } from 'src/utils';
-import { TistoryService } from 'src/services';
+import { OPENAPIURL, JWT, Query, ERROR } from 'src/utils';
+import { BlogService, TistoryService, VelogService } from 'src/services';
 
 @Controller('/socials')
 export default class SocialsRouter {
@@ -68,5 +68,51 @@ export default class SocialsRouter {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
     });
+    return response;
+  }
+
+  @Get('/velog')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getVelog(@Req() request: Request, @Res() response: Response) {
+    const { user_id: userID, blog_username: blogUsername } = request.query;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const isExistsBlog = await BlogService.existsVelogBlog(
+      userID as string,
+      blogUsername as string,
+    );
+    return response.json(isExistsBlog);
+  }
+
+  @Put('/velog')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putVelog(@Req() request: Request, @Res() response: Response) {
+    const { blogUsername, userID } = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const isExistsBlog = await BlogService.existsVelogBlog(userID, blogUsername);
+    if (isExistsBlog) {
+      throw new Error(ERROR.IS_EXIST_VELOG);
+    }
+    await VelogService.sendAuthorizationEmail(userID, blogUsername);
+    return response.send();
+  }
+
+  @Get('/velog/callback')
+  async getVelogCallback(@Req() request: Request, @Res() response: Response) {
+    const { identity, user_id: userID, token } = request.query;
+    let alertMessage;
+    if (!identity || !userID || !token) {
+      alertMessage = ERROR.INVALID_REQUEST;
+    } else {
+      alertMessage = await VelogService.compassAuthorization(
+        userID as string,
+        identity as string,
+        token as string,
+      );
+    }
+    return response.send(`<script>alert("${alertMessage}"); window.close();</script > `);
   }
 }

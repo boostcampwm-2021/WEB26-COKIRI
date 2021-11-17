@@ -78,14 +78,17 @@ class TistoryService {
         grant_type: 'authorization_code',
       },
     });
-    return User.updateOne({ _id: userID }, { tistoryAccessToken: result.data.access_token });
+    return User.updateOne(
+      { _id: userID },
+      { 'blogAuthentication.tistory': result.data.access_token },
+    );
   }
 
   async updateOneUserBlogURL(userID: string) {
-    const result = await User.findOne({ _id: userID }, 'tistoryAccessToken -_id');
+    const result = await User.findOne({ _id: userID }, 'blogAuthentication.tistory -_id').lean();
     try {
       const tistoryInfoResult = await axios.get(OPENAPIURL.TISTORY_INFO, {
-        params: { access_token: result!.tistoryAccessToken, output: 'json' },
+        params: { access_token: result?.blogAuthentication!.tistory, output: 'json' },
       });
       const { blogs } = tistoryInfoResult.data.tistory.item;
       let tistoryBlog: any;
