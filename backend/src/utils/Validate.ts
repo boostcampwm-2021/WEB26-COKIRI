@@ -12,7 +12,7 @@ import {
   ImageType,
   FollowType,
   EchoMessageType,
-  DashboardPostType,
+  DashboardRepositoryType,
   DashboardHistoryType,
   CommentLikeType,
 } from 'src/types';
@@ -40,7 +40,7 @@ class Validate {
 
   static EchoMessageModel: Model<EchoMessageType> | undefined;
 
-  static DashboardPostModel: Model<DashboardPostType> | undefined;
+  static DashboardRepositoryModel: Model<DashboardRepositoryType> | undefined;
 
   static DashboardHistoryModel: Model<DashboardHistoryType> | undefined;
 

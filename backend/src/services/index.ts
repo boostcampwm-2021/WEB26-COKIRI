@@ -10,3 +10,4 @@ export { default as SearchService } from './SearchService';
 export { default as VelogService } from './VelogService';
 export { default as ImageService } from './ImageService';
 export { default as ObjectStroageService } from './ObjectStroageService';
+export { default as NotifyService } from './NotifyService';

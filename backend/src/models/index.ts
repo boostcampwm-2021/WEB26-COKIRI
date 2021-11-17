@@ -2,7 +2,7 @@ import { Validate } from 'src/utils';
 import Comment from './Comment';
 import CommentLike from './CommentLike';
 import DashboardHistory from './DashboardHistory';
-import DashboardPost from './DashboardRepository';
+import DashboardRepository from './DashboardRepository';
 import EchoMessage from './EchoMessage';
 import EchoRoom from './EchoRoom';
 import Follow from './Follow';
@@ -25,7 +25,7 @@ Validate.PostLikeModel = PostLike;
 Validate.ImageModel = Image;
 Validate.FollowModel = Follow;
 Validate.EchoMessageModel = EchoMessage;
-Validate.DashboardPostModel = DashboardPost;
+Validate.DashboardRepositoryModel = DashboardRepository;
 Validate.DashboardHistoryModel = DashboardHistory;
 Validate.CommentModel = Comment;
 Validate.CommentLikeModel = CommentLike;
@@ -34,7 +34,7 @@ export {
   Comment,
   CommentLike,
   DashboardHistory,
-  DashboardPost,
+  DashboardRepository,
   EchoMessage,
   EchoRoom,
   Follow,
