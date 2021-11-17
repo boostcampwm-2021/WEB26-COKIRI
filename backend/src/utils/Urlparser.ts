@@ -1,7 +1,5 @@
-/* eslint import/prefer-default-export: 0 */
-
-class Urlparser {
+class URLParser {
   splitObjectUrl = (objectUrl: string): string => objectUrl.split('cocoo/')[1];
 }
 
-export default new Urlparser();
+export default new URLParser();

@@ -9,4 +9,4 @@ export * from './Constant';
 export { default as Query } from './Query';
 export { default as Calculate } from './Calculate';
 export { default as Mailer } from './Mailer';
-export { default as Urlparser } from './Urlparser';
+export { default as URLParser } from './URLParser';

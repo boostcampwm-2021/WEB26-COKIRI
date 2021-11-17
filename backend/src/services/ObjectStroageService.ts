@@ -1,4 +1,4 @@
-import S3 from 'src/utils/objectStorage';
+import S3 from 'src/utils/ObjectStorage';
 
 class ObjectStroageService {
   async deleteObject(objectName: string) {
