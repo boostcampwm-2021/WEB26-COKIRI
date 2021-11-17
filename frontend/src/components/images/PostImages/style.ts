@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
-import { POST_IMAGE_WIDTH } from 'src/globals/constants';
-
 interface Props {
-  count: number;
+  count?: number;
+  width: number;
 }
-const Wrapper = styled.div`
-  width: 100%;
+
+const Wrapper = styled.div<Props>`
+  width: ${({ width }) => `${width}px`};
   position: relative;
   margin: 0 auto;
   overflow: hidden;
@@ -16,12 +16,12 @@ const ImageHolder = styled.ul<Props>`
   display: flex;
   list-style: none;
   transition: 0.5s ease-in-out;
-  width: ${({ count }) => count * POST_IMAGE_WIDTH}px;
+  width: ${({ count, width }) => count! * width}px;
   li {
     height: 100%;
   }
   img {
-    border-radius: 20px;
+    background: #222222;
   }
 `;
 
@@ -32,4 +32,5 @@ const SlideButtons = styled.div`
   top: 50%;
   height: 28px;
 `;
+
 export { Wrapper, ImageHolder, SlideButtons };
