@@ -1,21 +1,24 @@
 import Head from 'next/head';
+import { useSetRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
 
+import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
-import RandomTimeline from 'src/components/RandomTimeline';
+import { Col } from 'src/components/Grid';
 
 import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 
-import { PostType } from 'src/types';
+import randomPostsAtom from 'src/recoil/randomPosts';
 
 import { Fetcher } from 'src/utils';
 
-interface Props {
-  posts: PostType[];
-}
-
-function Random({ posts }: Props) {
+function Random() {
+  const setRandomPosts = useSetRecoilState(randomPostsAtom);
+  const { isFetched } = useQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
+    onSuccess: (randomPosts) => setRandomPosts(randomPosts),
+  });
   return (
     <div>
       <Head>
@@ -26,16 +29,11 @@ function Random({ posts }: Props) {
 
       <Header />
       <Page.Main>
-        <RandomTimeline posts={posts!} />
+        <Col alignItems='center'>{isFetched && <Timeline random />}</Col>
       </Page.Main>
       <footer />
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const posts = await Fetcher.getRandomPosts();
-  return { props: { posts } };
 }
 
 export default Random;
