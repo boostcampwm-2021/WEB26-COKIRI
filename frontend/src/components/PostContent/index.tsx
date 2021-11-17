@@ -10,10 +10,11 @@ import { Wrapper } from './style';
 interface Props {
   content: string;
   width?: number;
+  detail?: boolean;
 }
 
-function PostContent({ content, width }: Props) {
-  const [isExpand, setIsExpand] = useState(false);
+function PostContent({ content, width, detail }: Props) {
+  const [isExpand, setIsExpand] = useState(detail);
   const isShort = content.length < POST_CONTENT_LIMIT_LENGTH;
   const shortContent = content.substr(0, POST_CONTENT_LIMIT_LENGTH);
   const handleClick = () => {
@@ -41,10 +42,12 @@ function PostContent({ content, width }: Props) {
 PostContent.propTypes = {
   content: PropTypes.string.isRequired,
   width: PropTypes.number,
+  detail: PropTypes.bool,
 };
 
 PostContent.defaultProps = {
   width: DEFAULT_POST_CONTENT_WIDTH,
+  detail: false,
 };
 
 export default PostContent;
