@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import ModalCommon from 'src/components/modals/Common';
 import ProfileSet from 'src/components/sets/ProfileSet';
-import FollowButton from 'src/components/buttons/FollowButton';
+import FollowSet from 'src/components/sets/FollowSet';
 import { Row, Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -22,23 +22,17 @@ function LikesModal({ postID, onClose }: Props) {
   const user = useRecoilValue(userAtom);
   const { data } = useQuery(['posts', 'likes', postID], () => Fetcher.getPostLikes(user, postID));
 
-  const isFollowButton = (targetUserID: string) =>
-    !(user.follows!.some((follow) => follow === targetUserID) || targetUserID === user._id);
-
   return (
     <Wrapper>
       <ModalCommon onClose={onClose} close='닫기'>
         좋아요
         <Col>
-          {data?.map((like) => {
-            const targetUserID = like.user._id!;
-            return (
-              <Row justifyContent='space-between' key={like.user.username}>
-                <ProfileSet profileImage={like.profileImage} username={like.user.username!} />
-                {isFollowButton(targetUserID) && <FollowButton targetUserID={targetUserID} />}
-              </Row>
-            );
-          })}
+          {data?.map((like) => (
+            <Row justifyContent='space-between' key={like.user.username}>
+              <ProfileSet profileImage={like.user.profileImage} username={like.user.username!} />
+              <FollowSet targetUserID={like.user._id!} />
+            </Row>
+          ))}
         </Col>
       </ModalCommon>
     </Wrapper>
