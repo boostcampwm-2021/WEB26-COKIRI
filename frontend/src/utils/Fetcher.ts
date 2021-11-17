@@ -59,6 +59,13 @@ class Fetcher {
     await axios.get(`${baseURL}/${version}/users/logout`);
   }
 
+  static async getSearch(query: string): Promise<UserType[]> {
+    const result = await axios.get(`${baseURL}/${version}/search`, {
+      params: { query },
+    });
+    return result.data;
+  }
+
   static async getUserSuggestions(user: UserType): Promise<UserType[]> {
     if (user._id === undefined || !user.isRegistered) {
       return [];
