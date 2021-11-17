@@ -6,6 +6,7 @@ import Header from 'src/components/Header';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
+import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -45,11 +46,12 @@ function User({ targetUser }: Props) {
 
       <Header />
       <Page.Main>
+        <LoadingIndicator />
         <Col alignItems='center'>
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
-              {!isFetched && <Timeline />}
+              {isFetched && <Timeline />}
             </>
           ) : (
             <>없다!</>
