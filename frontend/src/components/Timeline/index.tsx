@@ -6,6 +6,7 @@ import postsAtom from 'src/recoil/posts';
 
 function Timeline() {
   const posts = useRecoilValue(postsAtom);
+
   return (
     <>
       {posts.map((post) => (

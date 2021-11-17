@@ -25,6 +25,7 @@ import { Page } from 'src/styles';
 import { Fetcher } from 'src/utils';
 
 import { HOME_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
 
 function Home() {
   const user = useRecoilValue(userAtom);
@@ -62,7 +63,7 @@ function Home() {
       <Head>
         <title>COCOO</title>
         <meta name='description' content={HOME_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href={FAVICON} />
       </Head>
 
       <Header />

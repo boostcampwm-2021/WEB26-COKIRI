@@ -8,6 +8,7 @@ import UserSettingsCard from 'src/components/cards/UserSettingsCard';
 import { Row } from 'src/components/Grid';
 
 import { SETTING_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
 
 import { Page } from 'src/styles';
 
@@ -23,7 +24,7 @@ function Settings() {
       <Head>
         <title>COCOO</title>
         <meta name='description' content={SETTING_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href={FAVICON} />
       </Head>
 
       <Header />
@@ -33,7 +34,6 @@ function Settings() {
         </Row>
       </Page.Main>
       <FloatingButton />
-      <footer />
     </>
   );
 }
