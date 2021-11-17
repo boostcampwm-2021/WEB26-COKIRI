@@ -20,6 +20,7 @@ const Button = styled.button<Props>`
   border-radius: 50px;
   box-shadow: ${({ plain }) => (plain ? 'unset' : '5px 5px 10px #3a3a3a, -5px -5px 10px #4e4e4e')};
   visibility: ${({ hidden }) => (hidden ? 'hidden' : 'unset')};
+  white-space: nowrap;
 
   a {
     padding: 16px;
