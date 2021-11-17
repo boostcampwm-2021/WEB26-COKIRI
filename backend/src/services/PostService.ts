@@ -157,7 +157,12 @@ class PostService {
   }
 
   async removePost(postID: string) {
-    return Promise.all([Post.remove({ _id: postID }), PostLikeService.removePostLikes(postID)]);
+    return Promise.all([
+      Post.remove({ _id: postID }),
+      PostLikeService.removePostLikes(postID),
+      ImageService.removePostImage(postID),
+      CommentService.removeComments(postID),
+    ]);
   }
 }
 

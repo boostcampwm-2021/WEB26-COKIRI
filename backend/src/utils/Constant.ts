@@ -25,6 +25,8 @@ export const ERROR = {
   NO_COMMENTS: '댓글이 존재하지 않습니다.',
   NO_BLOGS: '연동된 블로그가 존재하지 않습니다.',
   NO_QUERY: '검색 내용이 존재하지 않습니다.',
+  NO_POST_LIKES: '게스글 좋아요가 존재하지 않습니다.',
+  NO_COMMENT_LIKES: '댓글 좋아요가 존재하지 않습니다.',
   NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
   INVALID_TISTORY_ACCESS_TOKEN: 'Tistory Access Token 이 유효하지 않습니다.',
   INVALID_REQUEST: '잘못된 요청입니다.',
