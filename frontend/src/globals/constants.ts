@@ -3,8 +3,8 @@ export const LOGO_IMAGE = '/images/logo_image.svg';
 export const FAVICON = '/favicon.ico';
 
 // IMAGE
-export const POST_IMAGE_WIDTH = 600;
-export const POST_IMAGE_HEIGHT = 360;
+export const DEFAULT_POST_IMAGE_WIDTH = 600;
+export const DEFAULT_POST_IMAGE_HEIGHT = 360;
 
 export const DEFAULT_PROFILE_IMAGE_SIZE = 36;
 
@@ -21,6 +21,9 @@ export const POST_WRITE_PREVIEW_IMAGE_WIDTH = 100;
 export const POST_WRITE_PREVIEW_IMAGE_HEIGHT = 100;
 
 export const COMMENT_PROFILE_IMAGE_SIZE = 28;
+
+export const DETAIL_POST_IMAGE_WIDTH = 700;
+export const DETAIL_POST_IMAGE_HEIGHT = 700;
 
 // BUTTON
 export const LOGO_BUTTON_WIDTH = 144;
@@ -44,15 +47,23 @@ export const COMMENT_USERNAME_BUTTON_MARGIN_RIGHT = 8;
 export const POST_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT = 8;
 export const POST_USERNAME_BUTTON_MARGIN_RIGHT = 8;
 
+export const DETAIL_PROFILE_SET_MARGIN_LEFT = 8;
+
 // ICON
 export const SOCIAL_ICON_SIZE = 48;
 
 export const DEFAULT_ICON_SIZE = 24;
 
+export const DETAIL_COMMENT_ICON_SIZE = 18;
+
+export const DETAIL_COMMENT_ICON_PADDING = 12;
+
 // INPUT
 export const SEARCH_INPUT_WIDTH = 136;
 
-export const COMMENT_INPUT_WIDTH = 340;
+export const DEFAULT_COMMENT_INPUT_WIDTH = 340;
+
+export const DETAIL_COMMENT_INPUT_WIDTH = 150;
 
 // CARD
 export const POST_CARD_WIDTH = 600;
@@ -67,6 +78,8 @@ export const USER_SETTING_CARD_WIDTH = 800;
 
 // POST
 export const POST_CONTENT_LIMIT_LENGTH = 100;
+export const DEFAULT_POST_CONTENT_WIDTH = 575;
+export const DETAIL_POST_CONTENT_WIDTH = 300;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;
