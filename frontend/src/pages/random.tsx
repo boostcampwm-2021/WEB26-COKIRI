@@ -7,6 +7,7 @@ import Header from 'src/components/Header';
 import { Col } from 'src/components/Grid';
 
 import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
 
 import { Page } from 'src/styles';
 
@@ -17,22 +18,21 @@ import { Fetcher } from 'src/utils';
 function Random() {
   const setPosts = useSetRecoilState(postsAtom);
   const { isFetched } = useQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
-    onSuccess: (randomPosts) => setPosts(randomPosts),
+    onSuccess: (posts) => setPosts(posts),
   });
   return (
-    <div>
+    <>
       <Head>
         <title>COCOO</title>
         <meta name='description' content={RANDOM_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href={FAVICON} />
       </Head>
 
       <Header />
       <Page.Main>
         <Col alignItems='center'>{isFetched && <Timeline />}</Col>
       </Page.Main>
-      <footer />
-    </div>
+    </>
   );
 }
 

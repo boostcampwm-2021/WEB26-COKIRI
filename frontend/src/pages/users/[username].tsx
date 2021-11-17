@@ -14,6 +14,7 @@ import { UserType } from 'src/types';
 import { Fetcher } from 'src/utils';
 
 import { USERS_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
 
 import { Page } from 'src/styles';
 
@@ -41,7 +42,7 @@ function User({ targetUser }: Props) {
       <Head>
         <title>COCOO</title>
         <meta name='description' content={USERS_DESCRIPTION} />
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href={FAVICON} />
       </Head>
 
       <Header />
@@ -59,7 +60,6 @@ function User({ targetUser }: Props) {
         </Col>
       </Page.Main>
       <FloatingButton />
-      <footer />
     </>
   );
 }
