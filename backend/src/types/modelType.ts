@@ -19,12 +19,18 @@ export interface NotifyRangeType {
 }
 
 export interface DashboardType {
+  name: string;
+  phoneNumber: string;
+  school: string;
+  region: string;
+  birthday: Date;
   github: string;
   blog: string;
   solvedac: string;
   email: string;
   profileImage: string;
   jobObjectives: string[];
+  techStacks: object;
 }
 
 export interface UserType {
@@ -34,11 +40,7 @@ export interface UserType {
   githubUsername?: string;
   blogAuthentication?: {
     tistory?: string;
-    velog?: {
-      token: string;
-      ttl: number;
-      createdAt: Date;
-    };
+    velog?: { token: string; ttl: number; createdAt: Date };
   };
   profileImage?: string;
   authProvider?: string;
