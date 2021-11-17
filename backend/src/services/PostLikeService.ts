@@ -25,11 +25,11 @@ class PostLikeService {
   }
 
   async removePostLike(userID: string, postID: string, likeID: string) {
-    return PostLike.remove({ _id: likeID, userID, postID });
+    return PostLike.deleteOne({ _id: likeID, userID, postID });
   }
 
   async removePostLikes(postID: string) {
-    return PostLike.remove({ postID });
+    return PostLike.deleteMany({ postID });
   }
 }
 

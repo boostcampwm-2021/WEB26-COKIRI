@@ -16,8 +16,4 @@ const imageSchema = new Schema<ImageType>(
   { versionKey: false },
 );
 
-imageSchema.pre('remove', function temp() {
-  console.log(this._id);
-});
-
 export default model<ImageType>('Image', imageSchema);

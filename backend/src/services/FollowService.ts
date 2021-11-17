@@ -45,7 +45,7 @@ class FollowService {
   }
 
   async removeFollow(followerID: string, followID: string) {
-    return Follow.remove({ followerID, followID });
+    return Follow.deleteOne({ followerID, followID });
   }
 }
 

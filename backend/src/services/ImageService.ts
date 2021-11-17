@@ -6,7 +6,7 @@ class ImageService {
   }
 
   async removePostImage(postID: string) {
-    return Image.remove({ targetID: postID });
+    return Image.deleteMany({ targetID: postID });
   }
 }
 
