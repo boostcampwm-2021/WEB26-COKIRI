@@ -99,13 +99,15 @@ export interface PostType {
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  link?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  link?: string;
+  externalContent?: string;
+  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
   blog?: 'tistory' | 'velog';
   blogIdentity?: string;
   blogPostID?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface PostLikeType {
