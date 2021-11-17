@@ -2,7 +2,7 @@ import { Validate } from 'src/utils';
 import Comment from './Comment';
 import CommentLike from './CommentLike';
 import DashboardHistory from './DashboardHistory';
-import DashboardPost from './DashboardPost';
+import DashboardPost from './DashboardRepository';
 import EchoMessage from './EchoMessage';
 import EchoRoom from './EchoRoom';
 import Follow from './Follow';

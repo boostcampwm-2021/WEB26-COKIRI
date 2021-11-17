@@ -59,7 +59,7 @@ export interface UserType {
   lastVisitedAt?: Date;
 }
 
-export interface DashboardPostType {
+export interface DashboardRepositoryType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
   title?: string;
