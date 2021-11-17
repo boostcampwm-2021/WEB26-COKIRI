@@ -8,6 +8,7 @@ import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import SuggestionCard from 'src/components/cards/SuggestionCard';
+import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
@@ -54,7 +55,7 @@ function Home() {
   // when follows new user
   useEffect(() => {
     refetch();
-  }, [follows]);
+  }, [follows, refetch]);
 
   return (
     <>
@@ -66,6 +67,7 @@ function Home() {
 
       <Header />
       <Page.Main>
+        <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
