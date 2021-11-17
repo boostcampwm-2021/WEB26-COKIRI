@@ -1,19 +1,53 @@
 import { useState } from 'react';
+import { useMutation } from 'react-query';
 import { IoSearchSharp } from 'react-icons/io5';
 
 import InputCommon from 'src/components/inputs/Common';
+import HeaderModal from 'src/components/modals/HeaderModal';
+import FollowSet from 'src/components/sets/FollowSet';
+import ProfileSet from 'src/components/sets/ProfileSet';
+import { Row } from 'src/components/Grid';
 
 import { SEARCH_INPUT_WIDTH } from 'src/globals/constants';
 
+import { Fetcher } from 'src/utils';
+
+import { UserType } from 'src/types';
+
 function SearchInput() {
-  const [value, setValue] = useState('');
+  const [userResults, setUserResults] = useState<UserType[]>([]);
+  const mutation = useMutation((value: string) => Fetcher.getSearch(value));
+
+  const handleChange = async (value: string) => {
+    if (value !== '') {
+      const results = await mutation.mutateAsync(value);
+      setUserResults(results);
+    } else {
+      setUserResults([]);
+    }
+  };
+
   return (
-    <InputCommon
-      bind={[value, setValue]}
-      placeholder='search'
-      width={SEARCH_INPUT_WIDTH}
-      icon={<IoSearchSharp />}
-    />
+    <>
+      {userResults.length !== 0 && (
+        <HeaderModal left>
+          {userResults.map(({ _id, username, profileImage }) => (
+            <Row key={_id} justifyContent='space-between' alignItems='center'>
+              <Row alignItems='center'>
+                <ProfileSet username={username!} profileImage={profileImage} />
+              </Row>
+              <FollowSet targetUserID={_id!} />
+            </Row>
+          ))}
+        </HeaderModal>
+      )}
+      <InputCommon
+        placeholder='search'
+        width={SEARCH_INPUT_WIDTH}
+        icon={<IoSearchSharp />}
+        onChange={handleChange}
+      />
+    </>
   );
 }
 
