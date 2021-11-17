@@ -3,7 +3,6 @@ import { Types } from 'mongoose';
 export interface NotifyType {
   _id?: Types.ObjectId;
   type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
-  content?: string;
   userID?: Types.ObjectId;
   senderID?: Types.ObjectId;
   postID?: Types.ObjectId;

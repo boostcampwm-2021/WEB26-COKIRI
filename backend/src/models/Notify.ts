@@ -10,7 +10,6 @@ const notifySchema = new Schema<NotifyType>(
       enum: ['postComment', 'postLike', 'commentLike', 'follow'],
       required: true,
     },
-    content: { type: String, required: true },
     userID: {
       type: Types.ObjectId,
       ref: 'User',
