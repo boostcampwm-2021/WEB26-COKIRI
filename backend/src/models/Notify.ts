@@ -7,11 +7,18 @@ const notifySchema = new Schema<NotifyType>(
   {
     type: {
       type: String,
-      enum: ['postComment', 'postLike', 'commentLike', 'follow', 'follower'],
+      enum: ['postComment', 'postLike', 'commentLike', 'follow'],
       required: true,
     },
     content: { type: String, required: true },
     userID: {
+      type: Types.ObjectId,
+      ref: 'User',
+      required: true,
+      validate: Validate.userObjectID,
+      index: true,
+    },
+    senderID: {
       type: Types.ObjectId,
       ref: 'User',
       required: true,

@@ -5,6 +5,7 @@ export interface NotifyType {
   type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
   content?: string;
   userID?: Types.ObjectId;
+  senderID?: Types.ObjectId;
   postID?: Types.ObjectId;
   createdAt?: Date;
 }
