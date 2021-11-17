@@ -1,6 +1,6 @@
-import { Comment } from 'src/models';
+import { Comment, Post } from 'src/models';
 import { ERROR, SELECT } from 'src/utils';
-import { CommentLikeService } from 'src/services';
+import { CommentLikeService, NotifyService } from 'src/services';
 import { CommentType } from 'src/types';
 
 class CommentService {
@@ -18,6 +18,8 @@ class CommentService {
     const newComment = await Comment.findById(comment._id).populate('user', SELECT.USER).lean();
     delete newComment!.userID;
     delete newComment!.postID;
+    const post = await Post.findOne({ _id: postID }, 'userID -_id');
+    NotifyService.createNotify('postLike', userID, post?.userID, postID);
     return newComment;
   }
 
