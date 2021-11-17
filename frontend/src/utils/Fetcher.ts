@@ -81,6 +81,11 @@ class Fetcher {
     return result.data;
   }
 
+  static async getDetailPost(postID: string | string[]): Promise<PostType> {
+    const result = await axios.get(`${baseURL}/${version}/posts/${postID}`);
+    return result.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
