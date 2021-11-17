@@ -10,14 +10,14 @@ import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
 
 import { Page } from 'src/styles';
 
-import randomPostsAtom from 'src/recoil/randomPosts';
+import postsAtom from 'src/recoil/posts';
 
 import { Fetcher } from 'src/utils';
 
 function Random() {
-  const setRandomPosts = useSetRecoilState(randomPostsAtom);
+  const setPosts = useSetRecoilState(postsAtom);
   const { isFetched } = useQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
-    onSuccess: (randomPosts) => setRandomPosts(randomPosts),
+    onSuccess: (randomPosts) => setPosts(randomPosts),
   });
   return (
     <div>
@@ -29,7 +29,7 @@ function Random() {
 
       <Header />
       <Page.Main>
-        <Col alignItems='center'>{isFetched && <Timeline random />}</Col>
+        <Col alignItems='center'>{isFetched && <Timeline />}</Col>
       </Page.Main>
       <footer />
     </div>
