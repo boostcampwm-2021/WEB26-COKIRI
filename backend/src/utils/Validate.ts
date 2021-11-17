@@ -4,7 +4,7 @@ import {
   UserType,
   PostType,
   TagType,
-  LanguageType,
+  TechStackType,
   EchoRoomType,
   NotifyType,
   CommentType,
@@ -22,7 +22,7 @@ class Validate {
 
   static PostModel: Model<PostType> | undefined;
 
-  static LanguageModel: Model<LanguageType> | undefined;
+  static TechStackModel: Model<TechStackType> | undefined;
 
   static TagModel: Model<TagType> | undefined;
 
@@ -83,8 +83,8 @@ class Validate {
     return Validate.objectIDLogic(Validate.CommentModel, value);
   }
 
-  static languageObjectID(value: Types.ObjectId): Promise<boolean> {
-    return Validate.objectIDLogic(Validate.LanguageModel, value);
+  static techStackObjectID(value: Types.ObjectId): Promise<boolean> {
+    return Validate.objectIDLogic(Validate.TechStackModel, value);
   }
 
   static tagObjectID(value: Types.ObjectId): Promise<boolean> {

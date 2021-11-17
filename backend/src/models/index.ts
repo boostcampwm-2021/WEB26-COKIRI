@@ -7,7 +7,7 @@ import EchoMessage from './EchoMessage';
 import EchoRoom from './EchoRoom';
 import Follow from './Follow';
 import Image from './Image';
-import Language from './Language';
+import TechStack from './TechStack';
 import Notify from './Notify';
 import Post from './Post';
 import PostLike from './PostLike';
@@ -19,7 +19,7 @@ Validate.UserModel = User;
 Validate.PostModel = Post;
 Validate.TagModel = Tag;
 Validate.EchoRoomModel = EchoRoom;
-Validate.LanguageModel = Language;
+Validate.TechStackModel = TechStack;
 Validate.NotifyModel = Notify;
 Validate.PostLikeModel = PostLike;
 Validate.ImageModel = Image;
@@ -39,7 +39,7 @@ export {
   EchoRoom,
   Follow,
   Image,
-  Language,
+  TechStack,
   Notify,
   Post,
   PostLike,

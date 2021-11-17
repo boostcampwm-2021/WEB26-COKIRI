@@ -50,7 +50,7 @@ export interface UserType {
   school?: string;
   company?: string;
   region?: string;
-  languages?: Types.ObjectId[];
+  techStacks?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
   dashboard?: DashboardType;
   lastVisitedAt?: Date;
@@ -160,9 +160,9 @@ export interface TagType {
   count?: number;
 }
 
-export interface LanguageType {
+export interface TechStackType {
   _id?: Types.ObjectId;
-  language?: string;
+  techStack?: string;
   color?: string;
 }
 
