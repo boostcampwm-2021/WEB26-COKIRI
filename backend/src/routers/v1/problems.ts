@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get } from 'routing-controllers';
 
 import ProblemService from 'src/services/ProblemService';
-import { Enums } from 'src/utils';
+import { ERROR, RESPONSECODE } from 'src/utils';
 
 @Controller('/problems')
 export default class problemRouter {
@@ -10,16 +10,16 @@ export default class problemRouter {
   async getProblemSuggestions(@Req() request: Request, @Res() response: Response) {
     const { query } = request.query;
     if (typeof query !== 'string') {
-      throw new Error(Enums.error.WRONG_QUERY_TYPE);
+      throw new Error(ERROR.WRONG_QUERY_TYPE);
     }
     const problemSuggestions = await ProblemService.getSearchSuggestions(query);
-    return response.json(problemSuggestions);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: problemSuggestions });
   }
 
   @Get('/:problemID')
   async getProblem(@Req() request: Request, @Res() response: Response) {
     const { problemID } = request.params;
     const problemShowInformation = await ProblemService.getProblemShow(problemID);
-    return response.json(problemShowInformation);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: problemShowInformation });
   }
 }

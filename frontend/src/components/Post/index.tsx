@@ -1,55 +1,48 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { IoHeartOutline, IoPaperPlaneOutline, IoChatbubbleOutline } from 'react-icons/io5';
 
-import ProfileSet from 'src/components/ProfileSet';
+import ProfileSet from 'src/components/sets/ProfileSet';
 import CommentButton from 'src/components/buttons/CommentButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
-import PostImages from 'src/components/PostImages';
+import PostImages from 'src/components/images/PostImages';
 import PostContent from 'src/components/PostContent';
-import PostReview from 'src/components/PostReview';
-import LikeListButton from 'src/components/buttons/LikeListButton';
-import LikeListModal from 'src/components/modals/LikeListModal';
-import Card from 'src/components/cards/Common';
+import PostComments from 'src/components/PostComments';
+import LikesButton from 'src/components/buttons/LikesButton';
+import CardCommon from 'src/components/cards/Common';
+import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
-import PostType from 'src/types/post';
+import { CommentType, PostType } from 'src/types';
 
-import { Wrapper, Buttons } from './style';
+import { POST_CARD_WIDTH } from 'src/globals/constants';
 
 interface Props {
   post: PostType;
 }
 
 function Post({ post }: Props) {
-  const [isLikeListModal, setIsLikeListModal] = useState(false);
-  const handleClick = useCallback(() => setIsLikeListModal(true), []);
-  const handleClose = useCallback(() => setIsLikeListModal(false), []);
+  const [likeCount, setLikeCount] = useState(post.likes!.length);
+  const [comments, setComments] = useState<CommentType[]>([]);
+  useEffect(() => {
+    setComments(post.comments!);
+  }, [post.comments]);
+
+  const { _id, user, images, content, likes } = post;
   return (
-    <Wrapper>
-      <Card width={600} height={0}>
-        <ProfileSet image='' username='beomseok' />
-        {post.images.length !== 0 && <PostImages images={post.images} />}
-        <Row justifyContent='flex-start'>
-          <Buttons>
-            <CommentButton>
-              <IoHeartOutline />
-            </CommentButton>
-            <LikeButton>
-              <IoChatbubbleOutline />
-            </LikeButton>
-            <EchoButton href='echo/123'>
-              <IoPaperPlaneOutline />
-            </EchoButton>
-          </Buttons>
-        </Row>
-        <LikeListButton length={post.likes.length} onClick={handleClick} />
-        <PostContent content={post.content} />
-        <PostReview />
-        {isLikeListModal && <LikeListModal onClose={handleClose} />}
-      </Card>
-    </Wrapper>
+    <CardCommon width={POST_CARD_WIDTH}>
+      <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
+      {images!.length !== 0 && <PostImages images={images!} />}
+      <Row>
+        <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
+        <CommentButton postID={_id!} />
+        <EchoButton postID={_id!} />
+      </Row>
+      {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
+      <PostContent content={content!} />
+      <PostComments postID={_id!} comments={comments} />
+      <CommentInput postID={_id!} setComments={setComments} />
+    </CardCommon>
   );
 }
 

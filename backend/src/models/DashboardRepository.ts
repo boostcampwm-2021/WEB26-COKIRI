@@ -1,0 +1,15 @@
+import { Schema, model, Types } from 'mongoose';
+
+import { DashboardRepositoryType } from 'src/types/modelType';
+import { Validate } from 'src/utils';
+
+const dashboardRepositorySchema = new Schema<DashboardRepositoryType>(
+  {
+    userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
+    title: { type: String },
+    content: { type: String },
+  },
+  { versionKey: false, timestamps: true },
+);
+
+export default model<DashboardRepositoryType>('DashboardRepository', dashboardRepositorySchema);

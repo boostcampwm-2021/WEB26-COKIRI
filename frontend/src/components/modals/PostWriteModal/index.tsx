@@ -1,28 +1,32 @@
 import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
+import { IoMdImages } from 'react-icons/io';
 import PropTypes from 'prop-types';
 
-import Modal from 'src/components/modals/Common';
-import ImageUploadButton from 'src/components/buttons/ImageUploadButton';
-import ImagesPreview from 'src/components/ImagesPreview';
+import ModalCommon from 'src/components/modals/Common';
+import ImageInput from 'src/components/inputs/ImageInput';
+import PreviewImages from 'src/components/images/PreviewImages';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { Textarea, Wrapper } from './style';
+import { Textarea, IconHolder } from './style';
 
 interface Props {
+  onPostWrite: () => void;
   onClose: () => void;
 }
 
-function PostWriteModal({ onClose }: Props) {
+function PostWriteModal({ onClose, onPostWrite }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const user = useRecoilValue(userAtom);
   const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
-    onSuccess: () => onClose(),
+    onSuccess: () => {
+      onPostWrite();
+    },
   });
 
   const handleConfirm = () => {
@@ -47,22 +51,26 @@ function PostWriteModal({ onClose }: Props) {
   }, []);
 
   return (
-    <Wrapper>
-      <Modal close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
-        <ImageUploadButton onImageUpload={handleImageUpload} />
-        <Textarea autoFocus value={content} onChange={handleTextareaChange} />
-        <ImagesPreview images={images} onDelete={handleImageDelete} />
-      </Modal>
-    </Wrapper>
+    <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
+      <ImageInput onImageUpload={handleImageUpload}>
+        <IconHolder>
+          <IoMdImages />
+        </IconHolder>
+      </ImageInput>
+      <Textarea autoFocus value={content} onChange={handleTextareaChange} />
+      <PreviewImages images={images} onDelete={handleImageDelete} />
+    </ModalCommon>
   );
 }
 
 PostWriteModal.propTypes = {
   onClose: PropTypes.func,
+  onPostWrite: PropTypes.func,
 };
 
 PostWriteModal.defaultProps = {
   onClose: () => {},
+  onPostWrite: () => {},
 };
 
 export default PostWriteModal;

@@ -1,6 +1,6 @@
-import { Application } from 'express';
 import * as passport from 'passport';
 import * as GitHubStrategy from 'passport-github';
+import { User } from 'src/models';
 
 import { UserService } from 'src/services';
 
@@ -19,10 +19,19 @@ export default function passportGithubLoader(): void {
   ) => {
     try {
       const { id, login: username } = profile._json;
-      const user = await UserService.findOrCreateUserForProvider({
-        authProvider: 'github',
-        authProviderID: id,
-      });
+      const userIsExist = await UserService.existGithubUser(username);
+      let user;
+      if (userIsExist) {
+        const temp = await UserService.updateGithubUserInfo(username, { githubUsername: username });
+        user = { userID: temp };
+      } else {
+        user = await UserService.findOrCreateUserForProvider({
+          authProvider: 'github',
+          authProviderID: id,
+          githubUsername: username,
+        });
+      }
+
       return cb(null, user);
     } catch (err) {
       return cb(err);

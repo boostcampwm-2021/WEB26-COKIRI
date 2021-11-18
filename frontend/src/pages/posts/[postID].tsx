@@ -2,26 +2,29 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
+import DetailPost from 'src/components/DetailPost';
 
-import descriptions from 'src/globals/descriptions';
+import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
+
+import { Page } from 'src/styles';
 
 function Post() {
   const router = useRouter();
   const { postID } = router.query;
-
   return (
-    <div>
+    <>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.posts} />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name='description' content={POSTS_DESCRIPTION} />
+        <link rel='icon' href={FAVICON} />
       </Head>
 
       <Header />
-      <main>Post {postID}</main>
-
-      <footer />
-    </div>
+      <Page.Main>
+        <DetailPost postID={postID! as string} />
+      </Page.Main>
+    </>
   );
 }
 

@@ -1,7 +1,41 @@
-import { Button } from './style';
+import PropTypes from 'prop-types';
+import { useMutation } from 'react-query';
+import { useRecoilValue } from 'recoil';
 
-function FollowButton() {
-  return <Button>팔로우</Button>;
+import ButtonCommon from 'src/components/buttons/Common';
+
+import { Fetcher } from 'src/utils';
+
+import userAtom from 'src/recoil/user';
+
+interface Props {
+  targetUserID: string;
+  isFollower?: boolean;
+  onFollow: () => void;
 }
+
+function FollowButton({ targetUserID, isFollower, onFollow }: Props) {
+  const user = useRecoilValue(userAtom);
+  const mutation = useMutation(() => Fetcher.putUserFollow(user, targetUserID), {
+    onSuccess: () => {
+      onFollow();
+    },
+  });
+  const handleClick = () => {
+    mutation.mutate();
+  };
+  return <ButtonCommon onClick={handleClick}>{isFollower ? '맞Follow' : 'Follow'}</ButtonCommon>;
+}
+
+FollowButton.propTypes = {
+  targetUserID: PropTypes.string.isRequired,
+  isFollower: PropTypes.bool,
+  onFollow: PropTypes.func,
+};
+
+FollowButton.defaultProps = {
+  isFollower: false,
+  onFollow: () => {},
+};
 
 export default FollowButton;

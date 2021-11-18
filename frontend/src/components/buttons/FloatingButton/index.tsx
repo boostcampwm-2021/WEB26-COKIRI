@@ -1,10 +1,18 @@
 import { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 
+import ButtonCommon from 'src/components/buttons/Common';
 import PostWriteModal from 'src/components/modals/PostWriteModal';
 
-import { Wrapper, Button } from './style';
+import { FLOATING_BUTTON_WIDTH, FLOATING_BUTTON_HEIGHT } from 'src/globals/constants';
 
-function FloatingButton() {
+import { Wrapper } from './style';
+
+interface Props {
+  onPostWrite?: () => void;
+}
+
+function FloatingButton({ onPostWrite }: Props) {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const changeModalShow = useCallback(() => {
@@ -17,10 +25,24 @@ function FloatingButton() {
 
   return (
     <Wrapper>
-      {isModalShow && <PostWriteModal onClose={handleClose} />}
-      <Button onClick={changeModalShow}>작성</Button>
+      {isModalShow && <PostWriteModal onClose={handleClose} onPostWrite={onPostWrite} />}
+      <ButtonCommon
+        onClick={changeModalShow}
+        width={FLOATING_BUTTON_WIDTH}
+        height={FLOATING_BUTTON_HEIGHT}
+      >
+        작성
+      </ButtonCommon>
     </Wrapper>
   );
 }
+
+FloatingButton.prototype = {
+  onPostWrite: PropTypes.func,
+};
+
+FloatingButton.defaultProps = {
+  onPostWrite: () => {},
+};
 
 export default FloatingButton;

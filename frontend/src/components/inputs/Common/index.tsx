@@ -1,39 +1,50 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { Wrapper } from './style';
+import { Wrapper, Input } from './style';
 
 interface Props {
-  bind?: [string | undefined, Dispatch<SetStateAction<string | undefined>>];
+  bind: [string, Dispatch<SetStateAction<string>>];
   placeholder?: string;
+  width?: number;
+  icon?: ReactNode;
+  // eslint-disable-next-line no-unused-vars
+  onChange?: (state: string) => void;
 }
 
-function Input({ bind, placeholder }: Props) {
-  const state = bind![0] ?? '';
-  const setState = bind![1] ?? (() => {});
+function InputCommon({ bind, placeholder, width, icon, onChange }: Props) {
+  const [state, setState] = bind;
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setState(event.target.value);
+      const newState = event.target.value;
+      setState(newState);
+      onChange!(newState);
     },
-    [setState],
+    [onChange, setState],
   );
 
   return (
-    <Wrapper>
-      <input value={state} onChange={handleChange} placeholder={placeholder} />
+    <Wrapper width={width!}>
+      <Input width={width!} value={state} onChange={handleChange} placeholder={placeholder} />
+      {icon}
     </Wrapper>
   );
 }
 
-Input.propTypes = {
-  bind: PropTypes.arrayOf(PropTypes.any),
+InputCommon.propTypes = {
+  bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
+  width: PropTypes.number,
+  icon: PropTypes.node,
+  onChange: PropTypes.func,
 };
 
-Input.defaultProps = {
-  bind: ['', () => {}],
+InputCommon.defaultProps = {
   placeholder: '',
+  width: 0,
+  icon: '',
+  onChange: () => {},
 };
 
-export default Input;
+export default InputCommon;

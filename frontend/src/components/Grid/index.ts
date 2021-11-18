@@ -11,7 +11,6 @@ const Row = styled.div<Props>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   width: 100%;
-  height: 100%;
 `;
 
 const Col = styled.div<Props>`
@@ -20,7 +19,6 @@ const Col = styled.div<Props>`
   align-items: ${({ alignItems }) => alignItems};
   justify-content: ${({ justifyContent }) => justifyContent};
   width: 100%;
-  height: 100%;
 `;
 
 const Spacer = styled.div`
@@ -28,13 +26,13 @@ const Spacer = styled.div`
 `;
 
 Row.defaultProps = {
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: 'unset',
+  alignItems: 'unset',
 };
 
 Col.defaultProps = {
-  justifyContent: 'center',
-  alignItems: 'center',
+  justifyContent: 'unset',
+  alignItems: 'unset',
 };
 
 export { Row, Col, Spacer };

@@ -14,6 +14,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "react/function-component-definition": [2, { "namedComponents": "function-declaration" }],
+    "jsx-a11y/anchor-is-valid": "off",
     "no-underscore-dangle": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],

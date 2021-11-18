@@ -2,7 +2,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 
-import Modal from 'src/components/modals/Common';
+import ModalCommon from 'src/components/modals/Common';
+import InputCommon from 'src/components/inputs/Common';
+
 import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -13,24 +15,24 @@ function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
   const [username, setUsername] = useState('');
   const isModalShow = useMemo(() => user.isRegistered === false, [user]);
-  const putUserSettings = () => Fetcher.putUserSettings({ username }, user);
+
+  const putUserSettings = () => Fetcher.putUserSettings(user, { username });
   const mutation = useMutation(putUserSettings, {
-    onSuccess: () => setUser({ ...user, isRegistered: true }),
+    onSuccess: () => setUser({ ...user, isRegistered: true, username }),
   });
-  const handleOnConfirm = () => mutation.mutate();
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  }, []);
+  const handleOnConfirm = useCallback(() => mutation.mutate(), [mutation]);
+
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {isModalShow && (
-        <Modal onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
-          <Col>
+        <ModalCommon onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
+          <Col alignItems='center'>
             <p>회원가입에 필요한 절차에요</p>
             <p>username을 알려주세요~</p>
-            <input value={username} onChange={handleInputChange} type='text' />
+            <InputCommon bind={[username, setUsername]} />
           </Col>
-        </Modal>
+        </ModalCommon>
       )}
     </>
   );

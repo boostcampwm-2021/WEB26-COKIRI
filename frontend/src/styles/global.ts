@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 
-export default css`
+import { ThemeType } from 'src/types';
+
+const global = (theme: ThemeType) => css`
   * {
     color: #efefef;
     margin: 0;
@@ -9,7 +11,7 @@ export default css`
 
   html,
   main {
-    background-color: #444444;
+    background-color: ${theme.colors.background};
   }
 
   button {
@@ -21,11 +23,16 @@ export default css`
   input,
   Textarea {
     border: none;
-    background-color: transparent;
   }
 
   input:focus,
   textarea:focus {
     outline: none;
   }
+
+  img {
+    object-fit: cover;
+  }
 `;
+
+export default global;

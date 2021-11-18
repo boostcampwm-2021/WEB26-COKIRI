@@ -5,20 +5,29 @@ import { Wrapper } from './style';
 
 interface Props {
   username: string;
+  marginRight?: number;
+  width?: number;
 }
 
-function ProfileUsernameButton({ username }: Props) {
+function UsernameButton({ username, marginRight, width }: Props) {
   return (
-    <Wrapper>
-      <Link href={`/users/${username}`}>
-        <a href={`/users/${username}`}>{username}</a>
+    <Wrapper marginRight={marginRight!} width={width!}>
+      <Link href={`/users/${username}`} passHref>
+        <a>{username}</a>
       </Link>
     </Wrapper>
   );
 }
 
-ProfileUsernameButton.propsType = {
+UsernameButton.propsType = {
   username: PropTypes.string.isRequired,
+  marginRight: PropTypes.number,
+  width: PropTypes.number,
 };
 
-export default ProfileUsernameButton;
+UsernameButton.defaultProps = {
+  marginRight: 0,
+  width: 0,
+};
+
+export default UsernameButton;

@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
-  margin-left: 15px;
-  width: 575px;
-  word-break: break-all;
+interface Props {
+  width: number;
+}
+
+const Wrapper = styled.div<Props>`
+  margin: 16px;
+  width: ${({ width }) => `${width}px`};
 `;
 
-const Button = styled.button`
-  color: #888888;
-`;
-
-export { Wrapper, Button };
+// eslint-disable-next-line import/prefer-default-export
+export { Wrapper };

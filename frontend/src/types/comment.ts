@@ -1,5 +1,10 @@
-export default interface commentType {
-  writer: string;
+import LikeType from './like';
+import UserType from './user';
+
+export default interface CommentType {
+  _id: string;
   content: string;
-  likeCount?: number;
+  user: UserType;
+  likes?: LikeType[];
+  createdAt: Date;
 }

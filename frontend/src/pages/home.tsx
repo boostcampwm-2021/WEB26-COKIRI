@@ -1,67 +1,67 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useInfiniteQuery } from 'react-query';
 
-// import RecommendationCard from 'src/components/cards/RecommendationCard';
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
-import RegisterModal from 'src/components/modals/RegisterModal';
 import FloatingButton from 'src/components/buttons/FloatingButton';
+import SuggestionCard from 'src/components/cards/SuggestionCard';
+import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
-import userAtom from 'src/recoil/user';
+import userAtom, {
+  hasFollowSelector,
+  isAuthenticatedSelector,
+  isRegisteredSelector,
+} from 'src/recoil/user';
 
 import { Page } from 'src/styles';
 
-import { UserType } from 'src/types';
-
 import { Fetcher } from 'src/utils';
-import descriptions from 'src/globals/descriptions';
 
-interface Props {
-  user: UserType;
-}
+import { HOME_DESCRIPTION } from 'src/globals/descriptions';
+import { FAVICON } from 'src/globals/constants';
 
-function Home({ user }: Props) {
-  const setUser = useSetRecoilState(userAtom);
-  useEffect(() => setUser(user), [setUser, user]);
+function Home() {
+  const user = useRecoilValue(userAtom);
+  const hasFollow = useRecoilValue(hasFollowSelector);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
+  const isRegistered = useRecoilValue(isRegisteredSelector);
 
-  const { data } = useQuery(['posts', user._id], () => Fetcher.getPosts(user));
+  const [hasFollowTemp] = useState(hasFollow);
+  const { refetch, data } = useInfiniteQuery(
+    ['home', 'posts', user],
+    (context) => Fetcher.getPosts(user, context),
+    {
+      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
+    },
+  );
 
-  const isAuthenticated = Object.keys(user).length !== 0;
+  const handlePostWrite = () => {
+    refetch();
+  };
+
   return (
     <>
       <Head>
         <title>COCOO</title>
-        <meta name='description' content={descriptions.home} />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name='description' content={HOME_DESCRIPTION} />
+        <link rel='icon' href={FAVICON} />
       </Head>
-
       <Header />
       <Page.Main>
-        <Col>
+        <LoadingIndicator />
+        <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {/* {isAuthenticated && <RecommendationCard />} */}
-          {isAuthenticated && <Timeline posts={data} />}
+          {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
+          {isRegistered && <Timeline pages={data?.pages} />}
         </Col>
       </Page.Main>
-      <FloatingButton />
-      <RegisterModal />
+      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
     </>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const token = context.req?.cookies.jwt;
-  if (token === undefined) {
-    return { props: { user: {} } };
-  }
-  const user: UserType = await Fetcher.getUsersMe(token);
-  return {
-    props: { user: { ...user, token } },
-  };
 }
 
 export default Home;

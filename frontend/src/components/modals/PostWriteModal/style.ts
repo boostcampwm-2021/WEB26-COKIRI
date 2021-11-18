@@ -1,22 +1,5 @@
 import styled from '@emotion/styled';
 
-import { Col, Row } from 'src/components/Grid';
-
-const Wrapper = styled.div`
-  ${Row} {
-    justify-content: start;
-    ${Col} {
-      justify-content: start;
-      width: unset;
-      margin-right: 16px;
-      margin-bottom: 24px;
-      img {
-        border-radius: 16px;
-      }
-    }
-  }
-`;
-
 const Textarea = styled.textarea`
   width: 100%;
   height: 164px;
@@ -30,4 +13,16 @@ const Textarea = styled.textarea`
   font-size: 16px;
 `;
 
-export { Textarea, Wrapper };
+const IconHolder = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e1e1e;
+  box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
+  align-self: start;
+  margin-bottom: 24px;
+  width: 48px;
+  height: 48px;
+`;
+
+export { Textarea, IconHolder };

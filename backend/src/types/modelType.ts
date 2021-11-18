@@ -1,33 +1,46 @@
 import { Types } from 'mongoose';
 
+export interface NotifyType {
+  _id?: Types.ObjectId;
+  type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
+  userID?: Types.ObjectId;
+  senderID?: Types.ObjectId;
+  postID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
 export interface NotifyRangeType {
   postLike?: boolean;
   postComment?: boolean;
   commentLike?: boolean;
-}
-
-export interface NotifyType {
-  _id?: Types.ObjectId;
-  type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
-  postID?: Types.ObjectId;
-  userID?: Types.ObjectId;
-  createdAt?: Date;
+  follow?: boolean;
+  follower?: boolean;
 }
 
 export interface DashboardType {
+  name: string;
+  phoneNumber: string;
+  school: string;
+  region: string;
+  birthday: Date;
   github: string;
   blog: string;
   solvedac: string;
-  histories: { date: Date; content: string }[];
   email: string;
   profileImage: string;
   jobObjectives: string[];
+  techStacks: object;
 }
 
 export interface UserType {
   _id?: Types.ObjectId;
   name?: string;
   username?: string;
+  githubUsername?: string;
+  blogAuthentication?: {
+    tistory?: string;
+    velog?: { token: string; ttl: number; createdAt: Date };
+  };
   profileImage?: string;
   authProvider?: string;
   authProviderID?: string;
@@ -39,16 +52,35 @@ export interface UserType {
   school?: string;
   company?: string;
   region?: string;
-  languages?: Types.ObjectId[];
-  likes?: Types.ObjectId[];
-  followers?: Types.ObjectId[];
-  follows?: Types.ObjectId[];
+  techStacks?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
-  tistoryAccessToken?: string;
-  tistoryURL?: string;
   dashboard?: DashboardType;
+  lastVisitedAt?: Date;
+}
+
+export interface DashboardRepositoryType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  title?: string;
+  content?: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface DashboardHistoryType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  content?: string;
+  date?: Date;
+}
+
+export interface FollowType {
+  _id?: Types.ObjectId;
+  followID?: Types.ObjectId;
+  followerID?: Types.ObjectId;
+  createdAt?: Date;
+  follow?: { _id: Types.ObjectId; username: string; profileImage: string };
+  follower?: { _id: Types.ObjectId; username: string; profileImage: string };
 }
 
 export interface LikeType {
@@ -56,26 +88,50 @@ export interface LikeType {
   createdAt?: Date;
 }
 
-export interface CommentType {
+export interface ImageType {
   _id?: Types.ObjectId;
-  userID?: Types.ObjectId;
+  url?: string;
+  targetID?: Types.ObjectId;
+}
+
+export interface PostType {
+  _id?: Types.ObjectId;
+  title?: string;
   content?: string;
-  likes?: LikeType[];
+  userID?: Types.ObjectId;
+  tags?: Types.ObjectId[];
+  type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  link?: string;
+  externalContent?: string;
+  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
+  blog?: 'tistory' | 'velog';
+  blogIdentity?: string;
+  blogPostID?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface PostType {
-  title?: string;
-  content?: string;
+export interface PostLikeType {
+  _id?: Types.ObjectId;
   userID?: Types.ObjectId;
-  githubUsername?: string;
-  images?: string[];
-  comments?: CommentType[];
-  likes?: LikeType[];
-  tags?: Types.ObjectId[];
+  postID?: Types.ObjectId;
+  createdAt?: Date;
+}
+
+export interface CommentType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  postID?: Types.ObjectId;
+  content?: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface CommentLikeType {
+  _id?: Types.ObjectId;
+  userID?: Types.ObjectId;
+  commentID?: Types.ObjectId;
+  createdAt?: Date;
 }
 
 export interface MessageType {
@@ -90,18 +146,34 @@ export interface MessageType {
 export interface EchoRoomType {
   _id?: Types.ObjectId;
   users?: Types.ObjectId[];
-  messages?: MessageType[];
-  updatedAt?: Date;
+}
+
+export interface EchoMessageType {
+  _id?: Types.ObjectId;
+  roomID?: Types.ObjectId;
+  content?: string;
+  isRead?: boolean;
+  createdAt?: Date;
 }
 
 export interface TagType {
   _id?: Types.ObjectId;
+  con1?: string;
+  con3?: string;
   content?: string;
   count?: number;
 }
 
-export interface LanguageType {
+export interface TechStackType {
   _id?: Types.ObjectId;
-  language?: string;
+  techStack?: string;
   color?: string;
+}
+
+export interface BlogType {
+  _id?: Types.ObjectId;
+  identity?: string;
+  url?: string;
+  type?: 'tistory' | 'velog';
+  userID?: Types.ObjectId;
 }

@@ -4,28 +4,20 @@ import Post from 'src/components/Post';
 
 import { PostType } from 'src/types';
 
-import { Wrapper } from './style';
-
 interface Props {
-  posts?: PostType[];
+  pages?: PostType[][];
 }
 
-function Timeline({ posts }: Props) {
-  return (
-    <Wrapper>
-      {posts!.map((post) => (
-        <Post post={post} key={post._id} />
-      ))}
-    </Wrapper>
-  );
+function Timeline({ pages }: Props) {
+  return <>{pages!.map((posts) => posts.map((post) => <Post key={post._id} post={post} />))}</>;
 }
 
-Timeline.prototype = {
-  posts: PropTypes.arrayOf(PropTypes.any),
+Timeline.protoTypes = {
+  pages: PropTypes.arrayOf(PropTypes.object),
 };
 
 Timeline.defaultProps = {
-  posts: [],
+  pages: [],
 };
 
 export default Timeline;

@@ -1,16 +1,49 @@
 import { Validate } from 'src/utils';
-import Post from './Post';
-import User from './User';
+import Comment from './Comment';
+import CommentLike from './CommentLike';
+import DashboardHistory from './DashboardHistory';
+import DashboardRepository from './DashboardRepository';
+import EchoMessage from './EchoMessage';
 import EchoRoom from './EchoRoom';
-import Tag from './Tag';
-import Language from './Language';
+import Follow from './Follow';
+import Image from './Image';
+import TechStack from './TechStack';
 import Notify from './Notify';
+import Post from './Post';
+import PostLike from './PostLike';
+import Tag from './Tag';
+import User from './User';
+import Blog from './Blog';
 
 Validate.UserModel = User;
 Validate.PostModel = Post;
 Validate.TagModel = Tag;
 Validate.EchoRoomModel = EchoRoom;
-Validate.LanguageModel = Language;
+Validate.TechStackModel = TechStack;
 Validate.NotifyModel = Notify;
+Validate.PostLikeModel = PostLike;
+Validate.ImageModel = Image;
+Validate.FollowModel = Follow;
+Validate.EchoMessageModel = EchoMessage;
+Validate.DashboardRepositoryModel = DashboardRepository;
+Validate.DashboardHistoryModel = DashboardHistory;
+Validate.CommentModel = Comment;
+Validate.CommentLikeModel = CommentLike;
 
-export { Post, User, EchoRoom, Tag, Language, Notify };
+export {
+  Comment,
+  CommentLike,
+  DashboardHistory,
+  DashboardRepository,
+  EchoMessage,
+  EchoRoom,
+  Follow,
+  Image,
+  TechStack,
+  Notify,
+  Post,
+  PostLike,
+  Tag,
+  User,
+  Blog,
+};

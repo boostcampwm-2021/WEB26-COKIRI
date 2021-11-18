@@ -1,29 +1,35 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
-import { IconContext } from 'react-icons';
 
-import { Button } from './style';
+import IconButton from 'src/components/buttons/IconButton';
+
+import { SOCIAL_BUTTON_WIDTH, SOCIAL_BUTTON_HEIGHT, SOCIAL_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   children: ReactNode;
-  onClick: () => void;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Social({ children, onClick }: Props) {
+function SocialCommon({ children, onClick }: Props) {
   return (
-    <Button onClick={onClick}>
-      <IconContext.Provider value={{ size: '32' }}>{children}</IconContext.Provider>
-    </Button>
+    <IconButton
+      onClick={onClick}
+      width={SOCIAL_BUTTON_WIDTH}
+      height={SOCIAL_BUTTON_HEIGHT}
+      size={SOCIAL_ICON_SIZE}
+    >
+      {children}
+    </IconButton>
   );
 }
 
-Social.propTypes = {
+SocialCommon.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
 };
 
-Social.defaultProps = {
+SocialCommon.defaultProps = {
   onClick: () => {},
 };
 
-export default Social;
+export default SocialCommon;

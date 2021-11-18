@@ -13,12 +13,12 @@ interface Props {
   confirm?: string;
 }
 
-function Modal({ children, onClose, onConfirm, close, confirm }: Props) {
+function ModalCommon({ children, onClose, onConfirm, close, confirm }: Props) {
   return (
     <>
       <Background onClick={onClose} />
       <Card>
-        <Col>
+        <Col alignItems='center'>
           {children}
           <Row>
             <Spacer />
@@ -31,7 +31,7 @@ function Modal({ children, onClose, onConfirm, close, confirm }: Props) {
   );
 }
 
-Modal.propTyps = {
+ModalCommon.propTyps = {
   children: PropTypes.node.isRequired,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
@@ -39,11 +39,11 @@ Modal.propTyps = {
   confirm: PropTypes.string,
 };
 
-Modal.defaultProps = {
+ModalCommon.defaultProps = {
   onClose: () => {},
   onConfirm: () => {},
   close: '',
   confirm: '',
 };
 
-export default Modal;
+export default ModalCommon;
