@@ -204,5 +204,20 @@ class Fetcher {
       },
     );
   }
+
+  static async deletePost(user: UserType, postID: string): Promise<void> {
+    await axios.delete(`${baseURL}/${version}/posts/${postID}`, {
+      data: { userID: `${user._id}` },
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
+
+  static async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
+    await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
+      data: { userID: `${user._id}` },
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
 }
+
 export default Fetcher;
