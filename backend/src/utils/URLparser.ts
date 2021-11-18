@@ -1,5 +1,5 @@
-class URLParser {
+class URLparser {
   splitObjectUrl = (objectUrl: string): string => objectUrl.split('cocoo/')[1];
 }
 
-export default new URLParser();
+export default new URLparser();
