@@ -10,14 +10,15 @@ import { Row } from 'src/components/Grid';
 import { SETTING_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
-import { Page } from 'src/styles';
+import userAtom, { isRegisteredSelector } from 'src/recoil/user';
 
-import userAtom from 'src/recoil/user';
+import { Page } from 'src/styles';
 
 function Settings() {
   const router = useRouter();
   const targetUsername = router.query.username;
   const user = useRecoilValue(userAtom);
+  const isRegistered = useRecoilValue(isRegisteredSelector);
 
   return (
     <>
@@ -33,7 +34,7 @@ function Settings() {
           {targetUsername === user.username ? <UserSettingsCard /> : <p>퍼미션 디나이드</p>}
         </Row>
       </Page.Main>
-      <FloatingButton />
+      {isRegistered && <FloatingButton />}
     </>
   );
 }

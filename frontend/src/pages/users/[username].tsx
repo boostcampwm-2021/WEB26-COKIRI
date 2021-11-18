@@ -1,10 +1,10 @@
 import Head from 'next/head';
-import { useQuery } from 'react-query';
-import { useSetRecoilState } from 'recoil';
+import { useInfiniteQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
 
 import Header from 'src/components/Header';
-import UserInfoCard from 'src/components/cards/UserInfoCard';
 import Timeline from 'src/components/Timeline';
+import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
@@ -16,27 +16,29 @@ import { Fetcher } from 'src/utils';
 import { USERS_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
-import { Page } from 'src/styles';
+import { isRegisteredSelector } from 'src/recoil/user';
 
-import postsAtom from 'src/recoil/posts';
+import { Page } from 'src/styles';
 
 interface Props {
   targetUser: UserType;
 }
 
 function User({ targetUser }: Props) {
-  const setPosts = useSetRecoilState(postsAtom);
-
   const isUserExist = Object.keys(targetUser).length !== 0;
-  const { isFetched } = useQuery(
-    ['user', 'posts', targetUser._id],
+  const isRegistered = useRecoilValue(isRegisteredSelector);
+  const { refetch, data } = useInfiniteQuery(
+    ['user', 'posts', targetUser],
     () => Fetcher.getUserPosts(targetUser),
     {
-      onSuccess: (posts) => {
-        setPosts(posts);
-      },
+      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
     },
   );
+
+  const handlePostWrite = () => {
+    refetch();
+  };
+
   return (
     <>
       <Head>
@@ -52,14 +54,14 @@ function User({ targetUser }: Props) {
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
-              {isFetched && <Timeline />}
+              <Timeline pages={data?.pages} />
             </>
           ) : (
             <>없다!</>
           )}
         </Col>
       </Page.Main>
-      <FloatingButton />
+      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { useInfiniteQuery } from 'react-query';
 
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
@@ -17,8 +17,6 @@ import userAtom, {
   isRegisteredSelector,
 } from 'src/recoil/user';
 
-import postsAtom from 'src/recoil/posts';
-
 import { Page } from 'src/styles';
 
 import { Fetcher } from 'src/utils';
@@ -31,14 +29,19 @@ function Home() {
   const hasFollow = useRecoilValue(hasFollowSelector);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
-  const setPosts = useSetRecoilState(postsAtom);
 
   const [hasFollowTemp] = useState(hasFollow);
-  const { isFetched } = useQuery(['home', 'posts', user], () => Fetcher.getPosts(user), {
-    onSuccess: (posts) => {
-      setPosts(posts!);
+  const { refetch, data } = useInfiniteQuery(
+    ['home', 'posts', user],
+    (context) => Fetcher.getPosts(user, context),
+    {
+      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
     },
-  });
+  );
+
+  const handlePostWrite = () => {
+    refetch();
+  };
 
   return (
     <>
@@ -47,17 +50,16 @@ function Home() {
         <meta name='description' content={HOME_DESCRIPTION} />
         <link rel='icon' href={FAVICON} />
       </Head>
-
       <Header />
       <Page.Main>
         <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
-          {isAuthenticated && isRegistered && isFetched && <Timeline />}
+          {isRegistered && <Timeline pages={data?.pages} />}
         </Col>
       </Page.Main>
-      {isAuthenticated && <FloatingButton />}
+      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
     </>
   );
 }
