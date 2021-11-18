@@ -11,3 +11,4 @@ export { default as VelogService } from './VelogService';
 export { default as ImageService } from './ImageService';
 export { default as ObjectStroageService } from './ObjectStroageService';
 export { default as NotifyService } from './NotifyService';
+export { default as FollowService } from './FollowService';
