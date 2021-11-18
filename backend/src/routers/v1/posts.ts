@@ -15,7 +15,7 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await PostService.findTimeline(userID as string, +cursor!);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
+    return response.json({ code: RESPONSECODE.SUCCESS, nextCursor: +cursor! + 1, data: posts });
   }
 
   @Get('/random')

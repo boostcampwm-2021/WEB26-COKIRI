@@ -6,6 +6,7 @@ import { CommentService, PostLikeService, TistoryService } from 'src/services/in
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
+import { constants } from 'buffer';
 
 class PostService {
   async existsPost(postID: string, userID: string) {
@@ -106,13 +107,12 @@ class PostService {
   async findTimeline(userID: string, cursor: number) {
     const follows = await FollowService.findFollowsID(userID);
     const containsArray = !follows ? [userID] : [...follows, userID];
-    let posts = await Post.find({ userID: { $in: containsArray } })
+    const posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
-      .skip(PERPAGE * (cursor - 1))
+      .skip(PERPAGE * cursor)
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    posts = posts.map((v) => ({ ...v, nextCursor: cursor + 1 }));
     return this.getPostArray(posts);
   }
 
