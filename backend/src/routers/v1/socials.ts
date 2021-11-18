@@ -24,18 +24,12 @@ export default class SocialsRouter {
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
-    const cookieOptions =
-      process.env.MODE === 'development'
-        ? {
-            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-            httpOnly: true,
-          }
-        : {
-            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-            httpOnly: true,
-            secure: true,
-            domain: process.env.MAIN_DOMAIN,
-          };
+    const cookieOptions = {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+      secure: process.env.MODE !== 'development',
+      domain: process.env.MAIN_DOMAIN,
+    };
     response.cookie('jwt', accessToken, cookieOptions);
     return `${process.env.CLIENT_URL}${request.query.state}`;
   }
@@ -73,18 +67,12 @@ export default class SocialsRouter {
   @Redirect(`${process.env.CLIENT_URL}`)
   getGithubCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
-    const cookieOptions =
-      process.env.MODE === 'development'
-        ? {
-            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-            httpOnly: true,
-          }
-        : {
-            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-            httpOnly: true,
-            secure: true,
-            domain: process.env.MAIN_DOMAIN,
-          };
+    const cookieOptions = {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+      secure: process.env.MODE !== 'development',
+      domain: process.env.MAIN_DOMAIN,
+    };
     response.cookie('jwt', accessToken, cookieOptions);
     return response;
   }
