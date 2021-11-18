@@ -19,9 +19,9 @@ import {
   BlogService,
   TistoryService,
   NotifyService,
+  FollowService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
-import FollowService from 'src/services/FollowService';
 
 @Controller('/users')
 export default class UsersRouter {
