@@ -2,14 +2,16 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
+import DetailPost from 'src/components/DetailPost';
 
 import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
+import { Page } from 'src/styles';
+
 function Post() {
   const router = useRouter();
   const { postID } = router.query;
-
   return (
     <>
       <Head>
@@ -19,7 +21,9 @@ function Post() {
       </Head>
 
       <Header />
-      <main>Post {postID}</main>
+      <Page.Main>
+        <DetailPost postID={postID! as string} />
+      </Page.Main>
     </>
   );
 }

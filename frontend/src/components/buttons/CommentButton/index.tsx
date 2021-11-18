@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IoChatbubbleOutline } from 'react-icons/io5';
 
-import IconButton from 'src/components/buttons/IconButton';
+import NavigateButton from 'src/components/buttons/NavigateIconButton';
 
 interface Props {
   postID: string;
@@ -11,9 +11,9 @@ interface Props {
 // eslint-disable-next-line no-unused-vars
 function CommentButton({ postID }: Props) {
   return (
-    <IconButton>
+    <NavigateButton href={`/posts/${postID}`}>
       <IoChatbubbleOutline />
-    </IconButton>
+    </NavigateButton>
   );
 }
 

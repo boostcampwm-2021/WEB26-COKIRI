@@ -9,7 +9,7 @@ import PostImages from 'src/components/images/PostImages';
 import PostContent from 'src/components/PostContent';
 import PostComments from 'src/components/PostComments';
 import LikesButton from 'src/components/buttons/LikesButton';
-import Card from 'src/components/cards/Common';
+import CardCommon from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
@@ -26,7 +26,7 @@ function Post({ post }: Props) {
   const [comments, setComments] = useState(post.comments!);
   const { _id, user, images, content, likes } = post;
   return (
-    <Card width={POST_CARD_WIDTH}>
+    <CardCommon width={POST_CARD_WIDTH}>
       <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
@@ -36,9 +36,9 @@ function Post({ post }: Props) {
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
       <PostContent content={content!} />
-      <PostComments postID={_id!} comments={comments!} />
+      <PostComments postID={_id!} comments={comments} />
       <CommentInput postID={_id!} setComments={setComments} />
-    </Card>
+    </CardCommon>
   );
 }
 

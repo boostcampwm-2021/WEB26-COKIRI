@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
+interface Props {
+  width: number;
+}
+
+const Wrapper = styled.div<Props>`
   margin: 16px;
-  width: 575px;
+  width: ${({ width }) => `${width}px`};
 `;
 
 // eslint-disable-next-line import/prefer-default-export

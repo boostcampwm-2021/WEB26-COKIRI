@@ -14,11 +14,12 @@ import { Wrapper } from './style';
 interface Props {
   profileImage?: string;
   username: string;
+  marginLeft?: number;
 }
 
-function ProfileSet({ profileImage, username }: Props) {
+function ProfileSet({ profileImage, username, marginLeft }: Props) {
   return (
-    <Wrapper>
+    <Wrapper marginLeft={marginLeft!}>
       <ProfileImageButton
         profileImage={profileImage!}
         username={username}
@@ -32,10 +33,12 @@ function ProfileSet({ profileImage, username }: Props) {
 ProfileSet.propTypes = {
   profileImage: PropTypes.string,
   username: PropTypes.string.isRequired,
+  marginLeft: PropTypes.number,
 };
 
 ProfileSet.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
+  marginLeft: 0,
 };
 
 export default ProfileSet;
