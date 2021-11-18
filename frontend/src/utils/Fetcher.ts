@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { QueryFunctionContext } from 'react-query';
 
 import { UserType, PostType, LikeType, ReturnType, CommentType } from 'src/types';
 
@@ -31,13 +32,13 @@ class Fetcher {
   }
 
   // for client side
-  static async getPosts(user: UserType): Promise<PostType[]> {
+  static async getPosts(user: UserType, { pageParam }: QueryFunctionContext): Promise<PostType[]> {
     if (user._id === undefined || !user.isRegistered) {
       return [];
     }
     const result = await axios.get(`${baseURL}/${version}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
-      params: { user_id: user._id, offset: 0 },
+      params: { user_id: user._id, offset: pageParam ?? 0 },
     });
     return result.data;
   }
