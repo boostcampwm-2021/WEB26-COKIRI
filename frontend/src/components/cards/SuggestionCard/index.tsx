@@ -24,9 +24,7 @@ import { Title } from './style';
 
 function SuggestionCard() {
   const user = useRecoilValue(userAtom);
-  const { data: users } = useQuery(['suggestion', 'posts', user], () =>
-    Fetcher.getUserSuggestions(user),
-  );
+  const { data: users } = useQuery(['suggestion', 'users'], () => Fetcher.getUserSuggestions(user));
 
   const [startIndex, setStartIndex] = useState(0);
   const handleClickLeft = useCallback(() => {
