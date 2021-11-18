@@ -11,11 +11,11 @@ import { Wrapper } from './style';
 interface Props {
   postID: string;
   comments: CommentType[];
-  detail: boolean;
+  expanded: boolean;
 }
 
-function PostComments({ postID, comments, detail }: Props) {
-  const [isExpand, setIsExpand] = useState(detail);
+function PostComments({ postID, comments, expanded }: Props) {
+  const [isExpand, setIsExpand] = useState(expanded);
   const isLong = comments.length > 2;
   const handleClick = () => {
     setIsExpand(true);
@@ -35,11 +35,11 @@ function PostComments({ postID, comments, detail }: Props) {
 PostComments.propTypes = {
   postID: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(PropTypes.any).isRequired,
-  detail: PropTypes.bool,
+  expanded: PropTypes.bool,
 };
 
 PostComments.defaultProps = {
-  detail: false,
+  expanded: false,
 };
 
 export default PostComments;

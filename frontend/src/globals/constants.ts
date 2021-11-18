@@ -63,7 +63,7 @@ export const SEARCH_INPUT_WIDTH = 136;
 
 export const DEFAULT_COMMENT_INPUT_WIDTH = 340;
 
-export const DETAIL_COMMENT_INPUT_WIDTH = 150;
+export const DETAIL_COMMENT_INPUT_WIDTH = 200;
 
 // CARD
 export const POST_CARD_WIDTH = 600;
@@ -79,7 +79,7 @@ export const USER_SETTING_CARD_WIDTH = 800;
 // POST
 export const POST_CONTENT_LIMIT_LENGTH = 100;
 export const DEFAULT_POST_CONTENT_WIDTH = 575;
-export const DETAIL_POST_CONTENT_WIDTH = 400;
+export const DETAIL_POST_CONTENT_WIDTH = 350;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;

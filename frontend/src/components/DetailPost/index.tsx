@@ -34,18 +34,19 @@ interface Props {
 }
 
 function DetailPost({ postID }: Props) {
-  const [comments, setComments] = useState<CommentType[]>([]);
-  const { isFetched, data: post } = useQuery(['detail', 'posts', postID], () =>
+  const { isLoading, data: post } = useQuery(['detail', 'posts', postID], () =>
     Fetcher.getDetailPost(postID),
   );
+  const [comments, setComments] = useState<CommentType[]>([]);
+  const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
   useEffect(() => {
     setComments(post?.comments ?? []);
+    setLikeCount(post?.likes?.length ?? 0);
   }, [post]);
-  const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
-      {isFetched && (
+      {!isLoading && (
         <Row>
           <ImageSection>
             <PostImages
@@ -71,8 +72,8 @@ function DetailPost({ postID }: Props) {
                 <EchoButton postID={post!._id!} />
               </Row>
               {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
-              <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} detail />
-              <PostComments postID={post!._id!} comments={comments} detail />
+              <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
+              <PostComments postID={post!._id!} comments={comments} expanded />
               <CommentInput
                 postID={post!._id!}
                 setComments={setComments}

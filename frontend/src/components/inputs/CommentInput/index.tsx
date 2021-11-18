@@ -24,7 +24,7 @@ import { Fetcher } from 'src/utils';
 interface Props {
   postID: string;
   setComments: Dispatch<SetStateAction<CommentType[]>>;
-  width: number;
+  width?: number;
   iconSize?: number;
   padding?: number;
 }
