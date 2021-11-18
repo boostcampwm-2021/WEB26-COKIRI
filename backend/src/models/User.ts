@@ -14,12 +14,18 @@ const notifyRangeSchema = new Schema<NotifyRangeType>(
 
 const dashboardSchema = new Schema<DashboardType>(
   {
+    name: { type: String },
+    phoneNumber: { type: String },
+    school: { type: String },
+    region: { type: String },
+    birthday: { type: Date },
     github: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     blog: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     solvedac: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     email: { type: String, validate: [Validate.email, 'Email 형식이 잘못되었습니다.'] },
     profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     jobObjectives: [{ type: String, required: true }],
+    techStacks: { any: { type: [Types.ObjectId] } },
   },
   { _id: false },
 );
@@ -60,12 +66,12 @@ const userSchema = new Schema<UserType>(
     school: { type: String, trim: true },
     company: { type: String, trim: true },
     region: { type: String, trim: true },
-    languages: [
+    techStacks: [
       {
         type: Types.ObjectId,
         required: true,
-        ref: 'Language',
-        validate: Validate.languageObjectID,
+        ref: 'TechStack',
+        validate: Validate.techStackObjectID,
       },
     ],
     notifyRange: notifyRangeSchema,

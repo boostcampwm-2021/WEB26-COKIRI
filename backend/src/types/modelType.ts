@@ -3,8 +3,8 @@ import { Types } from 'mongoose';
 export interface NotifyType {
   _id?: Types.ObjectId;
   type?: 'postLike' | 'postComment' | 'commentLike' | 'follow' | 'follower';
-  content?: string;
   userID?: Types.ObjectId;
+  senderID?: Types.ObjectId;
   postID?: Types.ObjectId;
   createdAt?: Date;
 }
@@ -18,12 +18,18 @@ export interface NotifyRangeType {
 }
 
 export interface DashboardType {
+  name: string;
+  phoneNumber: string;
+  school: string;
+  region: string;
+  birthday: Date;
   github: string;
   blog: string;
   solvedac: string;
   email: string;
   profileImage: string;
   jobObjectives: string[];
+  techStacks: object;
 }
 
 export interface UserType {
@@ -33,11 +39,7 @@ export interface UserType {
   githubUsername?: string;
   blogAuthentication?: {
     tistory?: string;
-    velog?: {
-      token: string;
-      ttl: number;
-      createdAt: Date;
-    };
+    velog?: { token: string; ttl: number; createdAt: Date };
   };
   profileImage?: string;
   authProvider?: string;
@@ -50,13 +52,13 @@ export interface UserType {
   school?: string;
   company?: string;
   region?: string;
-  languages?: Types.ObjectId[];
+  techStacks?: Types.ObjectId[];
   notifyRange?: NotifyRangeType;
   dashboard?: DashboardType;
   lastVisitedAt?: Date;
 }
 
-export interface DashboardPostType {
+export interface DashboardRepositoryType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
   title?: string;
@@ -98,13 +100,15 @@ export interface PostType {
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  link?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  link?: string;
+  externalContent?: string;
+  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
   blog?: 'tistory' | 'velog';
   blogIdentity?: string;
   blogPostID?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface PostLikeType {
@@ -160,9 +164,9 @@ export interface TagType {
   count?: number;
 }
 
-export interface LanguageType {
+export interface TechStackType {
   _id?: Types.ObjectId;
-  language?: string;
+  techStack?: string;
   color?: string;
 }
 

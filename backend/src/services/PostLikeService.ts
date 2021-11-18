@@ -1,5 +1,6 @@
-import { PostLike } from 'src/models';
+import { PostLike, Post } from 'src/models';
 import { SELECT } from 'src/utils';
+import { NotifyService } from 'src/services';
 
 class PostLikeService {
   async createPostLike(userID: string, postID: string) {
@@ -8,6 +9,8 @@ class PostLikeService {
       { $setOnInsert: { userID, postID } },
       { upsert: true, runValidators: true, new: true },
     );
+    const post = await Post.findOne({ _id: postID }, 'userID -_id');
+    NotifyService.createNotify('postLike', userID, post?.userID, postID);
     if (!upsertLike.upsertedId) {
       const likeID = await PostLike.findOne({ userID, postID }, '_id').lean();
       return likeID!._id;
@@ -25,11 +28,11 @@ class PostLikeService {
   }
 
   async removePostLike(userID: string, postID: string, likeID: string) {
-    return PostLike.remove({ _id: likeID, userID, postID });
+    return PostLike.deleteOne({ _id: likeID, userID, postID });
   }
 
   async removePostLikes(postID: string) {
-    return PostLike.remove({ postID });
+    return PostLike.deleteMany({ postID });
   }
 }
 

@@ -20,6 +20,12 @@ const postSchema = new Schema<PostType>(
       default: 'normal',
     },
     link: { type: String, trim: true },
+    externalContent: { type: String, trim: true },
+    external: {
+      type: { type: String, enum: ['github', 'tistory', 'velog'] },
+      identity: { type: String, trim: true },
+      target: { type: String, trim: true },
+    },
     blog: { type: String, enum: ['tistory', 'velog'] },
     blogIdentity: String,
     blogPostID: String,

@@ -7,11 +7,17 @@ const notifySchema = new Schema<NotifyType>(
   {
     type: {
       type: String,
-      enum: ['postComment', 'postLike', 'commentLike', 'follow', 'follower'],
+      enum: ['postComment', 'postLike', 'commentLike', 'follow'],
       required: true,
     },
-    content: { type: String, required: true },
     userID: {
+      type: Types.ObjectId,
+      ref: 'User',
+      required: true,
+      validate: Validate.userObjectID,
+      index: true,
+    },
+    senderID: {
       type: Types.ObjectId,
       ref: 'User',
       required: true,
@@ -20,7 +26,7 @@ const notifySchema = new Schema<NotifyType>(
     },
     postID: { type: Types.ObjectId, ref: 'Post', validate: Validate.postObjectID },
   },
-  { timestamps: { createdAt: true, updatedAt: false } },
+  { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
 );
 
 export default model<NotifyType>('Notify', notifySchema);

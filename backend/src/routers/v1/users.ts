@@ -12,9 +12,16 @@ import {
 } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { PostService, UserService, GitService, BlogService, TistoryService } from 'src/services';
+import {
+  PostService,
+  UserService,
+  GitService,
+  BlogService,
+  TistoryService,
+  NotifyService,
+  FollowService,
+} from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
-import FollowService from 'src/services/FollowService';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -134,6 +141,14 @@ export default class UsersRouter {
      * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
      */
     const result = await GitService.findRepoList(userID);
+    return response.json(result);
+  }
+
+  @Get('/:userID/notifies')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getNotifyList(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await NotifyService.findNotify(userID);
     return response.json(result);
   }
 

@@ -4,7 +4,7 @@ import {
   UserType,
   PostType,
   TagType,
-  LanguageType,
+  TechStackType,
   EchoRoomType,
   NotifyType,
   CommentType,
@@ -12,7 +12,7 @@ import {
   ImageType,
   FollowType,
   EchoMessageType,
-  DashboardPostType,
+  DashboardRepositoryType,
   DashboardHistoryType,
   CommentLikeType,
 } from 'src/types';
@@ -22,7 +22,7 @@ class Validate {
 
   static PostModel: Model<PostType> | undefined;
 
-  static LanguageModel: Model<LanguageType> | undefined;
+  static TechStackModel: Model<TechStackType> | undefined;
 
   static TagModel: Model<TagType> | undefined;
 
@@ -40,7 +40,7 @@ class Validate {
 
   static EchoMessageModel: Model<EchoMessageType> | undefined;
 
-  static DashboardPostModel: Model<DashboardPostType> | undefined;
+  static DashboardRepositoryModel: Model<DashboardRepositoryType> | undefined;
 
   static DashboardHistoryModel: Model<DashboardHistoryType> | undefined;
 
@@ -48,7 +48,7 @@ class Validate {
 
   static urlSafeStringDigit(min: number, max: number) {
     return function validateDigit(str: string): boolean {
-      const regx = new RegExp(`^[a-z0-9_-]{${min},${max}}$`);
+      const regx = new RegExp(`^[a-zA-Z0-9_-]{${min},${max}}$`);
       return regx.test(str);
     };
   }
@@ -83,8 +83,8 @@ class Validate {
     return Validate.objectIDLogic(Validate.CommentModel, value);
   }
 
-  static languageObjectID(value: Types.ObjectId): Promise<boolean> {
-    return Validate.objectIDLogic(Validate.LanguageModel, value);
+  static techStackObjectID(value: Types.ObjectId): Promise<boolean> {
+    return Validate.objectIDLogic(Validate.TechStackModel, value);
   }
 
   static tagObjectID(value: Types.ObjectId): Promise<boolean> {

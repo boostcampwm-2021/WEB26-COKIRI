@@ -1,7 +1,9 @@
 import { Follow } from 'src/models';
-import { FollowType } from 'src/types';
 import { Types } from 'mongoose';
+
+import { FollowType } from 'src/types';
 import { SELECT } from 'src/utils';
+import { NotifyService } from 'src/services';
 
 class FollowService {
   async countFollows(userID: Types.ObjectId) {
@@ -13,6 +15,7 @@ class FollowService {
   }
 
   async createFollow(followID: string, followerID: string) {
+    NotifyService.createNotify('follow', followID, followerID, undefined);
     return Follow.updateOne(
       { followID, followerID },
       { $setOnInsert: { followID, followerID } },
@@ -45,7 +48,7 @@ class FollowService {
   }
 
   async removeFollow(followerID: string, followID: string) {
-    return Follow.remove({ followerID, followID });
+    return Follow.deleteOne({ followerID, followID });
   }
 }
 
