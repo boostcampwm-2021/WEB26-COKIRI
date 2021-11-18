@@ -35,13 +35,13 @@ interface Props {
 
 function DetailPost({ postID }: Props) {
   const [comments, setComments] = useState<CommentType[]>([]);
-  const { isFetched, data: detailPost } = useQuery(['detail', 'posts', postID], () =>
+  const { isFetched, data: post } = useQuery(['detail', 'posts', postID], () =>
     Fetcher.getDetailPost(postID),
   );
   useEffect(() => {
-    setComments(detailPost?.comments ?? []);
-  }, [detailPost]);
-  const [likeCount, setLikeCount] = useState(detailPost?.likes?.length ?? 0);
+    setComments(post?.comments ?? []);
+  }, [post]);
+  const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
   return (
     // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
@@ -49,7 +49,7 @@ function DetailPost({ postID }: Props) {
         <Row>
           <ImageSection>
             <PostImages
-              images={detailPost?.images!}
+              images={post!.images!}
               width={DETAIL_POST_IMAGE_WIDTH}
               height={DETAIL_POST_IMAGE_HEIGHT}
             />
@@ -57,28 +57,24 @@ function DetailPost({ postID }: Props) {
           <PostInfoSection>
             <Col>
               <ProfileSet
-                profileImage={detailPost?.user!.profileImage}
-                username={detailPost?.user!.username!}
+                profileImage={post!.user!.profileImage}
+                username={post!.user!.username!}
                 marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
               />
               <Row justifyContent='space-evenly'>
                 <LikeButton
-                  postID={detailPost?._id!}
-                  postLikes={detailPost?.likes!}
+                  postID={post!._id!}
+                  postLikes={post!.likes!}
                   setLikeCount={setLikeCount}
                 />
-                <CommentButton postID={detailPost?._id!} />
-                <EchoButton postID={detailPost?._id!} />
+                <CommentButton postID={post!._id!} />
+                <EchoButton postID={post!._id!} />
               </Row>
-              {likeCount !== 0 && <LikesButton postID={detailPost?._id!} likeCount={likeCount} />}
-              <PostContent
-                content={detailPost?.content!}
-                width={DETAIL_POST_CONTENT_WIDTH}
-                detail
-              />
-              <PostComments postID={detailPost?._id!} comments={comments} detail />
+              {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
+              <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} detail />
+              <PostComments postID={post!._id!} comments={comments} detail />
               <CommentInput
-                postID={detailPost?._id!}
+                postID={post!._id!}
                 setComments={setComments}
                 width={DETAIL_COMMENT_INPUT_WIDTH}
                 iconSize={DETAIL_COMMENT_ICON_SIZE}
