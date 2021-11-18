@@ -73,12 +73,19 @@ export default class SocialsRouter {
   @Redirect(`${process.env.CLIENT_URL}`)
   getGithubCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
-    response.cookie('jwt', accessToken, {
-      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
+    const cookieOptions =
+      process.env.MODE === 'development'
+        ? {
+            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+            httpOnly: true,
+          }
+        : {
+            maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+            httpOnly: true,
+            secure: true,
+            domain: process.env.MAIN_DOMAIN,
+          };
+    response.cookie('jwt', accessToken, cookieOptions);
     return response;
   }
 
