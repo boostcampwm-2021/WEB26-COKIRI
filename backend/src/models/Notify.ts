@@ -26,7 +26,7 @@ const notifySchema = new Schema<NotifyType>(
     },
     postID: { type: Types.ObjectId, ref: 'Post', validate: Validate.postObjectID },
   },
-  { timestamps: { createdAt: true, updatedAt: false } },
+  { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
 );
 
 export default model<NotifyType>('Notify', notifySchema);
