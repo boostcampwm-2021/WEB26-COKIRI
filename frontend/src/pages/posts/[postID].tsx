@@ -22,7 +22,7 @@ function Post() {
 
       <Header />
       <Page.Main>
-        <DetailPost postID={postID!} />
+        <DetailPost postID={postID! as string} />
       </Page.Main>
     </>
   );

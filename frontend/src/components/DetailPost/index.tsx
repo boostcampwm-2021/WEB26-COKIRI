@@ -11,6 +11,7 @@ import LikesButton from 'src/components/buttons/LikesButton';
 import PostContent from 'src/components/PostContent';
 import PostComments from 'src/components/PostComments';
 import CommentInput from 'src/components/inputs/CommentInput';
+import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Row, Col } from 'src/components/Grid';
 
 import {
@@ -30,7 +31,7 @@ import { Fetcher } from 'src/utils';
 import { ImageSection, PostInfoSection } from './style';
 
 interface Props {
-  postID: string | string[];
+  postID: string;
 }
 
 function DetailPost({ postID }: Props) {
@@ -43,49 +44,43 @@ function DetailPost({ postID }: Props) {
     setComments(post?.comments ?? []);
     setLikeCount(post?.likes?.length ?? 0);
   }, [post]);
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {!isLoading && (
-        <Row>
-          <ImageSection>
-            <PostImages
-              images={post!.images!}
-              width={DETAIL_POST_IMAGE_WIDTH}
-              height={DETAIL_POST_IMAGE_HEIGHT}
-            />
-          </ImageSection>
-          <PostInfoSection>
-            <Col>
-              <ProfileSet
-                profileImage={post!.user!.profileImage}
-                username={post!.user!.username!}
-                marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
-              />
-              <Row justifyContent='space-evenly'>
-                <LikeButton
-                  postID={post!._id!}
-                  postLikes={post!.likes!}
-                  setLikeCount={setLikeCount}
-                />
-                <CommentButton postID={post!._id!} />
-                <EchoButton postID={post!._id!} />
-              </Row>
-              {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
-              <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
-              <PostComments postID={post!._id!} comments={comments} expanded />
-              <CommentInput
-                postID={post!._id!}
-                setComments={setComments}
-                width={DETAIL_COMMENT_INPUT_WIDTH}
-                iconSize={DETAIL_COMMENT_ICON_SIZE}
-                padding={DETAIL_COMMENT_ICON_PADDING}
-              />
-            </Col>
-          </PostInfoSection>
-        </Row>
-      )}
-    </>
+    <Row>
+      <ImageSection>
+        <PostImages
+          images={post!.images!}
+          width={DETAIL_POST_IMAGE_WIDTH}
+          height={DETAIL_POST_IMAGE_HEIGHT}
+        />
+      </ImageSection>
+      <PostInfoSection>
+        <Col>
+          <ProfileSet
+            profileImage={post!.user!.profileImage}
+            username={post!.user!.username!}
+            marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
+          />
+          <Row justifyContent='space-evenly'>
+            <LikeButton postID={post!._id!} postLikes={post!.likes!} setLikeCount={setLikeCount} />
+            <CommentButton postID={post!._id!} />
+            <EchoButton postID={post!._id!} />
+          </Row>
+          {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
+          <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
+          <PostComments postID={post!._id!} comments={comments} expanded />
+          <CommentInput
+            postID={post!._id!}
+            setComments={setComments}
+            width={DETAIL_COMMENT_INPUT_WIDTH}
+            iconSize={DETAIL_COMMENT_ICON_SIZE}
+            padding={DETAIL_COMMENT_ICON_PADDING}
+          />
+        </Col>
+      </PostInfoSection>
+    </Row>
   );
 }
 
