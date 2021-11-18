@@ -55,7 +55,7 @@ export default class UsersRouter {
         followerCount: counts[2],
       };
     }
-    return response.json(responseJSON);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: responseJSON });
   }
 
   @Get('/me')
@@ -66,7 +66,8 @@ export default class UsersRouter {
       FollowService.findFollowsID(request.user!.userID),
       FollowService.findFollowersID(request.user!.userID),
     ]);
-    return response.json({ ...results[0], follows: results[1], followers: results[2] });
+    const result = { ...results[0], follows: results[1], followers: results[2] };
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Get('/logout')
@@ -79,7 +80,7 @@ export default class UsersRouter {
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     const userPosts = await PostService.findUserTimeline(userID);
-    return response.json(userPosts);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: userPosts });
   }
 
   @Get('/:userID/settings')
@@ -90,7 +91,7 @@ export default class UsersRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const userSettings = await UserService.findOneUserSettingForID(userID);
-    return response.json(userSettings);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: userSettings });
   }
 
   @Get('/:userID/suggestions')
@@ -102,14 +103,14 @@ export default class UsersRouter {
     }
     const randomUserSuggestions = await UserService.findRandomUserSuggestions(userID);
     // @TODO 사용자 정보 기반 추천
-    return response.json(randomUserSuggestions);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: randomUserSuggestions });
   }
 
   @Get('/:userID/follows')
   async getUserFollows(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     const follows = await FollowService.findFollows(userID);
-    return response.json(follows);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: follows });
   }
 
   @Get('/:userID/blogs')
@@ -120,14 +121,14 @@ export default class UsersRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await BlogService.findUserBlogs(userID);
-    return response.json(posts);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
   }
 
   @Get('/:userID/followers')
   async getUserFollowers(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     const followList = await FollowService.findFollowers(userID);
-    return response.json(followList);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: followList });
   }
 
   @Get('/:userID/repositories')
@@ -141,7 +142,7 @@ export default class UsersRouter {
      * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
      */
     const result = await GitService.findRepoList(userID);
-    return response.json(result);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Get('/:userID/notifies')
@@ -149,7 +150,7 @@ export default class UsersRouter {
   async getNotifyList(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     const result = await NotifyService.findNotify(userID);
-    return response.json(result);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Get('/:userID/tistory/:identity/posts/:postID')
@@ -160,7 +161,7 @@ export default class UsersRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const postContent = await TistoryService.getPostContent(userID, identity, postID);
-    return response.json(postContent);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 
   @Get('/:githubUsername/repositories/:repoName')
@@ -174,7 +175,7 @@ export default class UsersRouter {
       throw new Error(ERROR.NO_GITHUBUSERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
-    return response.json(result);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Post('/:userID/follows')

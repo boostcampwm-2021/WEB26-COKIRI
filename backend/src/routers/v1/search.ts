@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get } from 'routing-controllers';
 
 import { SearchService } from 'src/services';
-import { ERROR } from 'src/utils';
+import { ERROR, RESPONSECODE } from 'src/utils';
 
 @Controller('/search')
 export default class PostsRouter {
@@ -13,6 +13,6 @@ export default class PostsRouter {
       throw new Error(ERROR.NO_QUERY);
     }
     const result = await SearchService.findSearch(query as string);
-    return response.json(result);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 }
