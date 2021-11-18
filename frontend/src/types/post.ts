@@ -12,4 +12,5 @@ export default interface postType {
   comments?: commentType[];
   createdAt?: Date;
   likes?: LikeType[];
+  nextCursor?: number;
 }

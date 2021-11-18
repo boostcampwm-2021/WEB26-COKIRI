@@ -13,7 +13,7 @@ class Fetcher {
       const result = await axios.get(`${baseURL}/${version}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return result.data;
+      return result.data.data;
     } catch (error) {
       return {};
     }
@@ -25,7 +25,7 @@ class Fetcher {
         headers: { Authorization: `Bearer ${token}` },
         params: { username },
       });
-      return result.data;
+      return result.data.data;
     } catch (error) {
       return {};
     }
@@ -33,21 +33,22 @@ class Fetcher {
 
   // for client side
   static async getPosts(user: UserType, { pageParam }: QueryFunctionContext): Promise<PostType[]> {
+    // @TODO 리턴타입 변경
     if (user._id === undefined || !user.isRegistered) {
       return [];
     }
     const result = await axios.get(`${baseURL}/${version}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
-      params: { user_id: user._id, offset: pageParam ?? 0 },
+      params: { user_id: user._id, cursor: pageParam ?? 0 },
     });
-    return result.data;
+    return result.data.data;
   }
 
   static async getPostLikes(user: UserType, postID: string): Promise<LikeType[]> {
     const result = await axios.get(`${baseURL}/${version}/posts/${postID}/likes`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    return result.data;
+    return result.data.data;
   }
 
   static async getUserPosts(user: UserType): Promise<PostType[]> {
@@ -55,7 +56,7 @@ class Fetcher {
       return [];
     }
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/posts`);
-    return result.data;
+    return result.data.data;
   }
 
   static async getSignout(): Promise<void> {
@@ -66,7 +67,7 @@ class Fetcher {
     const result = await axios.get(`${baseURL}/${version}/search`, {
       params: { query },
     });
-    return result.data;
+    return result.data.data;
   }
 
   static async getUserSuggestions(user: UserType): Promise<UserType[]> {
@@ -76,17 +77,17 @@ class Fetcher {
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/suggestions`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    return result.data;
+    return result.data.data;
   }
 
   static async getRandomPosts(): Promise<PostType[]> {
     const result = await axios.get(`${baseURL}/${version}/posts/random`);
-    return result.data;
+    return result.data.data;
   }
 
   static async getDetailPost(postID: string | string[]): Promise<PostType> {
     const result = await axios.get(`${baseURL}/${version}/posts/${postID}`);
-    return result.data;
+    return result.data.data;
   }
 
   static async postPost(

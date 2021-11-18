@@ -34,7 +34,7 @@ function CommentInput({ postID, setComments, width, iconSize, padding }: Props) 
   const user = useRecoilValue(userAtom);
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
-    onSuccess: ({ result }) => setComments((prevState: CommentType[]) => [...prevState, result]),
+    onSuccess: ({ data }) => setComments((prevState: CommentType[]) => [...prevState, data!]),
   });
 
   const handleClick = () => {

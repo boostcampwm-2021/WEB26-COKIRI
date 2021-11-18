@@ -44,7 +44,7 @@ MyApp.getInitialProps = async (context: AppContext) => {
   if (token === undefined) {
     return { user: {} };
   }
-  const user: UserType = await Fetcher.getUsersMe(token);
+  const user = await Fetcher.getUsersMe(token);
   return { user: { ...user, token } };
 };
 

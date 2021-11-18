@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import ProfileSet from 'src/components/sets/ProfileSet';
@@ -13,7 +13,7 @@ import CardCommon from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import { Row } from 'src/components/Grid';
 
-import { PostType } from 'src/types';
+import { CommentType, PostType } from 'src/types';
 
 import { POST_CARD_WIDTH } from 'src/globals/constants';
 
@@ -23,7 +23,11 @@ interface Props {
 
 function Post({ post }: Props) {
   const [likeCount, setLikeCount] = useState(post.likes!.length);
-  const [comments, setComments] = useState(post.comments!);
+  const [comments, setComments] = useState<CommentType[]>([]);
+  useEffect(() => {
+    setComments(post.comments!);
+  }, [post.comments]);
+
   const { _id, user, images, content, likes } = post;
   return (
     <CardCommon width={POST_CARD_WIDTH}>
