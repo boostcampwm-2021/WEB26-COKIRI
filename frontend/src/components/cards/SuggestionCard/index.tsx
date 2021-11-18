@@ -1,11 +1,13 @@
 import { useRecoilValue } from 'recoil';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 
 import CardCommon from 'src/components/cards/Common';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import IconButton from 'src/components/buttons/IconButton';
+import FollowSet from 'src/components/sets/FollowSet';
+import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Row, Col } from 'src/components/Grid';
 
 import {
@@ -16,25 +18,17 @@ import {
 
 import { Fetcher } from 'src/utils';
 
-import userAtom, { isRegisteredSelector } from 'src/recoil/user';
+import userAtom from 'src/recoil/user';
 
-import FollowSet from 'src/components/sets/FollowSet';
-import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Title } from './style';
 
 function SuggestionCard() {
   const user = useRecoilValue(userAtom);
-  const isRegister = useRecoilValue(isRegisteredSelector);
-  const { data: users, refetch } = useQuery(['suggestion', 'posts', user._id], () =>
+  const { data: users } = useQuery(['suggestion', 'posts', user], () =>
     Fetcher.getUserSuggestions(user),
   );
-  const [startIndex, setStartIndex] = useState(0);
-  useEffect(() => {
-    if (isRegister) {
-      refetch();
-    }
-  }, [refetch, isRegister]);
 
+  const [startIndex, setStartIndex] = useState(0);
   const handleClickLeft = useCallback(() => {
     setStartIndex((prevState) => prevState - 1);
   }, []);
@@ -44,7 +38,7 @@ function SuggestionCard() {
 
   const isFirst = useMemo(() => startIndex === 0, [startIndex]);
   const isLast = useMemo(
-    () => startIndex === (users ?? []).length - SUGGESTION_COUNT,
+    () => startIndex >= (users ?? []).length - SUGGESTION_COUNT,
     [startIndex, users],
   );
 

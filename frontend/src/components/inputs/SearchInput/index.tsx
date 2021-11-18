@@ -15,12 +15,13 @@ import { Fetcher } from 'src/utils';
 import { UserType } from 'src/types';
 
 function SearchInput() {
+  const [value, setValue] = useState('');
   const [userResults, setUserResults] = useState<UserType[]>([]);
-  const mutation = useMutation((value: string) => Fetcher.getSearch(value));
+  const mutation = useMutation((newValue: string) => Fetcher.getSearch(newValue));
 
-  const handleChange = async (value: string) => {
-    if (value !== '') {
-      const results = await mutation.mutateAsync(value);
+  const handleChange = async (newValue: string) => {
+    if (newValue !== '') {
+      const results = await mutation.mutateAsync(newValue);
       setUserResults(results);
     } else {
       setUserResults([]);
@@ -42,6 +43,7 @@ function SearchInput() {
         </HeaderModal>
       )}
       <InputCommon
+        bind={[value, setValue]}
         placeholder='search'
         width={SEARCH_INPUT_WIDTH}
         icon={<IoSearchSharp />}

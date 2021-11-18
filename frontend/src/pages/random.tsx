@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import { useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
@@ -11,14 +10,11 @@ import { FAVICON } from 'src/globals/constants';
 
 import { Page } from 'src/styles';
 
-import postsAtom from 'src/recoil/posts';
-
 import { Fetcher } from 'src/utils';
 
 function Random() {
-  const setPosts = useSetRecoilState(postsAtom);
-  const { isFetched } = useQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
-    onSuccess: (posts) => setPosts(posts),
+  const { data } = useInfiniteQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
+    getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
   });
   return (
     <>
@@ -30,7 +26,9 @@ function Random() {
 
       <Header />
       <Page.Main>
-        <Col alignItems='center'>{isFetched && <Timeline />}</Col>
+        <Col alignItems='center'>
+          <Timeline pages={data?.pages} />
+        </Col>
       </Page.Main>
     </>
   );

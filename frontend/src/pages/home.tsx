@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { useInfiniteQuery } from 'react-query';
 
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
@@ -12,13 +12,10 @@ import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
-  followsSelector,
   hasFollowSelector,
   isAuthenticatedSelector,
   isRegisteredSelector,
 } from 'src/recoil/user';
-
-import postsAtom from 'src/recoil/posts';
 
 import { Page } from 'src/styles';
 
@@ -30,33 +27,21 @@ import { FAVICON } from 'src/globals/constants';
 function Home() {
   const user = useRecoilValue(userAtom);
   const hasFollow = useRecoilValue(hasFollowSelector);
-  const follows = useRecoilValue(followsSelector);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
-  const setPosts = useSetRecoilState(postsAtom);
 
   const [hasFollowTemp] = useState(hasFollow);
-  const { refetch, isFetched } = useQuery(
-    ['home', 'posts', user._id],
-    () => Fetcher.getPosts(user),
+  const { refetch, data } = useInfiniteQuery(
+    ['home', 'posts', user],
+    (context) => Fetcher.getPosts(user, context),
     {
-      onSuccess: (posts) => {
-        setPosts(posts!);
-      },
+      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
     },
   );
 
-  // when registered
-  useEffect(() => {
-    if (isRegistered) {
-      refetch();
-    }
-  }, [isRegistered, refetch]);
-
-  // when follows new user
-  useEffect(() => {
+  const handlePostWrite = () => {
     refetch();
-  }, [follows, refetch]);
+  };
 
   return (
     <>
@@ -65,17 +50,16 @@ function Home() {
         <meta name='description' content={HOME_DESCRIPTION} />
         <link rel='icon' href={FAVICON} />
       </Head>
-
       <Header />
       <Page.Main>
         <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
-          {isAuthenticated && isRegistered && isFetched && <Timeline />}
+          {isRegistered && <Timeline pages={data?.pages} />}
         </Col>
       </Page.Main>
-      {isAuthenticated && <FloatingButton />}
+      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
     </>
   );
 }
