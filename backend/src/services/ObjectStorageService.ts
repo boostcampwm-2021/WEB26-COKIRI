@@ -1,6 +1,6 @@
-import S3 from 'src/utils/ObjectStorage';
+import { S3 } from 'src/utils';
 
-class ObjectStroageService {
+class ObjectStorageService {
   async deleteObject(objectName: string) {
     return S3.deleteObject({
       Bucket: 'cocoo',
@@ -9,4 +9,4 @@ class ObjectStroageService {
   }
 }
 
-export default new ObjectStroageService();
+export default new ObjectStorageService();

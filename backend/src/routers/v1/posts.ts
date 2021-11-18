@@ -15,26 +15,27 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await PostService.findTimeline(userID as string, +cursor!);
-    return response.json(posts);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
   }
 
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
-    return response.json(await PostService.findRandomPost());
+    const posts = await PostService.findRandomPost();
+    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
   }
 
   @Get('/:postID/likes')
   async getPostLikeList(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
     const postLikes = await PostLikeService.findPostLikes(postID);
-    return response.json(postLikes);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: postLikes });
   }
 
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
     const post = await PostService.findPost(postID);
-    return response.json(post);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Put('/:postID/tistory')
@@ -47,7 +48,7 @@ export default class PostsRouter {
     }
     await PostService.updateTistoryPost(userID, postID);
     const post = await PostService.findPost(postID);
-    return response.json(post);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Post('/')
@@ -55,7 +56,7 @@ export default class PostsRouter {
   async postPost(@Req() request: Request, @Res() response: Response) {
     const data = request.body;
     const post = await PostService.createPost(data);
-    return response.json({ code: RESPONSECODE.SUCCESS, result: post });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Post('/:postID/comments')
@@ -70,7 +71,7 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const comment = await CommentService.createComment(userID, content, postID);
-    return response.json({ code: RESPONSECODE.SUCCESS, result: comment });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: comment });
   }
 
   @Post('/:postID/likes')
@@ -85,7 +86,7 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const _id = await PostLikeService.createPostLike(userID, postID);
-    return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: { _id } });
   }
 
   @Post('/:postID/comments/:commentID/likes')
@@ -101,7 +102,7 @@ export default class PostsRouter {
     }
     await CommentService.existsComment(postID, commentID, undefined);
     const _id = await CommentLikeService.createCommentLike(userID, commentID);
-    return response.json({ code: RESPONSECODE.SUCCESS, result: { _id } });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: { _id } });
   }
 
   @Delete('/:postID')

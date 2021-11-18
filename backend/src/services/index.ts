@@ -9,6 +9,6 @@ export { default as BlogService } from './BlogService';
 export { default as SearchService } from './SearchService';
 export { default as VelogService } from './VelogService';
 export { default as ImageService } from './ImageService';
-export { default as ObjectStroageService } from './ObjectStroageService';
+export { default as ObjectStorageService } from './ObjectStorageService';
 export { default as NotifyService } from './NotifyService';
 export { default as FollowService } from './FollowService';
