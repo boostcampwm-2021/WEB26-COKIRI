@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import ButtonCommon from 'src/components/buttons/Common';
 import PostWriteModal from 'src/components/modals/PostWriteModal';
@@ -7,7 +8,11 @@ import { FLOATING_BUTTON_WIDTH, FLOATING_BUTTON_HEIGHT } from 'src/globals/const
 
 import { Wrapper } from './style';
 
-function FloatingButton() {
+interface Props {
+  onPostWrite?: () => void;
+}
+
+function FloatingButton({ onPostWrite }: Props) {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const changeModalShow = useCallback(() => {
@@ -20,7 +25,7 @@ function FloatingButton() {
 
   return (
     <Wrapper>
-      {isModalShow && <PostWriteModal onClose={handleClose} />}
+      {isModalShow && <PostWriteModal onClose={handleClose} onPostWrite={onPostWrite} />}
       <ButtonCommon
         onClick={changeModalShow}
         width={FLOATING_BUTTON_WIDTH}
@@ -31,5 +36,13 @@ function FloatingButton() {
     </Wrapper>
   );
 }
+
+FloatingButton.prototype = {
+  onPostWrite: PropTypes.func,
+};
+
+FloatingButton.defaultProps = {
+  onPostWrite: () => {},
+};
 
 export default FloatingButton;
