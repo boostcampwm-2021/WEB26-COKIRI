@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 import CommentLikeButton from 'src/components/buttons/CommentLikeButton';
+import CommentDeleteButton from 'src/components/buttons/deletes/CommentDeleteButton';
 import { Row } from 'src/components/Grid';
 
 import {
@@ -15,14 +17,19 @@ import {
 
 import { CommentType } from 'src/types';
 
+import userAtom from 'src/recoil/user';
+
 interface Props {
   postID: string;
   comment: CommentType;
+  setComments: Dispatch<SetStateAction<CommentType[]>>;
 }
 
-function Comment({ postID, comment }: Props) {
+function Comment({ postID, comment, setComments }: Props) {
+  const user = useRecoilValue(userAtom);
   const commentLikes = comment.likes ?? [];
   const [likeCount, setLikeCount] = useState(commentLikes.length);
+  const isMe = user._id === comment.user._id;
   return (
     <Row justifyContent='space-between'>
       <Row alignItems='center'>
@@ -47,6 +54,9 @@ function Comment({ postID, comment }: Props) {
           setLikeCount={setLikeCount}
           margin={COMMENT_LIKE_BUTTON_MARGIN}
         />
+        {isMe && (
+          <CommentDeleteButton postID={postID} commentID={comment._id} setComments={setComments} />
+        )}
       </Row>
     </Row>
   );
@@ -55,6 +65,7 @@ function Comment({ postID, comment }: Props) {
 Comment.propTypes = {
   postID: PropTypes.string.isRequired,
   comment: PropTypes.objectOf(PropTypes.any).isRequired,
+  setComments: PropTypes.func.isRequired,
 };
 
 export default Comment;
