@@ -74,7 +74,9 @@ export const SUGGESTION_CARD_WIDTH = 800;
 
 export const USER_INFO_CARD_WIDTH = 500;
 
-export const USER_SETTING_CARD_WIDTH = 800;
+export const USER_SETTING_CARD_WIDTH = 600;
+
+export const EXTERNAL_AUTH_CARD_WIDTH = 600;
 
 // POST
 export const POST_CONTENT_LIMIT_LENGTH = 100;
@@ -83,3 +85,6 @@ export const DETAIL_POST_CONTENT_WIDTH = 350;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;
+
+// MODAL
+export const REPOS_MODAL_HEIGHT = 500;

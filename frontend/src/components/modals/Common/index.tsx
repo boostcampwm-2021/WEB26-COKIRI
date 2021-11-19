@@ -11,13 +11,14 @@ interface Props {
   onConfirm?: () => void;
   close?: string;
   confirm?: string;
+  height?: number;
 }
 
-function ModalCommon({ children, onClose, onConfirm, close, confirm }: Props) {
+function ModalCommon({ children, onClose, onConfirm, close, confirm, height }: Props) {
   return (
     <>
       <Background onClick={onClose} />
-      <Card>
+      <Card height={height!}>
         <Col alignItems='center'>
           {children}
           <Row>
@@ -37,6 +38,7 @@ ModalCommon.propTyps = {
   onConfirm: PropTypes.func,
   close: PropTypes.string,
   confirm: PropTypes.string,
+  height: PropTypes.number,
 };
 
 ModalCommon.defaultProps = {
@@ -44,6 +46,7 @@ ModalCommon.defaultProps = {
   onConfirm: () => {},
   close: '',
   confirm: '',
+  height: 0,
 };
 
 export default ModalCommon;
