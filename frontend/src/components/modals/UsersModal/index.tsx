@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 
 import { Col, Row } from 'src/components/Grid';
 
-import { UserType } from 'src/types';
 import ModalCommon from 'src/components/modals/Common';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import FollowSet from 'src/components/sets/FollowSet';
+
+import { UserType } from 'src/types';
 
 interface Props {
   title: string;
@@ -19,7 +20,7 @@ function UsersModal({ title, users, onClose }: Props) {
       {title}
       <Col>
         {users?.map((user) => (
-          <Row justifyContent='space-between' key={user.username}>
+          <Row justifyContent='space-between' key={user._id}>
             <ProfileSet profileImage={user.profileImage} username={user.username!} />
             <FollowSet targetUserID={user._id!} />
           </Row>
