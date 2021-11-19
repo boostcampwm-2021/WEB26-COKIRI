@@ -30,13 +30,13 @@ function Post({ post, onPostDelete }: Props) {
   const me = useRecoilValue(userAtom);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
   const [comments, setComments] = useState<CommentType[]>([]);
-  const onCommentDelete = (commentID: string) => {
+  const handleCommentWrite = (comment: CommentType) => {
+    setComments((prevState: CommentType[]) => [...prevState, comment]);
+  };
+  const handleCommentDelete = (commentID: string) => {
     setComments((prevState: CommentType[]) =>
       [...prevState].filter((comment) => comment._id !== commentID),
     );
-  };
-  const onCommentWrite = (comment: CommentType) => {
-    setComments((prevState: CommentType[]) => [...prevState, comment]);
   };
   const { _id, user, images, content, likes } = post;
   const hidden = me._id !== user!._id;
@@ -54,8 +54,8 @@ function Post({ post, onPostDelete }: Props) {
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
       <PostContent content={content!} />
-      <PostComments postID={_id!} comments={comments} onCommentDelete={onCommentDelete} />
-      <CommentInput postID={_id!} onCommentWrite={onCommentWrite} />
+      <PostComments postID={_id!} comments={comments} onCommentDelete={handleCommentDelete} />
+      <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />
     </CardCommon>
   );
 }

@@ -40,13 +40,13 @@ function DetailPost({ postID }: Props) {
   );
   const [comments, setComments] = useState<CommentType[]>([]);
   const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
-  const onCommentDelete = (commentID: string) => {
+  const handleCommentWrite = (comment: CommentType) => {
+    setComments((prevState: CommentType[]) => [...prevState, comment]);
+  };
+  const handleCommentDelete = (commentID: string) => {
     setComments((prevState: CommentType[]) =>
       [...prevState].filter((comment) => comment._id !== commentID),
     );
-  };
-  const onCommentWrite = (comment: CommentType) => {
-    setComments((prevState: CommentType[]) => [...prevState, comment]);
   };
   if (isLoading) {
     return <LoadingIndicator />;
@@ -78,11 +78,11 @@ function DetailPost({ postID }: Props) {
             postID={post!._id!}
             comments={comments}
             expanded
-            onCommentDelete={onCommentDelete}
+            onCommentDelete={handleCommentDelete}
           />
           <CommentInput
             postID={post!._id!}
-            onCommentWrite={onCommentWrite}
+            onCommentWrite={handleCommentWrite}
             width={DETAIL_COMMENT_INPUT_WIDTH}
             iconSize={DETAIL_COMMENT_ICON_SIZE}
             padding={DETAIL_COMMENT_ICON_PADDING}
