@@ -20,7 +20,6 @@ const IconHolder = styled.div`
   background: #1e1e1e;
   box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
   align-self: start;
-  margin-bottom: 24px;
   width: 48px;
   height: 48px;
 `;
