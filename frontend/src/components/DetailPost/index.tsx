@@ -70,7 +70,12 @@ function DetailPost({ postID }: Props) {
           </Row>
           {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
           <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
-          <PostComments postID={post!._id!} comments={comments} expanded />
+          <PostComments
+            postID={post!._id!}
+            comments={comments}
+            expanded
+            setComments={setComments}
+          />
           <CommentInput
             postID={post!._id!}
             setComments={setComments}
