@@ -138,10 +138,9 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    /**
-     * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
-     */
-    const result = await GitService.findRepoList(userID);
+    const githubUsername = await UserService.findGithubUsername(userID);
+
+    const result = await GitService.findRepoList(githubUsername);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 

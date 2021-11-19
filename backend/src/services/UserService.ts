@@ -26,6 +26,11 @@ class UserService {
     return User.exists({ username: query });
   }
 
+  async findGithubUsername(userID: string) {
+    const data: any = await User.findOne({ _id: userID }, 'githubUsername -_id');
+    return data.githubUsername;
+  }
+
   async findOneUserVelogToken(userID: string) {
     return User.findOne({ _id: userID }, 'blogAuthentication.velog -_id').lean();
   }
