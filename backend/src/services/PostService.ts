@@ -37,26 +37,27 @@ class PostService {
 
   async createPost(data: any) {
     let { images } = data;
-    const { link, type, blog, blogIdentity } = data;
+    const { link, type, external, externalContent } = data;
+    const isLinkedPost = link && external && externalContent && !images?.length;
     switch (type) {
       case undefined:
       case 'normal':
-        if (link || blog || blogIdentity) {
+        if (isLinkedPost) {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'blog':
-        if (!link || !blog || !blogIdentity || images?.length) {
+        if (!isLinkedPost && (external.type !== 'tistory' || external.type !== 'velog')) {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'github':
-        if (!link || blog || blogIdentity || images?.length) {
+        if (!isLinkedPost && external.type !== 'github') {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       case 'algorithm':
-        if (!link || blog || blogIdentity || images?.length) {
+        if (!isLinkedPost && external.type !== 'algorithm') {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
@@ -84,6 +85,7 @@ class PostService {
           'user.profileImage': true,
           title: true,
           content: true,
+          externalContent: true,
           tags: true,
           link: true,
           createdAt: true,
@@ -136,24 +138,19 @@ class PostService {
   async updateTistoryPost(userID: string, postID: string) {
     const post: PostType = await Post.findOne(
       { _id: postID },
-      'blogIdentity blog blogPostID -_id',
+      'external externalContent -_id',
     ).lean();
-    if (post.blog !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
-      throw new Error(ERROR.NO_POSTS);
-    }
-    const newBlogContent = await TistoryService.getPostContent(
-      userID,
-      post.blogIdentity,
-      post.blogPostID,
-    );
-    return Post.updateOne(
-      { _id: postID },
-      {
-        link: newBlogContent.link,
-        title: newBlogContent.title,
-        content: newBlogContent.content,
-      },
-    );
+    console.log(post);
+    // if (post.external.type !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
+    //   throw new Error(ERROR.NO_POSTS);
+    // }
+    // const newBlogContent = await TistoryService.getPostContent(
+    //   userID,
+    //   post.blogIdentity,
+    //   post.blogPostID,
+    // );
+    // console.log(newBlogContent);
+    // return Post.updateOne({ _id: postID }, { ...newBlogContent });
   }
 
   async removePost(postID: string) {

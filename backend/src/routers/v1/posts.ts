@@ -38,17 +38,20 @@ export default class PostsRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
-  @Put('/:postID/tistory')
+  @Put('/:postID/blog')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putTistoryPost(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.body;
+    const { userID, type } = request.body;
     const { postID } = request.params;
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await PostService.updateTistoryPost(userID, postID);
+    if (!type) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    if (type === 'tistory') await PostService.updateTistoryPost(userID, postID);
     const post = await PostService.findPost(postID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: post });
+    // return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Post('/')
