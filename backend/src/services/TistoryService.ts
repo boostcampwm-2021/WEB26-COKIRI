@@ -42,9 +42,6 @@ class TistoryService {
 
   async getPostContent(userID: string, identity: string, postID: string) {
     const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
-    if (!accessToken) {
-      throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
-    }
     try {
       const postResponse = await axios.get(OPENAPIURL.TISTORY_POST_READ, {
         params: {

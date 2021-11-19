@@ -41,6 +41,9 @@ class UserService {
     if (!user) {
       throw new Error(ERROR.NO_USERS);
     }
+    if (!user.blogAuthentication || !user.blogAuthentication!.tistory) {
+      throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
+    }
     return user.blogAuthentication!.tistory;
   }
 

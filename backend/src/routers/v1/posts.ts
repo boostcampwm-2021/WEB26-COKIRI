@@ -54,7 +54,11 @@ export default class PostsRouter {
   @Post('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postPost(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.body;
     const data = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
     const post = await PostService.createPost(data);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
@@ -126,6 +130,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
+    await PostLikeService.removePostLike(userID, postID, likeID);
     const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
     if (!deletedCount) {
       throw new Error(ERROR.NO_POST_LIKES);

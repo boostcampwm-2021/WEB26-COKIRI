@@ -6,7 +6,6 @@ import { CommentService, PostLikeService, TistoryService } from 'src/services/in
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
-import { constants } from 'buffer';
 
 class PostService {
   async existsPost(postID: string, userID: string) {
