@@ -97,6 +97,16 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getUserFollows(targetUserID: string) {
+    const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/follows`);
+    return result.data.data;
+  }
+
+  static async getUserFollowers(targetUserID: string) {
+    const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/followers`);
+    return result.data.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
