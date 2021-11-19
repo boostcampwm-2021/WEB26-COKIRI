@@ -29,7 +29,7 @@ function Comment({ postID, comment, setComments }: Props) {
   const user = useRecoilValue(userAtom);
   const commentLikes = comment.likes ?? [];
   const [likeCount, setLikeCount] = useState(commentLikes.length);
-  const isMe = user._id === comment.user._id;
+  const hidden = user._id !== comment.user._id;
   return (
     <Row justifyContent='space-between'>
       <Row alignItems='center'>
@@ -54,9 +54,12 @@ function Comment({ postID, comment, setComments }: Props) {
           setLikeCount={setLikeCount}
           margin={COMMENT_LIKE_BUTTON_MARGIN}
         />
-        {isMe && (
-          <CommentDeleteButton postID={postID} commentID={comment._id} setComments={setComments} />
-        )}
+        <CommentDeleteButton
+          postID={postID}
+          commentID={comment._id}
+          setComments={setComments}
+          hidden={hidden}
+        />
       </Row>
     </Row>
   );

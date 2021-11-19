@@ -12,7 +12,7 @@ import PostComments from 'src/components/PostComments';
 import LikesButton from 'src/components/buttons/LikesButton';
 import CardCommon from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
-import PostEditButton from 'src/components/buttons/deletes/PostDeleteButton';
+import PostDeleteButton from 'src/components/buttons/deletes/PostDeleteButton';
 import { Row } from 'src/components/Grid';
 
 import { CommentType, PostType } from 'src/types';
@@ -23,9 +23,10 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   post: PostType;
+  onPostDelete: () => void;
 }
 
-function Post({ post }: Props) {
+function Post({ post, onPostDelete }: Props) {
   const me = useRecoilValue(userAtom);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
   const [comments, setComments] = useState<CommentType[]>([]);
@@ -36,12 +37,12 @@ function Post({ post }: Props) {
     setLikeCount(post.likes!.length);
   }, [post.likes]);
   const { _id, user, images, content, likes } = post;
-  const isMyPost = me._id === user!._id;
+  const hidden = me._id !== user!._id;
   return (
     <CardCommon width={POST_CARD_WIDTH}>
       <Row justifyContent='space-between'>
         <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
-        {isMyPost && <PostEditButton postID={_id!} />}
+        {!hidden && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
       </Row>
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
@@ -59,6 +60,7 @@ function Post({ post }: Props) {
 
 Post.propTypes = {
   post: PropTypes.objectOf(PropTypes.any).isRequired,
+  onPostDelete: PropTypes.func.isRequired,
 };
 
 export default Post;
