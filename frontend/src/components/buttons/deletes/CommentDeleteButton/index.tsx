@@ -15,9 +15,10 @@ interface Props {
   postID: string;
   commentID: string;
   setComments: Dispatch<SetStateAction<CommentType[]>>;
+  hidden: boolean;
 }
 
-function CommentDeleteButton({ postID, commentID, setComments }: Props) {
+function CommentDeleteButton({ postID, commentID, setComments, hidden }: Props) {
   const user = useRecoilValue(userAtom);
 
   const mutation = useMutation(() => Fetcher.deleteComment(user, postID, commentID), {
@@ -26,13 +27,14 @@ function CommentDeleteButton({ postID, commentID, setComments }: Props) {
         [...prevState].filter((comment) => comment._id !== commentID),
       ),
   });
-  return <DeleteCommon mutation={mutation} content='댓글' />;
+  return <DeleteCommon mutation={mutation} content='댓글' hidden={hidden} />;
 }
 
 CommentDeleteButton.propTypes = {
   postID: PropTypes.string.isRequired,
   commentID: PropTypes.string.isRequired,
   setComments: PropTypes.func.isRequired,
+  hidden: PropTypes.bool.isRequired,
 };
 
 export default CommentDeleteButton;
