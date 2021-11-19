@@ -140,17 +140,22 @@ class PostService {
       { _id: postID },
       'external externalContent -_id',
     ).lean();
-    console.log(post);
-    // if (post.external.type !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
-    //   throw new Error(ERROR.NO_POSTS);
-    // }
-    // const newBlogContent = await TistoryService.getPostContent(
-    //   userID,
-    //   post.blogIdentity,
-    //   post.blogPostID,
-    // );
-    // console.log(newBlogContent);
-    // return Post.updateOne({ _id: postID }, { ...newBlogContent });
+    if (!post.external || !post.externalContent || post.external.type !== 'tistory') {
+      throw new Error(ERROR.INVALID_TISTORY_POST);
+    }
+    const newBlogContent = await TistoryService.getPostContent(
+      userID,
+      post.external.identity,
+      post.external.target,
+    );
+    return Post.updateOne(
+      { _id: postID },
+      {
+        title: newBlogContent.title,
+        externalContent: newBlogContent.externalContent,
+        link: newBlogContent.link,
+      },
+    );
   }
 
   async removePost(postID: string) {

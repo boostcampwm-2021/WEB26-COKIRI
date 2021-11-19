@@ -28,6 +28,7 @@ export const ERROR = {
   NO_POST_LIKES: '게시글 좋아요가 존재하지 않습니다.',
   NO_COMMENT_LIKES: '댓글 좋아요가 존재하지 않습니다.',
   NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
+  INVALID_TISTORY_POST: 'Tistory 연동된 Post 가 아닙니다.',
   INVALID_TISTORY_ACCESS_TOKEN: 'Tistory Access Token 이 유효하지 않습니다.',
   INVALID_REQUEST: '잘못된 요청입니다.',
   IS_NOT_EXIST_VELOG_EMAIL: 'Velog Email 을 등록하지 않은 사용자입니다.',
