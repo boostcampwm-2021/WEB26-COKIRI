@@ -34,7 +34,7 @@ function UserInfoCard({ targetUser }: Props) {
 
   const isMe = _id === user._id;
   const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
-  const handleUnfollow = () => setFollowerCount((prevState) => prevState + 1);
+  const handleUnfollow = () => setFollowerCount((prevState) => prevState - 1);
 
   return (
     <CardCommon width={USER_INFO_CARD_WIDTH}>
