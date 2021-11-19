@@ -7,6 +7,8 @@ import CardCommon from 'src/components/cards/Common';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import ProfileImage from 'src/components/images/ProfileImage';
 import FollowSet from 'src/components/sets/FollowSet';
+import FollowsButton from 'src/components/buttons/FollowsButton';
+import FollowersButton from 'src/components/buttons/FollowersButton';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -19,7 +21,7 @@ import {
 
 import userAtom from 'src/recoil/user';
 
-import { ImageHolder, Username } from './style';
+import { Username } from './style';
 
 interface Props {
   targetUser: UserType;
@@ -36,15 +38,13 @@ function UserInfoCard({ targetUser }: Props) {
 
   return (
     <CardCommon width={USER_INFO_CARD_WIDTH}>
-      <Row>
-        <ImageHolder>
-          <ProfileImage
-            size={USER_INFO_PROFILE_IMAGE_SIZE}
-            profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
-          />
-        </ImageHolder>
+      <Row alignItems='center' justifyContent='center'>
+        <ProfileImage
+          size={USER_INFO_PROFILE_IMAGE_SIZE}
+          profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
+        />
         <Col>
-          <Row>
+          <Row alignItems='center' justifyContent='center'>
             <Username>{username}</Username>
             {isMe && (
               <NavigateIconButton href={`/users/${username}/settings`}>
@@ -53,10 +53,10 @@ function UserInfoCard({ targetUser }: Props) {
             )}
             <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
           </Row>
-          <Row>
+          <Row alignItems='center' justifyContent='center'>
             <p>{postCount} posts</p>
-            <p>{followerCount} followers</p>
-            <p>{followCount} following</p>
+            <FollowsButton count={followCount!} targetUserID={_id!} />
+            <FollowersButton count={followerCount!} targetUserID={_id!} />
           </Row>
           <Row>
             <p>{name}</p>
