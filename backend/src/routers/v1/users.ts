@@ -163,7 +163,8 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 
-  @Get('/:githubUsername/repositories/:repoName')
+  @Get('/:userID/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { userID, repoName } = request.params;
     if (userID !== request.user!.userID) {
