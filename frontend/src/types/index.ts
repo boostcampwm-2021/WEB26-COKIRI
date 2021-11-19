@@ -5,7 +5,7 @@ import ThemeType from './theme';
 import CommentType from './comment';
 import ImageType from './image';
 import ReturnType from './return';
-import RepositoryType from './repository';
+import RepoType from './repo';
 
 export type {
   UserType,
@@ -15,5 +15,5 @@ export type {
   CommentType,
   ImageType,
   ReturnType,
-  RepositoryType,
+  RepoType,
 };

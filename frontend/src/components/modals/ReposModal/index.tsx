@@ -17,11 +17,11 @@ interface Props {
   onClose: () => void;
 }
 
-function RepositoriesModal({ onClose, onSelect }: Props) {
+function ReposModal({ onClose, onSelect }: Props) {
   // const user = useRecoilValue(userAtom);
   // eslint-disable-next-line no-unused-vars
   // const { data: repositories } = useQuery(['repositories', user._id], () =>
-  //   Fetcher.getUserRepositories(user),
+  //   Fetcher.getUserRepos(user),
   // );
   const handleOnConfirm = () => {
     onSelect();
@@ -46,14 +46,14 @@ function RepositoriesModal({ onClose, onSelect }: Props) {
   );
 }
 
-RepositoriesModal.propTypes = {
+ReposModal.propTypes = {
   onClose: PropTypes.func,
   onSelect: PropTypes.func,
 };
 
-RepositoriesModal.defaultProps = {
+ReposModal.defaultProps = {
   onClose: () => {},
   onSelect: () => {},
 };
 
-export default RepositoriesModal;
+export default ReposModal;

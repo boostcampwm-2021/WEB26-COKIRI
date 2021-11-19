@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { QueryFunctionContext } from 'react-query';
 
-import { UserType, PostType, LikeType, ReturnType, CommentType, RepositoryType } from 'src/types';
+import { UserType, PostType, LikeType, ReturnType, CommentType, RepoType } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const version = 'v1';
@@ -90,7 +90,7 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getUserRepositories(user: UserType): Promise<RepositoryType[]> {
+  static async getUserRepos(user: UserType): Promise<RepoType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/repositories`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });

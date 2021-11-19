@@ -8,7 +8,7 @@ import ModalCommon from 'src/components/modals/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
 import PreviewImages from 'src/components/images/PreviewImages';
 import ButtonCommon from 'src/components/buttons/Common';
-import RepositoriesModal from 'src/components/modals/RepositoriesModal';
+import ReposModal from 'src/components/modals/ReposModal';
 import { Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -25,7 +25,7 @@ interface Props {
 function PostWriteModal({ onClose, onPostWrite }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
-  const [isRepositoriesModalShow, setIsRepositoriesModalShow] = useState(false);
+  const [isReposModalShow, setIsReposModalShow] = useState(false);
   const user = useRecoilValue(userAtom);
   const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
     onSuccess: () => {
@@ -56,16 +56,16 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
   }, []);
 
   const handleClickGithub = () => {
-    setIsRepositoriesModalShow(true);
+    setIsReposModalShow(true);
   };
 
-  const handleRepositoriesModalClose = () => {
-    setIsRepositoriesModalShow(false);
+  const handleReposModalClose = () => {
+    setIsReposModalShow(false);
   };
 
   return (
     <>
-      {isRepositoriesModalShow && <RepositoriesModal onClose={handleRepositoriesModalClose} />}
+      {isReposModalShow && <ReposModal onClose={handleReposModalClose} />}
       <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
         <Row justifyContent='center' alignItems='center' margin={16}>
           <ImageInput onImageUpload={handleImageUpload}>
