@@ -1,14 +1,5 @@
 import styled from '@emotion/styled';
 
-const Wrapper = styled.div`
-  p {
-    margin: 0 6px;
-  }
-  button {
-    margin: 0 16px;
-  }
-`;
-
 const Username = styled.p`
   font-size: 36px;
   padding: 0 12px 0 0;
@@ -25,4 +16,4 @@ const ImageHolder = styled.div`
   overflow: hidden;
 `;
 
-export { Wrapper, Username, ImageHolder };
+export { Username, ImageHolder };

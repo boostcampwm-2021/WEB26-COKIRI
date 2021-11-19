@@ -19,7 +19,7 @@ import {
 
 import userAtom from 'src/recoil/user';
 
-import { Wrapper, ImageHolder, Username } from './style';
+import { ImageHolder, Username } from './style';
 
 interface Props {
   targetUser: UserType;
@@ -27,7 +27,7 @@ interface Props {
 
 function UserInfoCard({ targetUser }: Props) {
   const user = useRecoilValue(userAtom);
-  const { profileImage, username, postCount, followCount, name, bio } = targetUser;
+  const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
 
   const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
@@ -40,45 +40,38 @@ function UserInfoCard({ targetUser }: Props) {
   }, []);
 
   return (
-    <Wrapper>
-      <CardCommon width={USER_INFO_CARD_WIDTH}>
-        <Row>
-          <ImageHolder>
-            <ProfileImage
-              size={USER_INFO_PROFILE_IMAGE_SIZE}
-              profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
-            />
-          </ImageHolder>
-          <Col>
-            <Row>
-              <Username>{username}</Username>
-              {isMe ? (
-                <NavigateIconButton href={`/users/${targetUser.username}/settings`}>
-                  <IoSettingsOutline />
-                </NavigateIconButton>
-              ) : (
-                <FollowSet
-                  targetUserID={targetUser._id!}
-                  onFollow={handleFollow}
-                  onUnfollow={handleUnfollow}
-                />
-              )}
-            </Row>
-            <Row>
-              <p>{postCount} posts</p>
-              <p>{followerCount} followers</p>
-              <p>{followCount} following</p>
-            </Row>
-            <Row>
-              <p>{name}</p>
-            </Row>
-            <Row>
-              <p>{bio}</p>
-            </Row>
-          </Col>
-        </Row>
-      </CardCommon>
-    </Wrapper>
+    <CardCommon width={USER_INFO_CARD_WIDTH}>
+      <Row>
+        <ImageHolder>
+          <ProfileImage
+            size={USER_INFO_PROFILE_IMAGE_SIZE}
+            profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
+          />
+        </ImageHolder>
+        <Col>
+          <Row>
+            <Username>{username}</Username>
+            {isMe && (
+              <NavigateIconButton href={`/users/${username}/settings`}>
+                <IoSettingsOutline />
+              </NavigateIconButton>
+            )}
+            <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
+          </Row>
+          <Row>
+            <p>{postCount} posts</p>
+            <p>{followerCount} followers</p>
+            <p>{followCount} following</p>
+          </Row>
+          <Row>
+            <p>{name}</p>
+          </Row>
+          <Row>
+            <p>{bio}</p>
+          </Row>
+        </Col>
+      </Row>
+    </CardCommon>
   );
 }
 
