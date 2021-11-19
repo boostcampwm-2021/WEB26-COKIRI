@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
@@ -9,31 +8,30 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { CommentType } from 'src/types';
-
 interface Props {
   postID: string;
   commentID: string;
-  setComments: Dispatch<SetStateAction<CommentType[]>>;
+  // eslint-disable-next-line no-unused-vars
+  onCommentDelete: (commentID: string) => void;
   hidden: boolean;
 }
 
-function CommentDeleteButton({ postID, commentID, setComments, hidden }: Props) {
+function CommentDeleteButton({ postID, commentID, onCommentDelete, hidden }: Props) {
   const user = useRecoilValue(userAtom);
 
   const mutation = useMutation(() => Fetcher.deleteComment(user, postID, commentID), {
-    onSuccess: () =>
-      setComments((prevState: CommentType[]) =>
-        [...prevState].filter((comment) => comment._id !== commentID),
-      ),
+    onSuccess: () => onCommentDelete(commentID),
   });
-  return <DeleteCommon mutation={mutation} content='댓글' hidden={hidden} />;
+  const handleClick = () => {
+    mutation.mutate();
+  };
+  return <DeleteCommon onClick={handleClick} content='댓글' hidden={hidden} />;
 }
 
 CommentDeleteButton.propTypes = {
   postID: PropTypes.string.isRequired,
   commentID: PropTypes.string.isRequired,
-  setComments: PropTypes.func.isRequired,
+  onCommentDelete: PropTypes.func.isRequired,
   hidden: PropTypes.bool.isRequired,
 };
 

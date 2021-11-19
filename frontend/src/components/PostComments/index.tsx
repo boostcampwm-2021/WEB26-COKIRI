@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Comment from 'src/components/Comment';
@@ -12,10 +12,11 @@ interface Props {
   postID: string;
   comments: CommentType[];
   expanded: boolean;
-  setComments: Dispatch<SetStateAction<CommentType[]>>;
+  // eslint-disable-next-line no-unused-vars
+  onCommentDelete: (commentID: string) => void;
 }
 
-function PostComments({ postID, comments, expanded, setComments }: Props) {
+function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
   const [isExpand, setIsExpand] = useState(expanded);
   const isLong = comments.length > 2;
   const handleClick = () => {
@@ -29,7 +30,7 @@ function PostComments({ postID, comments, expanded, setComments }: Props) {
               key={comment._id}
               postID={postID}
               comment={comment}
-              setComments={setComments}
+              onCommentDelete={onCommentDelete}
             />
           ))
         : comments
@@ -39,7 +40,7 @@ function PostComments({ postID, comments, expanded, setComments }: Props) {
                 key={comment._id}
                 postID={postID}
                 comment={comment}
-                setComments={setComments}
+                onCommentDelete={onCommentDelete}
               />
             ))}
       {!isExpand && isLong && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
@@ -51,7 +52,7 @@ PostComments.propTypes = {
   postID: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(PropTypes.any).isRequired,
   expanded: PropTypes.bool,
-  setComments: PropTypes.func.isRequired,
+  onCommentDelete: PropTypes.func.isRequired,
 };
 
 PostComments.defaultProps = {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 
@@ -40,10 +40,14 @@ function DetailPost({ postID }: Props) {
   );
   const [comments, setComments] = useState<CommentType[]>([]);
   const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
-  useEffect(() => {
-    setComments(post?.comments ?? []);
-    setLikeCount(post?.likes?.length ?? 0);
-  }, [post]);
+  const onCommentDelete = (commentID: string) => {
+    setComments((prevState: CommentType[]) =>
+      [...prevState].filter((comment) => comment._id !== commentID),
+    );
+  };
+  const onCommentWrite = (comment: CommentType) => {
+    setComments((prevState: CommentType[]) => [...prevState, comment]);
+  };
   if (isLoading) {
     return <LoadingIndicator />;
   }
@@ -74,11 +78,11 @@ function DetailPost({ postID }: Props) {
             postID={post!._id!}
             comments={comments}
             expanded
-            setComments={setComments}
+            onCommentDelete={onCommentDelete}
           />
           <CommentInput
             postID={post!._id!}
-            setComments={setComments}
+            onCommentWrite={onCommentWrite}
             width={DETAIL_COMMENT_INPUT_WIDTH}
             iconSize={DETAIL_COMMENT_ICON_SIZE}
             padding={DETAIL_COMMENT_ICON_PADDING}

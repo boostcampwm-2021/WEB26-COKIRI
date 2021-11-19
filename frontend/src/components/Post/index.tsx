@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -30,12 +30,14 @@ function Post({ post, onPostDelete }: Props) {
   const me = useRecoilValue(userAtom);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
   const [comments, setComments] = useState<CommentType[]>([]);
-  useEffect(() => {
-    setComments(post.comments!);
-  }, [post.comments]);
-  useEffect(() => {
-    setLikeCount(post.likes!.length);
-  }, [post.likes]);
+  const onCommentDelete = (commentID: string) => {
+    setComments((prevState: CommentType[]) =>
+      [...prevState].filter((comment) => comment._id !== commentID),
+    );
+  };
+  const onCommentWrite = (comment: CommentType) => {
+    setComments((prevState: CommentType[]) => [...prevState, comment]);
+  };
   const { _id, user, images, content, likes } = post;
   const hidden = me._id !== user!._id;
   return (
@@ -52,8 +54,8 @@ function Post({ post, onPostDelete }: Props) {
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
       <PostContent content={content!} />
-      <PostComments postID={_id!} comments={comments} setComments={setComments} />
-      <CommentInput postID={_id!} setComments={setComments} />
+      <PostComments postID={_id!} comments={comments} onCommentDelete={onCommentDelete} />
+      <CommentInput postID={_id!} onCommentWrite={onCommentWrite} />
     </CardCommon>
   );
 }

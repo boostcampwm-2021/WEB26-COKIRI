@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { UseMutationResult } from 'react-query';
 import PropTypes from 'prop-types';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
@@ -11,12 +10,12 @@ import { DELETE_BUTTON_SIZE, DELETE_BUTTON_PADDING } from 'src/globals/constants
 import { Title } from './style';
 
 interface Props {
-  mutation: UseMutationResult<void, unknown, void, unknown>;
+  onClick: () => void;
   content: string;
   hidden: boolean;
 }
 
-function DeleteCommon({ mutation, content, hidden }: Props) {
+function DeleteCommon({ onClick, content, hidden }: Props) {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const changeModalShow = useCallback(() => {
@@ -27,13 +26,10 @@ function DeleteCommon({ mutation, content, hidden }: Props) {
     setIsModalShow(false);
   }, []);
 
-  const handleClick = () => {
-    mutation.mutate();
-  };
   return (
     <>
       {isModalShow && (
-        <DeleteModal onConfirm={handleClick} onClose={handleClose}>
+        <DeleteModal onConfirm={onClick} onClose={handleClose}>
           <Title>{content}을 삭제하시겠습니까?</Title>
         </DeleteModal>
       )}
@@ -50,7 +46,7 @@ function DeleteCommon({ mutation, content, hidden }: Props) {
 }
 
 DeleteCommon.propTypes = {
-  mutation: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,
   hidden: PropTypes.bool,
 };

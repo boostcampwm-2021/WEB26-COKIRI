@@ -18,7 +18,10 @@ function PostDeleteButton({ postID, onPostDelete }: Props) {
   const mutation = useMutation(() => Fetcher.deletePost(user, postID), {
     onSuccess: () => onPostDelete(),
   });
-  return <DeleteCommon mutation={mutation} content='게시물' />;
+  const handleClick = () => {
+    mutation.mutate();
+  };
+  return <DeleteCommon onClick={handleClick} content='게시물' />;
 }
 
 PostDeleteButton.propTypes = {

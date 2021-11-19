@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -22,10 +22,11 @@ import userAtom from 'src/recoil/user';
 interface Props {
   postID: string;
   comment: CommentType;
-  setComments: Dispatch<SetStateAction<CommentType[]>>;
+  // eslint-disable-next-line no-unused-vars
+  onCommentDelete: (commentID: string) => void;
 }
 
-function Comment({ postID, comment, setComments }: Props) {
+function Comment({ postID, comment, onCommentDelete }: Props) {
   const user = useRecoilValue(userAtom);
   const commentLikes = comment.likes ?? [];
   const [likeCount, setLikeCount] = useState(commentLikes.length);
@@ -57,7 +58,7 @@ function Comment({ postID, comment, setComments }: Props) {
         <CommentDeleteButton
           postID={postID}
           commentID={comment._id}
-          setComments={setComments}
+          onCommentDelete={onCommentDelete}
           hidden={hidden}
         />
       </Row>
@@ -68,7 +69,7 @@ function Comment({ postID, comment, setComments }: Props) {
 Comment.propTypes = {
   postID: PropTypes.string.isRequired,
   comment: PropTypes.objectOf(PropTypes.any).isRequired,
-  setComments: PropTypes.func.isRequired,
+  onCommentDelete: PropTypes.func.isRequired,
 };
 
 export default Comment;
