@@ -85,3 +85,6 @@ export const DETAIL_POST_CONTENT_WIDTH = 350;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;
+
+// MODAL
+export const REPOS_MODAL_HEIGHT = 500;

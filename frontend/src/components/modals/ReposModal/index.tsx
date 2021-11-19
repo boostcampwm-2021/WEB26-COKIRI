@@ -10,6 +10,8 @@ import { Col } from 'src/components/Grid';
 
 // import { Fetcher } from 'src/utils';
 
+import { REPOS_MODAL_HEIGHT } from 'src/globals/constants';
+
 import { Wrapper } from './style';
 
 interface Props {
@@ -33,7 +35,7 @@ function ReposModal({ onClose, onSelect }: Props) {
         onConfirm={handleOnConfirm}
         close='취소'
         confirm='확인'
-        height={500}
+        height={REPOS_MODAL_HEIGHT}
         onClose={onClose}
       >
         <Col alignItems='center'>
