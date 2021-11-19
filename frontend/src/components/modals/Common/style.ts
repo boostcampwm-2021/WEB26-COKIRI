@@ -1,5 +1,9 @@
 import styled from '@emotion/styled';
 
+interface Props {
+  height: number;
+}
+
 const Background = styled.div`
   position: fixed;
   z-index: 2;
@@ -12,13 +16,14 @@ const Background = styled.div`
   background-color: rgba(35, 35, 35, 0.65);
 `;
 
-const Card = styled.div`
+const Card = styled.div<Props>`
   position: fixed;
   z-index: 2;
   padding: 32px;
   top: 146px;
   left: 0;
   right: 0;
+  height: ${({ height }) => (height === 0 ? 'unset' : `${height}px`)};
   width: 384px;
   display: flex;
   justify-content: center;
@@ -27,6 +32,11 @@ const Card = styled.div`
   border-radius: 50px;
   background: #1e1e1e;
   box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
+
+  button {
+    background: #1e1e1e;
+    box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
+  }
 `;
 
 const Button = styled.button`
