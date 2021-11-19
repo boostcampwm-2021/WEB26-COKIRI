@@ -3,7 +3,7 @@ import LikeType from './like';
 import UserType from './user';
 import ImageType from './image';
 
-export default interface postType {
+export default interface PostType {
   _id?: string;
   content?: string;
   images?: ImageType[];
