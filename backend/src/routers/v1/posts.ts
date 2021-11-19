@@ -51,7 +51,7 @@ export default class PostsRouter {
     }
     if (type === 'tistory') await PostService.updateTistoryPost(userID, postID);
     const post = await PostService.findPost(postID);
-    // return response.json({ code: RESPONSECODE.SUCCESS, data: post });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Post('/')
