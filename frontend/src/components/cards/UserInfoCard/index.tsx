@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
@@ -30,14 +30,9 @@ function UserInfoCard({ targetUser }: Props) {
   const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
 
-  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
-
-  const handleFollow = useCallback(() => {
-    setFollowerCount((prevState) => prevState + 1);
-  }, []);
-  const handleUnfollow = useCallback(() => {
-    setFollowerCount((prevState) => prevState - 1);
-  }, []);
+  const isMe = _id === user._id;
+  const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
+  const handleUnfollow = () => setFollowerCount((prevState) => prevState + 1);
 
   return (
     <CardCommon width={USER_INFO_CARD_WIDTH}>
