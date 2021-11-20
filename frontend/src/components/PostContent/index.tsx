@@ -5,7 +5,7 @@ import ButtonCommon from 'src/components/buttons/Common';
 
 import { POST_CONTENT_LIMIT_LENGTH, DEFAULT_POST_CONTENT_WIDTH } from 'src/globals/constants';
 
-import { Wrapper } from './style';
+import { Wrapper, Content } from './style';
 
 interface Props {
   content: string;
@@ -23,17 +23,17 @@ function PostContent({ content, width, expanded }: Props) {
   if (isShort) {
     return (
       <Wrapper width={width!}>
-        <p>{shortContent}</p>
+        <Content>{shortContent}</Content>
       </Wrapper>
     );
   }
   return isExpand ? (
     <Wrapper width={width!}>
-      <p>{content}</p>
+      <Content>{content}</Content>
     </Wrapper>
   ) : (
     <Wrapper width={width!}>
-      <p>{shortContent}</p>
+      <Content>{shortContent}</Content>
       <ButtonCommon onClick={handleClick}>더보기</ButtonCommon>
     </Wrapper>
   );

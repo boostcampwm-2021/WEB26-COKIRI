@@ -9,5 +9,8 @@ const Wrapper = styled.div<Props>`
   width: ${({ width }) => `${width}px`};
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+const Content = styled.p`
+  word-wrap: break-word;
+`;
+
+export { Wrapper, Content };
