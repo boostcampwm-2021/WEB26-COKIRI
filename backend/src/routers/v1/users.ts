@@ -262,6 +262,7 @@ export default class UsersRouter {
   }
 
   @Put('/:userID/dashboard')
+  @UseBefore(passport.authenticate('jwt', { session: false }))
   async putDashboard(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
     if (userID !== request.user!.userID) {
