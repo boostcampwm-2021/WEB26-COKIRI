@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 interface Props {
   count?: number;
   width: number;
+  expanded?: boolean;
 }
 
 const Wrapper = styled.div<Props>`
@@ -21,6 +22,7 @@ const ImageHolder = styled.ul<Props>`
     height: 100%;
   }
   img {
+    object-fit: ${({ expanded }) => (expanded ? 'contain' : 'cover')};
     background: #222222;
   }
 `;
