@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
 import { User } from 'src/models';
-import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
+import { User as UserType, UserAuthProvider, ObjectType, DashboardType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ERROR, AUTH, ObjectID } from 'src/utils';
 
@@ -121,8 +121,8 @@ class UserService {
     return result;
   }
 
-  async findOneUserDashboard(userID: string) {
-    const userDashboard = await User.findOne({ _id: userID }, 'dashboard -_id');
+  async findOneUserDashboard(username: string) {
+    const userDashboard = await User.findOne({ username }, 'dashboard -_id');
     if (!userDashboard) {
       throw new Error(ERROR.NO_USERS);
     }
@@ -161,6 +161,10 @@ class UserService {
       { ...userConfig, isRegistered: true },
       { runValidators: true, upsert: true },
     );
+  }
+
+  async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
+    return User.updateOne({ _id: userID }, { dashboard });
   }
 
   async updateOneProblemStatistics(userID: string, statistics: object) {

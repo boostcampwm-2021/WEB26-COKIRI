@@ -78,6 +78,13 @@ export default class UsersRouter {
     response.clearCookie('jwt');
   }
 
+  @Get('/dashboard')
+  async getDashboard(@Req() request: Request, @Res() response: Response) {
+    const { username } = request.query;
+    const dashboard = await UserService.findOneUserDashboard(username as string);
+    return response.json(dashboard);
+  }
+
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
@@ -152,17 +159,6 @@ export default class UsersRouter {
     const { userID } = request.params;
     const result = await NotifyService.findNotify(userID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
-  }
-
-  @Get('/:userID/dashboard')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async getDashboard(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    if (userID !== request.user?.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
-    }
-    UserService.findOneUserDashboard(userID);
-    return response.json();
   }
 
   @Get('/:userID/tistory/:identity/posts/:postID')
@@ -263,6 +259,16 @@ export default class UsersRouter {
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
     return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Put('/:userID/dashboard')
+  async putDashboard(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    await UserService.updateOneUserDashboard(userID, request.body);
+    return response.json();
   }
 
   @Put('/:userID/dashboard/problems/:username/statistics')
