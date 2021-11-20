@@ -40,6 +40,7 @@ export const ERROR = {
 export const OPENAPIURL = {
   PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
   PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
+  PROBLEM: 'https://www.acmicpc.net/problem/',
   TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
   TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
   TISTORY_POSTS: 'https://www.tistory.com/apis/post/list',
