@@ -11,7 +11,7 @@ const dashboardRepositorySchema = new Schema<DashboardRepositoryType>(
     startCount: { type: Number },
     forktCount: { type: Number },
     content: { type: String },
-    languageInfo: { any: { type: Number } },
+    languageInfo: { type: Object },
   },
   { versionKey: false, timestamps: true },
 );

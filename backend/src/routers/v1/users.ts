@@ -20,6 +20,7 @@ import {
   TistoryService,
   NotifyService,
   FollowService,
+  DashboardRepoService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 
@@ -191,6 +192,23 @@ export default class UsersRouter {
     }
     await FollowService.createFollow(userID, request.user!.userID);
     return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Post('/:userID/dashboard/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async postDashboardRepo(@Req() request: Request, @Res() response: Response) {
+    const { userID, repoName } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.WRONG_PARAMS_TYPE);
+    }
+    const githubUsername = await UserService.findGithubUsername(userID);
+    const repoData = await GitService.findRepo(githubUsername, repoName);
+    const result = await DashboardRepoService.createDashboardRepo(userID, repoData);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Put('/:userID/settings')
