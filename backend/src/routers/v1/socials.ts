@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { OPENAPIURL, JWT, Query, ERROR } from 'src/utils';
+import { OPENAPIURL, JWT, Query, ERROR, RESPONSECODE } from 'src/utils';
 import { BlogService, TistoryService, UserService, VelogService } from 'src/services';
 
 @Controller('/socials')
@@ -35,17 +35,19 @@ export default class SocialsRouter {
   }
 
   @Get('/tistory')
-  @Redirect('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   getTistory(@Req() request: Request, @Res() response: Response) {
     const { redirect_uri: redirectURIQuery } = request.query;
     const redirectURI: string = (redirectURIQuery as string) || '/';
-    return `${OPENAPIURL.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
-      client_id: process.env.TISTORY_CLIENT_ID,
-      redirect_uri: process.env.TISTORY_CALLBACK_URL,
-      response_type: 'code',
-      state: redirectURI,
-    })}`;
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      data: `${OPENAPIURL.TISTORY_AUTHORIZATION}?${Query.objectToQuery({
+        client_id: process.env.TISTORY_CLIENT_ID,
+        redirect_uri: process.env.TISTORY_CALLBACK_URL,
+        response_type: 'code',
+        state: redirectURI,
+      })}`,
+    });
   }
 
   @Get('/tistory/callback')
