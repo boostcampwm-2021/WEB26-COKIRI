@@ -121,6 +121,14 @@ class UserService {
     return result;
   }
 
+  async findOneUserDashboard(userID: string) {
+    const userDashboard = await User.findOne({ _id: userID }, 'dashboard -_id');
+    if (!userDashboard) {
+      throw new Error(ERROR.NO_USERS);
+    }
+    return userDashboard;
+  }
+
   async updateOneUserVelogAuthentication(nanoID: string, userID: string) {
     return User.updateOne(
       { _id: userID },
