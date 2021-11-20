@@ -72,8 +72,9 @@ class PostService {
     );
   }
 
-  async findRandomPost() {
+  async findRandomPost(userID: any) {
     const randomPosts = await Post.aggregate([
+      { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
       { $sample: { size: PERPAGE } },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
