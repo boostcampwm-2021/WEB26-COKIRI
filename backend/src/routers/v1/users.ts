@@ -153,6 +153,17 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
+  @Get('/:userID/dashboard')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async getDashboard(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    UserService.findOneUserDashboard(userID);
+    return response.json();
+  }
+
   @Get('/:userID/tistory/:identity/posts/:postID')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTistoryPostContent(@Req() request: Request, @Res() response: Response) {
