@@ -38,15 +38,18 @@ export default class PostsRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
-  @Put('/:postID/tistory')
+  @Put('/:postID/blog')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putTistoryPost(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.body;
+    const { userID, type } = request.body;
     const { postID } = request.params;
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await PostService.updateTistoryPost(userID, postID);
+    if (!type) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    if (type === 'tistory') await PostService.updateTistoryPost(userID, postID);
     const post = await PostService.findPost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
@@ -54,7 +57,11 @@ export default class PostsRouter {
   @Post('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postPost(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.body;
     const data = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
     const post = await PostService.createPost(data);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
@@ -126,6 +133,7 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
+    await PostLikeService.removePostLike(userID, postID, likeID);
     const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
     if (!deletedCount) {
       throw new Error(ERROR.NO_POST_LIKES);

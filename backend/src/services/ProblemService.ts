@@ -6,10 +6,12 @@ class ProblemService {
   async getSearchSuggestions(query: string) {
     const url = OPENAPIURL.PROBLEM_SEARCH_SUGGESTION;
     const result = await axios.get(url, { params: { query } });
-    return result.data.problems.map((problem: { id: number; title: string }) => ({
-      id: problem.id,
-      title: problem.title,
-    }));
+    return (result.data.problems as { id: number; title: string }[]).map(
+      (problem: { id: number; title: string }) => ({
+        id: problem.id,
+        title: problem.title,
+      }),
+    );
   }
 
   async getProblemShow(problemID: string) {

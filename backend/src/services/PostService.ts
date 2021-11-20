@@ -6,7 +6,6 @@ import { CommentService, PostLikeService, TistoryService } from 'src/services/in
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
-import { constants } from 'buffer';
 
 class PostService {
   async existsPost(postID: string, userID: string) {
@@ -14,6 +13,43 @@ class PostService {
     if (!isExist) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
+  }
+
+  async createPost(data: any) {
+    let { images } = data;
+    const { link, type, external, externalContent } = data;
+    const isLinkedPost = link && external && externalContent && !images?.length;
+    switch (type) {
+      case undefined:
+      case 'normal':
+        if (isLinkedPost) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'blog':
+        if (!isLinkedPost && (external.type !== 'tistory' || external.type !== 'velog')) {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'github':
+        if (!isLinkedPost && external.type !== 'github') {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      case 'algorithm':
+        if (!isLinkedPost && external.type !== 'algorithm') {
+          throw new Error(ERROR.WRONG_BODY_TYPE);
+        }
+        break;
+      default:
+    }
+    const post = await Post.create(data);
+    if (images?.length > 0) {
+      images = images.map((v: any) => ({ url: v, targetID: post._id }));
+      if (images) await Image.insertMany(images);
+    }
+    const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
+    return { ...newPostConfig[0], ...newPostConfig[1] };
   }
 
   async getPost(postID: Types.ObjectId) {
@@ -36,62 +72,12 @@ class PostService {
     );
   }
 
-  async createPost(data: any) {
-    let { images } = data;
-    const { link, type, blog, blogIdentity } = data;
-    switch (type) {
-      case undefined:
-      case 'normal':
-        if (link || blog || blogIdentity) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'blog':
-        if (!link || !blog || !blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'github':
-        if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'algorithm':
-        if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      default:
-    }
-    const post = await Post.create(data);
-    if (images?.length > 0) {
-      images = images.map((v: any) => ({ url: v, targetID: post._id }));
-      if (images) await Image.insertMany(images);
-    }
-    const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
-    return { ...newPostConfig[0], ...newPostConfig[1] };
-  }
-
   async findRandomPost() {
     const randomPosts = await Post.aggregate([
       { $sample: { size: PERPAGE } },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
-      {
-        $project: {
-          'user._id': true,
-          'user.username': true,
-          'user.profileImage': true,
-          title: true,
-          content: true,
-          tags: true,
-          link: true,
-          createdAt: true,
-          updatedAt: true,
-          type: true,
-        },
-      },
     ]);
     return this.getPostArray(randomPosts);
   }
@@ -137,22 +123,22 @@ class PostService {
   async updateTistoryPost(userID: string, postID: string) {
     const post: PostType = await Post.findOne(
       { _id: postID },
-      'blogIdentity blog blogPostID -_id',
+      'external externalContent -_id',
     ).lean();
-    if (post.blog !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
-      throw new Error(ERROR.NO_POSTS);
+    if (!post.external || !post.externalContent || post.external.type !== 'tistory') {
+      throw new Error(ERROR.INVALID_TISTORY_POST);
     }
     const newBlogContent = await TistoryService.getPostContent(
       userID,
-      post.blogIdentity,
-      post.blogPostID,
+      post.external.identity,
+      post.external.target,
     );
     return Post.updateOne(
       { _id: postID },
       {
-        link: newBlogContent.link,
         title: newBlogContent.title,
-        content: newBlogContent.content,
+        externalContent: newBlogContent.externalContent,
+        link: newBlogContent.link,
       },
     );
   }

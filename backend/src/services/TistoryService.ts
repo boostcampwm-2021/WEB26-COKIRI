@@ -42,9 +42,6 @@ class TistoryService {
 
   async getPostContent(userID: string, identity: string, postID: string) {
     const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
-    if (!accessToken) {
-      throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
-    }
     try {
       const postResponse = await axios.get(OPENAPIURL.TISTORY_POST_READ, {
         params: {
@@ -57,11 +54,13 @@ class TistoryService {
       const { title, content, postUrl } = postResponse.data.tistory.item;
       return {
         title,
-        content,
+        externalContent: content,
         link: postUrl,
-        blog: 'tistory',
-        blogPostID: postID,
-        blogIdentity: identity,
+        external: {
+          type: 'tistory',
+          identity,
+          target: postID,
+        },
       };
     } catch (error) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
