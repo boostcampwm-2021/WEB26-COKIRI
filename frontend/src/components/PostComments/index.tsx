@@ -12,9 +12,11 @@ interface Props {
   postID: string;
   comments: CommentType[];
   expanded: boolean;
+  // eslint-disable-next-line no-unused-vars
+  onCommentDelete: (commentID: string) => void;
 }
 
-function PostComments({ postID, comments, expanded }: Props) {
+function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
   const [isExpand, setIsExpand] = useState(expanded);
   const isLong = comments.length > 2;
   const handleClick = () => {
@@ -23,10 +25,24 @@ function PostComments({ postID, comments, expanded }: Props) {
   return (
     <Wrapper>
       {isExpand
-        ? comments.map((comment) => <Comment key={comment._id} postID={postID} comment={comment} />)
+        ? comments.map((comment) => (
+            <Comment
+              key={comment._id}
+              postID={postID}
+              comment={comment}
+              onCommentDelete={onCommentDelete}
+            />
+          ))
         : comments
             .slice(0, 2)
-            .map((comment) => <Comment key={comment._id} postID={postID} comment={comment} />)}
+            .map((comment) => (
+              <Comment
+                key={comment._id}
+                postID={postID}
+                comment={comment}
+                onCommentDelete={onCommentDelete}
+              />
+            ))}
       {!isExpand && isLong && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
     </Wrapper>
   );
@@ -36,6 +52,7 @@ PostComments.propTypes = {
   postID: PropTypes.string.isRequired,
   comments: PropTypes.arrayOf(PropTypes.any).isRequired,
   expanded: PropTypes.bool,
+  onCommentDelete: PropTypes.func.isRequired,
 };
 
 PostComments.defaultProps = {

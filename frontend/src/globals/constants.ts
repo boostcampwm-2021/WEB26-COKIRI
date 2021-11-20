@@ -49,6 +49,9 @@ export const POST_USERNAME_BUTTON_MARGIN_RIGHT = 8;
 
 export const DETAIL_PROFILE_SET_MARGIN_LEFT = 8;
 
+export const DELETE_BUTTON_SIZE = 20;
+export const DELETE_BUTTON_PADDING = 8;
+
 // ICON
 export const SOCIAL_ICON_SIZE = 48;
 
@@ -82,6 +85,9 @@ export const EXTERNAL_AUTH_CARD_WIDTH = 600;
 export const POST_CONTENT_LIMIT_LENGTH = 100;
 export const DEFAULT_POST_CONTENT_WIDTH = 575;
 export const DETAIL_POST_CONTENT_WIDTH = 350;
+
+// MODAL
+export const DELETE_MODAL_TITLE_HEIGHT = 50;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;

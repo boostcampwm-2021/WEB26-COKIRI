@@ -43,6 +43,9 @@ function Home() {
     refetch();
   };
 
+  const handlePostDelete = () => {
+    refetch();
+  };
   return (
     <>
       <Head>
@@ -56,7 +59,7 @@ function Home() {
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
-          {isRegistered && <Timeline pages={data?.pages} />}
+          {isRegistered && <Timeline pages={data?.pages} onPostDelete={handlePostDelete} />}
         </Col>
       </Page.Main>
       {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}

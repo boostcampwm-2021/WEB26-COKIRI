@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
 import { BiSend, BiComment } from 'react-icons/bi';
@@ -23,18 +23,19 @@ import { Fetcher } from 'src/utils';
 
 interface Props {
   postID: string;
-  setComments: Dispatch<SetStateAction<CommentType[]>>;
+  // eslint-disable-next-line no-unused-vars
+  onCommentWrite: (comment: CommentType) => void;
   width?: number;
   iconSize?: number;
   padding?: number;
 }
 
-function CommentInput({ postID, setComments, width, iconSize, padding }: Props) {
+function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Props) {
   const [value, setValue] = useState('');
   const user = useRecoilValue(userAtom);
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
-    onSuccess: ({ data }) => setComments((prevState: CommentType[]) => [...prevState, data!]),
+    onSuccess: ({ data }) => onCommentWrite(data!),
   });
 
   const handleClick = () => {
@@ -55,7 +56,7 @@ function CommentInput({ postID, setComments, width, iconSize, padding }: Props) 
 
 CommentInput.propTypes = {
   postID: PropTypes.string.isRequired,
-  setComments: PropTypes.func.isRequired,
+  onCommentWrite: PropTypes.func.isRequired,
   width: PropTypes.number,
   iconSize: PropTypes.number,
   padding: PropTypes.number,

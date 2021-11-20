@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 
@@ -40,10 +40,14 @@ function DetailPost({ postID }: Props) {
   );
   const [comments, setComments] = useState<CommentType[]>([]);
   const [likeCount, setLikeCount] = useState(post?.likes?.length ?? 0);
-  useEffect(() => {
-    setComments(post?.comments ?? []);
-    setLikeCount(post?.likes?.length ?? 0);
-  }, [post]);
+  const handleCommentWrite = (comment: CommentType) => {
+    setComments((prevState: CommentType[]) => [...prevState, comment]);
+  };
+  const handleCommentDelete = (commentID: string) => {
+    setComments((prevState: CommentType[]) =>
+      [...prevState].filter((comment) => comment._id !== commentID),
+    );
+  };
   if (isLoading) {
     return <LoadingIndicator />;
   }
@@ -70,10 +74,15 @@ function DetailPost({ postID }: Props) {
           </Row>
           {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
           <PostContent content={post!.content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
-          <PostComments postID={post!._id!} comments={comments} expanded />
+          <PostComments
+            postID={post!._id!}
+            comments={comments}
+            expanded
+            onCommentDelete={handleCommentDelete}
+          />
           <CommentInput
             postID={post!._id!}
-            setComments={setComments}
+            onCommentWrite={handleCommentWrite}
             width={DETAIL_COMMENT_INPUT_WIDTH}
             iconSize={DETAIL_COMMENT_ICON_SIZE}
             padding={DETAIL_COMMENT_ICON_PADDING}
