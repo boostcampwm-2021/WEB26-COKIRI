@@ -1,15 +1,41 @@
 import styled from '@emotion/styled';
 
+import { Col } from 'src/components/Grid';
+
+interface Props {
+  isImage: boolean;
+}
+const Wrapper = styled.div<Props>`
+  display: flex;
+  justify-content: ${({ isImage }) => (isImage ? 'unset' : 'center')};
+  > button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1;
+  }
+`;
+
 const ImageSection = styled.div`
-  flex: 3;
+  position: absolute;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #222222;
+  width: 70%;
+  height: 100vh;
 `;
 
 const PostInfoSection = styled.div`
-  flex: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100vh;
+  ${Col} {
+    height: 99vh;
+  }
 `;
 
-export { ImageSection, PostInfoSection };
+export { Wrapper, ImageSection, PostInfoSection };
