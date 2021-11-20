@@ -179,6 +179,17 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
+  @Get('/:userID/dashboard/repositories')
+  async getDashboardRepoList(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const githubUsername = await UserService.findUserGithubUsername(userID);
+    if (githubUsername === undefined) {
+      throw new Error(ERROR.NO_GITHUBUSERNAME);
+    }
+    const result = await DashboardRepoService.readDashboardRepos(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+  }
+
   @Post('/:userID/follows')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putUserFollows(@Req() request: Request, @Res() response: Response) {
