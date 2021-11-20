@@ -98,46 +98,6 @@ export default class SocialsRouter {
     response.cookie('jwt', accessToken, cookieOptions);
     return `${process.env.CLIENT_URL}`;
   }
-  /**
-  // @UseBefore(passport.authenticate('github', { session: false }))
-  @Get('/github')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getGithub(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID } = request.query;
-    passport.authenticate('github', {
-      session: false,
-      state: userID as string,
-    })(request, response);
-    return response;
-  }
-
-  @Get('/github/callback')
-  @UseBefore(passport.authenticate('github', { session: false }))
-  @Redirect(`${process.env.CLIENT_URL}`)
-  async getGithubCallback(@Req() request: Request, @Res() response: Response) {
-    const { id: authProviderID, username: githubUsername } = request.user as any;
-    const { state: userID } = request.query;
-
-    const userIsExist = userID ? await UserService.existGithubUser(userID as string) : false;
-    let user;
-    if (userIsExist) {
-      user = await UserService.updateGithubUserInfo(userID as string, { githubUsername });
-    } else {
-      user = await UserService.findOrCreateUserForProvider({
-        authProvider: 'github',
-        authProviderID,
-        githubUsername,
-      });
-    }
-
-    const accessToken = JWT.createAccessToken(user! as Express.User); // user!
-    response.cookie('jwt', accessToken, {
-      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-      httpOnly: true,
-    });
-    return response;
-  }
- */
 
   @Get('/velog')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
