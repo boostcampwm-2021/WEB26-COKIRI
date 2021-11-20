@@ -81,7 +81,7 @@ export default class UsersRouter {
   @Get('/dashboard')
   async getDashboard(@Req() request: Request, @Res() response: Response) {
     const { username } = request.query;
-    const dashboard = await UserService.findOneUserDashboard(username as string);
+    const dashboard = await UserService.findOneUsernameDashboard(username as string);
     return response.json(dashboard);
   }
 
@@ -269,7 +269,8 @@ export default class UsersRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     await UserService.updateOneUserDashboard(userID, request.body);
-    return response.json();
+    const dashboard = await UserService.findOneUserIDDashboard(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: dashboard });
   }
 
   @Put('/:userID/dashboard/problems/:username/statistics')
