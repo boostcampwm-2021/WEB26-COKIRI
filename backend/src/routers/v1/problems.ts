@@ -19,7 +19,7 @@ export default class problemRouter {
   @Get('/:problemID')
   async getProblem(@Req() request: Request, @Res() response: Response) {
     const { problemID } = request.params;
-    const problemShowInformation = await ProblemService.getProblemShow(problemID);
+    const problemShowInformation = await ProblemService.getProblemContent(problemID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: problemShowInformation });
   }
 }
