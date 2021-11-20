@@ -182,11 +182,14 @@ export default class UsersRouter {
   @Get('/:userID/dashboard/repositories')
   async getDashboardRepoList(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    const githubUsername = await UserService.findUserGithubUsername(userID);
-    if (githubUsername === undefined) {
-      throw new Error(ERROR.NO_GITHUBUSERNAME);
-    }
     const result = await DashboardRepoService.readDashboardRepos(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+  }
+
+  @Get('/:userID/dashboard/repositories/languages')
+  async getDashboardReposLanguage(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await DashboardRepoService.readDashboardReposLanguage(userID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
