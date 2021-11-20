@@ -25,18 +25,18 @@ const dashboardSchema = new Schema<DashboardType>(
     email: { type: String, validate: [Validate.email, 'Email 형식이 잘못되었습니다.'] },
     profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     jobObjectives: [{ type: String, required: true }],
-    techStacks: {
-      any: {
-        type: [
+    techStacks: [
+      {
+        field: String,
+        stacks: [
           {
             type: Types.ObjectId,
-            required: true,
             ref: 'TechStack',
             validate: Validate.techStackObjectID,
           },
         ],
       },
-    },
+    ],
   },
   { _id: false },
 );
