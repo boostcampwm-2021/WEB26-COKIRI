@@ -10,8 +10,8 @@ class UserService {
     return User.exists({ _id: user.userID });
   }
 
-  async existGithubUser(username: string): Promise<boolean> {
-    return User.exists({ githubUsername: username });
+  async existGithubUser(userID: string): Promise<boolean> {
+    return User.exists({ _id: userID });
   }
 
   async existsRegisteredUser(user: UserType): Promise<boolean> {
@@ -24,6 +24,11 @@ class UserService {
 
   async existsUserForUsername(query: string): Promise<boolean> {
     return User.exists({ username: query });
+  }
+
+  async findGithubUsername(userID: string) {
+    const data: any = await User.findOne({ _id: userID }, 'githubUsername -_id');
+    return data.githubUsername;
   }
 
   async findOneUserVelogToken(userID: string) {
@@ -129,8 +134,8 @@ class UserService {
     );
   }
 
-  async updateGithubUserInfo(username: string, info: any) {
-    return User.findOneAndUpdate({ githubUsername: username }, info, { new: true });
+  async updateGithubUserInfo(userID: string, info: any) {
+    return User.findOneAndUpdate({ _id: userID }, info, { new: true });
   }
 
   async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {

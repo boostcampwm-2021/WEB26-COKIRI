@@ -20,6 +20,7 @@ import {
   TistoryService,
   NotifyService,
   FollowService,
+  DashboardRepoService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
 
@@ -138,10 +139,9 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    /**
-     * @todo: userID를 받아서 db 상에 github username을 받아와 넣어주도록 추후에 변경해야함
-     */
-    const result = await GitService.findRepoList(userID);
+    const githubUsername = await UserService.findGithubUsername(userID);
+
+    const result = await GitService.findRepoList(githubUsername);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
@@ -164,7 +164,8 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 
-  @Get('/:githubUsername/repositories/:repoName')
+  @Get('/:userID/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getRepo(@Req() request: Request, @Res() response: Response) {
     const { userID, repoName } = request.params;
     if (userID !== request.user!.userID) {
@@ -175,6 +176,20 @@ export default class UsersRouter {
       throw new Error(ERROR.NO_GITHUBUSERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+  }
+
+  @Get('/:userID/dashboard/repositories')
+  async getDashboardRepoList(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await DashboardRepoService.readDashboardRepos(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+  }
+
+  @Get('/:userID/dashboard/repositories/languages')
+  async getDashboardReposLanguage(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await DashboardRepoService.readDashboardReposLanguage(userID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
@@ -191,6 +206,23 @@ export default class UsersRouter {
     }
     await FollowService.createFollow(userID, request.user!.userID);
     return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Post('/:userID/dashboard/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async postDashboardRepo(@Req() request: Request, @Res() response: Response) {
+    const { userID, repoName } = request.params;
+    const { userID: bodyUserID } = request.body;
+    if (bodyUserID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.WRONG_PARAMS_TYPE);
+    }
+    const githubUsername = await UserService.findGithubUsername(userID);
+    const repoData = await GitService.findRepo(githubUsername, repoName);
+    const result = await DashboardRepoService.createDashboardRepo(userID, repoData);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Put('/:userID/settings')

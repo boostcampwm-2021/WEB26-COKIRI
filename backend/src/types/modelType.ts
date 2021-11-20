@@ -18,18 +18,18 @@ export interface NotifyRangeType {
 }
 
 export interface DashboardType {
-  name: string;
-  phoneNumber: string;
-  school: string;
-  region: string;
-  birthday: Date;
-  github: string;
-  blog: string;
-  solvedac: string;
-  email: string;
-  profileImage: string;
-  jobObjectives: string[];
-  techStacks: object;
+  name?: string;
+  phoneNumber?: string;
+  school?: string;
+  region?: string;
+  birthday?: Date;
+  github?: string;
+  blog?: string;
+  solvedac?: string;
+  email?: string;
+  profileImage?: string;
+  jobObjectives?: string[];
+  techStacks?: object;
 }
 
 export interface UserType {
@@ -61,8 +61,12 @@ export interface UserType {
 export interface DashboardRepositoryType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
-  title?: string;
+  repoName?: string;
+  repoUrl?: string;
+  startCount?: number;
+  forktCount?: number;
   content?: string;
+  languageInfo?: object;
   createdAt?: Date;
   updatedAt?: Date;
 }

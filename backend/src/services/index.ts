@@ -12,3 +12,4 @@ export { default as ImageService } from './ImageService';
 export { default as ObjectStorageService } from './ObjectStorageService';
 export { default as NotifyService } from './NotifyService';
 export { default as FollowService } from './FollowService';
+export { default as DashboardRepoService } from './DashboardRepoService';

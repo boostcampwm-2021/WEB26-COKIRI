@@ -3,7 +3,7 @@ import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-con
 import * as passport from 'passport';
 
 import { OPENAPIURL, JWT, Query, ERROR } from 'src/utils';
-import { BlogService, TistoryService, VelogService } from 'src/services';
+import { BlogService, TistoryService, UserService, VelogService } from 'src/services';
 
 @Controller('/socials')
 export default class SocialsRouter {
@@ -58,15 +58,35 @@ export default class SocialsRouter {
   }
 
   @Get('/github')
-  @UseBefore(passport.authenticate('github', { session: false }))
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  getGithub() {}
+  getGithub(@Req() request: Request, @Res() response: Response) {
+    const { user_id: userID } = request.query;
+    passport.authenticate('github', {
+      session: false,
+      state: userID as string,
+    })(request, response);
+    return response;
+  }
 
   @Get('/github/callback')
   @UseBefore(passport.authenticate('github', { session: false }))
-  @Redirect(`${process.env.CLIENT_URL}`)
-  getGithubCallback(@Req() request: Request, @Res() response: Response) {
+  @Redirect('/')
+  async getGithubCallback(@Req() request: Request, @Res() response: Response) {
+    const { id: authProviderID, username: githubUsername } = request.user as any;
+    const { state: userID } = request.query;
+
+    const userIsExist = userID ? await UserService.existGithubUser(userID as string) : false;
+    if (userIsExist) {
+      UserService.updateGithubUserInfo(userID as string, { githubUsername });
+    } else {
+      UserService.findOrCreateUserForProvider({
+        authProvider: 'github',
+        authProviderID,
+        githubUsername,
+      });
+    }
+
     const accessToken = JWT.createAccessToken(request.user!);
+
     const cookieOptions = {
       maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
       httpOnly: true,
@@ -74,7 +94,7 @@ export default class SocialsRouter {
       domain: process.env.MAIN_DOMAIN,
     };
     response.cookie('jwt', accessToken, cookieOptions);
-    return response;
+    return `${process.env.CLIENT_URL}`;
   }
 
   @Get('/velog')
