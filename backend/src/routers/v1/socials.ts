@@ -36,6 +36,7 @@ export default class SocialsRouter {
 
   @Get('/tistory')
   @Redirect('/')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   getTistory(@Req() request: Request, @Res() response: Response) {
     const { redirect_uri: redirectURIQuery } = request.query;
     const redirectURI: string = (redirectURIQuery as string) || '/';
@@ -48,7 +49,6 @@ export default class SocialsRouter {
   }
 
   @Get('/tistory/callback')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   @Redirect('/')
   async getTistoryCallback(@Req() request: Request, @Res() response: Response) {
     const { code } = request.query;
