@@ -60,4 +60,6 @@ export const SELECT = {
 
 export const PERPAGE = 10;
 
+export const PROBLEMTEAR = 5;
+
 export const VELOG_URL = (username: string) => `https://velog.io/@${username}`;
