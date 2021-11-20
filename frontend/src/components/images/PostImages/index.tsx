@@ -26,11 +26,13 @@ function PostImages({ images, width, height, expanded }: Props) {
   const slideLeft = () => setSlideIndex(slideIndex - 1);
   const slideRight = () => setSlideIndex(slideIndex + 1);
   useEffect(() => {
-    imageHolderRef.current!.style.marginLeft = `-${slideIndex * width!}px`;
-  }, [slideIndex, width]);
+    imageHolderRef.current!.style.marginLeft = expanded
+      ? `-${slideIndex * 100}vh`
+      : `-${slideIndex * width!}px`;
+  }, [slideIndex, expanded, width]);
 
   return (
-    <Wrapper width={width!}>
+    <Wrapper width={width!} expanded={expanded}>
       <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
         {images.map((image) => (
           <li key={image._id}>

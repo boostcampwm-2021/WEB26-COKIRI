@@ -13,7 +13,7 @@ const Row = styled.div<Props>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   margin: ${({ margin }) => `${margin}px`};
-  width: '100%';
+  width: 100%;
 `;
 
 const Col = styled.div<Props>`
