@@ -61,8 +61,12 @@ export interface UserType {
 export interface DashboardRepositoryType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
-  title?: string;
+  repoName?: string;
+  repoUrl?: string;
+  startCount?: number;
+  forktCount?: number;
   content?: string;
+  languageInfo?: object;
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -6,8 +6,12 @@ import { Validate } from 'src/utils';
 const dashboardRepositorySchema = new Schema<DashboardRepositoryType>(
   {
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
-    title: { type: String },
+    repoName: { type: String, required: true },
+    repoUrl: { type: String, required: true },
+    startCount: { type: Number },
+    forktCount: { type: Number },
     content: { type: String },
+    languageInfo: { any: { type: Number } },
   },
   { versionKey: false, timestamps: true },
 );
