@@ -121,16 +121,8 @@ class UserService {
     return result;
   }
 
-  async findOneUserIDDashboard(userID: string) {
-    const userDashboard = await User.findOne({ _id: userID }, 'dashboard -_id');
-    if (!userDashboard) {
-      throw new Error(ERROR.NO_USERS);
-    }
-    return userDashboard;
-  }
-
-  async findOneUsernameDashboard(username: string) {
-    const userDashboard = await User.findOne({ username }, 'dashboard -_id');
+  async findOneUserDashboard(filter: object) {
+    const userDashboard = await User.findOne(filter, 'dashboard -_id');
     if (!userDashboard) {
       throw new Error(ERROR.NO_USERS);
     }
@@ -172,7 +164,7 @@ class UserService {
   }
 
   async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
-    return User.updateOne({ _id: userID }, { dashboard }, { new: true });
+    return User.updateOne({ _id: userID }, { dashboard }, { runValidators: true, new: true });
   }
 
   async updateOneProblemStatistics(userID: string, statistics: object) {
