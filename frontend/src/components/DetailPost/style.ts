@@ -18,12 +18,12 @@ const Wrapper = styled.div<Props>`
 
 const ImageSection = styled.div`
   position: absolute;
-  left: 0;
   display: flex;
+  left: 0;
   justify-content: center;
   align-items: center;
   background: #222222;
-  width: 70%;
+  width: calc(100vw - 410px);
   height: 100vh;
 `;
 
@@ -31,7 +31,7 @@ const PostInfoSection = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: 30%;
+  width: 410px;
   height: 100vh;
   ${Col} {
     height: 99vh;
