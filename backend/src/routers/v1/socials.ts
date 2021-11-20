@@ -57,8 +57,6 @@ export default class SocialsRouter {
     return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
-  // @UseBefore(passport.authenticate('github', { session: false }))
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   @Get('/github')
   getGithub(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID } = request.query;
