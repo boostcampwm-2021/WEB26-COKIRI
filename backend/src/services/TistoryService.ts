@@ -57,7 +57,7 @@ class TistoryService {
         externalContent: content,
         link: postUrl,
         external: {
-          type: 'blog',
+          type: 'tistory',
           identity,
           target: postID,
         },
