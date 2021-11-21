@@ -6,6 +6,7 @@ import CommentType from './comment';
 import ImageType from './image';
 import ReturnType from './return';
 import RepoType from './repo';
+import ProblemType from './problem';
 
 export type {
   UserType,
@@ -16,4 +17,5 @@ export type {
   ImageType,
   ReturnType,
   RepoType,
+  ProblemType,
 };
