@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put } from 'routing-controllers';
 
 import ProblemService from 'src/services/ProblemService';
 import { ERROR, RESPONSECODE } from 'src/utils';
@@ -21,5 +21,12 @@ export default class problemRouter {
     const { problemID } = request.params;
     const problemShowInformation = await ProblemService.findProblemContent(problemID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: problemShowInformation });
+  }
+
+  @Put('/statistics')
+  async getStatistics(@Req() request: Request, @Res() response: Response) {
+    const { username } = request.query;
+    ProblemService.getSolvedAcStatistics(username as string);
+    return response.json();
   }
 }

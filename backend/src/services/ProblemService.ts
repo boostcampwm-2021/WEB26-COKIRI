@@ -56,6 +56,14 @@ class ProblemService {
       throw new Error(ERROR.NOT_EXIST_PROBLEM);
     }
   }
+
+  async getSolvedAcStatistics(username: string) {
+    const url = OPENAPIURL.PROBLEM_STATISTICS;
+    const solvedProfileHTML = (await axios.get(`${url}${username}`)).data;
+    const $ = cheerio.load(solvedProfileHTML);
+    const tagStatistics = $('div.CommonComponents__Card-sc-9zy9np-0.kYNCMl svg').html();
+    console.log(tagStatistics);
+  }
 }
 
 export default new ProblemService();

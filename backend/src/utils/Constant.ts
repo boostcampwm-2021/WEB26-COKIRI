@@ -39,6 +39,7 @@ export const ERROR = {
 };
 
 export const OPENAPIURL = {
+  PROBLEM_STATISTICS: 'https://solved.ac/profile/',
   PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
   PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
   PROBLEM_IMAGE_HOST: 'https://www.acmicpc.net/',
