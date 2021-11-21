@@ -2,8 +2,9 @@ import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
 import { Row, Col, Spacer } from 'src/components/Grid';
+import ButtonCommon from 'src/components/buttons/Common';
 
-import { Background, Card, CloseButton, ConfirmButton } from './style';
+import { Background, Card } from './style';
 
 interface Props {
   children: ReactNode;
@@ -23,8 +24,8 @@ function ModalCommon({ children, onClose, onConfirm, close, confirm, height }: P
           {children}
           <Row>
             <Spacer />
-            {close !== '' && <CloseButton onClick={onClose}>{close}</CloseButton>}
-            {confirm !== '' && <ConfirmButton onClick={onConfirm}>{confirm}</ConfirmButton>}
+            {close !== '' && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
+            {confirm !== '' && <ButtonCommon onClick={onConfirm}>{confirm}</ButtonCommon>}
           </Row>
         </Col>
       </Card>
