@@ -20,7 +20,8 @@ export default class PostsRouter {
 
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
-    const posts = await PostService.findRandomPost();
+    const { user_id: userID } = request.query;
+    const posts = await PostService.findRandomPost(userID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
   }
 
