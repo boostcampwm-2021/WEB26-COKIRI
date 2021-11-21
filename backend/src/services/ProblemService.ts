@@ -36,6 +36,7 @@ class ProblemService {
       solvedUserCount: problemInfo.data.acceptedUserCount,
       averageTries: problemInfo.data.averageTries,
       tear: this.getProblemTear(problemInfo.data.level),
+      link: `${OPENAPIURL.PROBLEM}${problemID}`,
       externalContent: problemDescription,
       external: {
         type: 'algorithm',
