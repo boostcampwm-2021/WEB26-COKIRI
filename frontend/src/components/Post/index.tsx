@@ -29,7 +29,7 @@ interface Props {
 function Post({ post, onPostDelete }: Props) {
   const me = useRecoilValue(userAtom);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
-  const [comments, setComments] = useState<CommentType[]>([]);
+  const [comments, setComments] = useState<CommentType[]>(post.comments!);
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
   };

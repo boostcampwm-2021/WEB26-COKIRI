@@ -13,20 +13,24 @@ import {
   COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT,
   COMMENT_USERNAME_BUTTON_MARGIN_RIGHT,
   COMMENT_LIKE_BUTTON_MARGIN,
+  COMMENT_USERNAME_BUTTON_WIDTH,
 } from 'src/globals/constants';
 
 import { CommentType } from 'src/types';
 
 import userAtom from 'src/recoil/user';
 
+import { Content } from './style';
+
 interface Props {
   postID: string;
   comment: CommentType;
+  contentWidth: number;
   // eslint-disable-next-line no-unused-vars
   onCommentDelete: (commentID: string) => void;
 }
 
-function Comment({ postID, comment, onCommentDelete }: Props) {
+function Comment({ postID, comment, contentWidth, onCommentDelete }: Props) {
   const user = useRecoilValue(userAtom);
   const commentLikes = comment.likes ?? [];
   const [likeCount, setLikeCount] = useState(commentLikes.length);
@@ -43,8 +47,11 @@ function Comment({ postID, comment, onCommentDelete }: Props) {
         <UsernameButton
           username={comment.user.username!}
           marginRight={COMMENT_USERNAME_BUTTON_MARGIN_RIGHT}
+          width={COMMENT_USERNAME_BUTTON_WIDTH}
         />
-        <p>{comment.content}</p>
+      </Row>
+      <Row alignItems='center'>
+        <Content width={contentWidth}>{comment.content}</Content>
       </Row>
       <Row justifyContent='flex-end' alignItems='center'>
         {likeCount !== 0 && <p>좋아요{likeCount}개</p>}
@@ -69,6 +76,7 @@ function Comment({ postID, comment, onCommentDelete }: Props) {
 Comment.propTypes = {
   postID: PropTypes.string.isRequired,
   comment: PropTypes.objectOf(PropTypes.any).isRequired,
+  contentWidth: PropTypes.number.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
 };
 

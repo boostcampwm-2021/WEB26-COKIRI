@@ -6,6 +6,11 @@ import ButtonCommon from 'src/components/buttons/Common';
 
 import { CommentType } from 'src/types';
 
+import {
+  DETAIL_POST_COMMENT_WIDTH,
+  DEFAULT_POST_COMMENT_CONTENT_WIDTH,
+} from 'src/globals/constants';
+
 import { Wrapper } from './style';
 
 interface Props {
@@ -19,6 +24,9 @@ interface Props {
 function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
   const [isExpand, setIsExpand] = useState(expanded);
   const isLong = comments.length > 2;
+  const commentContentwidth = expanded
+    ? DETAIL_POST_COMMENT_WIDTH
+    : DEFAULT_POST_COMMENT_CONTENT_WIDTH;
   const handleClick = () => {
     setIsExpand(true);
   };
@@ -30,6 +38,7 @@ function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
               key={comment._id}
               postID={postID}
               comment={comment}
+              contentWidth={commentContentwidth}
               onCommentDelete={onCommentDelete}
             />
           ))
@@ -40,6 +49,7 @@ function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
                 key={comment._id}
                 postID={postID}
                 comment={comment}
+                contentWidth={commentContentwidth}
                 onCommentDelete={onCommentDelete}
               />
             ))}

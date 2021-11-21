@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 
+import { NAVIGATE_BUTTON_PADDING } from 'src/globals/constants';
+
 interface Props {
   width?: number;
   height?: number;
@@ -23,12 +25,11 @@ const Button = styled.button<Props>`
   white-space: nowrap;
 
   a {
-    padding: 16px;
+    padding: ${({ plain }) => (plain ? 0 : `${NAVIGATE_BUTTON_PADDING}px`)};
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    border-radius: 50px;
   }
 `;
 

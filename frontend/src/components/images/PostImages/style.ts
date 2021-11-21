@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 interface Props {
   count?: number;
   width: number;
+  expanded?: boolean;
 }
 
 const Wrapper = styled.div<Props>`
-  width: ${({ width }) => `${width}px`};
+  width: ${({ width, expanded }) => (expanded ? '100vh' : `${width}px`)};
+  height: ${({ expanded }) => (expanded ? '100vh' : 'auto')};
   position: relative;
   margin: 0 auto;
   overflow: hidden;
@@ -16,11 +18,15 @@ const ImageHolder = styled.ul<Props>`
   display: flex;
   list-style: none;
   transition: 0.5s ease-in-out;
-  width: ${({ count, width }) => count! * width}px;
+  width: calc(
+    ${({ count }) => count} * ${({ width, expanded }) => (expanded ? '100vh' : `${width}px`)}
+  );
+  height: 100%;
   li {
     height: 100%;
   }
   img {
+    object-fit: ${({ expanded }) => (expanded ? 'contain' : 'cover')};
     background: #222222;
   }
 `;
