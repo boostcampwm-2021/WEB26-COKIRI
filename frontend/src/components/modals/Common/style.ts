@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 
+import { ThemeType } from 'src/types';
+
 interface Props {
   height: number;
+  theme?: ThemeType;
 }
 
 const Background = styled.div`
@@ -30,29 +33,8 @@ const Card = styled.div<Props>`
   align-items: center;
   margin: auto;
   border-radius: 50px;
-  background: #1e1e1e;
-  box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
-
-  button {
-    background: #1e1e1e;
-    box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
-  }
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e; ;
 `;
 
-const Button = styled.button`
-  margin: 0 24px;
-  width: 96px;
-  height: 48px;
-  border-radius: 50px;
-  background: #1e1e1e;
-  box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
-`;
-
-const CloseButton = styled(Button)`
-  background: #231e1e;
-  box-shadow: 5px 5px 10px #1f1a1a, -5px -5px 10px #282323;
-`;
-
-const ConfirmButton = styled(Button)``;
-
-export { Background, Card, CloseButton, ConfirmButton };
+export { Background, Card };

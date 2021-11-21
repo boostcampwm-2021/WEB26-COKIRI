@@ -20,8 +20,8 @@ function SearchInput() {
   const mutation = useMutation((newValue: string) => Fetcher.getSearch(newValue));
 
   const handleChange = async (newValue: string) => {
-    if (newValue !== '') {
-      const results = await mutation.mutateAsync(newValue);
+    if (newValue.trim() !== '') {
+      const results = await mutation.mutateAsync(newValue.trim());
       setUserResults(results);
     } else {
       setUserResults([]);

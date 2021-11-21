@@ -9,6 +9,7 @@ import ImageInput from 'src/components/inputs/ImageInput';
 import PreviewImages from 'src/components/images/PreviewImages';
 import ButtonCommon from 'src/components/buttons/Common';
 import ReposModal from 'src/components/modals/ReposModal';
+import ProblemsModal from 'src/components/modals/ProblemsModal';
 import { Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -25,7 +26,9 @@ interface Props {
 function PostWriteModal({ onClose, onPostWrite }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
+
   const [isReposModalShow, setIsReposModalShow] = useState(false);
+  const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
   const user = useRecoilValue(userAtom);
   const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
     onSuccess: () => {
@@ -59,13 +62,22 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     setIsReposModalShow(true);
   };
 
+  const handleClickProblems = () => {
+    setIsProblemsModalShow(true);
+  };
+
   const handleReposModalClose = () => {
     setIsReposModalShow(false);
+  };
+
+  const handleProblemsModalClose = () => {
+    setIsProblemsModalShow(false);
   };
 
   return (
     <>
       {isReposModalShow && <ReposModal onClose={handleReposModalClose} />}
+      {isProblemsModalShow && <ProblemsModal onClose={handleProblemsModalClose} />}
       <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
         <Row justifyContent='center' alignItems='center' margin={16}>
           <ImageInput onImageUpload={handleImageUpload}>
@@ -74,6 +86,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
             </IconHolder>
           </ImageInput>
           <ButtonCommon onClick={handleClickGithub}>깃허브</ButtonCommon>
+          <ButtonCommon onClick={handleClickProblems}>백준</ButtonCommon>
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />

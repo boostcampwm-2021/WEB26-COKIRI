@@ -57,6 +57,8 @@ export const NAVIGATE_BUTTON_PADDING = 16;
 
 export const RETURN_BUTTON_SIZE = 25;
 
+export const PROBLEM_BUTTON_WIDTH = 380;
+
 // ICON
 export const SOCIAL_ICON_SIZE = 48;
 
@@ -99,6 +101,8 @@ export const DETAIL_POST_COMMENT_WIDTH = 130;
 
 // MODAL
 export const DELETE_MODAL_TITLE_HEIGHT = 50;
+
+export const PROBLEMS_MODAL_HEIGHT = 400;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;

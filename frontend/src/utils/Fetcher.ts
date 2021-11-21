@@ -1,7 +1,15 @@
 import axios from 'axios';
 import { QueryFunctionContext } from 'react-query';
 
-import { UserType, PostType, LikeType, ReturnType, CommentType, RepoType } from 'src/types';
+import {
+  UserType,
+  PostType,
+  LikeType,
+  ReturnType,
+  CommentType,
+  RepoType,
+  ProblemType,
+} from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const version = 'v1';
@@ -104,6 +112,13 @@ class Fetcher {
 
   static async getUserFollowers(targetUserID: string) {
     const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/followers`);
+    return result.data.data;
+  }
+
+  static async getProblemSearch(query: string): Promise<ProblemType[]> {
+    const result = await axios.get(`${baseURL}/${version}/problems`, {
+      params: { query },
+    });
     return result.data.data;
   }
 
