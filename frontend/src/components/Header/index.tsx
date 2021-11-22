@@ -13,7 +13,7 @@ import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchInput from 'src/components/inputs/SearchInput';
 
-import userAtom from 'src/recoil/user';
+import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
 import { Wrapper, Section } from './style';
 
@@ -23,6 +23,7 @@ interface Props {
 
 function Header({ page }: Props) {
   const user = useRecoilValue(userAtom);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
   return (
     <Wrapper>
@@ -44,12 +45,16 @@ function Header({ page }: Props) {
       </Section>
 
       <Section>
-        <IconButton>
-          <IoHeartOutline />
-        </IconButton>
-        <NavigateIconButton href={`/users/${user.username}`} clicked={page === 'username'}>
-          <IoPersonCircleOutline />
-        </NavigateIconButton>
+        {isAuthenticated && (
+          <>
+            <IconButton>
+              <IoHeartOutline />
+            </IconButton>
+            <NavigateIconButton href={`/users/${user.username}`} clicked={page === 'username'}>
+              <IoPersonCircleOutline />
+            </NavigateIconButton>
+          </>
+        )}
       </Section>
     </Wrapper>
   );

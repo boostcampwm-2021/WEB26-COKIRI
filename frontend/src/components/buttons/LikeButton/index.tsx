@@ -4,13 +4,14 @@ import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
 import { useMutation } from 'react-query';
 import PropTypes from 'prop-types';
 
+import IconButton from 'src/components/buttons/IconButton';
+import SigninModal from 'src/components/modals/SigninModal';
+
 import { Fetcher } from 'src/utils';
 
-import userAtom from 'src/recoil/user';
+import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
 import { LikeType } from 'src/types';
-
-import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
   postID: string;
@@ -20,9 +21,12 @@ interface Props {
 
 function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const user = useRecoilValue(userAtom);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
+
+  const [isModalShow, setIsModalShow] = useState(false);
   const like = postLikes.find((postLike) => postLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
-  const [likeID, setLikeID] = useState(like !== undefined ? like._id : '');
+  const [likeID, setLikeID] = useState(like?._id ?? '');
   const postPostLike = () => Fetcher.postPostLike(user, postID);
   const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
   const likeMutation = useMutation(postPostLike, {
@@ -31,6 +35,10 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const dislikeMutation = useMutation(deletePostLike);
 
   const handleClickLike = () => {
+    if (!isAuthenticated) {
+      setIsModalShow(true);
+      return;
+    }
     likeMutation.mutate();
     setLikeCount((prevState) => prevState + 1);
     setIsLike(true);
@@ -42,14 +50,23 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
     setIsLike(false);
   };
 
-  return isLike ? (
-    <IconButton onClick={handleClickDislike}>
-      <IoHeartSharp />
-    </IconButton>
-  ) : (
-    <IconButton onClick={handleClickLike}>
-      <IoHeartOutline />
-    </IconButton>
+  const handleModalClose = () => {
+    setIsModalShow(false);
+  };
+
+  return (
+    <>
+      {isModalShow && <SigninModal onClose={handleModalClose} />}
+      {isLike ? (
+        <IconButton onClick={handleClickDislike}>
+          <IoHeartSharp />
+        </IconButton>
+      ) : (
+        <IconButton onClick={handleClickLike}>
+          <IoHeartOutline />
+        </IconButton>
+      )}
+    </>
   );
 }
 
