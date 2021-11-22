@@ -13,7 +13,8 @@ import LikesButton from 'src/components/buttons/LikesButton';
 import CardCommon from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import PostDeleteButton from 'src/components/buttons/deletes/PostDeleteButton';
-import { Row } from 'src/components/Grid';
+import TimeFromNow from 'src/components/TimeFromNow';
+import { Row, Spacer } from 'src/components/Grid';
 
 import { CommentType, PostType } from 'src/types';
 
@@ -29,7 +30,8 @@ interface Props {
 function Post({ post, onPostDelete }: Props) {
   const me = useRecoilValue(userAtom);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
-  const [comments, setComments] = useState<CommentType[]>(post.comments!);
+  const [comments, setComments] = useState(post.comments!);
+
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
   };
@@ -38,13 +40,16 @@ function Post({ post, onPostDelete }: Props) {
       [...prevState].filter((comment) => comment._id !== commentID),
     );
   };
-  const { _id, user, images, content, likes } = post;
-  const hidden = me._id !== user!._id;
+  const { _id, user, images, content, likes, createdAt } = post;
+  const isMe = me._id !== user!._id;
+
   return (
     <CardCommon width={POST_CARD_WIDTH}>
-      <Row justifyContent='space-between'>
+      <Row alignItems='center'>
         <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
-        {!hidden && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
+        <TimeFromNow time={createdAt} />
+        <Spacer />
+        {!isMe && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
       </Row>
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
