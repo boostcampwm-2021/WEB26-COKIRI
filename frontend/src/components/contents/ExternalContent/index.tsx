@@ -4,7 +4,7 @@ import RepoContent from 'src/components/contents/RepoContent';
 import BlogContent from 'src/components/contents/BlogContent';
 import ProblemContent from 'src/components/contents/ProblemContent';
 
-import { ExternalType, ProblemInfoType } from 'src/types';
+import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 
 import { Wrapper, Cover, MoreButton, LinkButton } from './style';
 
@@ -24,12 +24,17 @@ function ExternalContent({ external }: Props) {
       <Cover hidden={isExpand} />
       {!isExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
       {!isExpand && (
-        <LinkButton onClick={handleLinkClick} href={external.link} target='_blank'>
+        <LinkButton
+          onClick={handleLinkClick}
+          href={external.link}
+          target='_blank'
+          rel='noreferrer noopener'
+        >
           바로가기
         </LinkButton>
       )}
       {(() => {
-        if (external.type === 'algorithm') {
+        if (external.type === 'problem') {
           return (
             <ProblemContent
               content={external.content}
@@ -38,11 +43,17 @@ function ExternalContent({ external }: Props) {
             />
           );
         }
-        if (external.type === 'github') {
-          return <RepoContent content={external.content} />;
+        if (external.type === 'repository') {
+          return (
+            <RepoContent
+              content={external.content}
+              info={external.info! as RepoInfoType}
+              link={external.link}
+            />
+          );
         }
         if (external.type === 'tistory') {
-          return <BlogContent content={external.content} />;
+          return <BlogContent content={external.content} link={external.link} />;
         }
         return null;
       })()}
