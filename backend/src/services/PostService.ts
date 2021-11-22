@@ -8,17 +8,6 @@ import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
 
 class PostService {
-  async getResponseFormatPostArray(posts: PostType[]) {
-    return Promise.all(
-      posts.map(async (post) => {
-        const newPost = { ...post };
-        delete newPost.userID;
-        const results = await this.findOnePost(post._id!);
-        return { ...newPost, ...results };
-      }),
-    );
-  }
-
   async existsPost(postID: string, userID: string) {
     const isExist = await Post.exists({ _id: postID, userID });
     if (!isExist) {
@@ -53,6 +42,17 @@ class PostService {
     return newPostConfig;
   }
 
+  async findPosts(posts: PostType[]) {
+    return Promise.all(
+      posts.map(async (post) => {
+        const newPost = { ...post };
+        delete newPost.userID;
+        const results = await this.findOnePost(post._id!);
+        return { ...newPost, ...results };
+      }),
+    );
+  }
+
   async findRandomPost(userID: any) {
     const randomPosts = await Post.aggregate([
       { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
@@ -61,7 +61,7 @@ class PostService {
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
     ]);
-    return this.getResponseFormatPostArray(randomPosts);
+    return this.findPosts(randomPosts);
   }
 
   async findUserTimeline(userID: string) {
@@ -69,7 +69,7 @@ class PostService {
       .sort({ createdAt: -1 })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getResponseFormatPostArray(posts);
+    return this.findPosts(posts);
   }
 
   async findTimeline(userID: string, cursor: number) {
@@ -81,7 +81,7 @@ class PostService {
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getResponseFormatPostArray(posts);
+    return this.findPosts(posts);
   }
 
   async findOnePost(postID: string | Types.ObjectId) {
