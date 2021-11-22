@@ -13,7 +13,7 @@ interface Props {
   expanded?: boolean;
 }
 
-function PostContent({ content, width, expanded }: Props) {
+function ContentCommon({ content, width, expanded }: Props) {
   const [isExpand, setIsExpand] = useState(expanded);
   const isShort = content.length < POST_CONTENT_LIMIT_LENGTH;
   const shortContent = content.substr(0, POST_CONTENT_LIMIT_LENGTH);
@@ -39,15 +39,15 @@ function PostContent({ content, width, expanded }: Props) {
   );
 }
 
-PostContent.propTypes = {
+ContentCommon.propTypes = {
   content: PropTypes.string.isRequired,
   width: PropTypes.number,
   expanded: PropTypes.bool,
 };
 
-PostContent.defaultProps = {
+ContentCommon.defaultProps = {
   width: DEFAULT_POST_CONTENT_WIDTH,
   expanded: false,
 };
 
-export default PostContent;
+export default ContentCommon;

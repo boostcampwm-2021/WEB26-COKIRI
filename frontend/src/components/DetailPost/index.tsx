@@ -7,7 +7,7 @@ import ProfileSet from 'src/components/sets/ProfileSet';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
 import LikesButton from 'src/components/buttons/LikesButton';
-import PostContent from 'src/components/PostContent';
+import NormalContent from 'src/components/contents/NormalContent';
 import PostComments from 'src/components/PostComments';
 import CommentInput from 'src/components/inputs/CommentInput';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
@@ -70,8 +70,8 @@ function DetailPost({ post }: Props) {
               <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
               <EchoButton postID={_id!} />
             </Row>
-            {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
-            <PostContent content={content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
+            {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
+            <NormalContent content={content!} width={DETAIL_POST_CONTENT_WIDTH} expanded />
             <PostComments
               postID={_id!}
               comments={comments}
