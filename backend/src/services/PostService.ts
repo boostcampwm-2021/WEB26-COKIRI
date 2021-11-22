@@ -17,56 +17,37 @@ class PostService {
 
   async createPost(data: any) {
     let { images } = data;
-    const { link, type, external, externalContent } = data;
-    const isLinkedPost = link && external && externalContent && !images?.length;
+    const { type, external } = data;
+    const isLinkedPost = external && !images?.length;
     switch (type) {
-      case undefined:
       case 'normal':
         if (isLinkedPost) {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
-      case 'blog':
-        if (!isLinkedPost && (external.type !== 'tistory' || external.type !== 'velog')) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'github':
-        if (!isLinkedPost && external.type !== 'github') {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'algorithm':
-        if (!isLinkedPost && external.type !== 'algorithm') {
+      case 'external':
+        if (!isLinkedPost) {
           throw new Error(ERROR.WRONG_BODY_TYPE);
         }
         break;
       default:
+        throw new Error(ERROR.INVALID_POST_TYPE);
     }
     const post = await Post.create(data);
-    if (images?.length > 0) {
+    if (type === 'normal') {
       images = images.map((v: any) => ({ url: v, targetID: post._id }));
       if (images) await Image.insertMany(images);
     }
-    const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
-    return { ...newPostConfig[0], ...newPostConfig[1] };
+    const newPostConfig = await this.findOnePost(post._id);
+    return newPostConfig;
   }
 
-  async getPost(postID: Types.ObjectId) {
-    const results = await Promise.all([
-      CommentService.findComments(postID.toString()),
-      PostLikeService.findPostLikes(postID.toString()),
-      ImageService.findPostImage(postID.toString()),
-    ]);
-    return { comments: results[0], likes: results[1], images: results[2] };
-  }
-
-  async getPostArray(posts: PostType[]) {
+  async findPosts(posts: PostType[]) {
     return Promise.all(
       posts.map(async (post) => {
         const newPost = { ...post };
         delete newPost.userID;
-        const results = await this.getPost(post._id!);
+        const results = await this.findOnePost(post._id!);
         return { ...newPost, ...results };
       }),
     );
@@ -80,7 +61,7 @@ class PostService {
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
     ]);
-    return this.getPostArray(randomPosts);
+    return this.findPosts(randomPosts);
   }
 
   async findUserTimeline(userID: string) {
@@ -88,7 +69,7 @@ class PostService {
       .sort({ createdAt: -1 })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getPostArray(posts);
+    return this.findPosts(posts);
   }
 
   async findTimeline(userID: string, cursor: number) {
@@ -100,10 +81,10 @@ class PostService {
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getPostArray(posts);
+    return this.findPosts(posts);
   }
 
-  async findPost(postID: string) {
+  async findOnePost(postID: string | Types.ObjectId) {
     const post = await Post.findOne({ _id: postID })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
@@ -122,11 +103,8 @@ class PostService {
   }
 
   async updateTistoryPost(userID: string, postID: string) {
-    const post: PostType = await Post.findOne(
-      { _id: postID },
-      'external externalContent -_id',
-    ).lean();
-    if (!post.external || !post.externalContent || post.external.type !== 'tistory') {
+    const post: PostType = await Post.findOne({ _id: postID }, 'external -_id').lean();
+    if (!post.external || post.external.type !== 'tistory') {
       throw new Error(ERROR.INVALID_TISTORY_POST);
     }
     const newBlogContent = await TistoryService.getPostContent(
@@ -136,11 +114,7 @@ class PostService {
     );
     return Post.updateOne(
       { _id: postID },
-      {
-        title: newBlogContent.title,
-        externalContent: newBlogContent.externalContent,
-        link: newBlogContent.link,
-      },
+      { title: newBlogContent.title as string, external: newBlogContent.external },
     );
   }
 

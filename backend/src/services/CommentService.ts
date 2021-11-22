@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Comment, Post } from 'src/models';
 import { ERROR, SELECT } from 'src/utils';
 import { CommentLikeService, NotifyService } from 'src/services';
@@ -23,7 +25,7 @@ class CommentService {
     return newComment;
   }
 
-  async findComments(postID: string) {
+  async findComments(postID: string | Types.ObjectId) {
     const comments: CommentType[] = await Comment.find({ postID }, '-postID')
       .sort({ createdAt: 1 })
       .populate('user', SELECT.USER)

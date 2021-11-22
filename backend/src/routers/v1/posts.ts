@@ -35,7 +35,7 @@ export default class PostsRouter {
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
-    const post = await PostService.findPost(postID);
+    const post = await PostService.findOnePost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
@@ -51,7 +51,7 @@ export default class PostsRouter {
       throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     if (type === 'tistory') await PostService.updateTistoryPost(userID, postID);
-    const post = await PostService.findPost(postID);
+    const post = await PostService.findOnePost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 

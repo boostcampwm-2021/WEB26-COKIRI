@@ -104,13 +104,15 @@ export interface PostType {
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  type?: 'normal' | 'blog' | 'algorithm' | 'github';
-  link?: string;
-  externalContent?: string;
-  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
-  blog?: 'tistory' | 'velog';
-  blogIdentity?: string;
-  blogPostID?: string;
+  type?: 'normal' | 'external';
+  external?: {
+    content: string;
+    link: string;
+    info?: object;
+    type: 'github' | 'tistory' | 'velog' | 'algorithm';
+    identity: string;
+    target: string;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 }
