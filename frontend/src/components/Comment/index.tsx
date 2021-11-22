@@ -34,28 +34,28 @@ function Comment({ postID, comment, onCommentDelete }: Props) {
   const user = useRecoilValue(userAtom);
   const commentLikes = comment.likes ?? [];
   const [likeCount, setLikeCount] = useState(commentLikes.length);
-  const isMe = user._id === comment.user._id;
+  const isMe = user._id === comment.user!._id;
 
   return (
     <Row alignItems='center'>
       <ProfileImageButton
         size={COMMENT_PROFILE_IMAGE_SIZE}
-        profileImage={comment.user.profileImage}
-        username={comment.user.username!}
+        profileImage={comment.user!.profileImage}
+        username={comment.user!.username!}
         marginRight={COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
       />
       <UsernameButton
-        username={comment.user.username!}
+        username={comment.user!.username!}
         marginRight={COMMENT_USERNAME_BUTTON_MARGIN_RIGHT}
         width={COMMENT_USERNAME_BUTTON_WIDTH}
       />
       <Content>{comment.content}</Content>
       <Spacer />
-      <TimeFromNow time={comment.createdAt} />
+      <TimeFromNow time={comment.createdAt!} />
       {isMe && (
         <CommentDeleteButton
           postID={postID}
-          commentID={comment._id}
+          commentID={comment._id!}
           onCommentDelete={onCommentDelete}
         />
       )}

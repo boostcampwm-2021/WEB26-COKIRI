@@ -47,7 +47,7 @@ function Post({ post, onPostDelete }: Props) {
     <CardCommon width={POST_CARD_WIDTH}>
       <Row alignItems='center'>
         <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
-        <TimeFromNow time={createdAt} />
+        <TimeFromNow time={createdAt!} />
         <Spacer />
         {!isMe && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
       </Row>
