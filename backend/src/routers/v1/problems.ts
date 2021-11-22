@@ -3,6 +3,7 @@ import { Controller, Req, Res, Get, Put } from 'routing-controllers';
 
 import ProblemService from 'src/services/ProblemService';
 import { ERROR, RESPONSECODE } from 'src/utils';
+import { UserService } from 'src/services';
 
 @Controller('/problems')
 export default class problemRouter {
@@ -25,8 +26,9 @@ export default class problemRouter {
 
   @Put('/statistics')
   async getStatistics(@Req() request: Request, @Res() response: Response) {
-    const { username } = request.query;
-    const statistics = await ProblemService.getSolvedAcStatistics(username as string);
+    const { solved_username: solvedUsername, user_id: userID } = request.query;
+    const statistics = await ProblemService.getSolvedAcStatistics(solvedUsername as string);
+    UserService.updateOneProblemStatistics(userID as string, statistics);
     return response.json({ code: RESPONSECODE.SUCCESS, data: statistics });
   }
 }

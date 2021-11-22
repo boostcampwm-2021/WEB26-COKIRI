@@ -154,6 +154,10 @@ class UserService {
       { runValidators: true, upsert: true },
     );
   }
+
+  async updateOneProblemStatistics(userID: string, statistics: object) {
+    return User.updateOne({ _id: userID }, { 'dashboard.statistics.problem': statistics });
+  }
 }
 
 export default new UserService();
