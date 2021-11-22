@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 import { ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
+import { ObjectType } from 'src/types';
 
 class ProblemService {
   convertLevelToTear(level: number) {
@@ -61,8 +62,35 @@ class ProblemService {
     const url = OPENAPIURL.PROBLEM_STATISTICS;
     const solvedProfileHTML = (await axios.get(`${url}${username}`)).data;
     const $ = cheerio.load(solvedProfileHTML);
-    const tagStatistics = $('div.CommonComponents__Card-sc-9zy9np-0.kYNCMl svg').html();
-    console.log(tagStatistics);
+    const $tag = $('div.ProfileSolvedStatsCardstyles__DataContainer-sc-1bmfkr8-1.hPtyHi').last();
+    const statistics: ObjectType<any> = {};
+    const statisticsKeys: string[] = [];
+    const categories = $tag.find(
+      'span.ProfileSolvedStatsCardstyles__DataItemCaption-sc-1bmfkr8-2.pRLDw',
+    );
+    const exps = $tag.find(
+      'span.ProfileSolvedStatsCardstyles__DataItemRightLarge-sc-1bmfkr8-3.fnpmJe',
+    );
+
+    categories.each((index, category) => {
+      if (index > 9) return false;
+      if (index !== 0) {
+        const textCategory = $(category).text().substr(2);
+        statistics[textCategory] = '';
+        statisticsKeys.push(textCategory);
+      }
+      return true;
+    });
+
+    exps.each((index, exp) => {
+      if (index > 9) return false;
+      if (index !== 0) {
+        const expText = $(exp).text();
+        statistics[statisticsKeys[index - 1]] = expText;
+      }
+      return true;
+    });
+    return statistics;
   }
 }
 
