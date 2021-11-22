@@ -114,11 +114,7 @@ class PostService {
     );
     return Post.updateOne(
       { _id: postID },
-      {
-        title: newBlogContent.title,
-        'external.content': newBlogContent.external.content,
-        link: newBlogContent.link,
-      },
+      { title: newBlogContent.title as string, external: newBlogContent.external },
     );
   }
 
