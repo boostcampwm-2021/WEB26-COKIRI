@@ -7,6 +7,7 @@ import Timeline from 'src/components/Timeline';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import LoadingIndicator from 'src/components/LoadingIndicator';
+import SigninCard from 'src/components/cards/SigninCard';
 import { Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -25,6 +26,7 @@ interface Props {
 }
 
 function User({ targetUser }: Props) {
+  const isAuthenticated = useRecoilValue(isRegisteredSelector);
   const isUserExist = Object.keys(targetUser).length !== 0;
   const isRegistered = useRecoilValue(isRegisteredSelector);
   const { refetch, data } = useInfiniteQuery(
@@ -51,6 +53,7 @@ function User({ targetUser }: Props) {
       <Page.Main>
         <LoadingIndicator />
         <Col alignItems='center'>
+          {!isAuthenticated && <SigninCard />}
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
@@ -69,14 +72,6 @@ function User({ targetUser }: Props) {
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
   const token = context.req?.cookies.jwt;
-  if (token === undefined) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
   const targetUser = await Fetcher.getUsersByUsername(token, username);
   return {
     props: { targetUser },
