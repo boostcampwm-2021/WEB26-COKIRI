@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
 import ProfileSet from 'src/components/sets/ProfileSet';
-import CommentButton from 'src/components/buttons/CommentButton';
+import DetailButton from 'src/components/buttons/DetailButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
 import PostImages from 'src/components/images/PostImages';
@@ -49,7 +49,7 @@ function Post({ post, onPostDelete }: Props) {
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
         <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
-        <CommentButton postID={_id!} />
+        <DetailButton postID={_id!} />
         <EchoButton postID={_id!} />
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}

@@ -22,7 +22,7 @@ function PostImages({ images, width, height, expanded }: Props) {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const isLeftButton = slideIndex !== 0;
-  const isRightButton = images.length !== 1 && slideIndex !== images.length - 1;
+  const isRightButton = images.length > 1 && slideIndex !== images.length - 1;
   const slideLeft = () => setSlideIndex(slideIndex - 1);
   const slideRight = () => setSlideIndex(slideIndex + 1);
   useEffect(() => {

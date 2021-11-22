@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IoChatbubbleOutline } from 'react-icons/io5';
+import { BsArrowsAngleExpand } from 'react-icons/bs';
 
 import NavigateButton from 'src/components/buttons/NavigateIconButton';
 
@@ -8,17 +8,16 @@ interface Props {
   postID: string;
 }
 
-// eslint-disable-next-line no-unused-vars
-function CommentButton({ postID }: Props) {
+function DetailButton({ postID }: Props) {
   return (
     <NavigateButton href={`/posts/${postID}`}>
-      <IoChatbubbleOutline />
+      <BsArrowsAngleExpand />
     </NavigateButton>
   );
 }
 
-CommentButton.propsType = {
+DetailButton.propsType = {
   postID: PropTypes.string.isRequired,
 };
 
-export default CommentButton;
+export default DetailButton;
