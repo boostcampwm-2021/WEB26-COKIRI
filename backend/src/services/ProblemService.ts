@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-import { OPENAPIURL, PROBLEMTEAR } from 'src/utils';
+import { ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
 
 class ProblemService {
   getProblemTear(level: number) {
@@ -25,25 +25,31 @@ class ProblemService {
 
   async getProblemContent(problemID: string) {
     const url = OPENAPIURL.PROBLEM_SHOW;
-    const [problemInfo, problemHTML] = await Promise.all([
-      axios.get(url, { params: { problemId: problemID } }),
-      axios.get(`${OPENAPIURL.PROBLEM}${problemID}`),
-    ]);
-    const $ = cheerio.load(problemHTML.data);
-    const problemDescription = $('div#problem_description').html()!.trim();
-    return {
-      title: problemInfo.data.titleKo,
-      solvedUserCount: problemInfo.data.acceptedUserCount,
-      averageTries: problemInfo.data.averageTries,
-      tear: this.getProblemTear(problemInfo.data.level),
-      link: `${OPENAPIURL.PROBLEM}${problemID}`,
-      externalContent: problemDescription,
-      external: {
-        type: 'algorithm',
-        identity: 'baekjon',
-        target: problemID,
-      },
-    };
+    try {
+      const [problemInfo, problemHTML] = await Promise.all([
+        axios.get(url, { params: { problemId: problemID } }),
+        axios.get(`${OPENAPIURL.PROBLEM}${problemID}`),
+      ]);
+      const $ = cheerio.load(problemHTML.data);
+      const problemDescription = $('div#problem_description').html()!.trim();
+      return {
+        title: problemInfo.data.titleKo,
+        external: {
+          type: 'algorithm',
+          identity: 'baekjoon',
+          target: problemID,
+          content: problemDescription,
+          link: `${OPENAPIURL.PROBLEM}${problemID}`,
+          info: {
+            solvedUserCount: problemInfo.data.acceptedUserCount,
+            averageTries: problemInfo.data.averageTries,
+            tear: this.getProblemTear(problemInfo.data.level),
+          },
+        },
+      };
+    } catch (error) {
+      throw new Error(ERROR.NO_ALGORITHM_PROBLEM);
+    }
   }
 }
 
