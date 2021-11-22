@@ -34,6 +34,31 @@ export default class SocialsRouter {
     return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
+  @Get('/kakao')
+  getKakao(@Req() request: Request, @Res() response: Response) {
+    const { redirect_uri: redirectURIQuery } = request.query;
+    const redirectURI: string = (redirectURIQuery as string) || '/';
+    passport.authenticate('kakao', {
+      session: false,
+      state: redirectURI,
+    })(request, response);
+    return response;
+  }
+
+  @Get('/kakao/callback')
+  @UseBefore(passport.authenticate('kakao', { session: false }))
+  getKakaoCallback(@Req() request: Request, @Res() response: Response) {
+    const accessToken = JWT.createAccessToken(request.user!);
+    const cookieOptions = {
+      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+      httpOnly: true,
+      secure: process.env.MODE !== 'development',
+      domain: process.env.MAIN_DOMAIN,
+    };
+    response.cookie('jwt', accessToken, cookieOptions);
+    return `${process.env.CLIENT_URL}${request.query.state}`;
+  }
+
   @Get('/tistory')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   getTistory(@Req() request: Request, @Res() response: Response) {
