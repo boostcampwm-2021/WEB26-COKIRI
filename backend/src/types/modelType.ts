@@ -105,9 +105,9 @@ export interface PostType {
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
-  link?: string;
   external?: {
     content: string;
+    link: string;
     info?: object;
     type: 'github' | 'tistory' | 'velog' | 'algorithm';
     identity: string;

@@ -19,9 +19,9 @@ const postSchema = new Schema<PostType>(
       required: true,
       default: 'normal',
     },
-    link: { type: String, trim: true },
     external: {
-      content: String,
+      content: { type: String, trim: true, require: true },
+      link: { type: String, trim: true },
       info: Object,
       type: { type: String, enum: ['github', 'tistory', 'velog'] },
       identity: { type: String, trim: true },
