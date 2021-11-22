@@ -19,7 +19,6 @@ export default function passportKakaoLoader() {
       authProvider: 'kakao',
       authProviderID: profile.id,
     });
-    console.log(profile);
     done(null, user);
   };
 
