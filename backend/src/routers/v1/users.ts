@@ -285,10 +285,13 @@ export default class UsersRouter {
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putDashboard(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
+    const data = request.body;
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await UserService.updateOneUserDashboard(userID, request.body);
+
+    await UserService.updateOneUserDashboard(userID, data);
+
     const dashboard = await UserService.findOneUserDashboard({ _id: userID });
     return response.json({ code: RESPONSECODE.SUCCESS, data: dashboard });
   }

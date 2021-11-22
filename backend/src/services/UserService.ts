@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { User } from 'src/models';
+import { User, TechStack } from 'src/models';
 import { User as UserType, UserAuthProvider, ObjectType, DashboardType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ERROR, AUTH, ObjectID } from 'src/utils';
@@ -164,6 +164,18 @@ class UserService {
   }
 
   async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
+    Object.values(dashboard.techStacks as object).forEach((stackList: []) => {
+      Promise.all(
+        stackList.map(async (v: any) => {
+          const isExistStack = await TechStack.exists({ _id: v._id });
+          if (!isExistStack) {
+            throw new Error(ERROR.NOT_EXIST_TECHSTACK);
+          }
+        }),
+      ).catch((err) => {
+        console.log(err);
+      });
+    });
     return User.updateOne({ _id: userID }, { dashboard }, { runValidators: true, new: true });
   }
 
