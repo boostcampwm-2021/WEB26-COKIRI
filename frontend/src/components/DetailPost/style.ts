@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 import { Col } from 'src/components/Grid';
 
-import { DETAIL_POST_INFO_WIDTH } from 'src/globals/constants';
+import { POST_WIDTH } from 'src/globals/constants';
 
 interface Props {
   isImage: boolean;
@@ -25,7 +25,7 @@ const ImageSection = styled.div`
   justify-content: center;
   align-items: center;
   background: #222222;
-  width: calc(100vw - ${DETAIL_POST_INFO_WIDTH}px);
+  width: calc(100vw - ${POST_WIDTH}px);
   height: 100vh;
 `;
 
@@ -33,7 +33,7 @@ const PostInfoSection = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: ${DETAIL_POST_INFO_WIDTH}px;
+  width: ${POST_WIDTH}px;
   height: 100vh;
   ${Col} {
     height: 99vh;
