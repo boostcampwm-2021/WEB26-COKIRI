@@ -38,7 +38,10 @@ class ProblemService {
           type: 'problem',
           identity: 'baekjoon',
           target: problemID,
-          content: problemDescription,
+          content: problemDescription.replace(
+            /(?<=(<img[^/]+src="))\//g,
+            OPENAPIURL.PROBLEM_IMAGE_HOST,
+          ),
           link: `${OPENAPIURL.PROBLEM}${problemID}`,
           info: {
             solvedUserCount: problemInfo.data.acceptedUserCount,
