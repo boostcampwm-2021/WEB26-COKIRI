@@ -104,7 +104,7 @@ export interface PostType {
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  type?: 'normal' | 'blog' | 'algorithm' | 'github';
+  type?: 'normal' | 'external';
   external?: {
     content: string;
     link: string;

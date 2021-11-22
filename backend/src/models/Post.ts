@@ -15,7 +15,7 @@ const postSchema = new Schema<PostType>(
     },
     type: {
       type: String,
-      enum: ['normal', 'github', 'blog', 'algorithm'],
+      enum: ['normal', 'external'],
       required: true,
       default: 'normal',
     },

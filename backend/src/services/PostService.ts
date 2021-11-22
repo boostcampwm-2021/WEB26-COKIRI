@@ -31,7 +31,6 @@ class PostService {
     const { type, external } = data;
     const isLinkedPost = external && !images?.length;
     switch (type) {
-      case undefined:
       case 'normal':
         if (isLinkedPost) {
           throw new Error(ERROR.WRONG_BODY_TYPE);
@@ -43,6 +42,7 @@ class PostService {
         }
         break;
       default:
+        throw new Error(ERROR.INVALID_POST_TYPE);
     }
     const post = await Post.create(data);
     if (type === 'normal') {
