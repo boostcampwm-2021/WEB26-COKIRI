@@ -8,7 +8,7 @@ import { ERROR, RESPONSECODE } from 'src/utils';
 export default class TechStacksRouter {
   @Get('/search')
   async getSearch(@Req() request: Request, @Res() response: Response) {
-    const query = (request.query.query as string)?.trim();
+    const query = (request.query.query as string)?.trim().toLowerCase();
     if (query === undefined) {
       throw new Error(ERROR.NOT_EXIST_RESULT);
     }
