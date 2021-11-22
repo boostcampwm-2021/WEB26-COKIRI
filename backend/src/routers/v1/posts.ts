@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { ERROR, RESPONSECODE } from 'src/utils';
+import { ERROR, RESPONSECODE, PERPAGE } from 'src/utils';
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 
 @Controller('/posts')
@@ -15,7 +15,11 @@ export default class PostsRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     const posts = await PostService.findTimeline(userID as string, +cursor!);
-    return response.json({ code: RESPONSECODE.SUCCESS, nextCursor: +cursor! + 1, data: posts });
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      nextCursor: +cursor! + PERPAGE,
+      data: posts,
+    });
   }
 
   @Get('/random')
