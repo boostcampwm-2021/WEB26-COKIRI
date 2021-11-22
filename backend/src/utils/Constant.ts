@@ -55,6 +55,10 @@ export const OPENAPIURL = {
   GIT_URL: (username: string) => `https://github.com/${username}`,
 };
 
+export const HEADER = {
+  GITHUB_README: { Accept: 'application/vnd.github.VERSION.html' },
+};
+
 export const SELECT = {
   USER: 'username profileImage',
 };

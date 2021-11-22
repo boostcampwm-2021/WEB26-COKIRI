@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as Base64 from 'js-base64';
 import * as cheerio from 'cheerio';
 
-import { Calculate, OPENAPIURL } from 'src/utils';
+import { Calculate, OPENAPIURL, HEADER } from 'src/utils';
 
 class GitService {
   async findRepoList(username: string) {
@@ -14,19 +14,20 @@ class GitService {
 
   async findRepo(githubUsername: string, repoName: string) {
     const apiData = (await axios.get(OPENAPIURL.GIT_REPOINFO_API(githubUsername, repoName))).data;
-    const readmeData = (await axios.get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName)))
-      .data;
+    const readmeData = (
+      await axios.get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName), {
+        headers: HEADER.GITHUB_README,
+      })
+    ).data;
     const { name, html_url, stargazers_count, forks_count, languages_url } = apiData;
     const languageData = (await axios.get(languages_url)).data;
     const languageInfo = Calculate.calculateLanguage(languageData);
-    const { content } = readmeData;
-    const decodeContent = Base64.decode(content);
     const result = {
       repoName: name,
       repoUrl: html_url,
       starCount: stargazers_count,
       forkCount: forks_count,
-      content: decodeContent,
+      content: readmeData,
       languageInfo,
     };
     return result;
