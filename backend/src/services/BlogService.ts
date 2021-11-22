@@ -31,7 +31,7 @@ class BlogService {
         let posts: any[] = [];
         switch (type) {
           case 'tistory':
-            posts = await TistoryService.getAllPosts(userID, identity!);
+            posts = await TistoryService.findAllPosts(userID, identity!);
             break;
           default:
         }

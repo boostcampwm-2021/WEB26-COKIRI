@@ -107,7 +107,7 @@ class PostService {
     if (!post.external || post.external.type !== 'tistory') {
       throw new Error(ERROR.INVALID_TISTORY_POST);
     }
-    const newBlogContent = await TistoryService.getPostContent(
+    const newBlogContent = await TistoryService.findPostContent(
       userID,
       post.external.identity,
       post.external.target,

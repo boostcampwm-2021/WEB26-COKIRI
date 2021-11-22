@@ -160,7 +160,7 @@ export default class UsersRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const postContent = await TistoryService.getPostContent(userID, identity, postID);
+    const postContent = await TistoryService.findPostInPage(userID, identity, postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 

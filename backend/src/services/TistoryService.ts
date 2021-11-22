@@ -5,7 +5,7 @@ import { User } from 'src/models';
 import { BlogService, UserService } from 'src/services/index';
 
 class TistoryService {
-  async getPostInPage(identity: string, accessToken: string, page = 1): Promise<any[]> {
+  async findPostInPage(identity: string, accessToken: string, page = 1): Promise<any[]> {
     try {
       const result = await axios.get(OPENAPIURL.TISTORY_POSTS, {
         params: {
@@ -17,7 +17,7 @@ class TistoryService {
       });
       const { posts } = result.data.tistory.item;
       if (posts) {
-        const nextPagePosts = await this.getPostInPage(identity, accessToken, page + 1);
+        const nextPagePosts = await this.findPostInPage(identity, accessToken, page + 1);
         return [...posts, ...nextPagePosts];
       }
       return [];
@@ -26,12 +26,12 @@ class TistoryService {
     }
   }
 
-  async getAllPosts(userID: string, identity: string) {
+  async findAllPosts(userID: string, identity: string) {
     const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
     if (!accessToken) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
     }
-    const posts = await this.getPostInPage(identity, accessToken);
+    const posts = await this.findPostInPage(identity, accessToken);
     return posts.map((post) => ({
       postID: post.id,
       postTitle: post.title,
@@ -40,7 +40,7 @@ class TistoryService {
     }));
   }
 
-  async getPostContent(userID: string, identity: string, postID: string) {
+  async findPostContent(userID: string, identity: string, postID: string) {
     const accessToken = await UserService.findOneUserTistoryAccessToken(userID);
     try {
       const postResponse = await axios.get(OPENAPIURL.TISTORY_POST_READ, {
