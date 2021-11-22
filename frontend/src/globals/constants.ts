@@ -65,6 +65,8 @@ export const SOCIAL_ICON_SIZE = 48;
 
 export const DEFAULT_ICON_SIZE = 24;
 
+export const DASHBOARD_USER_INFO_ICON_SIZE = 24;
+
 // INPUT
 export const SEARCH_INPUT_WIDTH = 136;
 
@@ -80,6 +82,10 @@ export const USER_INFO_CARD_WIDTH = 500;
 export const USER_SETTING_CARD_WIDTH = 600;
 
 export const EXTERNAL_AUTH_CARD_WIDTH = 600;
+
+export const DASHBOARD_LEFT_SECTION_CARD_WIDTH = 700;
+export const DASHBOARD_RIGHT_SECTION_CARD_WIDTH = 400;
+export const DASHBOARD_STATITICS_CARD_HEIGHT = 200;
 
 // POST
 export const POST_WIDTH = 600;
@@ -101,3 +107,8 @@ export const REPOS_MODAL_HEIGHT = 500;
 
 // TIME
 export const TIME_MIN_WIDTH = 60;
+
+// DASHBOARD
+export const DASHBOARD_USER_INFO_COL_MARGIN = 8;
+export const DASHBOARD_STACK_GRID_PADDING = 8;
+export const DASHBOARD_LINK_ROW_PADDING = 24;

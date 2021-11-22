@@ -1,12 +1,17 @@
 import CardCommon from 'src/components/cards/Common';
 import { Row, Col } from 'src/components/Grid';
 
+import {
+  DASHBOARD_RIGHT_SECTION_CARD_WIDTH,
+  DASHBOARD_LINK_ROW_PADDING,
+} from 'src/globals/constants';
+
 import { Title, Content } from './style';
 
 function DashBoardLinkCard() {
   return (
-    <CardCommon width={400}>
-      <Row padding={24}>
+    <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
+      <Row padding={DASHBOARD_LINK_ROW_PADDING}>
         <Col>
           <Title>희망 직군</Title>
           <Title>GitHub</Title>
