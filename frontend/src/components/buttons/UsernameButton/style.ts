@@ -7,7 +7,7 @@ interface Props {
 
 const Wrapper = styled.div<Props>`
   margin-right: ${({ marginRight }) => (marginRight === 0 ? 'unset' : `${marginRight}px`)};
-  width: ${({ width }) => (width === 0 ? 'unset' : `${width}px`)};
+  min-width: ${({ width }) => (width === 0 ? 'unset' : `${width}px`)};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

@@ -6,11 +6,6 @@ import ButtonCommon from 'src/components/buttons/Common';
 
 import { CommentType } from 'src/types';
 
-import {
-  DETAIL_POST_COMMENT_WIDTH,
-  DEFAULT_POST_COMMENT_CONTENT_WIDTH,
-} from 'src/globals/constants';
-
 import { Wrapper } from './style';
 
 interface Props {

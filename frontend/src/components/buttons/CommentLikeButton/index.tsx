@@ -20,9 +20,17 @@ interface Props {
   commentLikes: LikeType[];
   margin?: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
+  likeCount: number;
 }
 
-function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, margin }: Props) {
+function CommentLikeButton({
+  postID,
+  commentID,
+  commentLikes,
+  setLikeCount,
+  margin,
+  likeCount,
+}: Props) {
   const user = useRecoilValue(userAtom);
   const like = commentLikes.find((commentLike) => commentLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
@@ -54,6 +62,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, marg
       margin={margin}
     >
       <IoHeartSharp />
+      {likeCount !== 0 && likeCount}
     </IconButton>
   ) : (
     <IconButton
@@ -63,6 +72,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, setLikeCount, marg
       margin={margin}
     >
       <IoHeartOutline />
+      {likeCount !== 0 && likeCount}
     </IconButton>
   );
 }
@@ -71,6 +81,7 @@ CommentLikeButton.propTypes = {
   postID: PropTypes.string.isRequired,
   commentLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
   setLikeCount: PropTypes.func.isRequired,
+  likeCount: PropTypes.number.isRequired,
   margin: PropTypes.number,
 };
 

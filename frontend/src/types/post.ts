@@ -10,7 +10,7 @@ export default interface PostType {
   user?: UserType;
   likeCount?: number;
   comments?: CommentType[];
-  createdAt?: Date;
+  createdAt?: string;
   likes?: LikeType[];
   nextCursor?: number;
 }
