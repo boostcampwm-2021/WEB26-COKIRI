@@ -176,7 +176,24 @@ export default class UsersRouter {
       throw new Error(ERROR.INVALID_GITHUB_USERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      data: {
+        title: result.repoName,
+        external: {
+          type: 'repository',
+          content: result.content,
+          link: result.repoUrl,
+          info: {
+            starCount: result.starCount,
+            forkCount: result.forkCount,
+            language: result.languageInfo,
+          },
+          identity: githubUsername,
+          target: repoName,
+        },
+      },
+    });
   }
 
   @Get('/:userID/dashboard/repositories')

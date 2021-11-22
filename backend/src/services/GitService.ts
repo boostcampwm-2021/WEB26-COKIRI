@@ -24,7 +24,7 @@ class GitService {
     const result = {
       repoName: name,
       repoUrl: html_url,
-      startCount: stargazers_count,
+      starCount: stargazers_count,
       forkCount: forks_count,
       content: decodeContent,
       languageInfo,

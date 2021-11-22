@@ -50,7 +50,7 @@ class ProblemService {
         },
       };
     } catch (error) {
-      throw new Error(ERROR.NOT_EXIST_ALGORITHM_PROBLEM);
+      throw new Error(ERROR.NOT_EXIST_PROBLEM);
     }
   }
 }
