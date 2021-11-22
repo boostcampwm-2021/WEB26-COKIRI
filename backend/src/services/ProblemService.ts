@@ -58,7 +58,7 @@ class ProblemService {
     }
   }
 
-  async getSolvedAcStatistics(username: string) {
+  async findSolvedAcStatistics(username: string) {
     const url = OPENAPIURL.PROBLEM_STATISTICS;
     const solvedProfileHTML = (await axios.get(`${url}${username}`)).data;
     const $ = cheerio.load(solvedProfileHTML);
