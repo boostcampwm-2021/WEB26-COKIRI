@@ -109,7 +109,7 @@ export interface PostType {
     content: string;
     link: string;
     info?: object;
-    type: 'github' | 'tistory' | 'velog' | 'algorithm';
+    type: 'repository' | 'tistory' | 'velog' | 'problem';
     identity: string;
     target: string;
   };
