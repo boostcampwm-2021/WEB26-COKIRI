@@ -77,7 +77,7 @@ class PostService {
     const containsArray = !follows ? [userID] : [...follows, userID];
     const posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
-      .skip(PERPAGE * cursor)
+      .skip(cursor)
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
