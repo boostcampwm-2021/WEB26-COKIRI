@@ -106,11 +106,13 @@ export interface PostType {
   tags?: Types.ObjectId[];
   type?: 'normal' | 'blog' | 'algorithm' | 'github';
   link?: string;
-  externalContent?: string;
-  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
-  blog?: 'tistory' | 'velog';
-  blogIdentity?: string;
-  blogPostID?: string;
+  external?: {
+    content: string;
+    info?: object;
+    type: 'github' | 'tistory' | 'velog' | 'algorithm';
+    identity: string;
+    target: string;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 }
