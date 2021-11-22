@@ -74,7 +74,7 @@ export default class SocialsRouter {
   @Redirect('/')
   async getGithubCallback(@Req() request: Request, @Res() response: Response) {
     const { id: authProviderID, username: githubUsername } = request.user as any;
-    const { state: userID } = request.query;
+    const userID = (request.query?.state as string).trim();
 
     const userIsExist = userID ? await UserService.existGithubUser(userID as string) : false;
     if (userIsExist) {
@@ -85,17 +85,17 @@ export default class SocialsRouter {
         authProviderID,
         githubUsername,
       });
+      const accessToken = JWT.createAccessToken(request.user!);
+
+      const cookieOptions = {
+        maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
+        httpOnly: true,
+        secure: process.env.MODE !== 'development',
+        domain: process.env.MAIN_DOMAIN,
+      };
+      response.cookie('jwt', accessToken, cookieOptions);
     }
 
-    const accessToken = JWT.createAccessToken(request.user!);
-
-    const cookieOptions = {
-      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-      httpOnly: true,
-      secure: process.env.MODE !== 'development',
-      domain: process.env.MAIN_DOMAIN,
-    };
-    response.cookie('jwt', accessToken, cookieOptions);
     return `${process.env.CLIENT_URL}`;
   }
 
