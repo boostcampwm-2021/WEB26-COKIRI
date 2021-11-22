@@ -43,6 +43,7 @@ function Post({ post, onPostDelete }: Props) {
   };
   const { _id, user, images, content, likes, createdAt, type, external } = post;
   const isMe = me._id !== user!._id;
+
   return (
     <CardCommon width={POST_WIDTH}>
       <Row alignItems='center'>

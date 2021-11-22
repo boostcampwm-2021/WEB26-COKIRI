@@ -15,11 +15,12 @@ interface Props {
   profileImage?: string;
   username: string;
   marginLeft?: number;
+  onClick: () => void;
 }
 
-function ProfileSet({ profileImage, username, marginLeft }: Props) {
+function ProfileSet({ profileImage, username, marginLeft, onClick }: Props) {
   return (
-    <Wrapper marginLeft={marginLeft!}>
+    <Wrapper marginLeft={marginLeft!} onClick={onClick}>
       <ProfileImageButton
         profileImage={profileImage!}
         username={username}
@@ -34,11 +35,13 @@ ProfileSet.propTypes = {
   profileImage: PropTypes.string,
   username: PropTypes.string.isRequired,
   marginLeft: PropTypes.number,
+  onClick: PropTypes.func,
 };
 
 ProfileSet.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
   marginLeft: 0,
+  onClick: () => {},
 };
 
 export default ProfileSet;
