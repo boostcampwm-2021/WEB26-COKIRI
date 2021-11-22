@@ -18,7 +18,7 @@ import { Row, Spacer } from 'src/components/Grid';
 
 import { CommentType, PostType } from 'src/types';
 
-import { POST_CARD_WIDTH } from 'src/globals/constants';
+import { POST_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
 
@@ -44,7 +44,7 @@ function Post({ post, onPostDelete }: Props) {
   const isMe = me._id !== user!._id;
 
   return (
-    <CardCommon width={POST_CARD_WIDTH}>
+    <CardCommon width={POST_WIDTH}>
       <Row alignItems='center'>
         <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
         <TimeFromNow time={createdAt!} />

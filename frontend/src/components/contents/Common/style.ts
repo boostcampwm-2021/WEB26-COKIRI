@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
 
-interface Props {
-  width: number;
-}
+import { POST_CONTENT_WIDTH } from 'src/globals/constants';
 
-const Wrapper = styled.div<Props>`
+const Wrapper = styled.div`
   margin: 16px;
-  width: ${({ width }) => `${width}px`};
+  width: ${POST_CONTENT_WIDTH};
 `;
 
 const Content = styled.p`
