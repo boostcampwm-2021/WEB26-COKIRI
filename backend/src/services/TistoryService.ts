@@ -54,9 +54,9 @@ class TistoryService {
       const { title, content, postUrl } = postResponse.data.tistory.item;
       return {
         title,
-        externalContent: content,
         link: postUrl,
         external: {
+          content,
           type: 'tistory',
           identity,
           target: postID,

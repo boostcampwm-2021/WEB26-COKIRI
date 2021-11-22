@@ -17,8 +17,8 @@ class PostService {
 
   async createPost(data: any) {
     let { images } = data;
-    const { link, type, external, externalContent } = data;
-    const isLinkedPost = link && external && externalContent && !images?.length;
+    const { link, type, external } = data;
+    const isLinkedPost = link && external && !images?.length;
     switch (type) {
       case undefined:
       case 'normal':
@@ -122,11 +122,8 @@ class PostService {
   }
 
   async updateTistoryPost(userID: string, postID: string) {
-    const post: PostType = await Post.findOne(
-      { _id: postID },
-      'external externalContent -_id',
-    ).lean();
-    if (!post.external || !post.externalContent || post.external.type !== 'tistory') {
+    const post: PostType = await Post.findOne({ _id: postID }, 'external -_id').lean();
+    if (!post.external || post.external.type !== 'tistory') {
       throw new Error(ERROR.INVALID_TISTORY_POST);
     }
     const newBlogContent = await TistoryService.getPostContent(
@@ -138,7 +135,7 @@ class PostService {
       { _id: postID },
       {
         title: newBlogContent.title,
-        externalContent: newBlogContent.externalContent,
+        'external.content': newBlogContent.external.content,
         link: newBlogContent.link,
       },
     );
