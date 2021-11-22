@@ -7,7 +7,7 @@ import DetailButton from 'src/components/buttons/DetailButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import EchoButton from 'src/components/buttons/EchoButton';
 import PostImages from 'src/components/images/PostImages';
-import PostContent from 'src/components/PostContent';
+import NormalContent from 'src/components/contents/NormalContent';
 import PostComments from 'src/components/PostComments';
 import LikesButton from 'src/components/buttons/LikesButton';
 import CardCommon from 'src/components/cards/Common';
@@ -53,7 +53,7 @@ function Post({ post, onPostDelete }: Props) {
         <EchoButton postID={_id!} />
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
-      <PostContent content={content!} />
+      <NormalContent content={content!} />
       <PostComments postID={_id!} comments={comments} onCommentDelete={handleCommentDelete} />
       <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />
     </CardCommon>
