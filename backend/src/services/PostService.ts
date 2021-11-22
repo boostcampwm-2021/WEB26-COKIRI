@@ -88,7 +88,7 @@ class PostService {
     const post = await Post.findOne({ _id: postID })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    if (!post) throw new Error(ERROR.NO_POSTS);
+    if (!post) throw new Error(ERROR.NOT_EXIST_POST);
     delete post!.userID;
     const results = await Promise.all([
       CommentService.findComments(postID),

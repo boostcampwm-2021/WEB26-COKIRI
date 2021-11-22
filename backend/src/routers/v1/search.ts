@@ -10,7 +10,7 @@ export default class PostsRouter {
   async getSearch(@Req() request: Request, @Res() response: Response) {
     const query = (request.query.query as string).trim();
     if (query === undefined) {
-      throw new Error(ERROR.NO_QUERY);
+      throw new Error(ERROR.NOT_EXIST_RESULT);
     }
     if (query.length === 0) {
       return response.json({ code: RESPONSECODE.SUCCESS, data: [] });

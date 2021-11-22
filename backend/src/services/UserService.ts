@@ -44,7 +44,7 @@ class UserService {
   async findOneUserTistoryAccessToken(userID: string) {
     const user = await User.findOne({ _id: userID }, 'blogAuthentication.tistory -_id').lean();
     if (!user) {
-      throw new Error(ERROR.NO_USERS);
+      throw new Error(ERROR.NOT_EXIST_USER);
     }
     if (!user.blogAuthentication || !user.blogAuthentication!.tistory) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
@@ -73,7 +73,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (!result) {
-      throw new Error(ERROR.NO_USERS);
+      throw new Error(ERROR.NOT_EXIST_USER);
     }
     return result;
   }
@@ -84,7 +84,7 @@ class UserService {
       'username isRegistered name profileImage bio',
     ).lean();
     if (result.length === 0) {
-      throw new Error(ERROR.NO_USERS);
+      throw new Error(ERROR.NOT_EXIST_USER);
     }
     return result[0];
   }
@@ -116,7 +116,7 @@ class UserService {
       { $sample: { size: 20 } },
     ]);
     if (result.length === 0) {
-      throw new Error(ERROR.NO_USERS);
+      throw new Error(ERROR.NOT_EXIST_USER);
     }
     return result;
   }

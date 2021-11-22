@@ -160,7 +160,7 @@ export default class UsersRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const postContent = await TistoryService.findPostInPage(userID, identity, postID);
+    const postContent = await TistoryService.findPostContent(userID, identity, postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 
@@ -173,7 +173,7 @@ export default class UsersRouter {
     }
     const githubUsername = await UserService.findUserGithubUsername(userID);
     if (githubUsername === undefined) {
-      throw new Error(ERROR.NO_GITHUBUSERNAME);
+      throw new Error(ERROR.INVALID_GITHUB_USERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });

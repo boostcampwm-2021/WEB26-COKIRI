@@ -35,7 +35,7 @@ class ProblemService {
       return {
         title: problemInfo.data.titleKo,
         external: {
-          type: 'algorithm',
+          type: 'problem',
           identity: 'baekjoon',
           target: problemID,
           content: problemDescription,
@@ -50,7 +50,7 @@ class ProblemService {
         },
       };
     } catch (error) {
-      throw new Error(ERROR.NO_ALGORITHM_PROBLEM);
+      throw new Error(ERROR.NOT_EXIST_ALGORITHM_PROBLEM);
     }
   }
 }

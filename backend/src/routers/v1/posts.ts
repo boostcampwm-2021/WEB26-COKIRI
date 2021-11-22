@@ -137,7 +137,7 @@ export default class PostsRouter {
     await PostLikeService.removePostLike(userID, postID, likeID);
     const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
     if (!deletedCount) {
-      throw new Error(ERROR.NO_POST_LIKES);
+      throw new Error(ERROR.NOT_EXIST_POST_LIKE);
     }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
@@ -166,7 +166,7 @@ export default class PostsRouter {
     await CommentService.existsComment(postID, commentID, undefined);
     const { deletedCount } = await CommentLikeService.removeCommentLike(commentID, likeID);
     if (!deletedCount) {
-      throw new Error(ERROR.NO_COMMENT_LIKES);
+      throw new Error(ERROR.NOT_EXIST_COMMENT_LIKE);
     }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
