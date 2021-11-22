@@ -87,8 +87,6 @@ export const POST_CONTENT_LIMIT_LENGTH = 100;
 
 export const POST_CONTENT_WIDTH = 575;
 
-export const POST_COMMENT_CONTENT_WIDTH = 330;
-
 // MODAL
 export const DELETE_MODAL_TITLE_HEIGHT = 50;
 
