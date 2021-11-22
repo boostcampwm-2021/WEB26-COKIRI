@@ -1,3 +1,5 @@
+import { useRecoilValue } from 'recoil';
+import PropTypes from 'prop-types';
 import {
   IoPersonOutline,
   IoCalendarClearOutline,
@@ -9,6 +11,7 @@ import { BsPencil } from 'react-icons/bs';
 
 import CardCommon from 'src/components/cards/Common';
 import ProfileImage from 'src/components/images/ProfileImage';
+import UserInfoSettingButton from 'src/components/buttons/dashboardSettings/UserInfoSettingButton';
 import { Row, Col } from 'src/components/Grid';
 
 import {
@@ -19,13 +22,19 @@ import {
   DASHBOARD_USER_INFO_ICON_SIZE,
   DASHBOARD_USER_INFO_COL_MARGIN,
 } from 'src/globals/constants';
-// import { Fetcher } from 'src/utils';
 
-function DashBoardUserInfoCard() {
-  // const {data:user} = useQuery(['dashboard','users']()=>Fetcher.유저 데이터);
+import userAtom from 'src/recoil/user';
+
+interface Props {
+  username: string;
+}
+
+function DashBoardUserInfoCard({ username }: Props) {
+  const user = useRecoilValue(userAtom);
+  const hidden = user.username !== username;
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <Row>
+      <Row justifyContent='space-between'>
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={DEFAULT_PROFILE_IMAGE}
@@ -83,9 +92,12 @@ function DashBoardUserInfoCard() {
             </Col>
           </Row>
         </Col>
+        <UserInfoSettingButton hidden={hidden} />
       </Row>
     </CardCommon>
   );
 }
-
+DashBoardUserInfoCard.propTypes = {
+  username: PropTypes.string.isRequired,
+};
 export default DashBoardUserInfoCard;
