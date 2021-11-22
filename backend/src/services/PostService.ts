@@ -88,7 +88,7 @@ class PostService {
     const post = await Post.findOne({ _id: postID })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    if (!post) throw new Error(ERROR.NO_POSTS);
+    if (!post) throw new Error(ERROR.NOT_EXIST_POST);
     delete post!.userID;
     const results = await Promise.all([
       CommentService.findComments(postID),
@@ -107,7 +107,7 @@ class PostService {
     if (!post.external || post.external.type !== 'tistory') {
       throw new Error(ERROR.INVALID_TISTORY_POST);
     }
-    const newBlogContent = await TistoryService.getPostContent(
+    const newBlogContent = await TistoryService.findPostContent(
       userID,
       post.external.identity,
       post.external.target,

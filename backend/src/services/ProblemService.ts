@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import { ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
 
 class ProblemService {
-  getProblemTear(level: number) {
+  convertLevelToTear(level: number) {
     const value = level / Number(PROBLEMTEAR);
     const surplus = level % Number(PROBLEMTEAR);
     if (value === 0 && surplus === 0) return 'Unrated';
@@ -12,7 +12,7 @@ class ProblemService {
     return metalTear[Math.floor(value)] + (Number(PROBLEMTEAR) - surplus + 1).toString();
   }
 
-  async getSearchSuggestions(query: string) {
+  async findSearchSuggestions(query: string) {
     const url = OPENAPIURL.PROBLEM_SEARCH_SUGGESTION;
     const result = await axios.get(url, { params: { query } });
     return (result.data.problems as { id: number; title: string }[]).map(
@@ -23,7 +23,7 @@ class ProblemService {
     );
   }
 
-  async getProblemContent(problemID: string) {
+  async findProblemContent(problemID: string) {
     const url = OPENAPIURL.PROBLEM_SHOW;
     try {
       const [problemInfo, problemHTML] = await Promise.all([
@@ -35,7 +35,7 @@ class ProblemService {
       return {
         title: problemInfo.data.titleKo,
         external: {
-          type: 'algorithm',
+          type: 'problem',
           identity: 'baekjoon',
           target: problemID,
           content: problemDescription,
@@ -45,12 +45,12 @@ class ProblemService {
             totalTryCount: Math.floor(
               problemInfo.data.averageTries * problemInfo.data.acceptedUserCount,
             ),
-            tear: this.getProblemTear(problemInfo.data.level),
+            tear: this.convertLevelToTear(problemInfo.data.level),
           },
         },
       };
     } catch (error) {
-      throw new Error(ERROR.NO_ALGORITHM_PROBLEM);
+      throw new Error(ERROR.NOT_EXIST_PROBLEM);
     }
   }
 }

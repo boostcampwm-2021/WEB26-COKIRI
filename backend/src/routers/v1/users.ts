@@ -160,7 +160,7 @@ export default class UsersRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const postContent = await TistoryService.getPostContent(userID, identity, postID);
+    const postContent = await TistoryService.findPostContent(userID, identity, postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: postContent });
   }
 
@@ -173,10 +173,27 @@ export default class UsersRouter {
     }
     const githubUsername = await UserService.findUserGithubUsername(userID);
     if (githubUsername === undefined) {
-      throw new Error(ERROR.NO_GITHUBUSERNAME);
+      throw new Error(ERROR.INVALID_GITHUB_USERNAME);
     }
     const result = await GitService.findRepo(githubUsername, repoName);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      data: {
+        title: result.repoName,
+        external: {
+          type: 'repository',
+          content: result.content,
+          link: result.repoUrl,
+          info: {
+            starCount: result.starCount,
+            forkCount: result.forkCount,
+            language: result.languageInfo,
+          },
+          identity: githubUsername,
+          target: repoName,
+        },
+      },
+    });
   }
 
   @Get('/:userID/dashboard/repositories')

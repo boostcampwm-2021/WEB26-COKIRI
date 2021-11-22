@@ -23,7 +23,7 @@ const postSchema = new Schema<PostType>(
       content: { type: String, trim: true, require: true },
       link: { type: String, trim: true },
       info: Object,
-      type: { type: String, enum: ['github', 'tistory', 'velog', 'algorithm'] },
+      type: { type: String, enum: ['repository', 'tistory', 'velog', 'problem'] },
       identity: { type: String, trim: true },
       target: { type: String, trim: true },
     },

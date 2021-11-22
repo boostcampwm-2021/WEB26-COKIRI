@@ -11,7 +11,7 @@ class CommentService {
       ? await Comment.exists({ _id: commentID, postID })
       : await Comment.exists({ _id: commentID, postID, userID });
     if (!isExist) {
-      throw new Error(ERROR.NO_COMMENTS);
+      throw new Error(ERROR.NOT_EXIST_COMMENT);
     }
   }
 

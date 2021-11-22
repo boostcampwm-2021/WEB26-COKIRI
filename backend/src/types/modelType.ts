@@ -63,8 +63,8 @@ export interface DashboardRepositoryType {
   userID?: Types.ObjectId;
   repoName?: string;
   repoUrl?: string;
-  startCount?: number;
-  forktCount?: number;
+  starCount?: number;
+  forkCount?: number;
   content?: string;
   languageInfo?: object;
   createdAt?: Date;
@@ -109,7 +109,7 @@ export interface PostType {
     content: string;
     link: string;
     info?: object;
-    type: 'github' | 'tistory' | 'velog' | 'algorithm';
+    type: 'repository' | 'tistory' | 'velog' | 'problem';
     identity: string;
     target: string;
   };

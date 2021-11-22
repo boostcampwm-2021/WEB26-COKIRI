@@ -20,15 +20,15 @@ export const ERROR = {
   WRONG_QUERY_TYPE: 'Query 형태가 잘못 되었습니다.',
   WRONG_PARAMS_TYPE: 'Params 형태가 잘못 되었습니다.',
   WRONG_BODY_TYPE: 'Body 형태가 잘못 되었습니다.',
-  NO_USERS: '사용자가 존재하지 않습니다.',
-  NO_POSTS: '게시글이 존재하지 않습니다.',
-  NO_COMMENTS: '댓글이 존재하지 않습니다.',
-  NO_BLOGS: '연동된 블로그가 존재하지 않습니다.',
-  NO_QUERY: '검색 내용이 존재하지 않습니다.',
-  NO_POST_LIKES: '게시글 좋아요가 존재하지 않습니다.',
-  NO_COMMENT_LIKES: '댓글 좋아요가 존재하지 않습니다.',
-  NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
-  NO_ALGORITHM_PROBLEM: '존재하지 않는 알고리즘 문제입니다.',
+  NOT_EXIST_USER: '사용자가 존재하지 않습니다.',
+  NOT_EXIST_POST: '게시글이 존재하지 않습니다.',
+  NOT_EXIST_COMMENT: '댓글이 존재하지 않습니다.',
+  NOT_EXIST_BLOG: '연동된 블로그가 존재하지 않습니다.',
+  NOT_EXIST_RESULT: '검색 내용이 존재하지 않습니다.',
+  NOT_EXIST_POST_LIKE: '게시글 좋아요가 존재하지 않습니다.',
+  NOT_EXIST_COMMENT_LIKE: '댓글 좋아요가 존재하지 않습니다.',
+  NOT_EXIST_PROBLEM: '존재하지 않는 알고리즘 문제입니다.',
+  INVALID_GITHUB_USERNAME: '깃허브 인증이 필요합니다.',
   INVALID_POST_TYPE: '잘못된 Post Type 입니다.',
   INVALID_TISTORY_POST: 'Tistory 연동된 Post 가 아닙니다.',
   INVALID_TISTORY_ACCESS_TOKEN: 'Tistory Access Token 이 유효하지 않습니다.',
@@ -53,6 +53,10 @@ export const OPENAPIURL = {
   GIT_REPOREADME_API: (githubUsername: string, repoName: string) =>
     `https://api.github.com/repos/${githubUsername}/${repoName}/readme`,
   GIT_URL: (username: string) => `https://github.com/${username}`,
+};
+
+export const HEADER = {
+  GITHUB_README: { Accept: 'application/vnd.github.VERSION.html' },
 };
 
 export const SELECT = {

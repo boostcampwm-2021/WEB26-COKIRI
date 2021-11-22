@@ -12,14 +12,14 @@ export default class problemRouter {
     if (typeof query !== 'string') {
       throw new Error(ERROR.WRONG_QUERY_TYPE);
     }
-    const problemSuggestions = await ProblemService.getSearchSuggestions(query);
+    const problemSuggestions = await ProblemService.findSearchSuggestions(query);
     return response.json({ code: RESPONSECODE.SUCCESS, data: problemSuggestions });
   }
 
   @Get('/:problemID')
   async getProblem(@Req() request: Request, @Res() response: Response) {
     const { problemID } = request.params;
-    const problemShowInformation = await ProblemService.getProblemContent(problemID);
+    const problemShowInformation = await ProblemService.findProblemContent(problemID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: problemShowInformation });
   }
 }

@@ -23,7 +23,7 @@ class BlogService {
   async findUserBlogs(userID: string) {
     const blogs = await Blog.find({ userID });
     if (blogs.length === 0) {
-      throw new Error(ERROR.NO_BLOGS);
+      throw new Error(ERROR.NOT_EXIST_BLOG);
     }
     return Promise.all(
       blogs.map(async (blog) => {
@@ -31,7 +31,7 @@ class BlogService {
         let posts: any[] = [];
         switch (type) {
           case 'tistory':
-            posts = await TistoryService.getAllPosts(userID, identity!);
+            posts = await TistoryService.findAllPosts(userID, identity!);
             break;
           default:
         }
