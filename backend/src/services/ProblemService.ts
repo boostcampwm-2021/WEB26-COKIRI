@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-import { ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
+import { CRAWLING, ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
 import { ObjectType } from 'src/types';
 
 class ProblemService {
@@ -68,12 +68,8 @@ class ProblemService {
     }
     const statistics: ObjectType<any> = {};
     const statisticsKeys: string[] = [];
-    const categories = $tag.find(
-      'span.ProfileSolvedStatsCardstyles__DataItemCaption-sc-1bmfkr8-2.pRLDw',
-    );
-    const exps = $tag.find(
-      'span.ProfileSolvedStatsCardstyles__DataItemRightLarge-sc-1bmfkr8-3.fnpmJe',
-    );
+    const categories = $tag.find(CRAWLING.SOLVED_CATEGORIES);
+    const exps = $tag.find(CRAWLING.SOLVED_CATEGORY_EXPS);
 
     categories.each((index, category) => {
       if (index > 9) return false;

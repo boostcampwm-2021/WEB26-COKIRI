@@ -2,12 +2,12 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { nanoid } from 'nanoid';
 
-import { ERROR, Mailer, RESPONSECODE, VELOG_URL } from 'src/utils';
+import { ERROR, Mailer, RESPONSECODE, OPENAPIURL } from 'src/utils';
 import { BlogService, UserService } from 'src/services/index';
 
 class VelogService {
   async sendAuthorizationEmail(userID: string, blogUsername: string) {
-    const url = VELOG_URL(blogUsername);
+    const url = OPENAPIURL.VELOG_URL(blogUsername);
     const velogHTML = (await axios.get(url)).data;
     const $ = cheerio.load(velogHTML);
     const emailAddress = $('a[href^="mailto:"]').attr('href');
@@ -35,7 +35,7 @@ class VelogService {
       return ERROR.EXPIRED_VELOG_TOKEN;
     }
     await BlogService.createBlog({
-      url: VELOG_URL(blogUsername),
+      url: OPENAPIURL.VELOG_URL(blogUsername),
       type: 'velog',
       identity: blogUsername,
       userID,
