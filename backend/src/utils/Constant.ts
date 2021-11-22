@@ -28,6 +28,7 @@ export const ERROR = {
   NO_POST_LIKES: '게시글 좋아요가 존재하지 않습니다.',
   NO_COMMENT_LIKES: '댓글 좋아요가 존재하지 않습니다.',
   NO_GITHUBUSERNAME: '깃허브 인증이 필요합니다.',
+  NO_ALGORITHM_PROBLEM: '존재하지 않는 알고리즘 문제입니다.',
   INVALID_POST_TYPE: '잘못된 Post Type 입니다.',
   INVALID_TISTORY_POST: 'Tistory 연동된 Post 가 아닙니다.',
   INVALID_TISTORY_ACCESS_TOKEN: 'Tistory Access Token 이 유효하지 않습니다.',
@@ -40,6 +41,7 @@ export const ERROR = {
 export const OPENAPIURL = {
   PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
   PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
+  PROBLEM: 'https://www.acmicpc.net/problem/',
   TISTORY_AUTHORIZATION: 'https://www.tistory.com/oauth/authorize',
   TISTORY_ACCESS_TOKEN: 'https://www.tistory.com/oauth/access_token',
   TISTORY_POSTS: 'https://www.tistory.com/apis/post/list',
@@ -58,5 +60,7 @@ export const SELECT = {
 };
 
 export const PERPAGE = 10;
+
+export const PROBLEMTEAR = 5;
 
 export const VELOG_URL = (username: string) => `https://velog.io/@${username}`;
