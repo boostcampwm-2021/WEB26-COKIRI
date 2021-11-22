@@ -7,5 +7,5 @@ export interface ProblemInfoType {
 export interface RepoInfoType {
   forkCount: number;
   starCount: string;
-  // @TODO 추가 예정
+  language: any;
 }
