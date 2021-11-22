@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import dompurify from 'dompurify';
 
 import { Row } from 'src/components/Grid';
+
 import { ProblemInfoType } from 'src/types';
 
 interface Props {
