@@ -27,7 +27,7 @@ const getFromNow = (time: string) => {
   if (interval > 1) {
     return `${Math.floor(interval)}분 전`;
   }
-  return `${Math.floor(seconds)}초 전`;
+  return '방금';
 };
 
 // eslint-disable-next-line import/prefer-default-export

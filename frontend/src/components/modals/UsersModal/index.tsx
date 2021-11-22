@@ -21,7 +21,11 @@ function UsersModal({ title, users, onClose }: Props) {
       <Col>
         {users?.map((user) => (
           <Row justifyContent='space-between' key={user._id}>
-            <ProfileSet profileImage={user.profileImage} username={user.username!} />
+            <ProfileSet
+              profileImage={user.profileImage}
+              username={user.username!}
+              onClick={onClose}
+            />
             <FollowSet targetUserID={user._id!} />
           </Row>
         ))}
