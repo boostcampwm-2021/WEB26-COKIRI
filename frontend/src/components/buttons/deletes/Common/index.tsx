@@ -48,8 +48,4 @@ DeleteCommon.propTypes = {
   content: PropTypes.string.isRequired,
 };
 
-DeleteCommon.defaultProps = {
-  hidden: false,
-};
-
 export default DeleteCommon;

@@ -5,4 +5,5 @@ const Time = styled.p`
   font-size: 13px;
 `;
 
+// eslint-disable-next-line import/prefer-default-export
 export { Time };
