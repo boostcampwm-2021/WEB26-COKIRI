@@ -14,7 +14,7 @@ function Echo() {
         <link rel='icon' href={FAVICON} />
       </Head>
 
-      <Header />
+      <Header page='echo' />
       <main>Echo home</main>
     </>
   );

@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import PropTypes from 'prop-types';
 import {
   IoHomeOutline,
   IoCompassOutline,
@@ -16,7 +17,11 @@ import userAtom from 'src/recoil/user';
 
 import { Wrapper, Section } from './style';
 
-function Header() {
+interface Props {
+  page?: string;
+}
+
+function Header({ page }: Props) {
   const user = useRecoilValue(userAtom);
 
   return (
@@ -27,13 +32,13 @@ function Header() {
       </Section>
 
       <Section>
-        <NavigateIconButton href='/home'>
+        <NavigateIconButton href='/home' clicked={page === 'home'}>
           <IoHomeOutline />
         </NavigateIconButton>
-        <NavigateIconButton href='/random'>
+        <NavigateIconButton href='/random' clicked={page === 'random'}>
           <IoCompassOutline />
         </NavigateIconButton>
-        <NavigateIconButton href='/echo'>
+        <NavigateIconButton href='/echo' clicked={page === 'echo'}>
           <IoPaperPlaneOutline />
         </NavigateIconButton>
       </Section>
@@ -42,12 +47,20 @@ function Header() {
         <IconButton>
           <IoHeartOutline />
         </IconButton>
-        <NavigateIconButton href={`/users/${user.username}`}>
+        <NavigateIconButton href={`/users/${user.username}`} clicked={page === 'username'}>
           <IoPersonCircleOutline />
         </NavigateIconButton>
       </Section>
     </Wrapper>
   );
 }
+
+Header.propTypes = {
+  page: PropTypes.string,
+};
+
+Header.defaultProps = {
+  page: '',
+};
 
 export default Header;
