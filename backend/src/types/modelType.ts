@@ -31,8 +31,8 @@ export interface DashboardType {
   jobObjectives?: string[];
   techStacks?: object;
   statistics?: {
-    problem: object;
-    reposLanguage: object;
+    problem?: object;
+    reposLanguage?: object;
   };
 }
 
