@@ -5,7 +5,7 @@ import { moment } from 'src/utils';
 import { Time } from './style';
 
 interface Props {
-  time: string | Date;
+  time: string;
 }
 
 function TimeFromNow({ time }: Props) {
@@ -14,11 +14,7 @@ function TimeFromNow({ time }: Props) {
 }
 
 TimeFromNow.propTypes = {
-  time: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-};
-
-TimeFromNow.defaultProps = {
-  time: new Date().toString(),
+  time: PropTypes.string.isRequired,
 };
 
 export default TimeFromNow;
