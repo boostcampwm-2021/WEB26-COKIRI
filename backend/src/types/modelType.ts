@@ -63,8 +63,8 @@ export interface DashboardRepositoryType {
   userID?: Types.ObjectId;
   repoName?: string;
   repoUrl?: string;
-  startCount?: number;
-  forktCount?: number;
+  starCount?: number;
+  forkCount?: number;
   content?: string;
   languageInfo?: object;
   createdAt?: Date;
