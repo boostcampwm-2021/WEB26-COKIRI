@@ -124,7 +124,7 @@ class UserService {
   async findOneUserDashboard(filter: object) {
     const userDashboard = await User.findOne(filter, 'dashboard _id').lean();
     if (!userDashboard) {
-      throw new Error(ERROR.NO_USERS);
+      throw new Error(ERROR.NOT_EXIST_USER);
     }
     return userDashboard;
   }
