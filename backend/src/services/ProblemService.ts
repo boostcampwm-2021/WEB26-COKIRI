@@ -64,7 +64,7 @@ class ProblemService {
     const $ = cheerio.load(solvedProfileHTML);
     const $tag = $('div.ProfileSolvedStatsCardstyles__DataContainer-sc-1bmfkr8-1.hPtyHi').last();
     if ($tag.length === 0) {
-      throw new Error(ERROR.IS_NOT_EXIST_VELOG_EMAIL);
+      throw new Error(ERROR.INVALID_SOLVED);
     }
     const statistics: ObjectType<any> = {};
     const statisticsKeys: string[] = [];

@@ -26,6 +26,10 @@ const dashboardSchema = new Schema<DashboardType>(
     profileImage: { type: String, validate: [Validate.url, 'URL 형식이 잘못되었습니다.'] },
     jobObjectives: [{ type: String, required: true }],
     techStacks: { type: Object },
+    statistics: {
+      problem: Object,
+      reposLanguage: Object,
+    },
   },
   { _id: false },
 );

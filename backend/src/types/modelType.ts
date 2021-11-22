@@ -30,6 +30,10 @@ export interface DashboardType {
   profileImage?: string;
   jobObjectives?: string[];
   techStacks?: object;
+  statistics?: {
+    problem: object;
+    reposLanguage: object;
+  };
 }
 
 export interface UserType {
