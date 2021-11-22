@@ -47,7 +47,7 @@ function User({ targetUser }: Props) {
         <link rel='icon' href={FAVICON} />
       </Head>
 
-      <Header />
+      <Header page='username' />
       <Page.Main>
         <LoadingIndicator />
         <Col alignItems='center'>

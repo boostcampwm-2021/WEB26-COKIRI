@@ -10,11 +10,12 @@ interface Props {
   children: ReactNode;
   size?: number;
   plain?: boolean;
+  clicked?: boolean;
 }
 
-function NavigateIconButton({ href, children, size, plain }: Props) {
+function NavigateIconButton({ href, children, size, plain, clicked }: Props) {
   return (
-    <IconButton padding={0} size={size} plain={plain}>
+    <IconButton padding={0} size={size} plain={plain} clicked={clicked!}>
       <Link href={href} passHref>
         <a>{children}</a>
       </Link>
@@ -28,11 +29,13 @@ NavigateIconButton.propsType = {
   size: PropTypes.number,
   padding: PropTypes.number,
   plain: PropTypes.bool,
+  clicked: PropTypes.bool,
 };
 
 NavigateIconButton.defaultProps = {
   size: DEFAULT_ICON_SIZE,
   plain: false,
+  clicked: false,
 };
 
 export default NavigateIconButton;

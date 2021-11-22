@@ -53,7 +53,8 @@ function Home() {
         <meta name='description' content={HOME_DESCRIPTION} />
         <link rel='icon' href={FAVICON} />
       </Head>
-      <Header />
+
+      <Header page='home' />
       <Page.Main>
         <LoadingIndicator />
         <Col alignItems='center'>

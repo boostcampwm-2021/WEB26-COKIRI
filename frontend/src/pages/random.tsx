@@ -24,7 +24,7 @@ function Random() {
         <link rel='icon' href={FAVICON} />
       </Head>
 
-      <Header />
+      <Header page='random' />
       <Page.Main>
         <Col alignItems='center'>
           <Timeline pages={data?.pages} />
