@@ -45,7 +45,7 @@ class PostService {
       default:
     }
     const post = await Post.create(data);
-    if (images?.length > 0) {
+    if (type === 'normal') {
       images = images.map((v: any) => ({ url: v, targetID: post._id }));
       if (images) await Image.insertMany(images);
     }
