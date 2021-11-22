@@ -23,12 +23,4 @@ export default class problemRouter {
     const problemShowInformation = await ProblemService.findProblemContent(problemID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: problemShowInformation });
   }
-
-  @Put('/statistics')
-  async getStatistics(@Req() request: Request, @Res() response: Response) {
-    const { solved_username: solvedUsername, user_id: userID } = request.query;
-    const statistics = await ProblemService.findSolvedAcStatistics(solvedUsername as string);
-    UserService.updateOneProblemStatistics(userID as string, statistics);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: statistics });
-  }
 }
