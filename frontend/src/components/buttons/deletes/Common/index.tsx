@@ -12,10 +12,9 @@ import { Title } from './style';
 interface Props {
   onClick: () => void;
   content: string;
-  hidden: boolean;
 }
 
-function DeleteCommon({ onClick, content, hidden }: Props) {
+function DeleteCommon({ onClick, content }: Props) {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const changeModalShow = useCallback(() => {
@@ -35,7 +34,6 @@ function DeleteCommon({ onClick, content, hidden }: Props) {
       )}
       <IconButton
         onClick={changeModalShow}
-        hidden={hidden}
         size={DELETE_BUTTON_SIZE}
         padding={DELETE_BUTTON_PADDING}
       >
@@ -48,7 +46,6 @@ function DeleteCommon({ onClick, content, hidden }: Props) {
 DeleteCommon.propTypes = {
   onClick: PropTypes.func.isRequired,
   content: PropTypes.string.isRequired,
-  hidden: PropTypes.bool,
 };
 
 DeleteCommon.defaultProps = {

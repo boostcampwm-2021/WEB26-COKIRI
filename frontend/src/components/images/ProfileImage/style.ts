@@ -5,6 +5,8 @@ interface Props {
 }
 
 const Wrapper = styled.div<Props>`
+  display: flex;
+  align-items: center;
   img {
     border-radius: ${({ size }) => size / 2}px;
   }

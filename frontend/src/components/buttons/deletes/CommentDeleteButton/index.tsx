@@ -13,10 +13,9 @@ interface Props {
   commentID: string;
   // eslint-disable-next-line no-unused-vars
   onCommentDelete: (commentID: string) => void;
-  hidden: boolean;
 }
 
-function CommentDeleteButton({ postID, commentID, onCommentDelete, hidden }: Props) {
+function CommentDeleteButton({ postID, commentID, onCommentDelete }: Props) {
   const user = useRecoilValue(userAtom);
 
   const mutation = useMutation(() => Fetcher.deleteComment(user, postID, commentID), {
@@ -25,14 +24,13 @@ function CommentDeleteButton({ postID, commentID, onCommentDelete, hidden }: Pro
   const handleClick = () => {
     mutation.mutate();
   };
-  return <DeleteCommon onClick={handleClick} content='댓글' hidden={hidden} />;
+  return <DeleteCommon onClick={handleClick} content='댓글' />;
 }
 
 CommentDeleteButton.propTypes = {
   postID: PropTypes.string.isRequired,
   commentID: PropTypes.string.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
-  hidden: PropTypes.bool.isRequired,
 };
 
 export default CommentDeleteButton;
