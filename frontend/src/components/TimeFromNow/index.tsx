@@ -9,8 +9,8 @@ interface Props {
 }
 
 function TimeFromNow({ time }: Props) {
-  const test = moment.getFromNow(time);
-  return <Time>{test}</Time>;
+  const ago = moment.getFromNow(time);
+  return <Time>{ago}</Time>;
 }
 
 TimeFromNow.propTypes = {
