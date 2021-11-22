@@ -173,6 +173,8 @@ export interface TagType {
 export interface TechStackType {
   _id?: Types.ObjectId;
   techStack?: string;
+  searchString?: string;
+  searchCon?: string;
   color?: string;
 }
 
