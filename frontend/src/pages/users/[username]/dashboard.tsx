@@ -1,3 +1,5 @@
+import { useRecoilValue } from 'recoil';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 import Header from 'src/components/Header';
@@ -12,9 +14,15 @@ import { Row, Col } from 'src/components/Grid';
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
+import userAtom from 'src/recoil/user';
+
 import { Page } from 'src/styles';
 
 function Dashboard() {
+  const router = useRouter();
+  const { username } = router.query;
+  const user = useRecoilValue(userAtom);
+  const isMe = user.username === username;
   return (
     <>
       <Head>
@@ -25,18 +33,20 @@ function Dashboard() {
 
       <Header />
       <Page.Main>
-        <Row justifyContent='center'>
-          <Col alignItems='center'>
+        <Col alignItems='center'>
+          <Row>
             <DashboardUserInfoCard />
-            <DashboardStackCard />
-            <DashboardStatisticsCard />
-            <DashboardGithubRepoCard />
-          </Col>
-          <Col alignItems='center'>
             <DashboardLinkCard />
+          </Row>
+          <Row>
+            <Col>
+              <DashboardStackCard />
+              <DashboardStatisticsCard />
+              <DashboardGithubRepoCard />
+            </Col>
             <DashboardHistoryCard />
-          </Col>
-        </Row>
+          </Row>
+        </Col>
       </Page.Main>
     </>
   );
