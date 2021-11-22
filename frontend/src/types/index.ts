@@ -7,6 +7,7 @@ import ImageType from './image';
 import ReturnType from './return';
 import RepoType from './repo';
 import ProblemType from './problem';
+import ExternalType from './external';
 
 export type {
   UserType,
@@ -18,4 +19,5 @@ export type {
   ReturnType,
   RepoType,
   ProblemType,
+  ExternalType,
 };
