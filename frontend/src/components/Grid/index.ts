@@ -4,6 +4,7 @@ interface Props {
   justifyContent?: string;
   alignItems?: string;
   margin?: number;
+  padding?: number;
   overFlowY?: string;
 }
 
@@ -13,7 +14,7 @@ const Row = styled.div<Props>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   margin: ${({ margin }) => `${margin}px`};
-  width: 100%;
+  padding: ${({ padding }) => `${padding}px`};
 `;
 
 const Col = styled.div<Props>`
@@ -22,7 +23,7 @@ const Col = styled.div<Props>`
   align-items: ${({ alignItems }) => alignItems};
   justify-content: ${({ justifyContent }) => justifyContent};
   margin: ${({ margin }) => `${margin}px`};
-  width: 100%;
+  padding: ${({ padding }) => `${padding}px`};
   overflow-y: ${({ overFlowY }) => overFlowY};
 `;
 
