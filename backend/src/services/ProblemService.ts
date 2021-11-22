@@ -42,7 +42,9 @@ class ProblemService {
           link: `${OPENAPIURL.PROBLEM}${problemID}`,
           info: {
             solvedUserCount: problemInfo.data.acceptedUserCount,
-            averageTries: problemInfo.data.averageTries,
+            totalTryCount: Math.floor(
+              problemInfo.data.averageTries * problemInfo.data.acceptedUserCount,
+            ),
             tear: this.getProblemTear(problemInfo.data.level),
           },
         },
