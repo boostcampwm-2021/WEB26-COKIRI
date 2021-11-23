@@ -10,17 +10,16 @@ import PreviewImages from 'src/components/images/PreviewImages';
 import ButtonCommon from 'src/components/buttons/Common';
 import ReposModal from 'src/components/modals/ReposModal';
 import ProblemsModal from 'src/components/modals/ProblemsModal';
-import RepoContent from 'src/components/contents/RepoContent';
-import ProblemContent from 'src/components/contents/ProblemContent';
+import ExternalPreview from 'src/components/ExternalPreview';
 import { Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { ExternalType, ProblemInfoType, ProblemType, RepoInfoType, RepoType } from 'src/types';
+import { ExternalType, ProblemType, RepoType } from 'src/types';
 
-import { Textarea, IconHolder, Preview, Cover, LinkButton } from './style';
+import { Textarea, IconHolder } from './style';
 
 interface Props {
   onPostWrite: () => void;
@@ -74,6 +73,11 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     setImages((prevState) => prevState.filter((image, i) => i !== index));
   }, []);
 
+  const handleExternalDelete = useCallback(() => {
+    setExternal(undefined);
+    setExternalType('');
+  }, []);
+
   const handleClickGithub = () => setIsReposModalShow(true);
   const handleClickProblems = () => setIsProblemsModalShow(true);
   const handleReposModalClose = () => setIsReposModalShow(false);
@@ -112,29 +116,11 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />
-        {externalType !== '' && (
-          <Preview>
-            <Cover />
-            {externalType === 'repo' && (
-              <RepoContent
-                content={external!.content!}
-                info={external!.info as RepoInfoType}
-                link={external!.link}
-              />
-            )}
-            {externalType === 'problem' && (
-              <ProblemContent
-                content={external!.content!}
-                info={external!.info as ProblemInfoType}
-                link={external!.link}
-              />
-            )}
-            {/* {externalType === 'blog' && <RepoPreview />} */}
-            <LinkButton href={external!.link} target='_blank' rel='noreferrer noopener'>
-              바로가기
-            </LinkButton>
-          </Preview>
-        )}
+        <ExternalPreview
+          external={external}
+          externalType={externalType}
+          onDelete={handleExternalDelete}
+        />
       </ModalCommon>
     </>
   );
