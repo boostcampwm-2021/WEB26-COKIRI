@@ -74,8 +74,10 @@ export default class UsersRouter {
       ...results[0],
       follows: results[1],
       followers: results[2],
-      hasBlog: results[3],
+      hasExternalGithub: !!results[0].githubUsername,
+      hasExternalBlog: results[3],
     };
+    delete result.githubUsername;
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
