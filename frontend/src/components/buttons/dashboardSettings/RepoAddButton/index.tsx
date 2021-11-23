@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { BsPlusCircle } from 'react-icons/bs';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import GitHubRepoAddModal from 'src/components/modals/GitHubRepoAddModal';
+import RepoAddModal from 'src/components/modals/RepoAddModal';
 
-function GitHubRepoAddButton() {
+function RepoAddButton() {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const switchIsModalShow = () => {
@@ -15,10 +15,10 @@ function GitHubRepoAddButton() {
     <DashboardSettingCommon
       icon={<BsPlusCircle />}
       isModalShow={isModalShow}
-      modal={<GitHubRepoAddModal onClose={switchIsModalShow} />}
+      modal={<RepoAddModal onClose={switchIsModalShow} />}
       onClick={switchIsModalShow}
     />
   );
 }
 
-export default GitHubRepoAddButton;
+export default RepoAddButton;

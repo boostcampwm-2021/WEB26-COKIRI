@@ -4,7 +4,7 @@ interface Props {
   onClose: () => void;
 }
 
-function GitHubRepoAddModal({ onClose }: Props) {
+function RepoAddModal({ onClose }: Props) {
   const onHistoryWrite = () => {};
   return (
     <ModalCommon onConfirm={onHistoryWrite} onClose={onClose} confirm='저장' close='취소'>
@@ -13,4 +13,4 @@ function GitHubRepoAddModal({ onClose }: Props) {
   );
 }
 
-export default GitHubRepoAddModal;
+export default RepoAddModal;

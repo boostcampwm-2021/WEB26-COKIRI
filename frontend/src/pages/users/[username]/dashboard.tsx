@@ -6,7 +6,7 @@ import DashboardUserInfoCard from 'src/components/cards/DashboardUserInfoCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
 import DashboardStackCard from 'src/components/cards/DashboardStackCard';
 import DashboardStatisticsCard from 'src/components/cards/DashboardStatisticsCard';
-import DashboardGithubRepoCard from 'src/components/cards/DashboardGithubRepoCard';
+import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import { Row, Col } from 'src/components/Grid';
 
@@ -37,7 +37,7 @@ function Dashboard() {
             <Col>
               <DashboardStackCard />
               <DashboardStatisticsCard />
-              <DashboardGithubRepoCard username={username as string} />
+              <DashboardRepoCard username={username as string} />
             </Col>
             <DashboardHistoryCard username={username as string} />
           </Row>
