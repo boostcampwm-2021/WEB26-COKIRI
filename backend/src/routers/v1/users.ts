@@ -306,8 +306,11 @@ export default class UsersRouter {
 
     await UserService.updateOneUserDashboard(userID, data);
 
-    const dashboard = await UserService.findOneUserDashboard({ _id: userID });
-    return response.json({ code: RESPONSECODE.SUCCESS, data: dashboard });
+    const result = await UserService.findOneUserDashboard({ _id: userID });
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      data: { _id: result._id, ...result.dashboard },
+    });
   }
 
   @Put('/:userID/dashboard/problems/:username/statistics')
