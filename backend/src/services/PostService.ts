@@ -37,23 +37,35 @@ class PostService {
     );
   }
 
-  async findRandomPost(userID: any) {
+  async findRandomPost(userID: any, cursor: number) {
     const randomPosts = await Post.aggregate([
       { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
-      { $sample: { size: PERPAGE } },
+      { $skip: cursor },
+      { $limit: PERPAGE },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
     ]);
-    return this.findPosts(randomPosts);
+
+    const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
+    return { posts: await this.findPosts(randomPosts), postCount };
   }
 
-  async findUserTimeline(userID: string) {
-    const posts = await Post.find({ userID })
+  async findUserTimeline(userID: string, cursor: number) {
+    const postList = await Post.find({ userID })
       .sort({ createdAt: -1 })
+      .skip(cursor)
+      .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.findPosts(posts);
+
+    // const postCount = Post.countDocuments({ userID }).exec();
+    // const posts = this.findPosts(postList);
+    const [posts, postCount] = await Promise.all([
+      this.findPosts(postList),
+      Post.countDocuments({ userID }).exec(),
+    ]);
+    return { posts, postCount };
   }
 
   async findTimeline(userID: string, cursor: number) {

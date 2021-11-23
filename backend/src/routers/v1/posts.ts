@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { ERROR, RESPONSECODE, PERPAGE } from 'src/utils';
+import { ERROR, RESPONSECODE, Cursor } from 'src/utils';
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 
 @Controller('/posts')
@@ -10,29 +10,26 @@ export default class PostsRouter {
   @Get('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID, cursor } = request.query;
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    const cursor = Cursor.setCursor(cursorTemp as any);
+
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const { posts, postCount } = await PostService.findTimeline(userID as string, +cursor!);
-    const data: { code: string; nextCursor: any; data: any } = {
-      code: RESPONSECODE.SUCCESS,
-      nextCursor: +cursor! + PERPAGE,
-      data: posts,
-    };
-    if (+cursor! + 1 >= postCount) {
-      delete data.nextCursor;
-    } else if (data.nextCursor > postCount) {
-      data.nextCursor = postCount;
-    }
+
+    const { posts, postCount } = await PostService.findTimeline(userID as string, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
 
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID } = request.query;
-    const posts = await PostService.findRandomPost(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    const cursor = Cursor.setCursor(cursorTemp as any);
+
+    const { posts, postCount } = await PostService.findRandomPost(userID, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
+    return response.json(data);
   }
 
   @Get('/:postID/likes')

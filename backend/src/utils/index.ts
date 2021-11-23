@@ -10,4 +10,5 @@ export { default as Query } from './Query';
 export { default as Calculate } from './Calculate';
 export { default as Mailer } from './Mailer';
 export { default as URLParser } from './URLparser';
-export { default as S3 } from './objectStorage';
+export { default as S3 } from './ObjectStorage';
+export { default as Cursor } from './Cursor';
