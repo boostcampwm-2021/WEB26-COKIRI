@@ -5,5 +5,9 @@ const Wrapper = styled.div`
   z-index: 3;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+const Repos = styled.div`
+  overflow-y: scroll;
+  height: 400px;
+`;
+
+export { Wrapper, Repos };

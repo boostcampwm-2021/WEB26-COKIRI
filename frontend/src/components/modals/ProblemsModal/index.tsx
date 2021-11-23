@@ -9,58 +9,65 @@ import { Col, Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { PROBLEM_BUTTON_WIDTH, PROBLEMS_MODAL_HEIGHT } from 'src/globals/constants';
+import { PROBLEMS_MODAL_HEIGHT } from 'src/globals/constants';
 
-import { Wrapper, Problem, Title } from './style';
+import { ProblemType } from 'src/types';
+
+import { Wrapper, Problems, Title } from './style';
 
 interface Props {
+  // eslint-disable-next-line no-unused-vars
+  onSelect: (problem: ProblemType) => void;
   onClose: () => void;
 }
 
-function ProblemsModal({ onClose }: Props) {
-  const [clickedIndex, setClickedIndex] = useState(-1);
+function ProblemsModal({ onClose, onSelect }: Props) {
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const [query, setQuery] = useState('');
-  const { mutate, data } = useMutation(() => Fetcher.getProblemSearch(query));
+  const { mutate, data: problems, isLoading } = useMutation(() => Fetcher.getProblemSearch(query));
   const handleSearchClick = () => {
     mutate();
   };
-  const handleProblemClick = (index: number) => {
-    setClickedIndex(index);
-  };
 
   const handleConfirm = () => {
-    onClose();
+    onSelect(problems![selectedIndex]);
+  };
+
+  const handleProblemClick = (index: number) => {
+    if (index === selectedIndex) {
+      setSelectedIndex(-1);
+    } else {
+      setSelectedIndex(index);
+    }
   };
 
   return (
     <Wrapper>
       <ModalCommon
         onClose={onClose}
+        close='취소'
         confirm='선택'
         height={PROBLEMS_MODAL_HEIGHT}
         onConfirm={handleConfirm}
+        disabled={selectedIndex === -1}
       >
         <Row>
           <InputCommon bind={[query, setQuery]} />
           <ButtonCommon onClick={handleSearchClick}> 검색</ButtonCommon>
         </Row>
-        <Col>
-          {(data ?? []).map(({ id, title }, index) => (
-            <Problem key={id}>
-              <Row justifyContent='space-between' alignItems='center'>
+        <Problems>
+          {!isLoading &&
+            (problems ?? [])!.map(({ id, title }, index) => (
+              <Col key={id}>
                 <ButtonCommon
-                  width={PROBLEM_BUTTON_WIDTH}
-                  onClick={() => {
-                    handleProblemClick(index);
-                  }}
-                  clicked={index === clickedIndex}
+                  onClick={() => handleProblemClick(index)}
+                  clicked={index === selectedIndex}
                 >
                   <Title>{id}</Title>:<Title>{title}</Title>
                 </ButtonCommon>
-              </Row>
-            </Problem>
-          ))}
-        </Col>
+              </Col>
+            ))}
+        </Problems>
       </ModalCommon>
     </Wrapper>
   );

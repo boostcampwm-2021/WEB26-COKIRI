@@ -19,12 +19,12 @@ function RegisterModal() {
   const mutation = useMutation(putUserSettings, {
     onSuccess: () => setUser({ ...user, isRegistered: true, username }),
   });
-  const handleOnConfirm = useCallback(() => mutation.mutate(), [mutation]);
+  const handleConfirm = useCallback(() => mutation.mutate(), [mutation]);
   if (!isAuthenticated || isRegistered) {
     return null;
   }
   return (
-    <ModalCommon onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
+    <ModalCommon onConfirm={handleConfirm} close='로그아웃' confirm='확인'>
       <Col alignItems='center'>
         <p>회원가입에 필요한 절차에요</p>
         <p>username을 알려주세요~</p>

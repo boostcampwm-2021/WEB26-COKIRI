@@ -1,1 +1,4 @@
-export default interface RepoType {}
+export default interface RepoType {
+  name?: string;
+  url?: string;
+}

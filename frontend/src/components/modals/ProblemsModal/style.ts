@@ -1,17 +1,13 @@
 import styled from '@emotion/styled';
-import { Col } from 'src/components/Grid';
 
 const Wrapper = styled.div`
   position: absolute;
   z-index: 3;
-  ${Col} {
-    height: 400px;
-    overflow: scroll;
-    margin: 24px 0;
-  }
 `;
 
-const Problem = styled.div`
+const Problems = styled.div`
+  height: 200px;
+  overflow-y: scroll;
   padding: 16px;
 `;
 
@@ -24,4 +20,4 @@ const Title = styled.p`
   line-height: 1.8em;
 `;
 
-export { Wrapper, Problem, Title };
+export { Wrapper, Problems, Title };

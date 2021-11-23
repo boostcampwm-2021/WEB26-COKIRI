@@ -16,6 +16,8 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
+import { ProblemType, RepoType } from 'src/types';
+
 import { Textarea, IconHolder } from './style';
 
 interface Props {
@@ -58,26 +60,27 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     setImages((prevState) => prevState.filter((image, i) => i !== index));
   }, []);
 
-  const handleClickGithub = () => {
-    setIsReposModalShow(true);
-  };
-
-  const handleClickProblems = () => {
-    setIsProblemsModalShow(true);
-  };
-
-  const handleReposModalClose = () => {
+  const handleClickGithub = () => setIsReposModalShow(true);
+  const handleClickProblems = () => setIsProblemsModalShow(true);
+  const handleReposModalClose = () => setIsReposModalShow(false);
+  const handleProblemsModalClose = () => setIsProblemsModalShow(false);
+  const handleRepoSelect = (repo: RepoType) => {
+    console.log(repo);
     setIsReposModalShow(false);
   };
-
-  const handleProblemsModalClose = () => {
+  const handleProblemSelect = (problem: ProblemType) => {
+    console.log(problem);
     setIsProblemsModalShow(false);
   };
 
   return (
     <>
-      {isReposModalShow && <ReposModal onClose={handleReposModalClose} />}
-      {isProblemsModalShow && <ProblemsModal onClose={handleProblemsModalClose} />}
+      {isReposModalShow && (
+        <ReposModal onClose={handleReposModalClose} onSelect={handleRepoSelect} />
+      )}
+      {isProblemsModalShow && (
+        <ProblemsModal onClose={handleProblemsModalClose} onSelect={handleProblemSelect} />
+      )}
       <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
         <Row justifyContent='center' alignItems='center' margin={16}>
           <ImageInput onImageUpload={handleImageUpload}>
