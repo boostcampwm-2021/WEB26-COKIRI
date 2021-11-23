@@ -39,13 +39,6 @@ function Home() {
     },
   );
 
-  const handlePostWrite = () => {
-    refetch();
-  };
-
-  const handlePostDelete = () => {
-    refetch();
-  };
   return (
     <>
       <Head>
@@ -59,11 +52,11 @@ function Home() {
         <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
-          {isRegistered && <Timeline pages={data?.pages} onPostDelete={handlePostDelete} />}
+          {isRegistered && !hasFollowTemp && <SuggestionCard />}
+          {isRegistered && <Timeline pages={data?.pages} onPostDelete={refetch} />}
         </Col>
       </Page.Main>
-      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
+      {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </>
   );
 }
