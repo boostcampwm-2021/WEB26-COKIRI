@@ -21,9 +21,10 @@ import {
   NotifyService,
   FollowService,
   DashboardRepoService,
+  DashboardHistoryService,
+  ProblemService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
-import ProblemService from 'src/services/ProblemService';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -76,6 +77,17 @@ export default class UsersRouter {
   @Redirect(`${process.env.CLIENT_URL}`)
   getLogout(@Req() request: Request, @Res() response: Response) {
     response.clearCookie('jwt');
+  }
+
+  @Get('/dashboard')
+  async getDashboard(@Req() request: Request, @Res() response: Response) {
+    const { username } = request.query;
+    const dashboard = await UserService.findOneUserDashboard({ username });
+    const dashboardHistories = await DashboardHistoryService.findDashboardHistory(dashboard._id!);
+    return response.json({
+      code: RESPONSECODE.SUCCESS,
+      data: { _id: dashboard._id, dashboard: { ...dashboard.dashboard, dashboardHistories } },
+    });
   }
 
   @Get('/:userID/posts')
@@ -243,6 +255,21 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
+  @Post('/:userID/dashboard/histories')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async postDashboardHistory(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const { content, date } = request.body;
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.WRONG_PARAMS_TYPE);
+    }
+    if (!content || !date) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    const history = await DashboardHistoryService.createDashboardHistory(userID, content, date);
+    return response.json(history);
+  }
+
   @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
@@ -252,6 +279,21 @@ export default class UsersRouter {
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
     return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Put('/:userID/dashboard')
+  @UseBefore(passport.authenticate('jwt', { session: false }))
+  async putDashboard(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const data = request.body;
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+
+    await UserService.updateOneUserDashboard(userID, data);
+
+    const dashboard = await UserService.findOneUserDashboard({ _id: userID });
+    return response.json({ code: RESPONSECODE.SUCCESS, data: dashboard });
   }
 
   @Put('/:userID/dashboard/problems/:username/statistics')
@@ -278,6 +320,21 @@ export default class UsersRouter {
       throw new Error(ERROR.WRONG_PARAMS_TYPE);
     }
     await FollowService.removeFollow(request.user!.userID, userID);
+    return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Delete('/:userID/dashboard/histories')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async deleteUserDashboardHistory(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const { historyID } = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    if (!historyID) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    await DashboardHistoryService.deleteDashboardHistory(userID, historyID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
 }

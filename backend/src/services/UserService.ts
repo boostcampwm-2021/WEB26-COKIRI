@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { User } from 'src/models';
-import { User as UserType, UserAuthProvider, ObjectType } from 'src/types';
+import { User, TechStack } from 'src/models';
+import { User as UserType, UserAuthProvider, ObjectType, DashboardType } from 'src/types';
 import { UserType as UserSchemaType } from 'src/types/modelType';
 import { ERROR, AUTH, ObjectID } from 'src/utils';
 
@@ -121,6 +121,14 @@ class UserService {
     return result;
   }
 
+  async findOneUserDashboard(filter: object) {
+    const userDashboard = await User.findOne(filter, 'dashboard _id').lean();
+    if (!userDashboard) {
+      throw new Error(ERROR.NOT_EXIST_USER);
+    }
+    return userDashboard;
+  }
+
   async updateOneUserVelogAuthentication(nanoID: string, userID: string) {
     return User.updateOne(
       { _id: userID },
@@ -153,6 +161,10 @@ class UserService {
       { ...userConfig, isRegistered: true },
       { runValidators: true, upsert: true },
     );
+  }
+
+  async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
+    return User.updateOne({ _id: userID }, { dashboard }, { runValidators: true, new: true });
   }
 
   async updateOneProblemStatistics(userID: string, statistics: object) {

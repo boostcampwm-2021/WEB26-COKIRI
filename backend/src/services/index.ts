@@ -13,4 +13,6 @@ export { default as ObjectStorageService } from './ObjectStorageService';
 export { default as NotifyService } from './NotifyService';
 export { default as FollowService } from './FollowService';
 export { default as DashboardRepoService } from './DashboardRepoService';
+export { default as DashboardHistoryService } from './DashboardHistoryService';
+export { default as ProblemService } from './ProblemService';
 export { default as TechStackService } from './TechStackService';
