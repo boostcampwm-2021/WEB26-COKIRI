@@ -116,6 +116,16 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getUserRepo(user: UserType, repoName: string): Promise<RepoType> {
+    const result = await axios.get(
+      `${baseURL}/${version}/users/${user._id}/repositories/${repoName}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    return result.data.data;
+  }
+
   static async getUserFollows(targetUserID: string) {
     const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/follows`);
     return result.data.data;
