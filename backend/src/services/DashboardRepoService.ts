@@ -23,12 +23,12 @@ class DashboardRepoService {
       });
     });
     const calculateResult = Calculate.calculateLanguage(temp);
-    User.updateOne(
+
+    return User.updateOne(
       { _id: userID },
       { $setOnInsert: { 'statistics.reposLanguage': calculateResult } },
       { upsert: true, new: true },
     );
-    return calculateResult;
   }
 }
 
