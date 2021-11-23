@@ -20,7 +20,6 @@ export interface DashboardUserInfoType {
   region?: string;
   birthday?: string;
   email?: string;
-  bio?: string;
   github?: string;
   blog?: string;
   solvedac?: string;

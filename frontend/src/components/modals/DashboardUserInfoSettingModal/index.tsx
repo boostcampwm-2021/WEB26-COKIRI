@@ -36,7 +36,6 @@ function DashboardUserInfoSettingModal({
   const [phoneNumber, setPhoneNumber] = useState(dashboardUserInfo.phoneNumber ?? '');
   const [birthday, setBirthday] = useState(dashboardUserInfo.birthday ?? '');
   const [region, setRegion] = useState(dashboardUserInfo.region ?? '');
-  const [bio, setBio] = useState(dashboardUserInfo.bio ?? '');
   const [school, setSchool] = useState(dashboardUserInfo.school ?? '');
   const [email, setEmail] = useState(dashboardUserInfo.email ?? '');
   const [github, setGitHub] = useState(dashboardUserInfo.github ?? '');
@@ -55,14 +54,15 @@ function DashboardUserInfoSettingModal({
         phoneNumber,
         birthday,
         region,
-        bio,
         school,
-        email,
         solvedac,
         profileImage,
         jobObjectives: [],
         techStacks: {},
       };
+      if (email) {
+        newDashboardUserInfo.email = email;
+      }
       if (github) {
         newDashboardUserInfo.github = github;
       }
@@ -72,10 +72,7 @@ function DashboardUserInfoSettingModal({
       return Fetcher.putDashboardUserInfo(user, newDashboardUserInfo);
     },
     {
-      onSuccess: ({ data }) => {
-        console.log(data);
-        onEditDashboardUserInfo(data!);
-      },
+      onSuccess: (dashboard) => onEditDashboardUserInfo(dashboard),
     },
   );
 
@@ -127,10 +124,6 @@ function DashboardUserInfoSettingModal({
           <Row>
             <Label>school</Label>
             <InputCommon bind={[school, setSchool]} placeholder={school} />
-          </Row>
-          <Row>
-            <Label>bio</Label>
-            <InputCommon bind={[bio, setBio]} placeholder={bio} />
           </Row>
         </Col>
         <Col>

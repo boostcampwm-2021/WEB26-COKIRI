@@ -105,31 +105,14 @@ function DashboardUserInfoCard({
           />
         )}
       </Row>
-      <p>{dashboardUserInfo.bio ?? ''}</p>
     </CardCommon>
   );
 }
 
 DashboardUserInfoCard.propTypes = {
-  name: PropTypes.string,
-  phoneNumber: PropTypes.string,
-  birthday: PropTypes.string,
-  email: PropTypes.string,
-  region: PropTypes.string,
-  school: PropTypes.string,
-  bio: PropTypes.string,
+  dashboardUserInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   targetUserName: PropTypes.string.isRequired,
   onEditDashboardUserInfo: PropTypes.func.isRequired,
-};
-
-DashboardUserInfoCard.defaultProps = {
-  name: '',
-  phoneNumber: '',
-  birthday: '',
-  email: '',
-  region: '',
-  school: '',
-  bio: '',
 };
 
 export default DashboardUserInfoCard;

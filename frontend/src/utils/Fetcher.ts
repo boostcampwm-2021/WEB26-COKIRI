@@ -278,7 +278,7 @@ class Fetcher {
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
