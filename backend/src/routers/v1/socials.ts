@@ -15,7 +15,7 @@ export default class SocialsRouter {
     passport.authenticate('google', {
       session: false,
       scope: ['profile'],
-      state: redirectURI,
+      state: Authorization.createEncodeOauthState({ redirectURI }),
     })(request, response);
     return response;
   }
@@ -24,9 +24,13 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('google', { session: false }))
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
     const accessToken = Authorization.createAccessJWT(request.user!);
     response.cookie('jwt', accessToken, Authorization.cookieOptions);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/kakao')
@@ -35,7 +39,7 @@ export default class SocialsRouter {
     const redirectURI: string = (redirectURIQuery as string) || '/';
     passport.authenticate('kakao', {
       session: false,
-      state: redirectURI,
+      state: Authorization.createEncodeOauthState({ redirectURI }),
     })(request, response);
     return response;
   }
