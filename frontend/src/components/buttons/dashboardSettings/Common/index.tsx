@@ -3,19 +3,27 @@ import PropTypes from 'prop-types';
 
 import IconButton from 'src/components/buttons/IconButton';
 
+import {
+  DASHBOARD_SETTING_ICON_BUTTON_WIDTH,
+  DASHBOARD_SETTING_ICON_BUTTON_HEIGHT,
+} from 'src/globals/constants';
+
 interface Props {
   icon: ReactNode;
   isModalShow: boolean;
   modal: ReactNode;
-  hidden: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function DashboardSettingCommon({ icon, isModalShow, modal, hidden, onClick }: Props) {
+function DashboardSettingCommon({ icon, isModalShow, modal, onClick }: Props) {
   return (
     <>
       {isModalShow && modal}
-      <IconButton onClick={onClick} width={60} height={60} hidden={hidden}>
+      <IconButton
+        onClick={onClick}
+        width={DASHBOARD_SETTING_ICON_BUTTON_WIDTH}
+        height={DASHBOARD_SETTING_ICON_BUTTON_HEIGHT}
+      >
         {icon}
       </IconButton>
     </>
@@ -26,7 +34,6 @@ DashboardSettingCommon.propTypes = {
   icon: PropTypes.node.isRequired,
   isModalShow: PropTypes.bool.isRequired,
   modal: PropTypes.node.isRequired,
-  hidden: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
