@@ -10,6 +10,10 @@ class DashboardRepoService {
     return DashboardRepository.find({ userID });
   }
 
+  async readDashboardReposLanguage(userID: string) {
+    return User.findOne({ _id: userID }, 'statistics.reposLanguage -_id');
+  }
+
   async updateDashboardReposLanguage(userID: string) {
     const data = await DashboardRepository.find({ userID }, 'languageInfo -_id').lean();
     const temp: any = {};
@@ -24,10 +28,10 @@ class DashboardRepoService {
     });
     const calculateResult = Calculate.calculateLanguage(temp);
 
-    return User.updateOne(
+    return User.findOneAndUpdate(
       { _id: userID },
-      { $setOnInsert: { 'statistics.reposLanguage': calculateResult } },
-      { upsert: true, new: true },
+      { $set: { 'dashboard.statistics.reposLanguage': calculateResult } },
+      { new: true },
     );
   }
 }
