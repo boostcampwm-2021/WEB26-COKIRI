@@ -29,6 +29,7 @@ export const ERROR = {
   NOT_EXIST_COMMENT_LIKE: '댓글 좋아요가 존재하지 않습니다.',
   NOT_EXIST_PROBLEM: '존재하지 않는 알고리즘 문제입니다.',
   NOT_EXIST_TECHSTACK: '존재하지 않는 기술스택 입니다.',
+  NOT_EXIST_REPONAME: '존재하지 레포지토리 입니다.',
   INVALID_SOLVED: 'solved.ac 가입 유저가 아닙니다.',
   INVALID_GITHUB_USERNAME: '깃허브 인증이 필요합니다.',
   INVALID_POST_TYPE: '잘못된 Post Type 입니다.',
