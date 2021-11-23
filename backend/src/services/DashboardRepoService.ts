@@ -1,5 +1,5 @@
-import { DashboardRepository } from 'src/models';
-import { Calculate } from 'src/utils';
+import { DashboardRepository, User } from 'src/models';
+import { Calculate, ERROR } from 'src/utils';
 
 class DashboardRepoService {
   async createDashboardRepo(userID: string, repoData: object) {
@@ -11,6 +11,14 @@ class DashboardRepoService {
   }
 
   async readDashboardReposLanguage(userID: string) {
+    const result = await User.findOne({ _id: userID }, 'dashboard.statistics.reposLanguage -_id');
+    if (!result) {
+      throw new Error(ERROR.NOT_EXIST_USER);
+    }
+    return result?.dashboard?.statistics?.reposLanguage;
+  }
+
+  async updateDashboardReposLanguage(userID: string) {
     const data = await DashboardRepository.find({ userID }, 'languageInfo -_id').lean();
     const temp: any = {};
     data.forEach((repo: any) => {
@@ -22,13 +30,13 @@ class DashboardRepoService {
         }
       });
     });
+    const calculateResult = Calculate.calculateLanguage(temp);
 
-    if (Object.keys(temp).length === 0) {
-      return {};
-    }
-
-    const result = Calculate.calculateLanguage(temp);
-    return result;
+    return User.findOneAndUpdate(
+      { _id: userID },
+      { $set: { 'dashboard.statistics.reposLanguage': calculateResult } },
+      { new: true },
+    );
   }
 }
 

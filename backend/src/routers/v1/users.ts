@@ -298,7 +298,7 @@ export default class UsersRouter {
 
   @Put('/:userID/dashboard/problems/:username/statistics')
   @UseBefore(passport.authenticate('jwt', { session: false }))
-  async getStatistics(@Req() request: Request, @Res() response: Response) {
+  async putStatistics(@Req() request: Request, @Res() response: Response) {
     const { username, userID } = request.params;
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
@@ -306,6 +306,17 @@ export default class UsersRouter {
     const statistics = await ProblemService.findSolvedAcStatistics(username);
     UserService.updateOneProblemStatistics(userID, statistics);
     return response.json({ code: RESPONSECODE.SUCCESS, data: statistics });
+  }
+
+  @Put('/:userID/dashboard/repositories/languages')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async putDashboardReposLanguage(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const result = await DashboardRepoService.updateDashboardReposLanguage(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
   @Delete('/:userID/follows')
