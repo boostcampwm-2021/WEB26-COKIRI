@@ -16,30 +16,14 @@ class PostService {
   }
 
   async createPost(data: any) {
-    let { images } = data;
-    const { type, external } = data;
-    const isLinkedPost = external && !images?.length;
-    switch (type) {
-      case 'normal':
-        if (isLinkedPost) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'external':
-        if (!isLinkedPost) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      default:
-        throw new Error(ERROR.INVALID_POST_TYPE);
-    }
+    const { images } = data;
     const post = await Post.create(data);
-    if (type === 'normal') {
-      images = images.map((v: any) => ({ url: v, targetID: post._id }));
-      if (images) await Image.insertMany(images);
+    if (images && images.length !== 0) {
+      const insertImages = images.map((imageURL: any) => ({ url: imageURL, targetID: post._id }));
+      if (insertImages) await Image.insertMany(insertImages);
     }
-    const newPostConfig = await this.findOnePost(post._id);
-    return newPostConfig;
+    const newPost = await this.findOnePost(post._id);
+    return newPost;
   }
 
   async findPosts(posts: PostType[]) {
