@@ -15,9 +15,7 @@ class GitService {
   async findRepo(githubUsername: string, repoName: string) {
     let apiData;
     try {
-      apiData = await axios
-        .get(OPENAPIURL.GIT_REPOINFO_API(githubUsername, repoName))
-        .then((response) => response.data);
+      apiData = (await axios.get(OPENAPIURL.GIT_REPOINFO_API(githubUsername, repoName))).data;
     } catch {
       throw new Error(ERROR.NOT_EXIST_REPONAME);
     }
@@ -37,11 +35,11 @@ class GitService {
     }
 
     try {
-      const readmeData = await axios
-        .get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName), {
+      const readmeData = (
+        await axios.get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName), {
           headers: HEADER.GITHUB_README,
         })
-        .then((response) => response.data);
+      ).data;
       result.content = readmeData;
     } catch {
       return result;
