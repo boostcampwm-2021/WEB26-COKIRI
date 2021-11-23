@@ -6,7 +6,7 @@ interface CursorDataType {
   data: object;
 }
 
-class RouterFunc {
+class Cursor {
   makeCursorData(posts: object, postCount: number, cursor: number): CursorDataType {
     const data: CursorDataType = {
       code: RESPONSECODE.SUCCESS,
@@ -23,4 +23,4 @@ class RouterFunc {
   }
 }
 
-export default new RouterFunc();
+export default new Cursor();

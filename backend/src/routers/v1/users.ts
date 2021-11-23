@@ -24,7 +24,7 @@ import {
   DashboardHistoryService,
   ProblemService,
 } from 'src/services';
-import { Authorization, ERROR, RESPONSECODE, PERPAGE, RouterFunc } from 'src/utils';
+import { Authorization, ERROR, RESPONSECODE, Cursor } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -113,7 +113,7 @@ export default class UsersRouter {
     }
 
     const { posts, postCount } = await PostService.findUserTimeline(userID, cursor);
-    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
 

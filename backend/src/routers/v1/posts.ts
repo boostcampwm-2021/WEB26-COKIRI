@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { ERROR, RESPONSECODE, PERPAGE, RouterFunc } from 'src/utils';
+import { ERROR, RESPONSECODE, Cursor } from 'src/utils';
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 
 @Controller('/posts')
@@ -23,7 +23,7 @@ export default class PostsRouter {
     }
 
     const { posts, postCount } = await PostService.findTimeline(userID as string, cursor);
-    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
 
@@ -38,7 +38,7 @@ export default class PostsRouter {
     }
 
     const { posts, postCount } = await PostService.findRandomPost(userID, +cursor);
-    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
 
