@@ -82,11 +82,14 @@ export default class UsersRouter {
   @Get('/dashboard')
   async getDashboard(@Req() request: Request, @Res() response: Response) {
     const { username } = request.query;
+    if (!username) {
+      throw new Error(ERROR.WRONG_QUERY_TYPE);
+    }
     const dashboard = await UserService.findOneUserDashboard({ username });
     const dashboardHistories = await DashboardHistoryService.findDashboardHistory(dashboard._id!);
     return response.json({
       code: RESPONSECODE.SUCCESS,
-      data: { _id: dashboard._id, dashboard: { ...dashboard.dashboard, dashboardHistories } },
+      data: { _id: dashboard._id, ...dashboard.dashboard, dashboardHistories },
     });
   }
 
