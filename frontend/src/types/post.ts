@@ -6,7 +6,6 @@ import ExternalType from './external';
 
 export default interface PostType {
   _id?: string;
-  type?: string;
   content?: string;
   images?: ImageType[];
   user?: UserType;

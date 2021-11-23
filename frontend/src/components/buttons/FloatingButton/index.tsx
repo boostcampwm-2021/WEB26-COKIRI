@@ -23,9 +23,14 @@ function FloatingButton({ onPostWrite }: Props) {
     setIsModalShow(false);
   }, []);
 
+  const handlePostWrite = () => {
+    setIsModalShow(false);
+    onPostWrite!();
+  };
+
   return (
     <Wrapper>
-      {isModalShow && <PostWriteModal onClose={handleClose} onPostWrite={onPostWrite} />}
+      {isModalShow && <PostWriteModal onClose={handleClose} onPostWrite={handlePostWrite} />}
       <ButtonCommon
         onClick={changeModalShow}
         width={FLOATING_BUTTON_WIDTH}

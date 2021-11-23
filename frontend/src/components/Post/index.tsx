@@ -41,7 +41,7 @@ function Post({ post, onPostDelete }: Props) {
       [...prevState].filter((comment) => comment._id !== commentID),
     );
   };
-  const { _id, user, images, content, likes, createdAt, type, external } = post;
+  const { _id, user, images, content, likes, createdAt, external } = post;
   const isMe = me._id !== user!._id;
 
   return (
@@ -59,7 +59,7 @@ function Post({ post, onPostDelete }: Props) {
         <EchoButton postID={_id!} />
       </Row>
       {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount} />}
-      {type === 'external' && <ExternalContent external={external!} />}
+      {external !== undefined && <ExternalContent external={external} />}
       <NormalContent content={content!} />
       <PostComments postID={_id!} comments={comments} onCommentDelete={handleCommentDelete} />
       <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />

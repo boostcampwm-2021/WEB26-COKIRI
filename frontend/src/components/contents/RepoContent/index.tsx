@@ -18,7 +18,7 @@ function RepoContent({ content, link, info }: Props) {
       <Row justifyContent='space-between'>
         <p>별 {info.starCount}</p>
         <p>포크 {info.forkCount}</p>
-        {Object.keys(info.language).map((language) => (
+        {Object.keys(info.language ?? {}).map((language) => (
           <Col key={language}>
             <p>{language}</p>
             <p>{info.language[language]}%</p>

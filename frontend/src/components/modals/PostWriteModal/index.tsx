@@ -10,15 +10,17 @@ import PreviewImages from 'src/components/images/PreviewImages';
 import ButtonCommon from 'src/components/buttons/Common';
 import ReposModal from 'src/components/modals/ReposModal';
 import ProblemsModal from 'src/components/modals/ProblemsModal';
+import RepoContent from 'src/components/contents/RepoContent';
+import ProblemContent from 'src/components/contents/ProblemContent';
 import { Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { ProblemType, RepoType } from 'src/types';
+import { ExternalType, ProblemInfoType, ProblemType, RepoInfoType, RepoType } from 'src/types';
 
-import { Textarea, IconHolder } from './style';
+import { Textarea, IconHolder, Preview, Cover, LinkButton } from './style';
 
 interface Props {
   onPostWrite: () => void;
@@ -26,16 +28,28 @@ interface Props {
 }
 
 function PostWriteModal({ onClose, onPostWrite }: Props) {
+  const user = useRecoilValue(userAtom);
+
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
+  const [external, setExternal] = useState<ExternalType>();
+  const [externalType, setExternalType] = useState<'repo' | 'problem' | 'blog' | ''>('');
 
   const [isReposModalShow, setIsReposModalShow] = useState(false);
   const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
-  const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
-    onSuccess: () => {
-      onClose();
-      onPostWrite();
+  const mutation = useMutation(() => Fetcher.postPost(user, content, images, external), {
+    onSuccess: () => onPostWrite(),
+  });
+  const problemMutation = useMutation((id: string) => Fetcher.getProblem(id), {
+    onSuccess: (problem: ExternalType) => {
+      setExternal(problem);
+      setExternalType('problem');
+    },
+  });
+  const repoMutation = useMutation((name: string) => Fetcher.getUserRepo(user, name), {
+    onSuccess: (repo: ExternalType) => {
+      setExternal(repo);
+      setExternalType('repo');
     },
   });
 
@@ -65,14 +79,13 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
   const handleReposModalClose = () => setIsReposModalShow(false);
   const handleProblemsModalClose = () => setIsProblemsModalShow(false);
   const handleRepoSelect = (repo: RepoType) => {
-    console.log(repo);
+    repoMutation.mutate(repo.name);
     setIsReposModalShow(false);
   };
   const handleProblemSelect = (problem: ProblemType) => {
-    console.log(problem);
+    problemMutation.mutate(problem.id);
     setIsProblemsModalShow(false);
   };
-
   return (
     <>
       {isReposModalShow && (
@@ -81,7 +94,13 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
       {isProblemsModalShow && (
         <ProblemsModal onClose={handleProblemsModalClose} onSelect={handleProblemSelect} />
       )}
-      <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
+      <ModalCommon
+        close='취소'
+        confirm='확인'
+        onConfirm={handleConfirm}
+        onClose={onClose}
+        disabled={content === ''}
+      >
         <Row justifyContent='center' alignItems='center' margin={16}>
           <ImageInput onImageUpload={handleImageUpload}>
             <IconHolder>
@@ -93,6 +112,29 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />
+        {externalType !== '' && (
+          <Preview>
+            <Cover />
+            {externalType === 'repo' && (
+              <RepoContent
+                content={external!.content!}
+                info={external!.info as RepoInfoType}
+                link={external!.link}
+              />
+            )}
+            {externalType === 'problem' && (
+              <ProblemContent
+                content={external!.content!}
+                info={external!.info as ProblemInfoType}
+                link={external!.link}
+              />
+            )}
+            {/* {externalType === 'blog' && <RepoPreview />} */}
+            <LinkButton href={external!.link} target='_blank' rel='noreferrer noopener'>
+              바로가기
+            </LinkButton>
+          </Preview>
+        )}
       </ModalCommon>
     </>
   );

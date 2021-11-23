@@ -1,4 +1,4 @@
 export default interface RepoType {
-  name?: string;
-  url?: string;
+  name: string;
+  url: string;
 }

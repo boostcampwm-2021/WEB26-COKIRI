@@ -27,9 +27,7 @@ function ReposModal({ onClose, onSelect }: Props) {
   const user = useRecoilValue(userAtom);
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const { data: repos, isLoading } = useQuery(['repositories', user._id], () =>
-    Fetcher.getUserRepos(user),
-  );
+  const { data: repos } = useQuery(['repositories', user._id], () => Fetcher.getUserRepos(user));
   const handleConfirm = () => {
     onSelect(repos![selectedIndex]);
   };
@@ -53,17 +51,16 @@ function ReposModal({ onClose, onSelect }: Props) {
         disabled={selectedIndex === -1}
       >
         <Repos>
-          {!isLoading &&
-            repos!.map((repo, index) => (
-              <Col key={repo.name}>
-                <ButtonCommon
-                  onClick={() => handleRepoClick(index)}
-                  clicked={index === selectedIndex}
-                >
-                  {repo.name}
-                </ButtonCommon>
-              </Col>
-            ))}
+          {(repos ?? []).map((repo, index) => (
+            <Col key={repo.name}>
+              <ButtonCommon
+                onClick={() => handleRepoClick(index)}
+                clicked={index === selectedIndex}
+              >
+                {repo.name}
+              </ButtonCommon>
+            </Col>
+          ))}
         </Repos>
       </ModalCommon>
     </Wrapper>
