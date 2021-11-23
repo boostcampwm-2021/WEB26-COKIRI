@@ -11,3 +11,4 @@ export { default as Calculate } from './Calculate';
 export { default as Mailer } from './Mailer';
 export { default as URLParser } from './URLparser';
 export { default as S3 } from './ObjectStorage';
+export { default as RouterFunc } from './RouterFunc';

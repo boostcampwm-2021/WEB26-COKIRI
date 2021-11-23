@@ -24,7 +24,7 @@ import {
   DashboardHistoryService,
   ProblemService,
 } from 'src/services';
-import { Authorization, ERROR, RESPONSECODE, PERPAGE } from 'src/utils';
+import { Authorization, ERROR, RESPONSECODE, PERPAGE, RouterFunc } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -104,27 +104,17 @@ export default class UsersRouter {
 
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    let { cursor } = request.query;
-    if (!cursor) {
-      cursor = '0';
+    const { userID, cursor: cursorTemp } = request.params;
+    let cursor: number;
+    if (!cursorTemp) {
+      cursor = 0;
+    } else {
+      cursor = +cursorTemp;
     }
 
-    const { posts, postCount } = await PostService.findUserTimeline(userID, +cursor!);
-
-    const data: { code: string; nextCursor: any; data: any } = {
-      code: RESPONSECODE.SUCCESS,
-      nextCursor: +cursor! + PERPAGE,
-      data: posts,
-    };
-
-    if (+cursor! + 1 >= postCount) {
-      delete data.nextCursor;
-    } else if (data.nextCursor > postCount) {
-      data.nextCursor = postCount - 1;
-    }
-
-    return response.json({ code: RESPONSECODE.SUCCESS, data });
+    const { posts, postCount } = await PostService.findUserTimeline(userID, cursor);
+    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
+    return response.json({ ...data });
   }
 
   @Get('/:userID/settings')
