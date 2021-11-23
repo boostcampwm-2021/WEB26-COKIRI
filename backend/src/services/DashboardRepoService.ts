@@ -1,4 +1,4 @@
-import { DashboardRepository } from 'src/models';
+import { DashboardRepository, User } from 'src/models';
 import { Calculate } from 'src/utils';
 
 class DashboardRepoService {
@@ -10,7 +10,7 @@ class DashboardRepoService {
     return DashboardRepository.find({ userID });
   }
 
-  async readDashboardReposLanguage(userID: string) {
+  async updateDashboardReposLanguage(userID: string) {
     const data = await DashboardRepository.find({ userID }, 'languageInfo -_id').lean();
     const temp: any = {};
     data.forEach((repo: any) => {
@@ -22,13 +22,13 @@ class DashboardRepoService {
         }
       });
     });
-
-    if (Object.keys(temp).length === 0) {
-      return {};
-    }
-
-    const result = Calculate.calculateLanguage(temp);
-    return result;
+    const calculateResult = Calculate.calculateLanguage(temp);
+    User.updateOne(
+      { _id: userID },
+      { $setOnInsert: { 'statistics.reposLanguage': calculateResult } },
+      { upsert: true, new: true },
+    );
+    return calculateResult;
   }
 }
 
