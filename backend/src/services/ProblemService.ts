@@ -35,22 +35,20 @@ class ProblemService {
       const problemDescription = $('div#problem_description').html()!.trim();
       return {
         title: problemInfo.data.titleKo,
-        external: {
-          type: 'problem',
-          identity: 'baekjoon',
-          target: problemID,
-          content: problemDescription.replace(
-            /(?<=(<img[^/]+src="))\//g,
-            OPENAPIURL.PROBLEM_IMAGE_HOST,
+        type: 'problem',
+        identity: 'baekjoon',
+        target: problemID,
+        content: problemDescription.replace(
+          /(?<=(<img[^/]+src="))\//g,
+          OPENAPIURL.PROBLEM_IMAGE_HOST,
+        ),
+        link: `${OPENAPIURL.PROBLEM}${problemID}`,
+        info: {
+          solvedUserCount: problemInfo.data.acceptedUserCount,
+          totalTryCount: Math.floor(
+            problemInfo.data.averageTries * problemInfo.data.acceptedUserCount,
           ),
-          link: `${OPENAPIURL.PROBLEM}${problemID}`,
-          info: {
-            solvedUserCount: problemInfo.data.acceptedUserCount,
-            totalTryCount: Math.floor(
-              problemInfo.data.averageTries * problemInfo.data.acceptedUserCount,
-            ),
-            tear: this.convertLevelToTear(problemInfo.data.level),
-          },
+          tear: this.convertLevelToTear(problemInfo.data.level),
         },
       };
     } catch (error) {

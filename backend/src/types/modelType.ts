@@ -104,12 +104,12 @@ export interface ImageType {
 
 export interface PostType {
   _id?: Types.ObjectId;
-  title?: string;
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
   type?: 'normal' | 'external';
   external?: {
+    title: string;
     content: string;
     link: string;
     info?: object;

@@ -113,10 +113,7 @@ class PostService {
       post.external.identity,
       post.external.target,
     );
-    return Post.updateOne(
-      { _id: postID },
-      { title: newBlogContent.title as string, external: newBlogContent.external },
-    );
+    return Post.updateOne({ _id: postID }, { external: newBlogContent });
   }
 
   async removePost(postID: string) {

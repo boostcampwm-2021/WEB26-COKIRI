@@ -82,11 +82,14 @@ export default class UsersRouter {
   @Get('/dashboard')
   async getDashboard(@Req() request: Request, @Res() response: Response) {
     const { username } = request.query;
+    if (!username) {
+      throw new Error(ERROR.WRONG_QUERY_TYPE);
+    }
     const dashboard = await UserService.findOneUserDashboard({ username });
     const dashboardHistories = await DashboardHistoryService.findDashboardHistory(dashboard._id!);
     return response.json({
       code: RESPONSECODE.SUCCESS,
-      data: { _id: dashboard._id, dashboard: { ...dashboard.dashboard, dashboardHistories } },
+      data: { _id: dashboard._id, ...dashboard.dashboard, dashboardHistories },
     });
   }
 
@@ -193,18 +196,16 @@ export default class UsersRouter {
       code: RESPONSECODE.SUCCESS,
       data: {
         title: result.repoName,
-        external: {
-          type: 'repository',
-          content: result.content,
-          link: result.repoUrl,
-          info: {
-            starCount: result.starCount,
-            forkCount: result.forkCount,
-            language: result.languageInfo,
-          },
-          identity: githubUsername,
-          target: repoName,
+        type: 'repository',
+        content: result.content,
+        link: result.repoUrl,
+        info: {
+          starCount: result.starCount,
+          forkCount: result.forkCount,
+          language: result.languageInfo,
         },
+        identity: githubUsername,
+        target: repoName,
       },
     });
   }

@@ -54,13 +54,11 @@ class TistoryService {
       const { title, content, postUrl } = postResponse.data.tistory.item;
       return {
         title,
-        external: {
-          type: 'tistory' as const,
-          content: content as string,
-          link: postUrl as string,
-          identity,
-          target: postID,
-        },
+        type: 'tistory' as const,
+        content: content as string,
+        link: postUrl as string,
+        identity,
+        target: postID,
       };
     } catch (error) {
       throw new Error(ERROR.INVALID_TISTORY_ACCESS_TOKEN);
