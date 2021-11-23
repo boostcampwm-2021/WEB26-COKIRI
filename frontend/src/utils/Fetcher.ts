@@ -11,6 +11,7 @@ import {
   ProblemType,
   DashboardUserInfoType,
   ExternalType,
+  BlogType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -150,9 +151,41 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getUserBlogs(user: UserType): Promise<BlogType[]> {
+    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/blogs`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data.data;
+  }
+
+  static async getUserBlog(
+    user: UserType,
+    identity: string,
+    postID: string,
+  ): Promise<ExternalType> {
+    const result = await axios.get(
+      `${baseURL}/${version}/users/${user._id}/tistory/${identity}/posts/${postID}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    return result.data.data;
+  }
+
   static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
     const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
     return result.data.data;
+  }
+
+  static async getTistoryAuthURL(user: UserType): Promise<string> {
+    const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data.data;
+  }
+
+  static async getLogout() {
+    window.open(`${baseURL}/${version}/users/logout`, '_self');
   }
 
   static async postPost(

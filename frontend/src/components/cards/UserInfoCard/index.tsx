@@ -9,6 +9,7 @@ import ProfileImage from 'src/components/images/ProfileImage';
 import FollowSet from 'src/components/sets/FollowSet';
 import FollowsButton from 'src/components/buttons/FollowsButton';
 import FollowersButton from 'src/components/buttons/FollowersButton';
+import ButtonCommon from 'src/components/buttons/Common';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -20,6 +21,8 @@ import {
 } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
+
+import { Fetcher } from 'src/utils';
 
 import { Username } from './style';
 
@@ -35,6 +38,7 @@ function UserInfoCard({ targetUser }: Props) {
   const isMe = _id === user._id;
   const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
   const handleUnfollow = () => setFollowerCount((prevState) => prevState - 1);
+  const handleLogoutClick = () => Fetcher.getLogout();
 
   return (
     <CardCommon width={USER_INFO_CARD_WIDTH}>
@@ -47,9 +51,12 @@ function UserInfoCard({ targetUser }: Props) {
           <Row alignItems='center' justifyContent='center'>
             <Username>{username}</Username>
             {isMe && (
-              <NavigateIconButton href={`/users/${username}/settings`}>
-                <IoSettingsOutline />
-              </NavigateIconButton>
+              <>
+                <NavigateIconButton href={`/users/${username}/settings`}>
+                  <IoSettingsOutline />
+                </NavigateIconButton>
+                <ButtonCommon onClick={handleLogoutClick}>로그아웃</ButtonCommon>
+              </>
             )}
             <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
           </Row>

@@ -16,7 +16,7 @@ const global = (theme: ThemeType) => css`
 
   button {
     cursor: pointer;
-    background: transparent;
+    background: ${theme.colors.background};
     border: none;
   }
 

@@ -5,10 +5,10 @@ const Wrapper = styled.div`
   z-index: 3;
 `;
 
-const Problems = styled.div`
+const Blogs = styled.div`
   height: 200px;
   overflow-y: scroll;
   padding: 16px;
 `;
 
-export { Wrapper, Problems };
+export { Wrapper, Blogs };
