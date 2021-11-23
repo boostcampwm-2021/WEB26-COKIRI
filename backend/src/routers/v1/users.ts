@@ -23,6 +23,7 @@ import {
   DashboardRepoService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
+import ProblemService from 'src/services/ProblemService';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -251,6 +252,18 @@ export default class UsersRouter {
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
     return response.json({ code: RESPONSECODE.SUCCESS });
+  }
+
+  @Put('/:userID/dashboard/problems/:username/statistics')
+  @UseBefore(passport.authenticate('jwt', { session: false }))
+  async getStatistics(@Req() request: Request, @Res() response: Response) {
+    const { username, userID } = request.params;
+    if (userID !== request.user!.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    const statistics = await ProblemService.findSolvedAcStatistics(username);
+    UserService.updateOneProblemStatistics(userID, statistics);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: statistics });
   }
 
   @Delete('/:userID/follows')

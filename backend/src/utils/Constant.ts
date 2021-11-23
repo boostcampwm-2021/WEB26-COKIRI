@@ -28,6 +28,7 @@ export const ERROR = {
   NOT_EXIST_POST_LIKE: '게시글 좋아요가 존재하지 않습니다.',
   NOT_EXIST_COMMENT_LIKE: '댓글 좋아요가 존재하지 않습니다.',
   NOT_EXIST_PROBLEM: '존재하지 않는 알고리즘 문제입니다.',
+  INVALID_SOLVED: 'solved.ac 가입 유저가 아닙니다.',
   INVALID_GITHUB_USERNAME: '깃허브 인증이 필요합니다.',
   INVALID_POST_TYPE: '잘못된 Post Type 입니다.',
   INVALID_TISTORY_POST: 'Tistory 연동된 Post 가 아닙니다.',
@@ -39,6 +40,7 @@ export const ERROR = {
 };
 
 export const OPENAPIURL = {
+  PROBLEM_STATISTICS: 'https://solved.ac/profile/',
   PROBLEM_SEARCH_SUGGESTION: 'https://solved.ac/api/v3/search/suggestion',
   PROBLEM_SHOW: 'https://solved.ac/api/v3/problem/show',
   PROBLEM_IMAGE_HOST: 'https://www.acmicpc.net/',
@@ -54,6 +56,7 @@ export const OPENAPIURL = {
   GIT_REPOREADME_API: (githubUsername: string, repoName: string) =>
     `https://api.github.com/repos/${githubUsername}/${repoName}/readme`,
   GIT_URL: (username: string) => `https://github.com/${username}`,
+  VELOG_URL: (username: string) => `https://velog.io/@${username}`,
 };
 
 export const HEADER = {
@@ -68,4 +71,7 @@ export const PERPAGE = 10;
 
 export const PROBLEMTEAR = 5;
 
-export const VELOG_URL = (username: string) => `https://velog.io/@${username}`;
+export const CRAWLING = {
+  SOLVED_CATEGORIES: 'span.ProfileSolvedStatsCardstyles__DataItemCaption-sc-1bmfkr8-2.pRLDw',
+  SOLVED_CATEGORY_EXPS: 'span.ProfileSolvedStatsCardstyles__DataItemRightLarge-sc-1bmfkr8-3.fnpmJe',
+};

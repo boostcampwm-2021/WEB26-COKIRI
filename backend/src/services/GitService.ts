@@ -1,6 +1,5 @@
 /* eslint camelcase: 0 */
 import axios from 'axios';
-import * as Base64 from 'js-base64';
 import * as cheerio from 'cheerio';
 
 import { Calculate, OPENAPIURL, HEADER } from 'src/utils';

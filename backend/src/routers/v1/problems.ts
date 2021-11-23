@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import { Controller, Req, Res, Get } from 'routing-controllers';
+import { Controller, Req, Res, Get, Put } from 'routing-controllers';
 
 import ProblemService from 'src/services/ProblemService';
 import { ERROR, RESPONSECODE } from 'src/utils';
+import { UserService } from 'src/services';
 
 @Controller('/problems')
 export default class problemRouter {

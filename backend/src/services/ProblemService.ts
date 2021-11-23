@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-import { ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
+import { CRAWLING, ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
+import { ObjectType } from 'src/types';
 
 class ProblemService {
   convertLevelToTear(level: number) {
@@ -55,6 +56,40 @@ class ProblemService {
     } catch (error) {
       throw new Error(ERROR.NOT_EXIST_PROBLEM);
     }
+  }
+
+  async findSolvedAcStatistics(username: string) {
+    const url = OPENAPIURL.PROBLEM_STATISTICS;
+    const solvedProfileHTML = (await axios.get(`${url}${username}`)).data;
+    const $ = cheerio.load(solvedProfileHTML);
+    const $tag = $('div.ProfileSolvedStatsCardstyles__DataContainer-sc-1bmfkr8-1.hPtyHi').last();
+    if ($tag.length === 0) {
+      throw new Error(ERROR.INVALID_SOLVED);
+    }
+    const statistics: ObjectType<any> = {};
+    const statisticsKeys: string[] = [];
+    const categories = $tag.find(CRAWLING.SOLVED_CATEGORIES);
+    const exps = $tag.find(CRAWLING.SOLVED_CATEGORY_EXPS);
+
+    categories.each((index, category) => {
+      if (index > 9) return false;
+      if (index !== 0) {
+        const textCategory = $(category).text().substr(2);
+        statistics[textCategory] = '';
+        statisticsKeys.push(textCategory);
+      }
+      return true;
+    });
+
+    exps.each((index, exp) => {
+      if (index > 9) return false;
+      if (index !== 0) {
+        const expText = $(exp).text();
+        statistics[statisticsKeys[index - 1]] = expText;
+      }
+      return true;
+    });
+    return statistics;
   }
 }
 
