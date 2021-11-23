@@ -23,7 +23,7 @@ export default class PostsRouter {
     if (+cursor! + 1 >= postCount) {
       delete data.nextCursor;
     } else if (data.nextCursor > postCount) {
-      data.nextCursor = postCount;
+      data.nextCursor = postCount - 1;
     }
     return response.json(data);
   }
@@ -31,8 +31,24 @@ export default class PostsRouter {
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID } = request.query;
-    const posts = await PostService.findRandomPost(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
+    let { cursor } = request.query;
+    if (!cursor) {
+      cursor = '0';
+    }
+    const { posts, postCount } = await PostService.findRandomPost(userID, +cursor);
+    const data: { code: string; nextCursor: any; data: any } = {
+      code: RESPONSECODE.SUCCESS,
+      nextCursor: +cursor! + PERPAGE,
+      data: posts,
+    };
+
+    if (+cursor! + 1 >= postCount) {
+      delete data.nextCursor;
+    } else if (data.nextCursor > postCount) {
+      data.nextCursor = postCount - 1;
+    }
+
+    return response.json({ code: RESPONSECODE.SUCCESS, data });
   }
 
   @Get('/:postID/likes')
