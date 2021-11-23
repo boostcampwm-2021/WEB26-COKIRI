@@ -59,8 +59,6 @@ class PostService {
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
 
-    // const postCount = Post.countDocuments({ userID }).exec();
-    // const posts = this.findPosts(postList);
     const [posts, postCount] = await Promise.all([
       this.findPosts(postList),
       Post.countDocuments({ userID }).exec(),
