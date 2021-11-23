@@ -40,16 +40,18 @@ class Fetcher {
   }
 
   // for client side
-  static async getPosts(user: UserType, { pageParam }: QueryFunctionContext): Promise<PostType[]> {
-    // @TODO 리턴타입 변경
+  static async getPosts(
+    user: UserType,
+    { pageParam }: QueryFunctionContext,
+  ): Promise<ReturnType<PostType[]>> {
     if (user._id === undefined || !user.isRegistered) {
-      return [];
+      return {};
     }
     const result = await axios.get(`${baseURL}/${version}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
       params: { user_id: user._id, cursor: pageParam ?? 0 },
     });
-    return result.data.data;
+    return result.data;
   }
 
   static async getPostLikes(user: UserType, postID: string): Promise<LikeType[]> {
@@ -59,12 +61,17 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getUserPosts(user: UserType): Promise<PostType[]> {
+  static async getUserPosts(
+    user: UserType,
+    { pageParam }: QueryFunctionContext,
+  ): Promise<ReturnType<PostType[]>> {
     if (user._id === undefined) {
-      return [];
+      return {};
     }
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/posts`);
-    return result.data.data;
+    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/posts`, {
+      params: { cursor: pageParam ?? 0 },
+    });
+    return result.data;
   }
 
   static async getSignout(): Promise<void> {
@@ -88,9 +95,13 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getRandomPosts(): Promise<PostType[]> {
-    const result = await axios.get(`${baseURL}/${version}/posts/random`);
-    return result.data.data;
+  static async getRandomPosts({
+    pageParam,
+  }: QueryFunctionContext): Promise<ReturnType<PostType[]>> {
+    const result = await axios.get(`${baseURL}/${version}/posts/random`, {
+      params: { cursor: pageParam ?? 0 },
+    });
+    return result.data;
   }
 
   static async getDetailPost(postID: string): Promise<PostType> {
