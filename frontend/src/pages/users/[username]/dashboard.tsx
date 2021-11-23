@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 
 import Header from 'src/components/Header';
@@ -12,18 +13,24 @@ import { Row, Col } from 'src/components/Grid';
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
-import { DashboardType } from 'src/types';
+import { DashboardUserInfoType } from 'src/types';
 
 import { Page } from 'src/styles';
 
 import { Fetcher } from 'src/utils';
 
 interface Props {
-  dashboard: DashboardType;
+  data: DashboardUserInfoType;
   username: string;
 }
 
-function Dashboard({ dashboard, username }: Props) {
+function Dashboard({ data, username }: Props) {
+  const [dashboardUserInfo, setDashboardUserInfo] = useState(data);
+
+  const handleEditDashboardUserInfo = (newDashboardUserInfo: DashboardUserInfoType) => {
+    setDashboardUserInfo(newDashboardUserInfo);
+  };
+
   return (
     <>
       <Head>
@@ -36,12 +43,25 @@ function Dashboard({ dashboard, username }: Props) {
       <Page.Main>
         <Col alignItems='center'>
           <Row>
-            <DashboardUserInfoCard dashboard={dashboard} username={username as string} />
-            <DashboardLinkCard dashboard={dashboard} />
+            <DashboardUserInfoCard
+              name={dashboardUserInfo.name!}
+              phoneNumber={dashboardUserInfo.phoneNumber!}
+              birthday={dashboardUserInfo.birthday!}
+              email={dashboardUserInfo.email!}
+              region={dashboardUserInfo.region!}
+              school={dashboardUserInfo.school!}
+              targetUserName={username}
+              onEditDashboardUserInfo={handleEditDashboardUserInfo}
+            />
+            <DashboardLinkCard
+              jobObjectives={dashboardUserInfo.jobObjectives!}
+              github={dashboardUserInfo.github!}
+              blog={dashboardUserInfo.blog!}
+            />
           </Row>
           <Row>
             <Col>
-              <DashboardStackCard techStacks={dashboard?.techStacks!} />
+              <DashboardStackCard techStacks={dashboardUserInfo?.techStacks!} />
               <DashboardStatisticsCard />
               <DashboardRepoCard username={username as string} />
             </Col>
@@ -55,8 +75,8 @@ function Dashboard({ dashboard, username }: Props) {
 
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
-  const { dashboard } = await Fetcher.getUserInfo(username);
-  return { props: { dashboard, username } };
+  const { data } = await Fetcher.getDashboardUserInfo(username);
+  return { props: { data, username } };
 }
 
 export default Dashboard;

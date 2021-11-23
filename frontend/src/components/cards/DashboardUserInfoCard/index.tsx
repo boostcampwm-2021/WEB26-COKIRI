@@ -23,18 +23,36 @@ import {
   DASHBOARD_USER_INFO_COL_MARGIN,
 } from 'src/globals/constants';
 
-import { DashboardType } from 'src/types';
-
 import userAtom from 'src/recoil/user';
 
+import { DashboardUserInfoType } from 'src/types';
+
 interface Props {
-  dashboard?: DashboardType;
-  username: string;
+  name?: string;
+  phoneNumber?: string;
+  birthday?: string;
+  email?: string;
+  region?: string;
+  school?: string;
+  bio?: String;
+  targetUserName: string;
+  // eslint-disable-next-line no-unused-vars
+  onEditDashboardUserInfo: (newDashboardUserInfo: DashboardUserInfoType) => void;
 }
 
-function DashboardUserInfoCard({ username, dashboard }: Props) {
+function DashboardUserInfoCard({
+  name,
+  phoneNumber,
+  birthday,
+  email,
+  region,
+  school,
+  bio,
+  targetUserName,
+  onEditDashboardUserInfo,
+}: Props) {
   const user = useRecoilValue(userAtom);
-  const isMe = user.username === username;
+  const isMe = user.username === targetUserName;
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
@@ -48,14 +66,14 @@ function DashboardUserInfoCard({ username, dashboard }: Props) {
             <IoPersonOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>이름</p>
-              <p>{dashboard?.name}</p>
+              <p>{name}</p>
             </Col>
           </Row>
           <Row alignItems='center'>
             <IoCallOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>연락처</p>
-              <p>{dashboard?.phoneNumber}</p>
+              <p>{phoneNumber}</p>
             </Col>
           </Row>
         </Col>
@@ -64,14 +82,14 @@ function DashboardUserInfoCard({ username, dashboard }: Props) {
             <IoCalendarClearOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>생년 월일</p>
-              <p>{dashboard?.birthday}</p>
+              <p>{birthday}</p>
             </Col>
           </Row>
           <Row alignItems='center'>
             <IoMailOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>이메일</p>
-              <p>{dashboard?.email}</p>
+              <p>{email}</p>
             </Col>
           </Row>
         </Col>
@@ -80,30 +98,44 @@ function DashboardUserInfoCard({ username, dashboard }: Props) {
             <IoLocationOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>주소지</p>
-              <p>{dashboard?.region}</p>
+              <p>{region}</p>
             </Col>
           </Row>
           <Row alignItems='center'>
             <BsPencil size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
               <p>학력</p>
-              <p>{dashboard?.school}</p>
+              <p>{school}</p>
             </Col>
           </Row>
         </Col>
         {isMe && <UserInfoSettingButton />}
       </Row>
+      <p>{bio}</p>
     </CardCommon>
   );
 }
 
 DashboardUserInfoCard.propTypes = {
-  dashboard: PropTypes.objectOf(PropTypes.any),
-  username: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  birthday: PropTypes.string,
+  email: PropTypes.string,
+  region: PropTypes.string,
+  school: PropTypes.string,
+  bio: PropTypes.string,
+  targetUserName: PropTypes.string.isRequired,
+  onEditDashboardUserInfo: PropTypes.func.isRequired,
 };
 
 DashboardUserInfoCard.defaultProps = {
-  dashboard: {},
+  name: '',
+  phoneNumber: '',
+  birthday: '',
+  email: '',
+  region: '',
+  school: '',
+  bio: '',
 };
 
 export default DashboardUserInfoCard;

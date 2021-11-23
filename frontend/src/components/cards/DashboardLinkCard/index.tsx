@@ -9,13 +9,13 @@ import {
   DASHBOARD_LINK_COL_PADDING,
 } from 'src/globals/constants';
 
-import { DashboardType } from 'src/types';
-
 interface Props {
-  dashboard?: DashboardType;
+  jobObjectives: string[];
+  github?: string;
+  blog?: string;
 }
 
-function DashboardLinkCard({ dashboard }: Props) {
+function DashboardLinkCard({ jobObjectives, github, blog }: Props) {
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
       <Row padding={DASHBOARD_LINK_ROW_PADDING}>
@@ -30,9 +30,9 @@ function DashboardLinkCard({ dashboard }: Props) {
           <p>:</p>
         </Col>
         <Col padding={DASHBOARD_LINK_COL_PADDING}>
-          <p>{dashboard?.jobObjectives?.reduce((prev, curr) => `${prev}, ${curr}`, '')}</p>
-          <p>{dashboard?.github}</p>
-          <p>{dashboard?.blog}</p>
+          <p>{jobObjectives?.reduce((prev, curr) => `${prev}, ${curr}`, '')}</p>
+          <p>{github}</p>
+          <p>{blog}</p>
         </Col>
       </Row>
     </CardCommon>
@@ -40,11 +40,14 @@ function DashboardLinkCard({ dashboard }: Props) {
 }
 
 DashboardLinkCard.propTypes = {
-  dashboard: PropTypes.objectOf(PropTypes.any),
+  jobObjectives: PropTypes.arrayOf(PropTypes.string).isRequired,
+  github: PropTypes.string,
+  blog: PropTypes.string,
 };
 
 DashboardLinkCard.defaultProps = {
-  dashboard: {},
+  github: '',
+  blog: '',
 };
 
 export default DashboardLinkCard;
