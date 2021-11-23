@@ -6,7 +6,6 @@ import { Validate } from 'src/utils';
 
 const postSchema = new Schema<PostType>(
   {
-    title: { type: String, trim: true },
     content: { type: String, required: true, trim: true },
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     tags: {
@@ -20,6 +19,7 @@ const postSchema = new Schema<PostType>(
       default: 'normal',
     },
     external: {
+      title: { type: String, trim: true },
       content: { type: String, trim: true, require: true },
       link: { type: String, trim: true },
       info: Object,
