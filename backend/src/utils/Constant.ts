@@ -67,7 +67,7 @@ export const SELECT = {
   USER: 'username profileImage',
 };
 
-export const PERPAGE = 10;
+export const PERPAGE = 3;
 
 export const PROBLEMTEAR = 5;
 
