@@ -37,10 +37,6 @@ function User({ targetUser }: Props) {
     },
   );
 
-  const handlePostWrite = () => {
-    refetch();
-  };
-
   return (
     <>
       <Head>
@@ -64,7 +60,7 @@ function User({ targetUser }: Props) {
           )}
         </Col>
       </Page.Main>
-      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
+      {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </>
   );
 }

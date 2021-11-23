@@ -6,7 +6,7 @@ const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 
 function Kakao() {
   const handleClick = () => {
-    window.open(`${url}/v1/socials/google`, '_self');
+    window.open(`${url}/v1/socials/kakao`, '_self');
   };
 
   return (

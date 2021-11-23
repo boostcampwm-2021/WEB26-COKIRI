@@ -55,8 +55,14 @@ function UserInfoCard({ targetUser }: Props) {
           </Row>
           <Row alignItems='center' justifyContent='center'>
             <p>{postCount} posts</p>
-            <FollowsButton count={followCount!} targetUserID={_id!} />
-            <FollowersButton count={followerCount!} targetUserID={_id!} />
+            <FollowsButton
+              count={isMe ? user.follows!.length! : followCount!}
+              targetUserID={_id!}
+            />
+            <FollowersButton
+              count={isMe ? user.followers!.length! : followerCount!}
+              targetUserID={_id!}
+            />
           </Row>
           <Row>
             <p>{name}</p>
