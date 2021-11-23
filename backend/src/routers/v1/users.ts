@@ -24,7 +24,7 @@ import {
   DashboardHistoryService,
   ProblemService,
 } from 'src/services';
-import { Authorization, ERROR, RESPONSECODE } from 'src/utils';
+import { Authorization, ERROR, RESPONSECODE, PERPAGE } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
