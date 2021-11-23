@@ -2,19 +2,32 @@ import PropTypes from 'prop-types';
 
 import Post from 'src/components/Post';
 
-import { PostType } from 'src/types';
+import { PostType, ReturnType } from 'src/types';
+
+import { useIntersectionObserver } from 'src/hooks';
 
 interface Props {
-  pages?: PostType[][];
+  pages?: ReturnType<PostType[]>[];
   onPostDelete?: () => void;
+  onNeedMore?: () => void;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
 }
 
-function Timeline({ pages, onPostDelete }: Props) {
+function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
+  const { ref } = useIntersectionObserver(() => {
+    onNeedMore!();
+  });
+
   return (
     <>
-      {pages!.map((posts) =>
-        posts.map((post) => <Post key={post._id} post={post} onPostDelete={onPostDelete!} />),
+      {pages!.map(({ data }) =>
+        data!.map((post) => <Post key={post._id} post={post} onPostDelete={onPostDelete!} />),
       )}
+
+      <div ref={ref} />
+      {isFetchingNextPage && <p>원해?</p>}
+      {!hasNextPage && <p>끝!</p>}
     </>
   );
 }
@@ -22,11 +35,17 @@ function Timeline({ pages, onPostDelete }: Props) {
 Timeline.protoTypes = {
   pages: PropTypes.arrayOf(PropTypes.object),
   onPostDelete: PropTypes.func,
+  onNeedMore: PropTypes.func.isRequired,
+  hasNextPage: PropTypes.bool.isRequired,
+  isFetchingNextPage: PropTypes.bool.isRequired,
 };
 
 Timeline.defaultProps = {
   pages: [],
   onPostDelete: () => {},
+  onNeedMore: () => {},
+  hasNextPage: false,
+  isFetchingNextPage: false,
 };
 
 export default Timeline;

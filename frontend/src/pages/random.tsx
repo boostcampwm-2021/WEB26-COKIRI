@@ -18,9 +18,13 @@ import { Fetcher } from 'src/utils';
 
 function Random() {
   const isRegistered = useRecoilValue(isRegisteredSelector);
-  const { data } = useInfiniteQuery(['random', 'posts'], () => Fetcher.getRandomPosts(), {
-    getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
-  });
+  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['random', 'posts'],
+    (context) => Fetcher.getRandomPosts(context),
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
   return (
     <>
       <Head>
@@ -32,7 +36,13 @@ function Random() {
       <Header page='random' />
       <Page.Main>
         <Col alignItems='center'>
-          <Timeline pages={data?.pages} />
+          <Timeline
+            pages={data?.pages}
+            onPostDelete={refetch}
+            onNeedMore={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
         </Col>
       </Page.Main>
       {isRegistered && <FloatingButton />}
