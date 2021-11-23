@@ -1,6 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 
 class Authorization {
+  clearCookieOptions = {
+    maxAge: 0,
+    httpOnly: true,
+    secure: process.env.MODE !== 'development',
+    domain: process.env.MAIN_DOMAIN,
+  };
+
   cookieOptions = {
     maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
     httpOnly: true,

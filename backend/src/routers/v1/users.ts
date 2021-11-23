@@ -24,7 +24,7 @@ import {
   DashboardHistoryService,
   ProblemService,
 } from 'src/services';
-import { ERROR, RESPONSECODE } from 'src/utils';
+import { Authorization, ERROR, RESPONSECODE } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -61,6 +61,13 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: responseJSON });
   }
 
+  @Get('/logout')
+  @Redirect('/')
+  getLogout(@Req() request: Request, @Res() response: Response) {
+    response.cookie('jwt', '', Authorization.clearCookieOptions);
+    return `${process.env.CLIENT_URL}`;
+  }
+
   @Get('/me')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async getUsersMe(@Req() request: Request, @Res() response: Response) {
@@ -71,12 +78,6 @@ export default class UsersRouter {
     ]);
     const result = { ...results[0], follows: results[1], followers: results[2] };
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
-  }
-
-  @Get('/logout')
-  @Redirect(`${process.env.CLIENT_URL}`)
-  getLogout(@Req() request: Request, @Res() response: Response) {
-    response.clearCookie('jwt');
   }
 
   @Get('/dashboard')
