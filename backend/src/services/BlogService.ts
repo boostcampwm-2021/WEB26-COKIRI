@@ -3,6 +3,10 @@ import { TistoryService } from 'src/services/index';
 import { ERROR } from 'src/utils';
 
 class BlogService {
+  async existsBlog(userID: string) {
+    return Blog.exists({ userID });
+  }
+
   async existsVelogBlog(userID: string, username: string) {
     return Blog.exists({ userID, identity: username });
   }

@@ -70,7 +70,7 @@ class UserService {
   async findOneUserForID(userID: string) {
     const result = await User.findOne(
       { _id: userID },
-      'username isRegistered name profileImage bio',
+      'username isRegistered name profileImage bio githubUsername',
     ).lean();
     if (!result) {
       throw new Error(ERROR.NOT_EXIST_USER);
