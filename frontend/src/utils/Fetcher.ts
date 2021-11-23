@@ -184,6 +184,10 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getLogout() {
+    window.open(`${baseURL}/${version}/users/logout`, '_self');
+  }
+
   static async postPost(
     user: UserType,
     content: string,
