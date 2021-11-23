@@ -11,6 +11,7 @@ import {
   ProblemType,
   DashboardUserInfoType,
   ExternalType,
+  BlogType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -147,6 +148,27 @@ class Fetcher {
 
   static async getProblem(id: string): Promise<ExternalType> {
     const result = await axios.get(`${baseURL}/${version}/problems/${id}`);
+    return result.data.data;
+  }
+
+  static async getUserBlogs(user: UserType): Promise<BlogType[]> {
+    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/blogs`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data.data;
+  }
+
+  static async getUserBlog(
+    user: UserType,
+    identity: string,
+    postID: string,
+  ): Promise<ExternalType> {
+    const result = await axios.get(
+      `${baseURL}/${version}/users/${user._id}/tistory/${identity}/posts/${postID}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
     return result.data.data;
   }
 
