@@ -24,7 +24,7 @@ interface Props {
 function ProblemsModal({ onClose, onSelect }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [query, setQuery] = useState('');
-  const { mutate, data: problems, isLoading } = useMutation(() => Fetcher.getProblemSearch(query));
+  const { mutate, data: problems } = useMutation(() => Fetcher.getProblems(query));
   const handleSearchClick = () => {
     mutate();
   };
@@ -56,17 +56,16 @@ function ProblemsModal({ onClose, onSelect }: Props) {
           <ButtonCommon onClick={handleSearchClick}> 검색</ButtonCommon>
         </Row>
         <Problems>
-          {!isLoading &&
-            (problems ?? [])!.map(({ id, title }, index) => (
-              <Col key={id}>
-                <ButtonCommon
-                  onClick={() => handleProblemClick(index)}
-                  clicked={index === selectedIndex}
-                >
-                  <Title>{id}</Title>:<Title>{title}</Title>
-                </ButtonCommon>
-              </Col>
-            ))}
+          {(problems ?? [])!.map(({ id, title }, index) => (
+            <Col key={id}>
+              <ButtonCommon
+                onClick={() => handleProblemClick(index)}
+                clicked={index === selectedIndex}
+              >
+                <Title>{id}</Title>:<Title>{title}</Title>
+              </ButtonCommon>
+            </Col>
+          ))}
         </Problems>
       </ModalCommon>
     </Wrapper>
