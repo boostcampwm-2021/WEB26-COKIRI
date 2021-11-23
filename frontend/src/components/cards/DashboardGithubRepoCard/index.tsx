@@ -14,10 +14,10 @@ interface Props {
 
 function DashBoardGithubRepoCard({ username }: Props) {
   const user = useRecoilValue(userAtom);
-  const hidden = user.username !== username;
+  const isMe = user.username === username;
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <GitHubRepoAddButton hidden={hidden} />
+      {isMe && <GitHubRepoAddButton />}
       깃헙 레포
     </CardCommon>
   );

@@ -16,7 +16,7 @@ interface Props {
 
 function DashboardHistoryCard({ username }: Props) {
   const user = useRecoilValue(userAtom);
-  const hidden = user.username !== username;
+  const isMe = user.username === username;
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
       <History>
@@ -27,7 +27,7 @@ function DashboardHistoryCard({ username }: Props) {
         <HorizentalLine />
         <p>example history</p>
       </History>
-      <HistoryAddButton hidden={hidden} />
+      {isMe && <HistoryAddButton />}
     </CardCommon>
   );
 }

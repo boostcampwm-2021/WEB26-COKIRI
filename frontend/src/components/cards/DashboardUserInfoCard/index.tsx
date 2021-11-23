@@ -31,7 +31,7 @@ interface Props {
 
 function DashBoardUserInfoCard({ username }: Props) {
   const user = useRecoilValue(userAtom);
-  const hidden = user.username !== username;
+  const isMe = user.username === username;
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
@@ -92,12 +92,14 @@ function DashBoardUserInfoCard({ username }: Props) {
             </Col>
           </Row>
         </Col>
-        <UserInfoSettingButton hidden={hidden} />
+        {isMe && <UserInfoSettingButton />}
       </Row>
     </CardCommon>
   );
 }
+
 DashBoardUserInfoCard.propTypes = {
   username: PropTypes.string.isRequired,
 };
+
 export default DashBoardUserInfoCard;
