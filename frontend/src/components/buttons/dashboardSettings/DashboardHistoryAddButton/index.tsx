@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { BsPlusCircle } from 'react-icons/bs';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import HistoryAddModal from 'src/components/modals/HistoryAddModal';
+import DashboardHistoryAddModal from 'src/components/modals/DashboardHistoryAddModal';
 
-function HistoryAddButton() {
+function DashboardHistoryAddButton() {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const switchIsModalShow = () => {
@@ -15,10 +15,10 @@ function HistoryAddButton() {
     <DashboardSettingCommon
       icon={<BsPlusCircle />}
       isModalShow={isModalShow}
-      modal={<HistoryAddModal onClose={switchIsModalShow} />}
+      modal={<DashboardHistoryAddModal onClose={switchIsModalShow} />}
       onClick={switchIsModalShow}
     />
   );
 }
 
-export default HistoryAddButton;
+export default DashboardHistoryAddButton;

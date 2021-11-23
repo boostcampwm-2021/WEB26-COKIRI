@@ -11,7 +11,7 @@ import { BsPencil } from 'react-icons/bs';
 
 import CardCommon from 'src/components/cards/Common';
 import ProfileImage from 'src/components/images/ProfileImage';
-import UserInfoSettingButton from 'src/components/buttons/dashboardSettings/UserInfoSettingButton';
+import DashboardUserInfoSettingButton from 'src/components/buttons/dashboardSettings/DashboardUserInfoSettingButton';
 import { Row, Col } from 'src/components/Grid';
 
 import {
@@ -109,7 +109,7 @@ function DashboardUserInfoCard({
             </Col>
           </Row>
         </Col>
-        {isMe && <UserInfoSettingButton />}
+        {isMe && <DashboardUserInfoSettingButton />}
       </Row>
       <p>{bio}</p>
     </CardCommon>

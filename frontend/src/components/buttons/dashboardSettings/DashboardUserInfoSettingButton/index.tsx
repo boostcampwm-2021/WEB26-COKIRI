@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { BsPlusCircle } from 'react-icons/bs';
+import { IoSettingsOutline } from 'react-icons/io5';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import RepoAddModal from 'src/components/modals/RepoAddModal';
+import DashboardUserInfoSettingModal from 'src/components/modals/DashboardUserInfoSettingModal';
 
-function RepoAddButton() {
+function DashboardUserInfoSettingButton() {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const switchIsModalShow = () => {
@@ -13,12 +13,12 @@ function RepoAddButton() {
 
   return (
     <DashboardSettingCommon
-      icon={<BsPlusCircle />}
+      icon={<IoSettingsOutline />}
       isModalShow={isModalShow}
-      modal={<RepoAddModal onClose={switchIsModalShow} />}
+      modal={<DashboardUserInfoSettingModal onClose={switchIsModalShow} />}
       onClick={switchIsModalShow}
     />
   );
 }
 
-export default RepoAddButton;
+export default DashboardUserInfoSettingButton;
