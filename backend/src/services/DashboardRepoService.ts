@@ -22,6 +22,11 @@ class DashboardRepoService {
         }
       });
     });
+
+    if (Object.keys(temp).length === 0) {
+      return {};
+    }
+
     const result = Calculate.calculateLanguage(temp);
     return result;
   }
