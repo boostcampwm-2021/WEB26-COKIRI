@@ -29,7 +29,7 @@ interface Props {
   post: PostType;
 }
 
-function DetailPost({ post }: Props) {
+function PostDetail({ post }: Props) {
   const router = useRouter();
   const [comments, setComments] = useState<CommentType[]>(post.comments!);
   const [likeCount, setLikeCount] = useState(post.likes!.length);
@@ -87,8 +87,8 @@ function DetailPost({ post }: Props) {
   );
 }
 
-DetailPost.propTypes = {
+PostDetail.propTypes = {
   post: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default DetailPost;
+export default PostDetail;

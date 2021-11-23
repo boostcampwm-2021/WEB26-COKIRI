@@ -63,6 +63,7 @@ function UserInfoCard({ targetUser }: Props) {
               count={isMe ? user.followers!.length! : followerCount!}
               targetUserID={_id!}
             />
+            <NavigateIconButton href={`/users/${username}/dashboard`}>Dashboard</NavigateIconButton>
           </Row>
           <Row>
             <p>{name}</p>

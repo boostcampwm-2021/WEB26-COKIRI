@@ -1,7 +1,6 @@
 import Head from 'next/head';
 
-import DetailPost from 'src/components/DetailPost';
-
+import PostDetail from 'src/components/PostDetail';
 import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
@@ -22,7 +21,7 @@ function Post({ post }: Props) {
         <link rel='icon' href={FAVICON} />
       </Head>
 
-      <DetailPost post={post} />
+      <PostDetail post={post} />
     </>
   );
 }

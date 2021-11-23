@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 interface Props {
   size: number;
+  marginRight: number;
 }
 
 const Wrapper = styled.div<Props>`
@@ -10,6 +11,7 @@ const Wrapper = styled.div<Props>`
   img {
     border-radius: ${({ size }) => size / 2}px;
   }
+  margin-right: ${({ marginRight }) => marginRight}px;
 `;
 
 // eslint-disable-next-line import/prefer-default-export

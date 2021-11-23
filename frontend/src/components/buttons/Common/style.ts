@@ -39,6 +39,8 @@ const Button = styled.button<Props>`
     justify-content: center;
     align-items: center;
     border-radius: 50px;
+    width: 100%;
+    height: 100%;
   }
 `;
 

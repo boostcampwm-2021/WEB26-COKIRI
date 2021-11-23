@@ -33,6 +33,10 @@ const global = (theme: ThemeType) => css`
   img {
     object-fit: cover;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default global;

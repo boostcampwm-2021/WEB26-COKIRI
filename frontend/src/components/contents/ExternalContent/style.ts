@@ -50,7 +50,6 @@ const LinkButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
 
   &:hover {
     border: 1px solid;
