@@ -8,11 +8,12 @@ import DashboardUserInfoSettingModal from 'src/components/modals/DashboardUserIn
 import { DashboardUserInfoType } from 'src/types';
 
 interface Props {
+  dashboardUserInfo: DashboardUserInfoType;
   // eslint-disable-next-line no-unused-vars
   onEditDashboardUserInfo: (newDashboardUserInfo: DashboardUserInfoType) => void;
 }
 
-function DashboardUserInfoSettingButton({ onEditDashboardUserInfo }: Props) {
+function DashboardUserInfoSettingButton({ dashboardUserInfo, onEditDashboardUserInfo }: Props) {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const switchIsModalShow = () => {
@@ -26,6 +27,7 @@ function DashboardUserInfoSettingButton({ onEditDashboardUserInfo }: Props) {
       modal={
         <DashboardUserInfoSettingModal
           onEditDashboardUserInfo={onEditDashboardUserInfo}
+          dashboardUserInfo={dashboardUserInfo}
           onClose={switchIsModalShow}
         />
       }

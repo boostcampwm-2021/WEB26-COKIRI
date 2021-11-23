@@ -44,17 +44,12 @@ function Dashboard({ data, username }: Props) {
         <Col alignItems='center'>
           <Row>
             <DashboardUserInfoCard
-              name={dashboardUserInfo.name!}
-              phoneNumber={dashboardUserInfo.phoneNumber!}
-              birthday={dashboardUserInfo.birthday!}
-              email={dashboardUserInfo.email!}
-              region={dashboardUserInfo.region!}
-              school={dashboardUserInfo.school!}
+              dashboardUserInfo={dashboardUserInfo}
               targetUserName={username}
               onEditDashboardUserInfo={handleEditDashboardUserInfo}
             />
             <DashboardLinkCard
-              jobObjectives={dashboardUserInfo.jobObjectives!}
+              jobObjectives={dashboardUserInfo.jobObjectives}
               github={dashboardUserInfo.github!}
               blog={dashboardUserInfo.blog!}
             />

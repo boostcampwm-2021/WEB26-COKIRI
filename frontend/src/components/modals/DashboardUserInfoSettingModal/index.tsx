@@ -21,29 +21,36 @@ import { Label, ImageHolder, ImageCover } from './style';
 
 interface Props {
   onClose: () => void;
+  dashboardUserInfo: DashboardUserInfoType;
   // eslint-disable-next-line no-unused-vars
   onEditDashboardUserInfo: (newDashboardUserInfo: DashboardUserInfoType) => void;
 }
 
-function DashboardUserInfoSettingModal({ onClose, onEditDashboardUserInfo }: Props) {
+function DashboardUserInfoSettingModal({
+  onClose,
+  dashboardUserInfo,
+  onEditDashboardUserInfo,
+}: Props) {
   const user = useRecoilValue(userAtom);
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [region, setRegion] = useState('');
-  const [bio, setBio] = useState('');
-  const [school, setSchool] = useState('');
-  const [email, setEmail] = useState('');
-  const [github, setGitHub] = useState('');
-  const [blog, setBlog] = useState('');
-  const [solvedac, setSolvedac] = useState('');
-  const [profileImage, setProfileImage] = useState(DEFAULT_PROFILE_IMAGE);
+  const [name, setName] = useState(dashboardUserInfo.name ?? '');
+  const [phoneNumber, setPhoneNumber] = useState(dashboardUserInfo.phoneNumber ?? '');
+  const [birthday, setBirthday] = useState(dashboardUserInfo.birthday ?? '');
+  const [region, setRegion] = useState(dashboardUserInfo.region ?? '');
+  const [bio, setBio] = useState(dashboardUserInfo.bio ?? '');
+  const [school, setSchool] = useState(dashboardUserInfo.school ?? '');
+  const [email, setEmail] = useState(dashboardUserInfo.email ?? '');
+  const [github, setGitHub] = useState(dashboardUserInfo.github ?? '');
+  const [blog, setBlog] = useState(dashboardUserInfo.blog ?? '');
+  const [solvedac, setSolvedac] = useState(dashboardUserInfo.solvedac ?? '');
+  const [profileImage, setProfileImage] = useState(
+    dashboardUserInfo.profileImage ?? DEFAULT_PROFILE_IMAGE,
+  );
   // const [jobObjectives, setJobObjectives] = useState([]);
   // const [techStacks, setTechStacks] = useState<{ [field: string]: StackType[] }>([]);
 
   const { mutate } = useMutation(
-    () =>
-      Fetcher.putDashboardUserInfo(user, {
+    () => {
+      const newDashboardUserInfo: DashboardUserInfoType = {
         name,
         phoneNumber,
         birthday,
@@ -51,21 +58,44 @@ function DashboardUserInfoSettingModal({ onClose, onEditDashboardUserInfo }: Pro
         bio,
         school,
         email,
-        github,
-        blog,
         solvedac,
         profileImage,
         jobObjectives: [],
         techStacks: {},
-      }),
-    { onSuccess: ({ data }) => onEditDashboardUserInfo(data!) },
+      };
+      if (github) {
+        newDashboardUserInfo.github = github;
+      }
+      if (blog) {
+        newDashboardUserInfo.blog = blog;
+      }
+      return Fetcher.putDashboardUserInfo(user, newDashboardUserInfo);
+    },
+    {
+      onSuccess: ({ data }) => {
+        console.log(data);
+        onEditDashboardUserInfo(data!);
+      },
+    },
   );
 
   const handleImageUpload = (url: string) => {
     setProfileImage(url);
   };
+
+  const handleConfirm = () => {
+    mutate();
+    onClose();
+  };
+
   return (
-    <ModalCommon width={1200} onConfirm={mutate} onClose={onClose} confirm='저장' close='취소'>
+    <ModalCommon
+      width={1200}
+      onConfirm={handleConfirm}
+      onClose={onClose}
+      confirm='저장'
+      close='취소'
+    >
       <ImageHolder>
         <ImageInput onImageUpload={handleImageUpload}>
           <ImageCover>변경</ImageCover>
@@ -76,31 +106,31 @@ function DashboardUserInfoSettingModal({ onClose, onEditDashboardUserInfo }: Pro
         <Col>
           <Row>
             <Label>name</Label>
-            <InputCommon bind={[name, setName]} placeholder='' />
+            <InputCommon bind={[name, setName]} placeholder={name} />
           </Row>
           <Row>
             <Label>birthday</Label>
-            <InputCommon bind={[birthday, setBirthday]} placeholder='' />
+            <InputCommon bind={[birthday, setBirthday]} placeholder={birthday} />
           </Row>
           <Row>
             <Label>region</Label>
-            <InputCommon bind={[region, setRegion]} placeholder='' />
+            <InputCommon bind={[region, setRegion]} placeholder={region} />
           </Row>
           <Row>
             <Label>phone number</Label>
-            <InputCommon bind={[phoneNumber, setPhoneNumber]} placeholder='' />
+            <InputCommon bind={[phoneNumber, setPhoneNumber]} placeholder={phoneNumber} />
           </Row>
           <Row>
             <Label>email</Label>
-            <InputCommon bind={[email, setEmail]} placeholder='' />
+            <InputCommon bind={[email, setEmail]} placeholder={email} />
           </Row>
           <Row>
             <Label>school</Label>
-            <InputCommon bind={[school, setSchool]} placeholder='' />
+            <InputCommon bind={[school, setSchool]} placeholder={school} />
           </Row>
           <Row>
             <Label>bio</Label>
-            <InputCommon bind={[bio, setBio]} placeholder='' />
+            <InputCommon bind={[bio, setBio]} placeholder={bio} />
           </Row>
         </Col>
         <Col>
@@ -110,15 +140,15 @@ function DashboardUserInfoSettingModal({ onClose, onEditDashboardUserInfo }: Pro
           </Row>
           <Row>
             <Label>GitHub</Label>
-            <InputCommon bind={[github, setGitHub]} placeholder='' />
+            <InputCommon bind={[github, setGitHub]} placeholder={github} />
           </Row>
           <Row>
             <Label>blog</Label>
-            <InputCommon bind={[blog, setBlog]} placeholder='' />
+            <InputCommon bind={[blog, setBlog]} placeholder={blog} />
           </Row>
           <Row>
             <Label>solved.ac</Label>
-            <InputCommon bind={[solvedac, setSolvedac]} placeholder='' />
+            <InputCommon bind={[solvedac, setSolvedac]} placeholder={solvedac} />
           </Row>
           <Row>
             <Label>tech stacks</Label>
@@ -132,6 +162,7 @@ function DashboardUserInfoSettingModal({ onClose, onEditDashboardUserInfo }: Pro
 
 DashboardUserInfoSettingModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  dashboardUserInfo: PropTypes.objectOf(PropTypes.any).isRequired,
   onEditDashboardUserInfo: PropTypes.func.isRequired,
 };
 
