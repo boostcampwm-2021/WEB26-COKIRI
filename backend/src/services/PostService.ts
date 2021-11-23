@@ -48,16 +48,19 @@ class PostService {
     ]);
 
     const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
-
     return { posts: await this.findPosts(randomPosts), postCount };
   }
 
-  async findUserTimeline(userID: string) {
+  async findUserTimeline(userID: string, cursor: number) {
     const posts = await Post.find({ userID })
       .sort({ createdAt: -1 })
+      .skip(cursor)
+      .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.findPosts(posts);
+
+    const postCount = await Post.countDocuments({ userID });
+    return { posts: await this.findPosts(posts), postCount };
   }
 
   async findTimeline(userID: string, cursor: number) {

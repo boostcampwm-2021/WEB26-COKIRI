@@ -105,8 +105,26 @@ export default class UsersRouter {
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID } = request.params;
-    const userPosts = await PostService.findUserTimeline(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: userPosts });
+    let { cursor } = request.query;
+    if (!cursor) {
+      cursor = '0';
+    }
+
+    const { posts, postCount } = await PostService.findUserTimeline(userID, +cursor!);
+
+    const data: { code: string; nextCursor: any; data: any } = {
+      code: RESPONSECODE.SUCCESS,
+      nextCursor: +cursor! + PERPAGE,
+      data: posts,
+    };
+
+    if (+cursor! + 1 >= postCount) {
+      delete data.nextCursor;
+    } else if (data.nextCursor > postCount) {
+      data.nextCursor = postCount - 1;
+    }
+
+    return response.json({ code: RESPONSECODE.SUCCESS, data });
   }
 
   @Get('/:userID/settings')
