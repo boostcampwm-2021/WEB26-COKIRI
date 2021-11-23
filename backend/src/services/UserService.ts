@@ -164,18 +164,6 @@ class UserService {
   }
 
   async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
-    Object.values(dashboard.techStacks as object).forEach((stackList: []) => {
-      Promise.all(
-        stackList.map(async (v: any) => {
-          const isExistStack = await TechStack.exists({ _id: v._id });
-          if (!isExistStack) {
-            throw new Error(ERROR.NOT_EXIST_TECHSTACK);
-          }
-        }),
-      ).catch((err) => {
-        console.log(err);
-      });
-    });
     return User.updateOne({ _id: userID }, { dashboard }, { runValidators: true, new: true });
   }
 
