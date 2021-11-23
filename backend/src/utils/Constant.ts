@@ -51,7 +51,8 @@ export const OPENAPIURL = {
   TISTORY_POSTS: 'https://www.tistory.com/apis/post/list',
   TISTORY_POST_READ: 'https://www.tistory.com/apis/post/read',
   TISTORY_INFO: 'https://www.tistory.com/apis/blog/info',
-  GIT_REPOLIST_API: (username: string) => `https://api.github.com/users/${username}/repos`,
+  GIT_REPOLIST_API: (username: string) =>
+    `https://api.github.com/users/${username}/repos?per_page=100`,
   GIT_REPOINFO_API: (githubUsername: string, repoName: string) =>
     `https://api.github.com/repos/${githubUsername}/${repoName}`,
   GIT_REPOREADME_API: (githubUsername: string, repoName: string) =>
