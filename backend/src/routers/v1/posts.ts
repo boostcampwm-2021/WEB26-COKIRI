@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { ERROR, RESPONSECODE, PERPAGE } from 'src/utils';
+import { ERROR, RESPONSECODE, PERPAGE, RouterFunc } from 'src/utils';
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 
 @Controller('/posts')
@@ -10,25 +10,20 @@ export default class PostsRouter {
   @Get('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID } = request.query;
-    let { cursor } = request.query;
-    if (!cursor) {
-      cursor = '0';
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    let cursor: number;
+    if (!cursorTemp) {
+      cursor = 0;
+    } else {
+      cursor = +cursorTemp;
     }
+
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const { posts, postCount } = await PostService.findTimeline(userID as string, +cursor!);
-    const data: { code: string; nextCursor: any; data: any } = {
-      code: RESPONSECODE.SUCCESS,
-      nextCursor: +cursor! + PERPAGE,
-      data: posts,
-    };
-    if (+cursor! + 1 >= postCount) {
-      delete data.nextCursor;
-    } else if (data.nextCursor > postCount) {
-      data.nextCursor = postCount - 1;
-    }
+
+    const { posts, postCount } = await PostService.findTimeline(userID as string, cursor);
+    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
 

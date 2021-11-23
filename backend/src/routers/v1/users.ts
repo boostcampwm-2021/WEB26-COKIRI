@@ -114,7 +114,7 @@ export default class UsersRouter {
 
     const { posts, postCount } = await PostService.findUserTimeline(userID, cursor);
     const data = RouterFunc.makeCursorData(posts, postCount, cursor);
-    return response.json({ ...data });
+    return response.json(data);
   }
 
   @Get('/:userID/settings')
