@@ -10,6 +10,7 @@ import {
   RepoType,
   ProblemType,
   DashboardUserInfoType,
+  ExternalType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -117,7 +118,7 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getUserRepo(user: UserType, repoName: string): Promise<RepoType> {
+  static async getUserRepo(user: UserType, repoName: string): Promise<ExternalType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${user._id}/repositories/${repoName}`,
       {
@@ -137,10 +138,15 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getProblemSearch(query: string): Promise<ProblemType[]> {
+  static async getProblems(query: string): Promise<ProblemType[]> {
     const result = await axios.get(`${baseURL}/${version}/problems`, {
       params: { query },
     });
+    return result.data.data;
+  }
+
+  static async getProblem(id: string): Promise<ExternalType> {
+    const result = await axios.get(`${baseURL}/${version}/problems/${id}`);
     return result.data.data;
   }
 
@@ -153,10 +159,11 @@ class Fetcher {
     user: UserType,
     content: string,
     images: string[],
+    external?: ExternalType,
   ): Promise<ReturnType<PostType>> {
     const result = await axios.post(
       `${baseURL}/${version}/posts`,
-      { userID: user._id, content, images },
+      { userID: user._id, content, images, external },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
