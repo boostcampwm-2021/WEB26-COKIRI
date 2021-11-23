@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 
 import ModalCommon from 'src/components/modals/Common';
 import InputCommon from 'src/components/inputs/Common';
-
 import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -23,18 +22,15 @@ function RegisterModal() {
   const handleOnConfirm = useCallback(() => mutation.mutate(), [mutation]);
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {isModalShow && (
-        <ModalCommon onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
-          <Col alignItems='center'>
-            <p>회원가입에 필요한 절차에요</p>
-            <p>username을 알려주세요~</p>
-            <InputCommon bind={[username, setUsername]} />
-          </Col>
-        </ModalCommon>
-      )}
-    </>
+    isModalShow && (
+      <ModalCommon onConfirm={handleOnConfirm} close='로그아웃' confirm='확인'>
+        <Col alignItems='center'>
+          <p>회원가입에 필요한 절차에요</p>
+          <p>username을 알려주세요~</p>
+          <InputCommon bind={[username, setUsername]} />
+        </Col>
+      </ModalCommon>
+    )
   );
 }
 
