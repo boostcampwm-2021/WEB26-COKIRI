@@ -105,12 +105,7 @@ export default class UsersRouter {
   @Get('/:userID/posts')
   async getUserPosts(@Req() request: Request, @Res() response: Response) {
     const { userID, cursor: cursorTemp } = request.params;
-    let cursor: number;
-    if (!cursorTemp) {
-      cursor = 0;
-    } else {
-      cursor = +cursorTemp;
-    }
+    const cursor = Cursor.setCursor(cursorTemp as any);
 
     const { posts, postCount } = await PostService.findUserTimeline(userID, cursor);
     const data = Cursor.makeCursorData(posts, postCount, cursor);

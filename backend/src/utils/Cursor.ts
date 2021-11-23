@@ -7,6 +7,13 @@ interface CursorDataType {
 }
 
 class Cursor {
+  setCursor(cursorTemp: string | undefined): number {
+    if (!cursorTemp) {
+      return 0;
+    }
+    return +cursorTemp;
+  }
+
   makeCursorData(posts: object, postCount: number, cursor: number): CursorDataType {
     const data: CursorDataType = {
       code: RESPONSECODE.SUCCESS,

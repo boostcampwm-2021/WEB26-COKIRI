@@ -11,12 +11,7 @@ export default class PostsRouter {
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID, cursor: cursorTemp } = request.query;
-    let cursor: number;
-    if (!cursorTemp) {
-      cursor = 0;
-    } else {
-      cursor = +cursorTemp;
-    }
+    const cursor = Cursor.setCursor(cursorTemp as any);
 
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
@@ -30,14 +25,9 @@ export default class PostsRouter {
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID, cursor: cursorTemp } = request.query;
-    let cursor: number;
-    if (!cursorTemp) {
-      cursor = 0;
-    } else {
-      cursor = +cursorTemp;
-    }
+    const cursor = Cursor.setCursor(cursorTemp as any);
 
-    const { posts, postCount } = await PostService.findRandomPost(userID, +cursor);
+    const { posts, postCount } = await PostService.findRandomPost(userID, cursor);
     const data = Cursor.makeCursorData(posts, postCount, cursor);
     return response.json(data);
   }
