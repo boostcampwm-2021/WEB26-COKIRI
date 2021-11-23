@@ -75,8 +75,16 @@ export default class UsersRouter {
       UserService.findOneUserForID(request.user!.userID),
       FollowService.findFollowsID(request.user!.userID),
       FollowService.findFollowersID(request.user!.userID),
+      BlogService.existsBlog(request.user!.userID),
     ]);
-    const result = { ...results[0], follows: results[1], followers: results[2] };
+    const result = {
+      ...results[0],
+      follows: results[1],
+      followers: results[2],
+      hasExternalGithub: !!results[0].githubUsername,
+      hasExternalBlog: results[3],
+    };
+    delete result.githubUsername;
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 

@@ -144,7 +144,6 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await PostLikeService.removePostLike(userID, postID, likeID);
     const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
     if (!deletedCount) {
       throw new Error(ERROR.NOT_EXIST_POST_LIKE);
