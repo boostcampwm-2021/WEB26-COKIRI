@@ -1,6 +1,8 @@
 import { Radar } from 'react-chartjs-2';
 
-import { theme } from 'src/styles';
+import { RADAR_CHART_WIDTH, RADAR_CHART_HEIGHT } from 'src/globals/constants';
+
+import { options } from 'src/utils';
 
 function RadarChart() {
   const data = {
@@ -19,19 +21,15 @@ function RadarChart() {
       },
     ],
   };
-  const options = {
-    maintainAspectRatio: false,
-    scales: {
-      r: {
-        ticks: {
-          color: '#ffffff',
-          backdropColor: theme.colors.background,
-        },
-      },
-    },
-  };
 
-  return <Radar data={data} width={30} height={30} options={options} />;
+  return (
+    <Radar
+      data={data}
+      width={RADAR_CHART_WIDTH}
+      height={RADAR_CHART_HEIGHT}
+      options={options.RadarOptions}
+    />
+  );
 }
 
 export default RadarChart;
