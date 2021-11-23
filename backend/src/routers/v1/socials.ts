@@ -47,6 +47,7 @@ export default class SocialsRouter {
 
   @Get('/kakao/callback')
   @UseBefore(passport.authenticate('kakao', { session: false }))
+  @Redirect('/')
   getKakaoCallback(@Req() request: Request, @Res() response: Response) {
     const accessToken = JWT.createAccessToken(request.user!);
     const cookieOptions = {
@@ -99,18 +100,18 @@ export default class SocialsRouter {
   @Redirect('/')
   async getGithubCallback(@Req() request: Request, @Res() response: Response) {
     const { id: authProviderID, username: githubUsername } = request.user as any;
-    const userID = (request.query?.state as string).trim();
+    const userID = request.query?.state as string;
 
     const userIsExist = userID ? await UserService.existGithubUser(userID as string) : false;
     if (userIsExist) {
       UserService.updateGithubUserInfo(userID as string, { githubUsername });
     } else {
-      UserService.findOrCreateUserForProvider({
+      const user = await UserService.findOrCreateUserForProvider({
         authProvider: 'github',
         authProviderID,
         githubUsername,
       });
-      const accessToken = JWT.createAccessToken(request.user!);
+      const accessToken = JWT.createAccessToken(user);
 
       const cookieOptions = {
         maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
