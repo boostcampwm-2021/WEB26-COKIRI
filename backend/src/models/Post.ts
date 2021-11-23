@@ -12,12 +12,6 @@ const postSchema = new Schema<PostType>(
       type: [{ type: Types.ObjectId, ref: 'Tag', required: true, validate: Validate.tagObjectID }],
       default: [],
     },
-    type: {
-      type: String,
-      enum: ['normal', 'external'],
-      required: true,
-      default: 'normal',
-    },
     external: {
       title: { type: String, trim: true },
       content: { type: String, trim: true, require: true },

@@ -107,7 +107,6 @@ export interface PostType {
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  type?: 'normal' | 'external';
   external?: {
     title: string;
     content: string;
