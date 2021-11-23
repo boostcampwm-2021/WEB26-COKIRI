@@ -216,6 +216,13 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
+  @Get('/:userID/dashboard/repositories/languages')
+  async getDashboardReposLanguage(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.params;
+    const result = await DashboardRepoService.readDashboardReposLanguage(userID);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: result });
+  }
+
   @Post('/:userID/follows')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putUserFollows(@Req() request: Request, @Res() response: Response) {

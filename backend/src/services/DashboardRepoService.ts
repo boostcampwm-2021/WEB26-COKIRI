@@ -1,5 +1,5 @@
 import { DashboardRepository, User } from 'src/models';
-import { Calculate } from 'src/utils';
+import { Calculate, ERROR } from 'src/utils';
 
 class DashboardRepoService {
   async createDashboardRepo(userID: string, repoData: object) {
@@ -11,7 +11,11 @@ class DashboardRepoService {
   }
 
   async readDashboardReposLanguage(userID: string) {
-    return User.findOne({ _id: userID }, 'statistics.reposLanguage -_id');
+    const result = await User.findOne({ _id: userID }, 'dashboard.statistics.reposLanguage -_id');
+    if (!result) {
+      throw new Error(ERROR.NOT_EXIST_USER);
+    }
+    return result?.dashboard?.statistics?.reposLanguage;
   }
 
   async updateDashboardReposLanguage(userID: string) {
