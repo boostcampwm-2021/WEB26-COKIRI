@@ -48,9 +48,13 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('kakao', { session: false }))
   @Redirect('/')
   getKakaoCallback(@Req() request: Request, @Res() response: Response) {
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
     const accessToken = Authorization.createAccessJWT(request.user!);
     response.cookie('jwt', accessToken, Authorization.cookieOptions);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/tistory')
@@ -64,7 +68,7 @@ export default class SocialsRouter {
         client_id: process.env.TISTORY_CLIENT_ID,
         redirect_uri: process.env.TISTORY_CALLBACK_URL,
         response_type: 'code',
-        state: redirectURI,
+        state: Authorization.createEncodeOauthState({ redirectURI, userID: request.user!.userID }),
       })}`,
     });
   }
@@ -73,9 +77,15 @@ export default class SocialsRouter {
   @Redirect('/')
   async getTistoryCallback(@Req() request: Request, @Res() response: Response) {
     const { code } = request.query;
-    await TistoryService.updateOneUserAccessToken(code as string, request.user!.userID);
-    await TistoryService.updateOneUserBlogURL(request.user!.userID);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
+    await Promise.all([
+      TistoryService.updateOneUserAccessToken(code as string, state.userID),
+      TistoryService.updateOneUserBlogURL(state.userID),
+    ]);
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/github')
