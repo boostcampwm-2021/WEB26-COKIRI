@@ -53,6 +53,7 @@ function DashboardUserInfoCard({
 }: Props) {
   const user = useRecoilValue(userAtom);
   const isMe = user.username === targetUserName;
+
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
@@ -109,7 +110,9 @@ function DashboardUserInfoCard({
             </Col>
           </Row>
         </Col>
-        {isMe && <DashboardUserInfoSettingButton />}
+        {isMe && (
+          <DashboardUserInfoSettingButton onEditDashboardUserInfo={onEditDashboardUserInfo} />
+        )}
       </Row>
       <p>{bio}</p>
     </CardCommon>

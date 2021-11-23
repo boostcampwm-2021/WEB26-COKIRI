@@ -258,7 +258,7 @@ class Fetcher {
     );
   }
 
-  static async putUserInfo(
+  static async putDashboardUserInfo(
     user: UserType,
     dashboard: DashboardUserInfoType,
   ): Promise<ReturnType<DashboardUserInfoType>> {

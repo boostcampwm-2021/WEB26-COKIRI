@@ -102,6 +102,8 @@ export const DELETE_MODAL_TITLE_HEIGHT = 50;
 
 export const EXTERNAL_MODAL_HEIGHT = 400;
 
+export const DEAULT_MODAL_WIDTH = 384;
+
 // COUNT
 export const SUGGESTION_COUNT = 3;
 

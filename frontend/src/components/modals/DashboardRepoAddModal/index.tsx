@@ -4,13 +4,13 @@ interface Props {
   onClose: () => void;
 }
 
-function HistoryAddModal({ onClose }: Props) {
+function DashboardRepoAddModal({ onClose }: Props) {
   const onHistoryWrite = () => {};
   return (
     <ModalCommon onConfirm={onHistoryWrite} onClose={onClose} confirm='저장' close='취소'>
-      히스토리 추가
+      레포 추가
     </ModalCommon>
   );
 }
 
-export default HistoryAddModal;
+export default DashboardRepoAddModal;
