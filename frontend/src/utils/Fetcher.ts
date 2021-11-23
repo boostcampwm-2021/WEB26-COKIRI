@@ -177,6 +177,13 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getTistoryAuthURL(user: UserType): Promise<string> {
+    const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    return result.data.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,

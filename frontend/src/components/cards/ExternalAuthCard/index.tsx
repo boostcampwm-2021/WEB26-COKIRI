@@ -7,6 +7,7 @@ import { Row } from 'src/components/Grid';
 import { EXTERNAL_AUTH_CARD_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
+import { Fetcher } from 'src/utils';
 
 const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 
@@ -16,8 +17,9 @@ function ExternalAuthCard() {
     window.open(`${url}/v1/socials/github?user_id=${user._id}`, '_self');
   };
 
-  const handleClickBlog = () => {
-    window.open(`${url}/v1/socials/github?user_id=${user._id}`, '_self');
+  const handleClickBlog = async () => {
+    const tistoryAuthURL = await Fetcher.getTistoryAuthURL(user);
+    window.open(tistoryAuthURL, '_self');
   };
 
   return (
