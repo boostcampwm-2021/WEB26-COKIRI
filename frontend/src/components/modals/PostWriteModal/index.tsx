@@ -10,6 +10,7 @@ import PreviewImages from 'src/components/images/PreviewImages';
 import ButtonCommon from 'src/components/buttons/Common';
 import ReposModal from 'src/components/modals/ReposModal';
 import ProblemsModal from 'src/components/modals/ProblemsModal';
+import BlogsModal from 'src/components/modals/BlogsModal';
 import ExternalPreview from 'src/components/ExternalPreview';
 import { Row } from 'src/components/Grid';
 
@@ -17,7 +18,7 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { ExternalType, ProblemType, RepoType } from 'src/types';
+import { BlogType, ExternalType, ProblemType, RepoType } from 'src/types';
 
 import { Textarea, IconHolder } from './style';
 
@@ -36,6 +37,8 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
 
   const [isReposModalShow, setIsReposModalShow] = useState(false);
   const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
+  const [isBlogsModalShow, setIsBlogsModalShow] = useState(false);
+
   const mutation = useMutation(() => Fetcher.postPost(user, content, images, external), {
     onSuccess: () => onPostWrite(),
   });
@@ -51,6 +54,15 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
       setExternalType('repo');
     },
   });
+  const blogMutation = useMutation(
+    (blog: BlogType) => Fetcher.getUserBlog(user, blog.identity, blog.postID),
+    {
+      onSuccess: (blog: ExternalType) => {
+        setExternal(blog);
+        setExternalType('blog');
+      },
+    },
+  );
 
   const handleConfirm = () => {
     mutation.mutate();
@@ -80,8 +92,12 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
 
   const handleClickGithub = () => setIsReposModalShow(true);
   const handleClickProblems = () => setIsProblemsModalShow(true);
+  const handleClickBlogs = () => setIsBlogsModalShow(true);
+
   const handleReposModalClose = () => setIsReposModalShow(false);
   const handleProblemsModalClose = () => setIsProblemsModalShow(false);
+  const handleBlogsModalClose = () => setIsBlogsModalShow(false);
+
   const handleRepoSelect = (repo: RepoType) => {
     repoMutation.mutate(repo.name);
     setIsReposModalShow(false);
@@ -90,6 +106,11 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     problemMutation.mutate(problem.id);
     setIsProblemsModalShow(false);
   };
+  const handleBlogSelect = (blog: BlogType) => {
+    blogMutation.mutate(blog);
+    setIsBlogsModalShow(false);
+  };
+
   return (
     <>
       {isReposModalShow && (
@@ -97,6 +118,9 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
       )}
       {isProblemsModalShow && (
         <ProblemsModal onClose={handleProblemsModalClose} onSelect={handleProblemSelect} />
+      )}
+      {isBlogsModalShow && (
+        <BlogsModal onClose={handleBlogsModalClose} onSelect={handleBlogSelect} />
       )}
       <ModalCommon
         close='취소'
@@ -113,6 +137,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
           </ImageInput>
           <ButtonCommon onClick={handleClickGithub}>깃허브</ButtonCommon>
           <ButtonCommon onClick={handleClickProblems}>백준</ButtonCommon>
+          <ButtonCommon onClick={handleClickBlogs}>블로그</ButtonCommon>
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />
