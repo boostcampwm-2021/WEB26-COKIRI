@@ -1,4 +1,3 @@
-import * as express from 'express';
 import {
   Strategy as JWTStrategy,
   ExtractJwt,

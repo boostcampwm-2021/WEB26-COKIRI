@@ -1,5 +1,6 @@
 import { Strategy as KakaoStrategy } from 'passport-kakao';
 import * as passport from 'passport';
+
 import { UserService } from 'src/services';
 
 export default function passportKakaoLoader() {
