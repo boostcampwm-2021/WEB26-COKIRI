@@ -11,9 +11,6 @@ const Wrapper = styled.div<Props>`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  a {
-    text-decoration: none;
-  }
 `;
 
 // eslint-disable-next-line import/prefer-default-export
