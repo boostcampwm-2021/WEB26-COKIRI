@@ -16,7 +16,6 @@ interface Props {
 
 function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
   const { ref } = useIntersectionObserver(() => {
-    console.log('time');
     onNeedMore!();
   });
 
