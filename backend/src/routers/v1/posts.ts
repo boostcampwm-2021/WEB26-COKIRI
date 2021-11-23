@@ -10,7 +10,11 @@ export default class PostsRouter {
   @Get('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID, cursor } = request.query;
+    const { user_id: userID } = request.query;
+    let { cursor } = request.query;
+    if (!cursor) {
+      cursor = '0';
+    }
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
