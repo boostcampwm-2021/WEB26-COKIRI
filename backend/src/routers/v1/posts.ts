@@ -29,25 +29,17 @@ export default class PostsRouter {
 
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID } = request.query;
-    let { cursor } = request.query;
-    if (!cursor) {
-      cursor = '0';
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    let cursor: number;
+    if (!cursorTemp) {
+      cursor = 0;
+    } else {
+      cursor = +cursorTemp;
     }
+
     const { posts, postCount } = await PostService.findRandomPost(userID, +cursor);
-    const data: { code: string; nextCursor: any; data: any } = {
-      code: RESPONSECODE.SUCCESS,
-      nextCursor: +cursor! + PERPAGE,
-      data: posts,
-    };
-
-    if (+cursor! + 1 >= postCount) {
-      delete data.nextCursor;
-    } else if (data.nextCursor > postCount) {
-      data.nextCursor = postCount - 1;
-    }
-
-    return response.json({ code: RESPONSECODE.SUCCESS, data });
+    const data = RouterFunc.makeCursorData(posts, postCount, cursor);
+    return response.json(data);
   }
 
   @Get('/:postID/likes')
