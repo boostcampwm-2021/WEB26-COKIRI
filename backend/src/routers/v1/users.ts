@@ -193,18 +193,16 @@ export default class UsersRouter {
       code: RESPONSECODE.SUCCESS,
       data: {
         title: result.repoName,
-        external: {
-          type: 'repository',
-          content: result.content,
-          link: result.repoUrl,
-          info: {
-            starCount: result.starCount,
-            forkCount: result.forkCount,
-            language: result.languageInfo,
-          },
-          identity: githubUsername,
-          target: repoName,
+        type: 'repository',
+        content: result.content,
+        link: result.repoUrl,
+        info: {
+          starCount: result.starCount,
+          forkCount: result.forkCount,
+          language: result.languageInfo,
         },
+        identity: githubUsername,
+        target: repoName,
       },
     });
   }
