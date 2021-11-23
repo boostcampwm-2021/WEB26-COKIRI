@@ -15,7 +15,7 @@ export default class SocialsRouter {
     passport.authenticate('google', {
       session: false,
       scope: ['profile'],
-      state: redirectURI,
+      state: Authorization.createEncodeOauthState({ redirectURI }),
     })(request, response);
     return response;
   }
@@ -24,9 +24,13 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('google', { session: false }))
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
     const accessToken = Authorization.createAccessJWT(request.user!);
     response.cookie('jwt', accessToken, Authorization.cookieOptions);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/kakao')
@@ -35,7 +39,7 @@ export default class SocialsRouter {
     const redirectURI: string = (redirectURIQuery as string) || '/';
     passport.authenticate('kakao', {
       session: false,
-      state: redirectURI,
+      state: Authorization.createEncodeOauthState({ redirectURI }),
     })(request, response);
     return response;
   }
@@ -44,9 +48,13 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('kakao', { session: false }))
   @Redirect('/')
   getKakaoCallback(@Req() request: Request, @Res() response: Response) {
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
     const accessToken = Authorization.createAccessJWT(request.user!);
     response.cookie('jwt', accessToken, Authorization.cookieOptions);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/tistory')
@@ -60,7 +68,7 @@ export default class SocialsRouter {
         client_id: process.env.TISTORY_CLIENT_ID,
         redirect_uri: process.env.TISTORY_CALLBACK_URL,
         response_type: 'code',
-        state: redirectURI,
+        state: Authorization.createEncodeOauthState({ redirectURI, userID: request.user!.userID }),
       })}`,
     });
   }
@@ -69,20 +77,27 @@ export default class SocialsRouter {
   @Redirect('/')
   async getTistoryCallback(@Req() request: Request, @Res() response: Response) {
     const { code } = request.query;
-    await TistoryService.updateOneUserAccessToken(code as string, request.user!.userID);
-    await TistoryService.updateOneUserBlogURL(request.user!.userID);
-    return `${process.env.CLIENT_URL}${request.query.state}`;
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
+    await Promise.all([
+      TistoryService.updateOneUserAccessToken(code as string, state.userID),
+      TistoryService.updateOneUserBlogURL(state.userID),
+    ]);
+    return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
   @Get('/github')
   getGithub(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID } = request.query;
+    const { user_id: userID, redirect_uri: redirectURIQuery } = request.query;
+    const redirectURI: string = (redirectURIQuery as string) || '/';
     if (userID && !Types.ObjectId.isValid(userID as string)) {
       throw new Error(ERROR.WRONG_QUERY_TYPE);
     }
     passport.authenticate('github', {
       session: false,
-      state: userID as string,
+      state: Authorization.createEncodeOauthState({ userID, redirectURI }),
     })(request, response);
     return response;
   }
@@ -91,8 +106,13 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('github', { session: false }))
   @Redirect('/')
   async getGithubCallback(@Req() request: Request, @Res() response: Response) {
+    const state = Authorization.getDecodeOauthState(request.query.state as string);
     const { id: authProviderID, username: githubUsername } = request.user as any;
-    const userID = request.query?.state as string;
+    const { userID, redirectURI } = state;
+
+    if (!Authorization.compareOauthState(state)) {
+      return `${process.env.CLIENT_URL}`;
+    }
 
     if (userID && !Types.ObjectId.isValid(userID)) {
       throw new Error(ERROR.WRONG_QUERY_TYPE);
@@ -100,7 +120,7 @@ export default class SocialsRouter {
 
     const userIsExist = userID ? await UserService.existGithubUser(userID) : false;
     if (userIsExist) {
-      UserService.updateGithubUserInfo(userID as string, { githubUsername });
+      UserService.updateGithubUserInfo(userID, { githubUsername });
     } else {
       const user = await UserService.findOrCreateUserForProvider({
         authProvider: 'github',
@@ -111,8 +131,7 @@ export default class SocialsRouter {
 
       response.cookie('jwt', accessToken, Authorization.cookieOptions);
     }
-
-    return `${process.env.CLIENT_URL}`;
+    return `${process.env.CLIENT_URL}${redirectURI}`;
   }
 
   @Get('/velog')

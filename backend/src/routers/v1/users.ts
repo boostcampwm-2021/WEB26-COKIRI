@@ -62,6 +62,7 @@ export default class UsersRouter {
   }
 
   @Get('/logout')
+  @UseBefore(passport.authenticate('jwt', { session: false }))
   @Redirect('/')
   getLogout(@Req() request: Request, @Res() response: Response) {
     response.cookie('jwt', '', Authorization.clearCookieOptions);

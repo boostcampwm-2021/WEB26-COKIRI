@@ -15,6 +15,21 @@ class Authorization {
     domain: process.env.MAIN_DOMAIN,
   };
 
+  getDecodeOauthState(state: string) {
+    if (!state) return {};
+    return JSON.parse(Buffer.from(state, 'base64').toString());
+  }
+
+  createEncodeOauthState(data: object) {
+    return Buffer.from(JSON.stringify({ hash: process.env.OAUTH2_STATE, ...data })).toString(
+      'base64',
+    );
+  }
+
+  compareOauthState({ hash }: { hash: string }) {
+    return hash === process.env.OAUTH2_STATE;
+  }
+
   createAccessJWT(user: Express.User) {
     return jwt.sign(user, process.env.JWT_ACCESS_SECRET!, {
       expiresIn: process.env.JWT_ACCESS_EXPIRE_IN!,
