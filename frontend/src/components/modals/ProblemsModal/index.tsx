@@ -9,7 +9,7 @@ import { Col, Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { PROBLEMS_MODAL_HEIGHT } from 'src/globals/constants';
+import { EXTERNAL_MODAL_HEIGHT } from 'src/globals/constants';
 
 import { ProblemType } from 'src/types';
 
@@ -47,7 +47,7 @@ function ProblemsModal({ onClose, onSelect }: Props) {
         onClose={onClose}
         close='취소'
         confirm='선택'
-        height={PROBLEMS_MODAL_HEIGHT}
+        height={EXTERNAL_MODAL_HEIGHT}
         onConfirm={handleConfirm}
         disabled={selectedIndex === -1}
       >

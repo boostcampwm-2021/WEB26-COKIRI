@@ -100,7 +100,7 @@ export const POST_CONTENT_WIDTH = 575;
 // MODAL
 export const DELETE_MODAL_TITLE_HEIGHT = 50;
 
-export const PROBLEMS_MODAL_HEIGHT = 400;
+export const EXTERNAL_MODAL_HEIGHT = 400;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;
