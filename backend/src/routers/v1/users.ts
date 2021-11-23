@@ -24,7 +24,7 @@ import {
   DashboardHistoryService,
   ProblemService,
 } from 'src/services';
-import { ERROR, RESPONSECODE } from 'src/utils';
+import { Authorization, ERROR, RESPONSECODE } from 'src/utils';
 
 @Controller('/users')
 export default class UsersRouter {
@@ -64,7 +64,7 @@ export default class UsersRouter {
   @Get('/logout')
   @Redirect('/')
   getLogout(@Req() request: Request, @Res() response: Response) {
-    response.clearCookie('jwt');
+    response.cookie('jwt', '', Authorization.clearCookieOptions);
     return `${process.env.CLIENT_URL}`;
   }
 
