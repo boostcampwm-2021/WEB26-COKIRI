@@ -14,12 +14,18 @@ export default class PostsRouter {
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const posts = await PostService.findTimeline(userID as string, +cursor!);
-    return response.json({
+    const { posts, postCount } = await PostService.findTimeline(userID as string, +cursor!);
+    const data: { code: string; nextCursor: any; data: any } = {
       code: RESPONSECODE.SUCCESS,
       nextCursor: +cursor! + PERPAGE,
       data: posts,
-    });
+    };
+    if (+cursor! + 1 >= postCount) {
+      delete data.nextCursor;
+    } else if (data.nextCursor > postCount) {
+      data.nextCursor = postCount;
+    }
+    return response.json(data);
   }
 
   @Get('/random')
