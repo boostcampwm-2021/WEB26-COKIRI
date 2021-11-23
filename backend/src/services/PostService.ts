@@ -52,15 +52,20 @@ class PostService {
   }
 
   async findUserTimeline(userID: string, cursor: number) {
-    const posts = await Post.find({ userID })
+    const postList = await Post.find({ userID })
       .sort({ createdAt: -1 })
       .skip(cursor)
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
 
-    const postCount = await Post.countDocuments({ userID });
-    return { posts: await this.findPosts(posts), postCount };
+    // const postCount = Post.countDocuments({ userID }).exec();
+    // const posts = this.findPosts(postList);
+    const [posts, postCount] = await Promise.all([
+      this.findPosts(postList),
+      Post.countDocuments({ userID }).exec(),
+    ]);
+    return { posts, postCount };
   }
 
   async findTimeline(userID: string, cursor: number) {
