@@ -13,9 +13,10 @@ interface Props {
   close?: string;
   confirm?: string;
   height?: number;
+  disabled?: boolean;
 }
 
-function ModalCommon({ children, onClose, onConfirm, close, confirm, height }: Props) {
+function ModalCommon({ children, onClose, onConfirm, close, confirm, height, disabled }: Props) {
   return (
     <>
       <Background onClick={onClose} />
@@ -25,7 +26,11 @@ function ModalCommon({ children, onClose, onConfirm, close, confirm, height }: P
           <Row>
             <Spacer />
             {close !== '' && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
-            {confirm !== '' && <ButtonCommon onClick={onConfirm}>{confirm}</ButtonCommon>}
+            {confirm !== '' && (
+              <ButtonCommon onClick={onConfirm} disabled={disabled}>
+                {confirm}
+              </ButtonCommon>
+            )}
           </Row>
         </Col>
       </Card>
@@ -40,6 +45,7 @@ ModalCommon.propTyps = {
   close: PropTypes.string,
   confirm: PropTypes.string,
   height: PropTypes.number,
+  disabled: PropTypes.bool,
 };
 
 ModalCommon.defaultProps = {
@@ -48,6 +54,7 @@ ModalCommon.defaultProps = {
   close: '',
   confirm: '',
   height: 0,
+  disabled: false,
 };
 
 export default ModalCommon;

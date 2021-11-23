@@ -15,6 +15,7 @@ interface Props {
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   clicked?: boolean;
+  disabled?: boolean;
 }
 
 function ButtonCommon({
@@ -27,6 +28,7 @@ function ButtonCommon({
   plain,
   hidden,
   clicked,
+  disabled,
 }: Props) {
   return (
     <Button
@@ -38,6 +40,7 @@ function ButtonCommon({
       plain={plain!}
       hidden={hidden!}
       clicked={clicked!}
+      disabled={disabled!}
     >
       {children}
     </Button>
@@ -54,6 +57,7 @@ ButtonCommon.propsType = {
   hidden: PropTypes.bool,
   onClick: PropTypes.func,
   clicked: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 ButtonCommon.defaultProps = {
@@ -65,6 +69,7 @@ ButtonCommon.defaultProps = {
   plain: false,
   onClick: () => {},
   clicked: false,
+  disabled: false,
 };
 
 export default ButtonCommon;

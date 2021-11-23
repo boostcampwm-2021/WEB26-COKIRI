@@ -10,6 +10,7 @@ interface Props {
   plain: boolean;
   hidden: boolean;
   clicked: boolean;
+  disabled: boolean;
 }
 
 const Button = styled.button<Props>`
@@ -21,11 +22,11 @@ const Button = styled.button<Props>`
   margin: ${({ margin }) => (margin ? `${margin}px` : 0)};
   padding: ${({ padding }) => (padding ? `${padding}px` : 0)};
   border-radius: 50px;
-  box-shadow: ${({ clicked, plain }) => {
+  box-shadow: ${({ clicked, disabled, plain }) => {
     if (clicked) {
       return 'inset 4px 4px 8px #3a3a3a, inset -4px -4px 8px #4e4e4e;';
     }
-    if (plain) {
+    if (plain || disabled) {
       return 'unset';
     }
     return '5px 5px 10px #3a3a3a, -5px -5px 10px #4e4e4e';
