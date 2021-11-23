@@ -17,19 +17,13 @@ function ExternalContent({ external }: Props) {
   const handleMoreClick = () => {
     setIsExpand(true);
   };
-  const handleLinkClick = () => {};
 
   return (
     <Wrapper expanded={isExpand}>
       <Cover hidden={isExpand} />
       {!isExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
       {!isExpand && (
-        <LinkButton
-          onClick={handleLinkClick}
-          href={external.link}
-          target='_blank'
-          rel='noreferrer noopener'
-        >
+        <LinkButton href={external.link} target='_blank' rel='noreferrer noopener'>
           바로가기
         </LinkButton>
       )}
