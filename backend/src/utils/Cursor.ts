@@ -21,10 +21,8 @@ class Cursor {
       data: posts,
     };
 
-    if (cursor + 1 >= postCount) {
+    if (data.nextCursor! >= postCount) {
       delete data.nextCursor;
-    } else if (data.nextCursor! > postCount) {
-      data.nextCursor = postCount - 1;
     }
     return data;
   }
