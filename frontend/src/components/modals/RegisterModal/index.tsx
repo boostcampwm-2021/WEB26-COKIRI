@@ -8,19 +8,19 @@ import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import userAtom, { isRegisteredSelector } from 'src/recoil/user';
+import userAtom, { isAuthenticatedSelector, isRegisteredSelector } from 'src/recoil/user';
 
 function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
   const isRegistered = useRecoilValue(isRegisteredSelector);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const [username, setUsername] = useState('');
   const putUserSettings = () => Fetcher.putUserSettings(user, { username });
   const mutation = useMutation(putUserSettings, {
     onSuccess: () => setUser({ ...user, isRegistered: true, username }),
   });
   const handleOnConfirm = useCallback(() => mutation.mutate(), [mutation]);
-
-  if (isRegistered) {
+  if (!isAuthenticated || isRegistered) {
     return null;
   }
   return (
