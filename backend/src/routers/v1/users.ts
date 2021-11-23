@@ -21,10 +21,10 @@ import {
   NotifyService,
   FollowService,
   DashboardRepoService,
+  DashboardHistoryService,
+  ProblemService,
 } from 'src/services';
 import { ERROR, RESPONSECODE } from 'src/utils';
-import DashboardHistoryService from 'src/services/DashboardHistoryService';
-import ProblemService from 'src/services/ProblemService';
 
 @Controller('/users')
 export default class UsersRouter {
