@@ -13,7 +13,7 @@ import { PROBLEMS_MODAL_HEIGHT } from 'src/globals/constants';
 
 import { ProblemType } from 'src/types';
 
-import { Wrapper, Problems, Title } from './style';
+import { Wrapper, Problems } from './style';
 
 interface Props {
   // eslint-disable-next-line no-unused-vars
@@ -62,7 +62,7 @@ function ProblemsModal({ onClose, onSelect }: Props) {
                 onClick={() => handleProblemClick(index)}
                 clicked={index === selectedIndex}
               >
-                <Title>{id}</Title>:<Title>{title}</Title>
+                {id}:{title}
               </ButtonCommon>
             </Col>
           ))}
