@@ -9,6 +9,8 @@ import RepoType from './repo';
 import ProblemType from './problem';
 import ExternalType from './external';
 import { RepoInfoType, ProblemInfoType } from './info';
+import StackType from './stack';
+import { DashboardReturnType, DashboardType } from './dashboard';
 
 export type {
   UserType,
@@ -23,4 +25,7 @@ export type {
   ExternalType,
   RepoInfoType,
   ProblemInfoType,
+  StackType,
+  DashboardReturnType,
+  DashboardType,
 };

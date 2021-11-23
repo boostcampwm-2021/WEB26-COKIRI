@@ -9,6 +9,7 @@ import {
   CommentType,
   RepoType,
   ProblemType,
+  DashboardReturnType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -140,6 +141,11 @@ class Fetcher {
     const result = await axios.get(`${baseURL}/${version}/problems`, {
       params: { query },
     });
+    return result.data.data;
+  }
+
+  static async getUserInfo(username: string): Promise<DashboardReturnType> {
+    const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
     return result.data.data;
   }
 

@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
 import DashboardUserInfoCard from 'src/components/cards/DashboardUserInfoCard';
@@ -13,11 +12,18 @@ import { Row, Col } from 'src/components/Grid';
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
+import { DashboardType } from 'src/types';
+
 import { Page } from 'src/styles';
 
-function Dashboard() {
-  const router = useRouter();
-  const { username } = router.query;
+import { Fetcher } from 'src/utils';
+
+interface Props {
+  dashboard: DashboardType;
+  username: string;
+}
+
+function Dashboard({ dashboard, username }: Props) {
   return (
     <>
       <Head>
@@ -30,12 +36,12 @@ function Dashboard() {
       <Page.Main>
         <Col alignItems='center'>
           <Row>
-            <DashboardUserInfoCard username={username as string} />
-            <DashboardLinkCard />
+            <DashboardUserInfoCard dashboard={dashboard} username={username as string} />
+            <DashboardLinkCard dashboard={dashboard} />
           </Row>
           <Row>
             <Col>
-              <DashboardStackCard />
+              <DashboardStackCard techStacks={dashboard?.techStacks!} />
               <DashboardStatisticsCard />
               <DashboardRepoCard username={username as string} />
             </Col>
@@ -45,6 +51,12 @@ function Dashboard() {
       </Page.Main>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const { username } = context.query;
+  const { dashboard } = await Fetcher.getUserInfo(username);
+  return { props: { dashboard, username } };
 }
 
 export default Dashboard;

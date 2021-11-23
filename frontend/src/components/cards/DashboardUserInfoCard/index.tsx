@@ -23,13 +23,16 @@ import {
   DASHBOARD_USER_INFO_COL_MARGIN,
 } from 'src/globals/constants';
 
+import { DashboardType } from 'src/types';
+
 import userAtom from 'src/recoil/user';
 
 interface Props {
+  dashboard?: DashboardType;
   username: string;
 }
 
-function DashBoardUserInfoCard({ username }: Props) {
+function DashboardUserInfoCard({ username, dashboard }: Props) {
   const user = useRecoilValue(userAtom);
   const isMe = user.username === username;
   return (
@@ -41,54 +44,50 @@ function DashBoardUserInfoCard({ username }: Props) {
           marginRight={USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT}
         />
         <Col>
-          <Row>
-            <Col>
-              <Row alignItems='center'>
-                <IoPersonOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>이름</p>
-                  <p>한범석</p>
-                </Col>
-              </Row>
-              <Row alignItems='center'>
-                <IoCallOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>연락처</p>
-                  <p>010-XXXX-XXXX</p>
-                </Col>
-              </Row>
+          <Row alignItems='center'>
+            <IoPersonOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>이름</p>
+              <p>{dashboard?.name}</p>
             </Col>
-            <Col>
-              <Row alignItems='center'>
-                <IoCalendarClearOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>생년 월일</p>
-                  <p>1997.03.07</p>
-                </Col>
-              </Row>
-              <Row alignItems='center'>
-                <IoMailOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>이메일</p>
-                  <p>example@naver.com</p>
-                </Col>
-              </Row>
+          </Row>
+          <Row alignItems='center'>
+            <IoCallOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>연락처</p>
+              <p>{dashboard?.phoneNumber}</p>
             </Col>
-            <Col>
-              <Row alignItems='center'>
-                <IoLocationOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>주소지</p>
-                  <p>경기도 안양시</p>
-                </Col>
-              </Row>
-              <Row alignItems='center'>
-                <BsPencil size={DASHBOARD_USER_INFO_ICON_SIZE} />
-                <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
-                  <p>학력</p>
-                  <p>harvard university</p>
-                </Col>
-              </Row>
+          </Row>
+        </Col>
+        <Col>
+          <Row alignItems='center'>
+            <IoCalendarClearOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>생년 월일</p>
+              <p>{dashboard?.birthday}</p>
+            </Col>
+          </Row>
+          <Row alignItems='center'>
+            <IoMailOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>이메일</p>
+              <p>{dashboard?.email}</p>
+            </Col>
+          </Row>
+        </Col>
+        <Col>
+          <Row alignItems='center'>
+            <IoLocationOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>주소지</p>
+              <p>{dashboard?.region}</p>
+            </Col>
+          </Row>
+          <Row alignItems='center'>
+            <BsPencil size={DASHBOARD_USER_INFO_ICON_SIZE} />
+            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+              <p>학력</p>
+              <p>{dashboard?.school}</p>
             </Col>
           </Row>
         </Col>
@@ -98,8 +97,13 @@ function DashBoardUserInfoCard({ username }: Props) {
   );
 }
 
-DashBoardUserInfoCard.propTypes = {
+DashboardUserInfoCard.propTypes = {
+  dashboard: PropTypes.objectOf(PropTypes.any),
   username: PropTypes.string.isRequired,
 };
 
-export default DashBoardUserInfoCard;
+DashboardUserInfoCard.defaultProps = {
+  dashboard: {},
+};
+
+export default DashboardUserInfoCard;
