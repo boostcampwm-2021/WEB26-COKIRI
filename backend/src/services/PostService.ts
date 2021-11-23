@@ -81,7 +81,8 @@ class PostService {
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.findPosts(posts);
+    const postCount = await Post.countDocuments({ userID: { $in: containsArray } });
+    return { posts: await this.findPosts(posts), postCount };
   }
 
   async findOnePost(postID: string | Types.ObjectId) {
