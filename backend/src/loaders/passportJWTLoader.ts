@@ -30,7 +30,7 @@ export default function passportJWTLoader(): void {
   const verifyUser = async (jwtPayload: User, done: VerifiedCallback) => {
     try {
       const user: User = { userID: jwtPayload.userID! };
-      if (!user || !(await UserService.existsUser(user))) {
+      if (!user || !(await UserService.existsUserForUserID(user.userID))) {
         return done(null, false);
       }
       return done(null, user);

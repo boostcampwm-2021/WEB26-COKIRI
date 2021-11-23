@@ -1,20 +1,21 @@
 import { nanoid } from 'nanoid';
 
-import { User, TechStack } from 'src/models';
-import { User as UserType, UserAuthProvider, ObjectType, DashboardType } from 'src/types';
-import { UserType as UserSchemaType } from 'src/types/modelType';
+import { User } from 'src/models';
+import {
+  User as UserIDType,
+  UserType,
+  UserAuthProvider,
+  ObjectType,
+  DashboardType,
+} from 'src/types';
 import { ERROR, AUTH, ObjectID } from 'src/utils';
 
 class UserService {
-  async existsUser(user: UserType): Promise<boolean> {
-    return User.exists({ _id: user.userID });
-  }
-
-  async existGithubUser(userID: string): Promise<boolean> {
+  async existsUserForUserID(userID: string): Promise<boolean> {
     return User.exists({ _id: userID });
   }
 
-  async existsRegisteredUser(user: UserType): Promise<boolean> {
+  async existsRegisteredUser(user: UserIDType): Promise<boolean> {
     const result = await User.findOne({ _id: user.userID }).select({
       isRegistered: true,
     });
@@ -26,8 +27,11 @@ class UserService {
     return User.exists({ username: query });
   }
 
-  async findGithubUsername(userID: string) {
-    const data: any = await User.findOne({ _id: userID }, 'githubUsername -_id');
+  async findGithubUsernameForUserID(userID: string): Promise<string | undefined> {
+    const data: UserType | null = await User.findOne({ _id: userID }, 'githubUsername -_id');
+    if (!data) {
+      throw ERROR.NOT_EXIST_USER;
+    }
     return data.githubUsername;
   }
 
@@ -52,13 +56,15 @@ class UserService {
     return user.blogAuthentication!.tistory;
   }
 
-  async findOneUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType | undefined> {
+  async findOneUserForProvider(
+    userAuthProvider: UserAuthProvider,
+  ): Promise<UserIDType | undefined> {
     const result = await User.findOne(userAuthProvider).select({ _id: true });
     if (result === null) return undefined;
     return { userID: ObjectID.objectIDToString(result._id) };
   }
 
-  async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserType> {
+  async findOrCreateUserForProvider(userAuthProvider: UserAuthProvider): Promise<UserIDType> {
     const user = await this.findOneUserForProvider(userAuthProvider);
     if (!user) {
       const newUser = await User.create({ ...userAuthProvider, username: nanoid(20) });
@@ -79,7 +85,7 @@ class UserService {
   }
 
   async findOneUserProfileForUsername(username: string) {
-    const result: UserSchemaType[] = await User.find(
+    const result: UserType[] = await User.find(
       { username },
       'username isRegistered name profileImage bio',
     ).lean();
@@ -104,7 +110,7 @@ class UserService {
   }
 
   async findRandomUserSuggestions(userID: string) {
-    const result: UserSchemaType[] = await User.aggregate([
+    const result: UserType[] = await User.aggregate([
       { $match: { _id: { $nin: [ObjectID.stringToObjectID(userID)] }, isRegistered: true } },
       {
         $project: {
@@ -146,13 +152,13 @@ class UserService {
     return User.findOneAndUpdate({ _id: userID }, info, { new: true });
   }
 
-  async updateOneUserConfig(userID: string, userConfig: ObjectType<UserSchemaType>) {
+  async updateOneUserConfig(userID: string, userConfig: ObjectType<UserType>) {
     const blockList = AUTH.SETTING_BLOCK_LIST;
     if (!userConfig.username) {
       throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     blockList.forEach((property: string) => {
-      if (userConfig[property as keyof UserSchemaType]) {
+      if (userConfig[property as keyof UserType]) {
         throw new Error(ERROR.WRONG_BODY_TYPE);
       }
     });

@@ -118,7 +118,7 @@ export default class SocialsRouter {
       throw new Error(ERROR.WRONG_QUERY_TYPE);
     }
 
-    const userIsExist = userID ? await UserService.existGithubUser(userID) : false;
+    const userIsExist = userID ? await UserService.existsUserForUserID(userID) : false;
     if (userIsExist) {
       UserService.updateGithubUserInfo(userID, { githubUsername });
     } else {

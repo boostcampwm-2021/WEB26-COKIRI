@@ -1,5 +1,6 @@
 import { DashboardRepository, User } from 'src/models';
 import { Calculate, ERROR } from 'src/utils';
+import { DashboardRepositoryType, UserType } from 'src/types';
 
 class DashboardRepoService {
   async createDashboardRepo(userID: string, repoData: object) {
@@ -18,10 +19,11 @@ class DashboardRepoService {
     return result?.dashboard?.statistics?.reposLanguage;
   }
 
-  async updateDashboardReposLanguage(userID: string) {
+  async updateDashboardReposLanguage(userID: string): Promise<UserType | null> {
     const data = await DashboardRepository.find({ userID }, 'languageInfo -_id').lean();
-    const temp: any = {};
-    data.forEach((repo: any) => {
+    const temp: { [key: string]: number } = {};
+    data.forEach((repo: DashboardRepositoryType) => {
+      if (!repo.languageInfo) return;
       Object.entries(repo.languageInfo).forEach((v) => {
         if (Object.prototype.hasOwnProperty.call(temp, v[0])) {
           temp[v[0]] += v[1] as number;
@@ -30,7 +32,13 @@ class DashboardRepoService {
         }
       });
     });
-    const calculateResult = Calculate.calculateLanguage(temp);
+
+    let calculateResult;
+    if (Object.keys(temp).length !== 0) {
+      calculateResult = Calculate.calculateLanguage(temp);
+    } else {
+      calculateResult = {};
+    }
 
     return User.findOneAndUpdate(
       { _id: userID },

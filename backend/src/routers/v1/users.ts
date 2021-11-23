@@ -168,9 +168,9 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const githubUsername = await UserService.findGithubUsername(userID);
+    const githubUsername = await UserService.findGithubUsernameForUserID(userID);
 
-    const result = await GitService.findRepoList(githubUsername);
+    const result = await GitService.findRepoList(githubUsername as string);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
 
@@ -263,8 +263,8 @@ export default class UsersRouter {
     if (userID !== request.user!.userID) {
       throw new Error(ERROR.WRONG_PARAMS_TYPE);
     }
-    const githubUsername = await UserService.findGithubUsername(userID);
-    const repoData = await GitService.findRepo(githubUsername, repoName);
+    const githubUsername = await UserService.findGithubUsernameForUserID(userID);
+    const repoData = await GitService.findRepo(githubUsername as string, repoName);
     const result = await DashboardRepoService.createDashboardRepo(userID, repoData);
     return response.json({ code: RESPONSECODE.SUCCESS, data: result });
   }
