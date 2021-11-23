@@ -29,11 +29,11 @@ function User({ targetUser }: Props) {
   const isAuthenticated = useRecoilValue(isRegisteredSelector);
   const isUserExist = Object.keys(targetUser).length !== 0;
   const isRegistered = useRecoilValue(isRegisteredSelector);
-  const { refetch, data } = useInfiniteQuery(
+  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['user', 'posts', targetUser],
-    () => Fetcher.getUserPosts(targetUser),
+    (context) => Fetcher.getUserPosts(targetUser, context),
     {
-      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
 
@@ -53,7 +53,13 @@ function User({ targetUser }: Props) {
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
-              <Timeline pages={data?.pages} />
+              <Timeline
+                pages={data?.pages}
+                onPostDelete={refetch}
+                onNeedMore={fetchNextPage}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+              />
             </>
           ) : (
             <>없다!</>

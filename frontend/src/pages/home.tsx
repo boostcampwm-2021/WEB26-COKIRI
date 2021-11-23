@@ -8,7 +8,6 @@ import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import SuggestionCard from 'src/components/cards/SuggestionCard';
-import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
@@ -31,14 +30,13 @@ function Home() {
   const isRegistered = useRecoilValue(isRegisteredSelector);
 
   const [hasFollowTemp] = useState(hasFollow);
-  const { refetch, data } = useInfiniteQuery(
+  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['home', 'posts', user],
     (context) => Fetcher.getPosts(user, context),
     {
-      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
-
   return (
     <>
       <Head>
@@ -49,11 +47,18 @@ function Home() {
 
       <Header page='home' />
       <Page.Main>
-        <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isRegistered && !hasFollowTemp && <SuggestionCard />}
-          {isRegistered && <Timeline pages={data?.pages} onPostDelete={refetch} />}
+          {isRegistered && (
+            <Timeline
+              pages={data?.pages}
+              onPostDelete={refetch}
+              onNeedMore={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+            />
+          )}
         </Col>
       </Page.Main>
       {isRegistered && <FloatingButton onPostWrite={refetch} />}
