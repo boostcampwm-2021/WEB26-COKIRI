@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import DashboardUserInfoSettingModal from 'src/components/modals/UserInfoSettingModal';
+import DashboardUserInfoSettingModal from 'src/components/modals/DashboardUserInfoSettingModal';
 
-function UserInfoSettingButton() {
+function DashboardUserInfoSettingButton() {
   const [isModalShow, setIsModalShow] = useState(false);
 
   const switchIsModalShow = () => {
@@ -21,4 +21,4 @@ function UserInfoSettingButton() {
   );
 }
 
-export default UserInfoSettingButton;
+export default DashboardUserInfoSettingButton;

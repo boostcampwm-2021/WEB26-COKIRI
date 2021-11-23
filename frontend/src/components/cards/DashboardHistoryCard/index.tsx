@@ -2,7 +2,7 @@ import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
 import CardCommon from 'src/components/cards/Common';
-import HistoryAddButton from 'src/components/buttons/dashboardSettings/HistoryAddButton';
+import DashboardHistoryAddButton from 'src/components/buttons/dashboardSettings/DashboardHistoryAddButton';
 
 import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
@@ -27,7 +27,7 @@ function DashboardHistoryCard({ username }: Props) {
         <HorizentalLine />
         <p>example history</p>
       </History>
-      {isMe && <HistoryAddButton />}
+      {isMe && <DashboardHistoryAddButton />}
     </CardCommon>
   );
 }

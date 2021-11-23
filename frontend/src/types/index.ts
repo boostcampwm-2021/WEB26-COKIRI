@@ -8,7 +8,8 @@ import ReturnType from './return';
 import RepoType from './repo';
 import ProblemType from './problem';
 import ExternalType from './external';
-import { RepoInfoType, ProblemInfoType } from './info';
+import { RepoInfoType, ProblemInfoType, DashboardUserInfoType } from './info';
+import StackType from './stack';
 
 export type {
   UserType,
@@ -23,4 +24,6 @@ export type {
   ExternalType,
   RepoInfoType,
   ProblemInfoType,
+  StackType,
+  DashboardUserInfoType,
 };

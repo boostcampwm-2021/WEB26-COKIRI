@@ -9,6 +9,7 @@ import {
   CommentType,
   RepoType,
   ProblemType,
+  DashboardUserInfoType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -143,6 +144,11 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
+    const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
+    return result.data.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
@@ -210,6 +216,29 @@ class Fetcher {
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
+  }
+
+  static async putUserInfo(
+    user: UserType,
+    dashboard: DashboardUserInfoType,
+  ): Promise<ReturnType<DashboardUserInfoType>> {
+    const result = await axios.put(
+      `${baseURL}/${version}/users/${user._id}/dashboard`,
+      {
+        name: dashboard.name,
+        phoneNumber: dashboard.phoneNumber,
+        school: dashboard.school,
+        region: dashboard.region,
+        birthday: dashboard.birthday,
+        emil: dashboard.email,
+        github: dashboard.github,
+        blog: dashboard.blog,
+        jobObjects: dashboard.jobObjectives,
+        techStacks: dashboard.techStacks,
+      },
+      { headers: { Authorization: `Bearer ${user.token}` } },
+    );
+    return result.data;
   }
 
   static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {

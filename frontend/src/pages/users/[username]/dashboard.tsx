@@ -1,23 +1,36 @@
+import { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 
 import Header from 'src/components/Header';
 import DashboardUserInfoCard from 'src/components/cards/DashboardUserInfoCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
 import DashboardStackCard from 'src/components/cards/DashboardStackCard';
 import DashboardStatisticsCard from 'src/components/cards/DashboardStatisticsCard';
-import DashboardGithubRepoCard from 'src/components/cards/DashboardGithubRepoCard';
+import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import { Row, Col } from 'src/components/Grid';
 
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
 import { FAVICON } from 'src/globals/constants';
 
+import { DashboardUserInfoType } from 'src/types';
+
 import { Page } from 'src/styles';
 
-function Dashboard() {
-  const router = useRouter();
-  const { username } = router.query;
+import { Fetcher } from 'src/utils';
+
+interface Props {
+  data: DashboardUserInfoType;
+  username: string;
+}
+
+function Dashboard({ data, username }: Props) {
+  const [dashboardUserInfo, setDashboardUserInfo] = useState(data);
+
+  const handleEditDashboardUserInfo = (newDashboardUserInfo: DashboardUserInfoType) => {
+    setDashboardUserInfo(newDashboardUserInfo);
+  };
+
   return (
     <>
       <Head>
@@ -30,14 +43,27 @@ function Dashboard() {
       <Page.Main>
         <Col alignItems='center'>
           <Row>
-            <DashboardUserInfoCard username={username as string} />
-            <DashboardLinkCard />
+            <DashboardUserInfoCard
+              name={dashboardUserInfo.name!}
+              phoneNumber={dashboardUserInfo.phoneNumber!}
+              birthday={dashboardUserInfo.birthday!}
+              email={dashboardUserInfo.email!}
+              region={dashboardUserInfo.region!}
+              school={dashboardUserInfo.school!}
+              targetUserName={username}
+              onEditDashboardUserInfo={handleEditDashboardUserInfo}
+            />
+            <DashboardLinkCard
+              jobObjectives={dashboardUserInfo.jobObjectives!}
+              github={dashboardUserInfo.github!}
+              blog={dashboardUserInfo.blog!}
+            />
           </Row>
           <Row>
             <Col>
-              <DashboardStackCard />
+              <DashboardStackCard techStacks={dashboardUserInfo?.techStacks!} />
               <DashboardStatisticsCard />
-              <DashboardGithubRepoCard username={username as string} />
+              <DashboardRepoCard username={username as string} />
             </Col>
             <DashboardHistoryCard username={username as string} />
           </Row>
@@ -45,6 +71,12 @@ function Dashboard() {
       </Page.Main>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const { username } = context.query;
+  const { data } = await Fetcher.getDashboardUserInfo(username);
+  return { props: { data, username } };
 }
 
 export default Dashboard;
