@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
+import { Types } from 'mongoose';
 
-import { OPENAPIURL, JWT, Query, ERROR, RESPONSECODE } from 'src/utils';
+import { OPENAPIURL, Authorization, Query, ERROR, RESPONSECODE } from 'src/utils';
 import { BlogService, TistoryService, UserService, VelogService } from 'src/services';
 
 @Controller('/socials')
@@ -23,14 +24,8 @@ export default class SocialsRouter {
   @UseBefore(passport.authenticate('google', { session: false }))
   @Redirect('/')
   getGoogleCallback(@Req() request: Request, @Res() response: Response) {
-    const accessToken = JWT.createAccessToken(request.user!);
-    const cookieOptions = {
-      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-      httpOnly: true,
-      secure: process.env.MODE !== 'development',
-      domain: process.env.MAIN_DOMAIN,
-    };
-    response.cookie('jwt', accessToken, cookieOptions);
+    const accessToken = Authorization.createAccessJWT(request.user!);
+    response.cookie('jwt', accessToken, Authorization.cookieOptions);
     return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
@@ -47,15 +42,10 @@ export default class SocialsRouter {
 
   @Get('/kakao/callback')
   @UseBefore(passport.authenticate('kakao', { session: false }))
+  @Redirect('/')
   getKakaoCallback(@Req() request: Request, @Res() response: Response) {
-    const accessToken = JWT.createAccessToken(request.user!);
-    const cookieOptions = {
-      maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-      httpOnly: true,
-      secure: process.env.MODE !== 'development',
-      domain: process.env.MAIN_DOMAIN,
-    };
-    response.cookie('jwt', accessToken, cookieOptions);
+    const accessToken = Authorization.createAccessJWT(request.user!);
+    response.cookie('jwt', accessToken, Authorization.cookieOptions);
     return `${process.env.CLIENT_URL}${request.query.state}`;
   }
 
@@ -87,6 +77,9 @@ export default class SocialsRouter {
   @Get('/github')
   getGithub(@Req() request: Request, @Res() response: Response) {
     const { user_id: userID } = request.query;
+    if (userID && !Types.ObjectId.isValid(userID as string)) {
+      throw new Error(ERROR.WRONG_QUERY_TYPE);
+    }
     passport.authenticate('github', {
       session: false,
       state: userID as string,
@@ -99,26 +92,24 @@ export default class SocialsRouter {
   @Redirect('/')
   async getGithubCallback(@Req() request: Request, @Res() response: Response) {
     const { id: authProviderID, username: githubUsername } = request.user as any;
-    const userID = (request.query?.state as string).trim();
+    const userID = request.query?.state as string;
 
-    const userIsExist = userID ? await UserService.existGithubUser(userID as string) : false;
+    if (userID && !Types.ObjectId.isValid(userID)) {
+      throw new Error(ERROR.WRONG_QUERY_TYPE);
+    }
+
+    const userIsExist = userID ? await UserService.existGithubUser(userID) : false;
     if (userIsExist) {
       UserService.updateGithubUserInfo(userID as string, { githubUsername });
     } else {
-      UserService.findOrCreateUserForProvider({
+      const user = await UserService.findOrCreateUserForProvider({
         authProvider: 'github',
         authProviderID,
         githubUsername,
       });
-      const accessToken = JWT.createAccessToken(request.user!);
+      const accessToken = Authorization.createAccessJWT(user);
 
-      const cookieOptions = {
-        maxAge: Number(process.env.JWT_ACCESS_EXPIRE_IN!),
-        httpOnly: true,
-        secure: process.env.MODE !== 'development',
-        domain: process.env.MAIN_DOMAIN,
-      };
-      response.cookie('jwt', accessToken, cookieOptions);
+      response.cookie('jwt', accessToken, Authorization.cookieOptions);
     }
 
     return `${process.env.CLIENT_URL}`;

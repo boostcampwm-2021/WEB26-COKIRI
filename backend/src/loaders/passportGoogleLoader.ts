@@ -1,6 +1,7 @@
-import { OAuth2Strategy as GoogleStrategy, VerifyFunction } from 'passport-google-oauth';
-import { UserService } from 'src/services';
 import * as passport from 'passport';
+import { OAuth2Strategy as GoogleStrategy, VerifyFunction } from 'passport-google-oauth';
+
+import { UserService } from 'src/services';
 
 export default function passportGoogleLoader() {
   const googleStrategyOptions = {
