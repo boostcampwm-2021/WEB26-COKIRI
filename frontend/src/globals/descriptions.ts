@@ -13,4 +13,4 @@ export const STORY_DESCRIPTION =
 export const USERS_DESCRIPTION =
   'COCOO 사용자의 프로필을 볼 수 있습니다. COCOO에서 프로필을 확인하세요.';
 export const DASHBOARD_DESCRIPTION =
-  'COCOO 사용자의 profile, github respository, blog 등 다양한 정보를 확인할 수 있습니다. COCOO에서 dashboard를 구경하세요.';
+  'COCOO 사용자의 profile, github repository, blog 등 다양한 정보를 확인할 수 있습니다. COCOO에서 dashboard를 구경하세요.';
