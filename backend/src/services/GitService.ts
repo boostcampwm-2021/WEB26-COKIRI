@@ -3,6 +3,7 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 import { Calculate, OPENAPIURL, HEADER } from 'src/utils';
+import { DashboardRepositoryType } from 'src/types';
 
 class GitService {
   async findRepoList(username: string) {
@@ -20,15 +21,18 @@ class GitService {
     ).data;
     const { name, html_url, stargazers_count, forks_count, languages_url } = apiData;
     const languageData = (await axios.get(languages_url)).data;
-    const languageInfo = Calculate.calculateLanguage(languageData);
-    const result = {
+    const result: DashboardRepositoryType = {
       repoName: name,
       repoUrl: html_url,
       starCount: stargazers_count,
       forkCount: forks_count,
       content: readmeData,
-      languageInfo,
     };
+    if (Object.keys(languageData).length !== 0) {
+      const languageInfo = Calculate.calculateLanguage(languageData);
+      result.languageInfo = languageInfo;
+    }
+
     return result;
   }
 
