@@ -40,7 +40,7 @@ const getBirthdayFormat = (time?: string) => {
   return '';
 };
 
-const timeCompare = (a: HistoryType, b: HistoryType) =>
-  new Date(a.date).getTime() - new Date(b.date).getTime();
+const timeCompare = (firstHistory: HistoryType, secondHistory: HistoryType) =>
+  new Date(firstHistory.date).getTime() - new Date(secondHistory.date).getTime();
 
 export { getFromNow, getBirthdayFormat, timeCompare };
