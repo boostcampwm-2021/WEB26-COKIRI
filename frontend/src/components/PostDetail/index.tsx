@@ -6,7 +6,6 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import PostImages from 'src/components/images/PostImages';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import LikeButton from 'src/components/buttons/LikeButton';
-import EchoButton from 'src/components/buttons/EchoButton';
 import LikesButton from 'src/components/buttons/LikesButton';
 import NormalContent from 'src/components/contents/NormalContent';
 import PostComments from 'src/components/PostComments';
@@ -69,7 +68,6 @@ function PostDetail({ post }: Props) {
             />
             <Row>
               <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
-              <EchoButton postID={_id!} />
             </Row>
             {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
             <NormalContent content={content!} expanded />
