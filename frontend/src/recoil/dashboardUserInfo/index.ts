@@ -3,4 +3,5 @@ import dashboardTechStacksSelector from './dashboardTechStacks';
 import dashboardHistoriesSelector from './dashboardHistories';
 
 export { dashboardTechStacksSelector, dashboardHistoriesSelector };
+
 export default dashboardUserInfoAtom;
