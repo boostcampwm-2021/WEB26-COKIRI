@@ -5,6 +5,7 @@ import { Row, Col, Spacer } from 'src/components/Grid';
 import ButtonCommon from 'src/components/buttons/Common';
 
 import { DEAULT_MODAL_WIDTH } from 'src/globals/constants';
+
 import { Background, Card } from './style';
 
 interface Props {
