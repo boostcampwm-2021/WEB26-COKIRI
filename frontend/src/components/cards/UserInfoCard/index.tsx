@@ -30,6 +30,8 @@ interface Props {
   targetUser: UserType;
 }
 
+const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+
 function UserInfoCard({ targetUser }: Props) {
   const user = useRecoilValue(userAtom);
   const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
@@ -38,7 +40,9 @@ function UserInfoCard({ targetUser }: Props) {
   const isMe = _id === user._id;
   const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
   const handleUnfollow = () => setFollowerCount((prevState) => prevState - 1);
-  const handleLogoutClick = () => Fetcher.getLogout();
+  const handleLogoutClick = () => {
+    window.open(`${url}/v1/users/logout`, '_self');
+  };
 
   return (
     <CardCommon width={USER_INFO_CARD_WIDTH}>

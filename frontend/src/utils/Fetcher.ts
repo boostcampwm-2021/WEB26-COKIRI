@@ -177,15 +177,12 @@ class Fetcher {
     return result.data;
   }
 
-  static async getTistoryAuthURL(user: UserType): Promise<string> {
+  static async getTistoryAuthURL(user: UserType, redirectURI: string): Promise<string> {
     const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
       headers: { Authorization: `Bearer ${user.token}` },
+      params: { redirect_uri: redirectURI },
     });
     return result.data.data;
-  }
-
-  static async getLogout() {
-    window.open(`${baseURL}/${version}/users/logout`, '_self');
   }
 
   static async postPost(
