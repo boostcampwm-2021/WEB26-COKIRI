@@ -11,4 +11,6 @@ export default interface UserType {
   followCount?: number;
   followers?: string[];
   follows?: string[];
+  hasExternalBlog?: boolean;
+  hasExternalGithub?: boolean;
 }
