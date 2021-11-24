@@ -76,6 +76,8 @@ export const SEARCH_INPUT_WIDTH = 136;
 
 export const DEFAULT_COMMENT_INPUT_WIDTH = 340;
 
+export const HISTORY_INPUT_WIDTH = 150;
+
 // CARD
 export const SIGNIN_CARD_WIDTH = 500;
 
