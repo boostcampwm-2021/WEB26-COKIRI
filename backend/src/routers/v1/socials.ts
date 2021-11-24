@@ -81,10 +81,13 @@ export default class SocialsRouter {
     if (!Authorization.compareOauthState(state)) {
       return `${process.env.CLIENT_URL}`;
     }
-    await Promise.all([
-      TistoryService.updateOneUserAccessToken(code as string, state.userID),
-      TistoryService.updateOneUserBlogURL(state.userID),
-    ]);
+    try {
+      await TistoryService.updateOneUserAccessToken(code as string, state.userID);
+      await TistoryService.updateOneUserBlogURL(state.userID);
+    } catch (error) {
+      return `${process.env.CLIENT_URL}`;
+    }
+
     return `${process.env.CLIENT_URL}${state.redirectURI}`;
   }
 
