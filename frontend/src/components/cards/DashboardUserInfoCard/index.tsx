@@ -47,7 +47,7 @@ function DashboardUserInfoCard({
 
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <Row justifyContent='space-between'>
+      <Row justifyContent='space-evenly'>
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={DEFAULT_PROFILE_IMAGE}
@@ -76,7 +76,7 @@ function DashboardUserInfoCard({
               <Content>생년 월일</Content>
               <Content>
                 {birthday
-                  ? `${birthday.getFullYear()}-${birthday.getMonth() + 1}-${birthday.getDay()}`
+                  ? `${birthday.getFullYear()}-${birthday.getMonth() + 1}-${birthday.getDate()}`
                   : ''}
               </Content>
             </Col>
