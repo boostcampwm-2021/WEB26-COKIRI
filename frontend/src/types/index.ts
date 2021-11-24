@@ -9,8 +9,9 @@ import RepoType from './repo';
 import ProblemType from './problem';
 import BlogType from './blog';
 import ExternalType from './external';
-import { RepoInfoType, ProblemInfoType, DashboardUserInfoType } from './info';
+import { RepoInfoType, ProblemInfoType } from './info';
 import StackType from './stack';
+import DashboardUserInfoType from './dashboardUserInfo';
 
 export type {
   UserType,
