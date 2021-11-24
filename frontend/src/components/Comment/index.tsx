@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -32,40 +31,34 @@ interface Props {
 
 function Comment({ postID, comment, onCommentDelete }: Props) {
   const user = useRecoilValue(userAtom);
-  const commentLikes = comment.likes ?? [];
-  const [likeCount, setLikeCount] = useState(commentLikes.length);
+  const { _id, createdAt, content, user: targetUser, likes } = comment;
+  const commentLikes = likes ?? [];
   const isMe = user._id === comment.user!._id;
 
   return (
     <Row alignItems='center'>
       <ProfileImageButton
         size={COMMENT_PROFILE_IMAGE_SIZE}
-        profileImage={comment.user!.profileImage}
-        username={comment.user!.username!}
         marginRight={COMMENT_PROFILE_IMAGE_BUTTON_MARGIN_RIGHT}
+        profileImage={targetUser!.profileImage}
+        username={targetUser!.username!}
       />
       <UsernameButton
-        username={comment.user!.username!}
         marginRight={COMMENT_USERNAME_BUTTON_MARGIN_RIGHT}
         width={COMMENT_USERNAME_BUTTON_WIDTH}
+        username={targetUser!.username!}
       />
-      <Content>{comment.content}</Content>
+      <Content>{content}</Content>
       <Spacer />
-      <TimeFromNow time={comment.createdAt!} />
+      <TimeFromNow time={createdAt!} />
       {isMe && (
-        <CommentDeleteButton
-          postID={postID}
-          commentID={comment._id!}
-          onCommentDelete={onCommentDelete}
-        />
+        <CommentDeleteButton postID={postID} commentID={_id!} onCommentDelete={onCommentDelete} />
       )}
       <CommentLikeButton
-        postID={postID}
-        commentID={comment._id!}
-        commentLikes={commentLikes}
-        setLikeCount={setLikeCount}
         margin={COMMENT_LIKE_BUTTON_MARGIN}
-        likeCount={likeCount}
+        postID={postID}
+        commentID={_id!}
+        commentLikes={commentLikes}
       />
     </Row>
   );

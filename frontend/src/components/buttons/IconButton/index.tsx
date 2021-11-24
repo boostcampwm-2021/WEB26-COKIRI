@@ -21,6 +21,7 @@ interface Props {
   hidden?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   clicked?: boolean;
+  disabled?: boolean;
 }
 
 function IconButton({
@@ -34,6 +35,7 @@ function IconButton({
   height,
   size,
   clicked,
+  disabled,
 }: Props) {
   const props = useMemo(() => ({ size: `${size}` }), [size]);
   return (
@@ -46,6 +48,7 @@ function IconButton({
       margin={margin}
       hidden={hidden}
       clicked={clicked}
+      disabled={disabled}
     >
       <IconContext.Provider value={props}>{children}</IconContext.Provider>
     </ButtonCommon>
@@ -63,6 +66,7 @@ IconButton.propsType = {
   hidden: PropTypes.bool,
   onClick: PropTypes.func,
   clicked: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 IconButton.defaultProps = {
@@ -75,6 +79,7 @@ IconButton.defaultProps = {
   hidden: false,
   onClick: () => {},
   clicked: false,
+  disabled: false,
 };
 
 export default IconButton;
