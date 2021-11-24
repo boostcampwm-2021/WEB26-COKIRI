@@ -6,7 +6,7 @@ import { Row, Col } from 'src/components/Grid';
 import { RepoInfoType } from 'src/types';
 
 interface Props {
-  content: string;
+  content?: string;
   link: string;
   info: RepoInfoType;
 }
@@ -26,7 +26,7 @@ function RepoContent({ content, link, info }: Props) {
         ))}
       </Row>
       {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />
+      <div dangerouslySetInnerHTML={{ __html: sanitizer(content!) }} />
       <a target='_blank' href={link} rel='noreferrer noopener'>
         글 보러가기
       </a>
@@ -35,9 +35,13 @@ function RepoContent({ content, link, info }: Props) {
 }
 
 RepoContent.propTypes = {
-  content: PropTypes.string.isRequired,
+  content: PropTypes.string,
   info: PropTypes.objectOf(PropTypes.any).isRequired,
   link: PropTypes.string.isRequired,
+};
+
+RepoContent.defaultProps = {
+  content: '',
 };
 
 export default RepoContent;
