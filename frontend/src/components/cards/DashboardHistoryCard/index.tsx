@@ -11,6 +11,8 @@ import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 import userAtom from 'src/recoil/user';
 import { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
+import { getBirthdayFormat } from 'src/utils/moment';
+
 import { History, HorizentalLine, Section } from './style';
 
 function DashboardHistoryCard() {
@@ -23,19 +25,16 @@ function DashboardHistoryCard() {
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
       <History>
-        {dashboardHistories.map((history) => {
-          const date = new Date(history.date!);
-          return (
-            <Section key={history._id}>
-              <Col>
-                <p>{`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}</p>
-                <HorizentalLine />
-                <p>{history.content}</p>
-              </Col>
-              {isMe && <DashboardHistoryDeleteButton historyID={history._id} />}
-            </Section>
-          );
-        })}
+        {dashboardHistories.map((history) => (
+          <Section key={history._id}>
+            <Col>
+              <p>{getBirthdayFormat(history.date!)}</p>
+              <HorizentalLine />
+              <p>{history.content}</p>
+            </Col>
+            {isMe && <DashboardHistoryDeleteButton historyID={history._id} />}
+          </Section>
+        ))}
       </History>
       {isMe && <DashboardHistoryAddButton />}
     </CardCommon>
