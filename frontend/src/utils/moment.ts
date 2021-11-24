@@ -1,3 +1,5 @@
+import { HistoryType } from 'src/types';
+
 const MINUTE = 60; // SECONDS
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
@@ -30,5 +32,15 @@ const getFromNow = (time: string) => {
   return '방금';
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { getFromNow };
+const getBirthdayFormat = (time?: string) => {
+  if (time) {
+    const date = new Date(time);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
+  return '';
+};
+
+const timeCompare = (a: HistoryType, b: HistoryType) =>
+  new Date(a.date).getTime() - new Date(b.date).getTime();
+
+export { getFromNow, getBirthdayFormat, timeCompare };

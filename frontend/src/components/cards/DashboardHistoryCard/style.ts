@@ -5,15 +5,20 @@ import { DASHBOARD_HISTORY_MARGIN_LEFT } from 'src/globals/constants';
 const History = styled.div`
   margin-left: ${DASHBOARD_HISTORY_MARGIN_LEFT}px;
   border-left: 2px solid #ffffff;
+`;
+
+const HorizentalLine = styled.div`
+  width: 200px;
+  border-bottom: 1px solid #ffffff;
+`;
+
+const Section = styled.div`
+  width: 100%;
+  display: flex;
   p {
-    padding: 16px 8px;
+    padding: 8px;
     word-wrap: break-word;
   }
 `;
 
-const HorizentalLine = styled.div`
-  width: 70%;
-  border-bottom: 1px solid #ffffff;
-`;
-
-export { History, HorizentalLine };
+export { History, HorizentalLine, Section };

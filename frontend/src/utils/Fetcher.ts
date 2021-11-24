@@ -234,6 +234,19 @@ class Fetcher {
     return result.data;
   }
 
+  static async postDashboardHistory(
+    user: UserType,
+    content: string,
+    date: string,
+  ): Promise<HistoryType> {
+    const result = await axios.post(
+      `${baseURL}/${version}/users/${user._id}/dashboard/histories`,
+      { content, date },
+      { headers: { Authorization: `Bearer ${user.token}` } },
+    );
+    return result.data;
+  }
+
   static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
     await axios.post(
       `${baseURL}/${version}/users/${targetUserID}/follows`,
@@ -317,6 +330,13 @@ class Fetcher {
   static async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
       data: { userID: `${user._id}` },
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+  }
+
+  static async deleteDashboardHistory(user: UserType, historyID: string): Promise<void> {
+    await axios.delete(`${baseURL}/${version}/users/${user._id}/dashboard/histories`, {
+      data: { historyID },
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
