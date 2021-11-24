@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   IoHomeOutline,
   IoCompassOutline,
-  IoPaperPlaneOutline,
   IoHeartOutline,
   IoPersonCircleOutline,
 } from 'react-icons/io5';
@@ -38,9 +37,6 @@ function Header({ page }: Props) {
         </NavigateIconButton>
         <NavigateIconButton href='/random' clicked={page === 'random'}>
           <IoCompassOutline />
-        </NavigateIconButton>
-        <NavigateIconButton href='/echo' clicked={page === 'echo'}>
-          <IoPaperPlaneOutline />
         </NavigateIconButton>
       </Section>
 

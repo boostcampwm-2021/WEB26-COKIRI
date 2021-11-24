@@ -4,12 +4,9 @@ import { Col } from 'src/components/Grid';
 
 import { POST_WIDTH } from 'src/globals/constants';
 
-interface Props {
-  isImage: boolean;
-}
-const Wrapper = styled.div<Props>`
+const Wrapper = styled.div`
   display: flex;
-  justify-content: ${({ isImage }) => (isImage ? 'unset' : 'center')};
+  justify-content: unset;
   > button {
     position: absolute;
     top: 20px;

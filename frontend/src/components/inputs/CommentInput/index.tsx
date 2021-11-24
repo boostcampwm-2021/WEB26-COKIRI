@@ -15,7 +15,7 @@ import {
   DEFAULT_ICON_SIZE,
 } from 'src/globals/constants';
 
-import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
+import userAtom from 'src/recoil/user';
 
 import { CommentType } from 'src/types';
 
@@ -32,10 +32,8 @@ interface Props {
 
 function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Props) {
   const user = useRecoilValue(userAtom);
-  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
   const [value, setValue] = useState('');
-  const placeholder = isAuthenticated ? '' : '댓글을 남기려면 인증이 필요합니다.';
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
     onSuccess: ({ data }) => onCommentWrite(data!),
@@ -49,12 +47,7 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
   return (
     <Row justifyContent='center' alignItems='center'>
       <ProfileImage profileImage={user.profileImage} />
-      <InputCommon
-        bind={[value, setValue]}
-        width={width}
-        icon={<BiComment />}
-        placeholder={placeholder}
-      />
+      <InputCommon bind={[value, setValue]} width={width} icon={<BiComment />} />
       <IconButton onClick={handleClick} size={iconSize!} padding={padding!}>
         <BiSend />
       </IconButton>

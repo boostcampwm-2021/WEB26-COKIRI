@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import PostImages from 'src/components/images/PostImages';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import LikeButton from 'src/components/buttons/LikeButton';
-import EchoButton from 'src/components/buttons/EchoButton';
 import LikesButton from 'src/components/buttons/LikesButton';
 import NormalContent from 'src/components/contents/NormalContent';
 import PostComments from 'src/components/PostComments';
@@ -23,6 +23,8 @@ import {
 
 import { PostType, CommentType } from 'src/types';
 
+import { isAuthenticatedSelector } from 'src/recoil/user';
+
 import { Wrapper, ImageSection, PostInfoSection } from './style';
 
 interface Props {
@@ -31,24 +33,22 @@ interface Props {
 
 function PostDetail({ post }: Props) {
   const router = useRouter();
-  const [comments, setComments] = useState<CommentType[]>(post.comments!);
-  const [likeCount, setLikeCount] = useState(post.likes!.length);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
+  const { _id, images, user, likes, content } = post;
+
+  const [comments, setComments] = useState(post.comments!);
+  const [likeCount, setLikeCount] = useState(likes!.length);
+
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
   };
   const handleCommentDelete = (commentID: string) => {
-    setComments((prevState: CommentType[]) =>
-      [...prevState].filter((comment) => comment._id !== commentID),
-    );
+    setComments((prevState) => [...prevState].filter((comment) => comment._id !== commentID));
   };
-  const handleClickReturn = () => {
-    router.back();
-  };
-  const { _id, images, user, likes, content } = post;
-  const isImage = images!.length !== 0;
+
   return (
-    <Wrapper isImage={isImage}>
-      <IconButton onClick={handleClickReturn} size={RETURN_BUTTON_SIZE} plain>
+    <Wrapper>
+      <IconButton onClick={() => router.back()} size={RETURN_BUTTON_SIZE} plain>
         <IoCloseCircleOutline />
       </IconButton>
       <ImageSection>
@@ -67,10 +67,9 @@ function PostDetail({ post }: Props) {
               username={user!.username!}
               marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
             />
-            <Row>
+            {isAuthenticated && (
               <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
-              <EchoButton postID={_id!} />
-            </Row>
+            )}
             {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
             <NormalContent content={content!} expanded />
             <PostComments
@@ -80,7 +79,7 @@ function PostDetail({ post }: Props) {
               onCommentDelete={handleCommentDelete}
             />
           </Col>
-          <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />
+          {isAuthenticated && <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />}
         </Col>
       </PostInfoSection>
     </Wrapper>
