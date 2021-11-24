@@ -29,7 +29,7 @@ const Wrapper = styled.div<Props>`
 
 const Input = styled.input<Props>`
   width: ${({ width }) => (width !== 0 ? `${width}px` : 'unset')};
-  font-size: 20px;
+  font-size: 16px;
   background: ${({ theme }) => theme.colors.background};
 `;
 
