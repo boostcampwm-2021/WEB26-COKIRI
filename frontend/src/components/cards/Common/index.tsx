@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CardWrapper = styled(Wrapper)`
-  padding: 50px 30px;
+  padding: 35px 30px;
 `;
 
 function CardCommon({ children, width, height }: Props) {
