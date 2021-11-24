@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,11 +10,15 @@ interface Props {
   height?: number;
 }
 
+const CardWrapper = styled(Wrapper)`
+  padding: 50px 30px;
+`;
+
 function CardCommon({ children, width, height }: Props) {
   return (
-    <Wrapper width={width} height={height}>
+    <CardWrapper width={width} height={height}>
       {children}
-    </Wrapper>
+    </CardWrapper>
   );
 }
 
