@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 
 import ProfileSet from 'src/components/sets/ProfileSet';
 import DetailButton from 'src/components/buttons/DetailButton';
@@ -27,6 +28,10 @@ interface Props {
   onPostDelete: () => void;
 }
 
+const PostProfileRow = styled(Row)`
+  margin-bottom: 10px;
+`;
+
 function Post({ post, onPostDelete }: Props) {
   const user = useRecoilValue(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
@@ -47,12 +52,12 @@ function Post({ post, onPostDelete }: Props) {
 
   return (
     <CardCommon width={POST_WIDTH}>
-      <Row alignItems='center'>
+      <PostProfileRow alignItems='center'>
         <ProfileSet profileImage={targetUser!.profileImage} username={targetUser!.username!} />
         <TimeFromNow time={createdAt!} />
         <Spacer />
         {!isMe && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
-      </Row>
+      </PostProfileRow>
       {images!.length !== 0 && <PostImages images={images!} />}
       <Row>
         {isAuthenticated && (
