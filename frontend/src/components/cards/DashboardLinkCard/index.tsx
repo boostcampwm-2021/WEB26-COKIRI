@@ -10,7 +10,7 @@ import {
 } from 'src/globals/constants';
 
 interface Props {
-  jobObjectives: string[];
+  jobObjectives?: string[];
   github?: string;
   blog?: string;
 }
@@ -40,12 +40,13 @@ function DashboardLinkCard({ jobObjectives, github, blog }: Props) {
 }
 
 DashboardLinkCard.propTypes = {
-  jobObjectives: PropTypes.arrayOf(PropTypes.string).isRequired,
+  jobObjectives: PropTypes.arrayOf(PropTypes.string),
   github: PropTypes.string,
   blog: PropTypes.string,
 };
 
 DashboardLinkCard.defaultProps = {
+  jobObjectives: [],
   github: '',
   blog: '',
 };

@@ -4,7 +4,7 @@ interface Props {
   onClose: () => void;
 }
 
-function HistoryAddModal({ onClose }: Props) {
+function DashboardHistoryAddModal({ onClose }: Props) {
   const onHistoryWrite = () => {};
   return (
     <ModalCommon onConfirm={onHistoryWrite} onClose={onClose} confirm='저장' close='취소'>
@@ -13,4 +13,4 @@ function HistoryAddModal({ onClose }: Props) {
   );
 }
 
-export default HistoryAddModal;
+export default DashboardHistoryAddModal;

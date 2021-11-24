@@ -174,7 +174,7 @@ class Fetcher {
 
   static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
     const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
-    return result.data.data;
+    return result.data;
   }
 
   static async getTistoryAuthURL(user: UserType): Promise<string> {
@@ -258,10 +258,10 @@ class Fetcher {
     );
   }
 
-  static async putUserInfo(
+  static async putDashboardUserInfo(
     user: UserType,
     dashboard: DashboardUserInfoType,
-  ): Promise<ReturnType<DashboardUserInfoType>> {
+  ): Promise<DashboardUserInfoType> {
     const result = await axios.put(
       `${baseURL}/${version}/users/${user._id}/dashboard`,
       {
@@ -270,7 +270,7 @@ class Fetcher {
         school: dashboard.school,
         region: dashboard.region,
         birthday: dashboard.birthday,
-        emil: dashboard.email,
+        email: dashboard.email,
         github: dashboard.github,
         blog: dashboard.blog,
         jobObjects: dashboard.jobObjectives,
@@ -278,7 +278,7 @@ class Fetcher {
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {

@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { ThemeType } from 'src/types';
 
 interface Props {
+  width: number;
   height: number;
   theme?: ThemeType;
 }
@@ -23,11 +24,11 @@ const Card = styled.div<Props>`
   position: fixed;
   z-index: 2;
   padding: 32px;
-  top: 146px;
+  top: 100px;
   left: 0;
   right: 0;
   height: ${({ height }) => (height === 0 ? 'unset' : `${height}px`)};
-  width: 384px;
+  width: ${({ width }) => width}px;
   display: flex;
   justify-content: center;
   align-items: center;
