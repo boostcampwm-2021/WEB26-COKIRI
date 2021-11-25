@@ -13,7 +13,7 @@ import { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { getBirthdayFormat } from 'src/utils/moment';
 
-import { History, HorizentalLine, Section } from './style';
+import { History, HorizontalLine, Section } from './style';
 
 function DashboardHistoryCard() {
   const router = useRouter();
@@ -29,7 +29,7 @@ function DashboardHistoryCard() {
           <Section key={history._id}>
             <Col>
               <p>{getBirthdayFormat(history.date!)}</p>
-              <HorizentalLine />
+              <HorizontalLine />
               <p>{history.content}</p>
             </Col>
             {isMe && <DashboardHistoryDeleteButton historyID={history._id} />}
