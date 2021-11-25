@@ -11,7 +11,7 @@ interface Props {
 
 function CardCommon({ children, width, height }: Props) {
   return (
-    <Wrapper width={width} height={height}>
+    <Wrapper width={width} height={height} padding='35px 30px'>
       {children}
     </Wrapper>
   );

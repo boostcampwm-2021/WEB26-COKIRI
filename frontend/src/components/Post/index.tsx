@@ -47,7 +47,7 @@ function Post({ post, onPostDelete }: Props) {
 
   return (
     <CardCommon width={POST_WIDTH}>
-      <Row alignItems='center'>
+      <Row alignItems='center' marginBottom={10}>
         <ProfileSet profileImage={targetUser!.profileImage} username={targetUser!.username!} />
         <TimeFromNow time={createdAt!} />
         <Spacer />
