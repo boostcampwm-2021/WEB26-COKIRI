@@ -6,7 +6,6 @@ import Header from 'src/components/Header';
 import Timeline from 'src/components/Timeline';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import LoadingIndicator from 'src/components/LoadingIndicator';
 import SigninCard from 'src/components/cards/SigninCard';
 import { Col } from 'src/components/Grid';
 
@@ -47,7 +46,6 @@ function User({ targetUser }: Props) {
 
       <Header page='username' />
       <Page.Main>
-        <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
           {isUserExist ? (

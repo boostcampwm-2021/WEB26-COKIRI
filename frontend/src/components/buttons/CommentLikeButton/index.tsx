@@ -48,7 +48,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
 
   return isLike ? (
     <IconButton
-      onClick={() => likeMutation.mutate()}
+      onClick={() => dislikeMutation.mutate()}
       size={COMMENT_LIKE_BUTTON_SIZE}
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
@@ -58,7 +58,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
     </IconButton>
   ) : (
     <IconButton
-      onClick={() => dislikeMutation.mutate()}
+      onClick={() => likeMutation.mutate()}
       size={COMMENT_LIKE_BUTTON_SIZE}
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}

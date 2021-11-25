@@ -50,6 +50,7 @@ function ProblemsModal({ onClose, onSelect }: Props) {
         height={EXTERNAL_MODAL_HEIGHT}
         onConfirm={handleConfirm}
         disabled={selectedIndex === -1}
+        title='문제를 검색하고 선택하세요'
       >
         <Row>
           <InputCommon bind={[query, setQuery]} />

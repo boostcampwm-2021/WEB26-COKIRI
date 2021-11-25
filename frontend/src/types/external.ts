@@ -1,10 +1,11 @@
 import { RepoInfoType, ProblemInfoType } from './info';
 
 export default interface ExternalType {
-  content: string;
+  title?: string;
+  content?: string;
   link: string;
   info?: RepoInfoType | ProblemInfoType;
   type: 'repository' | 'tistory' | 'velog' | 'problem';
-  identity: string;
-  target: string;
+  identity?: string;
+  target?: string;
 }

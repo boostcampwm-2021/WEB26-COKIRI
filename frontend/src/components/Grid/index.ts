@@ -6,6 +6,7 @@ interface Props {
   margin?: number;
   padding?: number;
   overFlowY?: string;
+  expanded?: boolean;
 }
 
 const Row = styled.div<Props>`
@@ -15,6 +16,7 @@ const Row = styled.div<Props>`
   align-items: ${({ alignItems }) => alignItems};
   margin: ${({ margin }) => `${margin}px`};
   padding: ${({ padding }) => `${padding}px`};
+  width: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
 `;
 
 const Col = styled.div<Props>`
@@ -25,6 +27,7 @@ const Col = styled.div<Props>`
   margin: ${({ margin }) => `${margin}px`};
   padding: ${({ padding }) => `${padding}px`};
   overflow-y: ${({ overFlowY }) => overFlowY};
+  height: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
 `;
 
 const Spacer = styled.div`

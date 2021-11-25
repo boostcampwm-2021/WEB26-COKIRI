@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
 import ModalCommon from 'src/components/modals/Common';
 import ButtonCommon from 'src/components/buttons/Common';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
@@ -25,6 +26,7 @@ interface Props {
 
 function BlogsModal({ onClose, onSelect }: Props) {
   const user = useRecoilValue(userAtom);
+  const { hasExternalBlog } = user;
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const { data: blogs } = useQuery(['blogs', user._id], () => Fetcher.getUserBlogs(user));
@@ -50,19 +52,26 @@ function BlogsModal({ onClose, onSelect }: Props) {
         height={EXTERNAL_MODAL_HEIGHT}
         onConfirm={handleConfirm}
         disabled={selectedIndex === -1}
+        title={hasExternalBlog ? '게시글을 선택하세요' : '연동된 블로그가 없습니다'}
       >
-        <Blogs>
-          {(blogs ?? [])!.map(({ postID, postTitle }, index) => (
-            <Col key={postID}>
-              <ButtonCommon
-                onClick={() => handleBlogClick(index)}
-                clicked={index === selectedIndex}
-              >
-                {postTitle}
-              </ButtonCommon>
-            </Col>
-          ))}
-        </Blogs>
+        {hasExternalBlog ? (
+          <Blogs>
+            {(blogs ?? [])!.map(({ postID, postTitle }, index) => (
+              <Col key={postID}>
+                <ButtonCommon
+                  onClick={() => handleBlogClick(index)}
+                  clicked={index === selectedIndex}
+                >
+                  {postTitle}
+                </ButtonCommon>
+              </Col>
+            ))}
+          </Blogs>
+        ) : (
+          <NavigateIconButton href={`/users/${user.username}/settings`}>
+            연동하러 가기
+          </NavigateIconButton>
+        )}
       </ModalCommon>
     </Wrapper>
   );
