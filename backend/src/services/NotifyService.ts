@@ -4,7 +4,7 @@ import { SELECT } from 'src/utils';
 
 class NotifyService {
   async findNotify(userID: string | Types.ObjectId) {
-    const notifies = await Notify.find({ userID })
+    const notifies = await Notify.find({ userID, senderID: { $ne: userID } })
       .sort({ createdAt: -1 })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
