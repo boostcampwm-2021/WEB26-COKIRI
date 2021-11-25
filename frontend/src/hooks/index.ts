@@ -1,4 +1,4 @@
 import useIntersectionObserver from 'src/hooks/intersectionObserver';
+import useDebounce from 'src/hooks/debounce';
 
-// eslint-disable-next-line import/prefer-default-export
-export { useIntersectionObserver };
+export { useIntersectionObserver, useDebounce };

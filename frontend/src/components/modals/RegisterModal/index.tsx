@@ -53,7 +53,7 @@ function RegisterModal() {
         <p>영문 대소문자 및 숫자만 가능해요</p>
         <InputCommon
           bind={[username, setUsername]}
-          onChange={handleChange}
+          onChangeWithDebounce={handleChange}
           icon={isValid ? <AiOutlineCheck /> : null}
         />
       </Col>

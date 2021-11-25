@@ -119,3 +119,6 @@ export const DASHBOARD_HISTORY_MARGIN_LEFT = 50;
 export const DASHBOARD_STACK_TITLE_FONT_SIZE = 16;
 export const RADAR_CHART_WIDTH = 30;
 export const RADAR_CHART_HEIGHT = 30;
+
+// TIME
+export const DEFAULT_DEBOUNCE_TIME = 200;
