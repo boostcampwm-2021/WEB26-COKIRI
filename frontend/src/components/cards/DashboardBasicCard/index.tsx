@@ -16,7 +16,6 @@ import { Row, Col } from 'src/components/Grid';
 
 import {
   USER_INFO_PROFILE_IMAGE_SIZE,
-  DEFAULT_PROFILE_IMAGE,
   USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT,
   DASHBOARD_LEFT_SECTION_CARD_WIDTH,
   DASHBOARD_USER_INFO_ICON_SIZE,
@@ -33,7 +32,7 @@ import { Content } from './style';
 function DashboardBasicCard() {
   const user = useRecoilValue(userAtom);
   const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
-  const { name, phoneNumber, email, birthday, region, school } = dashboardUserInfo;
+  const { name, phoneNumber, email, birthday, region, school, profileImage } = dashboardUserInfo;
   const router = useRouter();
   const username = router.query.username as string;
 
@@ -44,7 +43,7 @@ function DashboardBasicCard() {
       <Row justifyContent='space-evenly'>
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
-          profileImage={DEFAULT_PROFILE_IMAGE}
+          profileImage={profileImage}
           marginRight={USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT}
         />
         <Col>
