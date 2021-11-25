@@ -9,8 +9,6 @@ import { Col, Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { EXTERNAL_MODAL_HEIGHT } from 'src/globals/constants';
-
 import { ProblemType } from 'src/types';
 
 import { Wrapper, Problems } from './style';
@@ -47,7 +45,6 @@ function ProblemsModal({ onClose, onSelect }: Props) {
         onClose={onClose}
         close='취소'
         confirm='선택'
-        height={EXTERNAL_MODAL_HEIGHT}
         onConfirm={handleConfirm}
         disabled={selectedIndex === -1}
         title='문제를 검색하고 선택하세요'

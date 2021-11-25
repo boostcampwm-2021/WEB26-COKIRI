@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import PostComments from 'src/components/PostComments';
-
 import { POST_WIDTH } from 'src/globals/constants';
 
 import { ThemeType } from 'src/types';

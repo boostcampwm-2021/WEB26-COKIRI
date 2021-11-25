@@ -4,10 +4,7 @@ import CardCommon from 'src/components/cards/Common';
 import DashboardTechStacksSettingButton from 'src/components/buttons/dashboardSettings/DashboardTechStacksSettingButton';
 import { Col, Row } from 'src/components/Grid';
 
-import {
-  DASHBOARD_LEFT_SECTION_CARD_WIDTH,
-  DASHBOARD_STACK_GRID_PADDING,
-} from 'src/globals/constants';
+import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
 import { dashboardTechStacksSelector } from 'src/recoil/dashboardUserInfo';
 
@@ -20,7 +17,7 @@ function DashboardTechStacksCard() {
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
-        <Col padding={DASHBOARD_STACK_GRID_PADDING}>
+        <Col>
           {fields.map((field) => (
             <Field key={field}>
               <Title>{field}</Title>

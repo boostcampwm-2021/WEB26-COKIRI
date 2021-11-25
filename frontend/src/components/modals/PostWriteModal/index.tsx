@@ -44,22 +44,22 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
   });
   const problemMutation = useMutation((id: string) => Fetcher.getProblem(id), {
     onSuccess: (problem: ExternalType) => {
-      setExternal(problem);
       setExternalType('problem');
+      setExternal(problem);
     },
   });
   const repoMutation = useMutation((name: string) => Fetcher.getUserRepo(user, name), {
     onSuccess: (repo: ExternalType) => {
-      setExternal(repo);
       setExternalType('repo');
+      setExternal(repo);
     },
   });
   const blogMutation = useMutation(
     (blog: BlogType) => Fetcher.getUserBlog(user, blog.identity, blog.postID),
     {
       onSuccess: (blog: ExternalType) => {
-        setExternal(blog);
         setExternalType('blog');
+        setExternal(blog);
       },
     },
   );
@@ -129,7 +129,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         onClose={onClose}
         disabled={content.trim() === ''}
       >
-        <Row justifyContent='center' alignItems='center' margin={16}>
+        <Row justifyContent='center' alignItems='center'>
           <ImageInput onImageUpload={handleImageUpload}>
             <IconHolder>
               <IoMdImages />

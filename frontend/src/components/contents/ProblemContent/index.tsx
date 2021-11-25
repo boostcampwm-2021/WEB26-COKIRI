@@ -18,9 +18,9 @@ function ProblemContent({ content, info, link, title }: Props) {
     <>
       <h1>{title}</h1>
       <Row justifyContent='space-between'>
-        <p>티어 {info.tear}</p>
-        <p>푼 사람 {info.solvedUserCount}</p>
-        <p>시도 횟수 {info.totalTryCount}</p>
+        <p>티어 {info?.tear}</p>
+        <p>푼 사람 {info?.solvedUserCount}</p>
+        <p>시도 횟수 {info?.totalTryCount}</p>
       </Row>
       {/* eslint-disable-next-line react/no-danger */}
       <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />

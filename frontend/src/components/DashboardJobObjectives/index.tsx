@@ -15,7 +15,7 @@ function DashboardJobObjectives({ jobObjectives, onDeleteJobObjective }: Props) 
   return (
     <Wrapper>
       <Title>desired job</Title>
-      <Col padding={16} alignItems='flex-end'>
+      <Col alignItems='flex-end'>
         {jobObjectives.map((jobObjective) => (
           <Row key={jobObjective} alignItems='center'>
             <p>{jobObjective}</p>

@@ -6,8 +6,9 @@ const Wrapper = styled.div`
 `;
 
 const Repos = styled.div`
-  overflow-y: scroll;
   height: 400px;
+  width: 350px;
+  overflow-y: scroll;
 `;
 
 export { Wrapper, Repos };
