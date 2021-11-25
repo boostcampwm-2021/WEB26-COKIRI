@@ -37,9 +37,9 @@ function UserSearchInput() {
 
   return (
     <>
-      <Background onClick={handleBackgroundClick} />
+      {value !== '' && <Background onClick={handleBackgroundClick} />}
       {userResults.length !== 0 && (
-        <HeaderModal left>
+        <HeaderModal>
           {userResults.map(({ _id, username, profileImage }) => (
             <Row key={_id} justifyContent='space-between' alignItems='center'>
               <Row alignItems='center'>
