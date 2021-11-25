@@ -21,7 +21,7 @@ class CommentService {
     delete newComment!.userID;
     delete newComment!.postID;
     const post = await Post.findOne({ _id: postID }, 'userID -_id');
-    NotifyService.createNotify('postLike', userID, post?.userID, postID);
+    NotifyService.createNotify('commentLike', userID, post?.userID, postID);
     return newComment;
   }
 
