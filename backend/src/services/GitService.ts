@@ -1,9 +1,9 @@
 /* eslint camelcase: 0 */
 import axios from 'axios';
-import * as Base64 from 'js-base64';
 import * as cheerio from 'cheerio';
 
-import { Calculate, OPENAPIURL } from 'src/utils';
+import { Calculate, OPENAPIURL, HEADER, ERROR } from 'src/utils';
+import { DashboardRepositoryType } from 'src/types';
 
 class GitService {
   async findRepoList(username: string) {
@@ -13,22 +13,38 @@ class GitService {
   }
 
   async findRepo(githubUsername: string, repoName: string) {
-    const apiData = (await axios.get(OPENAPIURL.GIT_REPOINFO_API(githubUsername, repoName))).data;
-    const readmeData = (await axios.get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName)))
-      .data;
+    let apiData;
+    try {
+      apiData = (await axios.get(OPENAPIURL.GIT_REPOINFO_API(githubUsername, repoName))).data;
+    } catch {
+      throw new Error(ERROR.NOT_EXIST_REPONAME);
+    }
+
     const { name, html_url, stargazers_count, forks_count, languages_url } = apiData;
-    const languageData = (await axios.get(languages_url)).data;
-    const languageInfo = Calculate.calculateLanguage(languageData);
-    const { content } = readmeData;
-    const decodeContent = Base64.decode(content);
-    const result = {
+    const result: DashboardRepositoryType = {
       repoName: name,
       repoUrl: html_url,
-      startCount: stargazers_count,
+      starCount: stargazers_count,
       forkCount: forks_count,
-      content: decodeContent,
-      languageInfo,
     };
+
+    const languageData = (await axios.get(languages_url)).data;
+    if (Object.keys(languageData).length !== 0) {
+      const languageInfo = Calculate.calculateLanguage(languageData);
+      result.languageInfo = languageInfo;
+    }
+
+    try {
+      const readmeData = (
+        await axios.get(OPENAPIURL.GIT_REPOREADME_API(githubUsername, repoName), {
+          headers: HEADER.GITHUB_README,
+        })
+      ).data;
+      result.content = readmeData;
+    } catch {
+      return result;
+    }
+
     return result;
   }
 

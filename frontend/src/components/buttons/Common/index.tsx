@@ -14,18 +14,33 @@ interface Props {
   hidden?: boolean;
   children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  clicked?: boolean;
+  disabled?: boolean;
 }
 
-function ButtonCommon({ children, width, margin, padding, height, onClick, plain, hidden }: Props) {
+function ButtonCommon({
+  children,
+  width,
+  margin,
+  padding,
+  height,
+  onClick,
+  plain,
+  hidden,
+  clicked,
+  disabled,
+}: Props) {
   return (
     <Button
-      width={width}
-      height={height}
-      margin={margin}
-      padding={padding}
-      onClick={onClick}
-      plain={plain}
-      hidden={hidden}
+      width={width!}
+      height={height!}
+      margin={margin!}
+      padding={padding!}
+      onClick={onClick!}
+      plain={plain!}
+      hidden={hidden!}
+      clicked={clicked!}
+      disabled={disabled!}
     >
       {children}
     </Button>
@@ -41,6 +56,8 @@ ButtonCommon.propsType = {
   plain: PropTypes.bool,
   hidden: PropTypes.bool,
   onClick: PropTypes.func,
+  clicked: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 ButtonCommon.defaultProps = {
@@ -51,6 +68,8 @@ ButtonCommon.defaultProps = {
   hidden: false,
   plain: false,
   onClick: () => {},
+  clicked: false,
+  disabled: false,
 };
 
 export default ButtonCommon;

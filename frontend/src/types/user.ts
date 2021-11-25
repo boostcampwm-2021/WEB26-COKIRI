@@ -1,3 +1,5 @@
+import DashboardUserInfoType from './dashboardUserInfo';
+
 export default interface UserType {
   _id?: string;
   name?: string;
@@ -11,4 +13,7 @@ export default interface UserType {
   followCount?: number;
   followers?: string[];
   follows?: string[];
+  hasExternalBlog?: boolean;
+  hasExternalGithub?: boolean;
+  dashboard?: DashboardUserInfoType;
 }

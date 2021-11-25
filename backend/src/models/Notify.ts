@@ -1,4 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
+import * as mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 
 import { NotifyType } from 'src/types';
 import { Validate } from 'src/utils';
@@ -28,5 +29,14 @@ const notifySchema = new Schema<NotifyType>(
   },
   { versionKey: false, timestamps: { createdAt: true, updatedAt: false } },
 );
+
+notifySchema.virtual('user', {
+  ref: 'User',
+  localField: 'senderID',
+  foreignField: '_id',
+  justOne: true,
+});
+
+notifySchema.plugin(mongooseLeanVirtuals);
 
 export default model<NotifyType>('Notify', notifySchema);

@@ -6,7 +6,6 @@ import { CommentService, PostLikeService, TistoryService } from 'src/services/in
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
 import { PostType } from 'src/types';
-import { constants } from 'buffer';
 
 class PostService {
   async existsPost(postID: string, userID: string) {
@@ -16,92 +15,55 @@ class PostService {
     }
   }
 
-  async getPost(postID: Types.ObjectId) {
-    const results = await Promise.all([
-      CommentService.findComments(postID.toString()),
-      PostLikeService.findPostLikes(postID.toString()),
-      ImageService.findPostImage(postID.toString()),
-    ]);
-    return { comments: results[0], likes: results[1], images: results[2] };
+  async createPost(data: any) {
+    const { images } = data;
+    const post = await Post.create(data);
+    if (images && images.length !== 0) {
+      const insertImages = images.map((imageURL: any) => ({ url: imageURL, targetID: post._id }));
+      if (insertImages) await Image.insertMany(insertImages);
+    }
+    const newPost = await this.findOnePost(post._id);
+    return newPost;
   }
 
-  async getPostArray(posts: PostType[]) {
+  async findPosts(posts: PostType[]) {
     return Promise.all(
       posts.map(async (post) => {
         const newPost = { ...post };
         delete newPost.userID;
-        const results = await this.getPost(post._id!);
+        const results = await this.findOnePost(post._id!);
         return { ...newPost, ...results };
       }),
     );
   }
 
-  async createPost(data: any) {
-    let { images } = data;
-    const { link, type, blog, blogIdentity } = data;
-    switch (type) {
-      case undefined:
-      case 'normal':
-        if (link || blog || blogIdentity) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'blog':
-        if (!link || !blog || !blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'github':
-        if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      case 'algorithm':
-        if (!link || blog || blogIdentity || images?.length) {
-          throw new Error(ERROR.WRONG_BODY_TYPE);
-        }
-        break;
-      default:
-    }
-    const post = await Post.create(data);
-    if (images?.length > 0) {
-      images = images.map((v: any) => ({ url: v, targetID: post._id }));
-      if (images) await Image.insertMany(images);
-    }
-    const newPostConfig = await Promise.all([this.findPost(post._id), this.getPost(post._id)]);
-    return { ...newPostConfig[0], ...newPostConfig[1] };
-  }
-
-  async findRandomPost() {
+  async findRandomPost(userID: any, cursor: number) {
     const randomPosts = await Post.aggregate([
-      { $sample: { size: PERPAGE } },
+      { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
+      { $skip: cursor },
+      { $limit: PERPAGE },
       { $sort: { createdAt: -1 } },
       { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
       { $unwind: '$user' },
-      {
-        $project: {
-          'user._id': true,
-          'user.username': true,
-          'user.profileImage': true,
-          title: true,
-          content: true,
-          tags: true,
-          link: true,
-          createdAt: true,
-          updatedAt: true,
-          type: true,
-        },
-      },
     ]);
-    return this.getPostArray(randomPosts);
+
+    const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
+    return { posts: await this.findPosts(randomPosts), postCount };
   }
 
-  async findUserTimeline(userID: string) {
-    const posts = await Post.find({ userID })
+  async findUserTimeline(userID: string, cursor: number) {
+    const postList = await Post.find({ userID })
       .sort({ createdAt: -1 })
+      .skip(cursor)
+      .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getPostArray(posts);
+
+    const [posts, postCount] = await Promise.all([
+      this.findPosts(postList),
+      Post.countDocuments({ userID }).exec(),
+    ]);
+    return { posts, postCount };
   }
 
   async findTimeline(userID: string, cursor: number) {
@@ -109,18 +71,19 @@ class PostService {
     const containsArray = !follows ? [userID] : [...follows, userID];
     const posts = await Post.find({ userID: { $in: containsArray } })
       .sort({ createdAt: -1 })
-      .skip(PERPAGE * cursor)
+      .skip(cursor)
       .limit(PERPAGE)
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    return this.getPostArray(posts);
+    const postCount = await Post.countDocuments({ userID: { $in: containsArray } });
+    return { posts: await this.findPosts(posts), postCount };
   }
 
-  async findPost(postID: string) {
+  async findOnePost(postID: string | Types.ObjectId) {
     const post = await Post.findOne({ _id: postID })
       .populate({ path: 'user', select: SELECT.USER })
       .lean();
-    if (!post) throw new Error(ERROR.NO_POSTS);
+    if (!post) throw new Error(ERROR.NOT_EXIST_POST);
     delete post!.userID;
     const results = await Promise.all([
       CommentService.findComments(postID),
@@ -135,26 +98,16 @@ class PostService {
   }
 
   async updateTistoryPost(userID: string, postID: string) {
-    const post: PostType = await Post.findOne(
-      { _id: postID },
-      'blogIdentity blog blogPostID -_id',
-    ).lean();
-    if (post.blog !== 'tistory' || !post.blogIdentity || !post.blogPostID) {
-      throw new Error(ERROR.NO_POSTS);
+    const post: PostType = await Post.findOne({ _id: postID }, 'external -_id').lean();
+    if (!post.external || post.external.type !== 'tistory') {
+      throw new Error(ERROR.INVALID_TISTORY_POST);
     }
-    const newBlogContent = await TistoryService.getPostContent(
+    const newBlogContent = await TistoryService.findPostContent(
       userID,
-      post.blogIdentity,
-      post.blogPostID,
+      post.external.identity,
+      post.external.target,
     );
-    return Post.updateOne(
-      { _id: postID },
-      {
-        link: newBlogContent.link,
-        title: newBlogContent.title,
-        content: newBlogContent.content,
-      },
-    );
+    return Post.updateOne({ _id: postID }, { external: newBlogContent });
   }
 
   async removePost(postID: string) {

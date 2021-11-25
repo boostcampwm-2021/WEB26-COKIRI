@@ -1,7 +1,4 @@
 import * as AWS from 'aws-sdk';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 export default (function objectStorageLoader() {
   const endpoint = new AWS.Endpoint(process.env.STORAGE_END_POINT as string) as any;

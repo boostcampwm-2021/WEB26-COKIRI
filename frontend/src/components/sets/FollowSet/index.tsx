@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import UnfollowButton from 'src/components/buttons/UnfollowButton';
 import FollowButton from 'src/components/buttons/FollowButton';
 
-import userAtom, { followersSelector, followsSelector } from 'src/recoil/user';
+import userAtom, {
+  followersSelector,
+  followsSelector,
+  isAuthenticatedSelector,
+} from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
@@ -15,6 +19,7 @@ interface Props {
 
 function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
   const user = useRecoilValue(userAtom);
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const followers = useRecoilValue(followersSelector);
   const [follows, setFollows] = useRecoilState<string[]>(followsSelector);
 
@@ -31,7 +36,7 @@ function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
     setFollows((prevState) => prevState.filter((id) => id !== targetUserID));
     onUnfollow();
   }, [onUnfollow, setFollows, targetUserID]);
-  if (isMe) {
+  if (isMe || !isAuthenticated) {
     return null;
   }
   return isFollow ? (

@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { PostLike, Post } from 'src/models';
 import { SELECT } from 'src/utils';
 import { NotifyService } from 'src/services';
@@ -18,7 +20,7 @@ class PostLikeService {
     return upsertLike.upsertedId;
   }
 
-  async findPostLikes(postID: string) {
+  async findPostLikes(postID: string | Types.ObjectId) {
     const likes = await PostLike.find({ postID }, '-postID').populate('user', SELECT.USER).lean();
     return likes.map((like) => {
       const newLike = { ...like };

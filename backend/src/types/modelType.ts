@@ -18,18 +18,22 @@ export interface NotifyRangeType {
 }
 
 export interface DashboardType {
-  name: string;
-  phoneNumber: string;
-  school: string;
-  region: string;
-  birthday: Date;
-  github: string;
-  blog: string;
-  solvedac: string;
-  email: string;
-  profileImage: string;
-  jobObjectives: string[];
-  techStacks: object;
+  name?: string;
+  phoneNumber?: string;
+  school?: string;
+  region?: string;
+  birthday?: Date;
+  github?: string;
+  blog?: string;
+  solvedac?: string;
+  email?: string;
+  profileImage?: string;
+  jobObjectives?: string[];
+  techStacks?: object;
+  statistics?: {
+    problem?: object;
+    reposLanguage?: object;
+  };
 }
 
 export interface UserType {
@@ -61,8 +65,12 @@ export interface UserType {
 export interface DashboardRepositoryType {
   _id?: Types.ObjectId;
   userID?: Types.ObjectId;
-  title?: string;
+  repoName?: string;
+  repoUrl?: string;
+  starCount?: number;
+  forkCount?: number;
   content?: string;
+  languageInfo?: object;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -96,17 +104,18 @@ export interface ImageType {
 
 export interface PostType {
   _id?: Types.ObjectId;
-  title?: string;
   content?: string;
   userID?: Types.ObjectId;
   tags?: Types.ObjectId[];
-  type?: 'normal' | 'blog' | 'algorithm' | 'github';
-  link?: string;
-  externalContent?: string;
-  external?: { type: 'github' | 'tistory' | 'velog'; identity: string; target: string };
-  blog?: 'tistory' | 'velog';
-  blogIdentity?: string;
-  blogPostID?: string;
+  external?: {
+    title: string;
+    content: string;
+    link: string;
+    info?: object;
+    type: 'repository' | 'tistory' | 'velog' | 'problem';
+    identity: string;
+    target: string;
+  };
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -167,6 +176,8 @@ export interface TagType {
 export interface TechStackType {
   _id?: Types.ObjectId;
   techStack?: string;
+  searchString?: string;
+  searchCon?: string;
   color?: string;
 }
 

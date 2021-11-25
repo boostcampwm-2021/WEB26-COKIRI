@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 interface Props {
   justifyContent?: string;
   alignItems?: string;
+  expanded?: boolean;
 }
 
 const Row = styled.div<Props>`
@@ -10,7 +11,7 @@ const Row = styled.div<Props>`
   flex-direction: row;
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
-  width: 100%;
+  width: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
 `;
 
 const Col = styled.div<Props>`
@@ -18,7 +19,7 @@ const Col = styled.div<Props>`
   flex-direction: column;
   align-items: ${({ alignItems }) => alignItems};
   justify-content: ${({ justifyContent }) => justifyContent};
-  width: 100%;
+  height: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
 `;
 
 const Spacer = styled.div`

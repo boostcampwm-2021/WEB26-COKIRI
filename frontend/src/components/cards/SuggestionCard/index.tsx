@@ -42,7 +42,7 @@ function SuggestionCard() {
 
   return (
     <CardCommon width={SUGGESTION_CARD_WIDTH}>
-      <Row>
+      <Row justifyContent='space-between'>
         <IconButton hidden={isFirst} onClick={handleClickLeft}>
           <AiOutlineLeft />
         </IconButton>

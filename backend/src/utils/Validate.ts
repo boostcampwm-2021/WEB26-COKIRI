@@ -71,6 +71,18 @@ class Validate {
     return regx.test(email);
   }
 
+  static async dashboardTechStacksID(value: object): Promise<boolean> {
+    const techStacksID = Object.values(value).reduce((prev, curr) => {
+      const stacksID = curr.map((stack: TechStackType) => stack._id);
+      const mergeStacksID = prev.concat(stacksID);
+      return mergeStacksID.filter(
+        (id: Types.ObjectId, index: number) => mergeStacksID.indexOf(id) === index,
+      );
+    }, []);
+    const count = await Validate.TechStackModel?.countDocuments({ _id: { $in: techStacksID } });
+    return count === techStacksID.length;
+  }
+
   static userObjectID(value: Types.ObjectId): Promise<boolean> {
     return Validate.objectIDLogic(Validate.UserModel, value);
   }

@@ -6,7 +6,7 @@ import Header from 'src/components/Header';
 import Timeline from 'src/components/Timeline';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import LoadingIndicator from 'src/components/LoadingIndicator';
+import SigninCard from 'src/components/cards/SigninCard';
 import { Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -14,7 +14,7 @@ import { UserType } from 'src/types';
 import { Fetcher } from 'src/utils';
 
 import { USERS_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import { isRegisteredSelector } from 'src/recoil/user';
 
@@ -25,19 +25,16 @@ interface Props {
 }
 
 function User({ targetUser }: Props) {
+  const isAuthenticated = useRecoilValue(isRegisteredSelector);
   const isUserExist = Object.keys(targetUser).length !== 0;
   const isRegistered = useRecoilValue(isRegisteredSelector);
-  const { refetch, data } = useInfiniteQuery(
+  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['user', 'posts', targetUser],
-    () => Fetcher.getUserPosts(targetUser),
+    (context) => Fetcher.getUserPosts(targetUser, context),
     {
-      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
-
-  const handlePostWrite = () => {
-    refetch();
-  };
 
   return (
     <>
@@ -47,21 +44,27 @@ function User({ targetUser }: Props) {
         <link rel='icon' href={FAVICON} />
       </Head>
 
-      <Header />
+      <Header page='username' />
       <Page.Main>
-        <LoadingIndicator />
         <Col alignItems='center'>
+          {!isAuthenticated && <SigninCard />}
           {isUserExist ? (
             <>
               <UserInfoCard targetUser={targetUser} />
-              <Timeline pages={data?.pages} />
+              <Timeline
+                pages={data?.pages}
+                onPostDelete={refetch}
+                onNeedMore={fetchNextPage}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+              />
             </>
           ) : (
             <>없다!</>
           )}
         </Col>
       </Page.Main>
-      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
+      {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </>
   );
 }
@@ -69,14 +72,6 @@ function User({ targetUser }: Props) {
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
   const token = context.req?.cookies.jwt;
-  if (token === undefined) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-    };
-  }
   const targetUser = await Fetcher.getUsersByUsername(token, username);
   return {
     props: { targetUser },

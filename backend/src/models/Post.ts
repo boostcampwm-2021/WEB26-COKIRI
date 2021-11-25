@@ -6,29 +6,21 @@ import { Validate } from 'src/utils';
 
 const postSchema = new Schema<PostType>(
   {
-    title: { type: String, trim: true },
     content: { type: String, required: true, trim: true },
     userID: { type: Types.ObjectId, required: true, ref: 'User', validate: Validate.userObjectID },
     tags: {
       type: [{ type: Types.ObjectId, ref: 'Tag', required: true, validate: Validate.tagObjectID }],
       default: [],
     },
-    type: {
-      type: String,
-      enum: ['normal', 'github', 'blog', 'algorithm'],
-      required: true,
-      default: 'normal',
-    },
-    link: { type: String, trim: true },
-    externalContent: { type: String, trim: true },
     external: {
-      type: { type: String, enum: ['github', 'tistory', 'velog'] },
+      title: { type: String, trim: true },
+      content: { type: String, trim: true, require: true },
+      link: { type: String, trim: true },
+      info: Object,
+      type: { type: String, enum: ['repository', 'tistory', 'velog', 'problem'] },
       identity: { type: String, trim: true },
       target: { type: String, trim: true },
     },
-    blog: { type: String, enum: ['tistory', 'velog'] },
-    blogIdentity: String,
-    blogPostID: String,
   },
   { versionKey: false, timestamps: true },
 );

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller, Req, Res, Post, Delete, Get, UseBefore, Put } from 'routing-controllers';
 import * as passport from 'passport';
 
-import { ERROR, RESPONSECODE } from 'src/utils';
+import { ERROR, RESPONSECODE, Cursor } from 'src/utils';
 import { PostService, CommentService, PostLikeService, CommentLikeService } from 'src/services';
 
 @Controller('/posts')
@@ -10,18 +10,26 @@ export default class PostsRouter {
   @Get('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getTimeline(@Req() request: Request, @Res() response: Response) {
-    const { user_id: userID, cursor } = request.query;
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    const cursor = Cursor.setCursor(cursorTemp as any);
+
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    const posts = await PostService.findTimeline(userID as string, +cursor!);
-    return response.json({ code: RESPONSECODE.SUCCESS, nextCursor: +cursor! + 1, data: posts });
+
+    const { posts, postCount } = await PostService.findTimeline(userID as string, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
+    return response.json(data);
   }
 
   @Get('/random')
   async getRandomPosts(@Req() request: Request, @Res() response: Response) {
-    const posts = await PostService.findRandomPost();
-    return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
+    const { user_id: userID, cursor: cursorTemp } = request.query;
+    const cursor = Cursor.setCursor(cursorTemp as any);
+
+    const { posts, postCount } = await PostService.findRandomPost(userID, cursor);
+    const data = Cursor.makeCursorData(posts, postCount, cursor);
+    return response.json(data);
   }
 
   @Get('/:postID/likes')
@@ -34,27 +42,34 @@ export default class PostsRouter {
   @Get('/:postID')
   async getPost(@Req() request: Request, @Res() response: Response) {
     const { postID } = request.params;
-    const post = await PostService.findPost(postID);
+    const post = await PostService.findOnePost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
-  @Put('/:postID/tistory')
+  @Put('/:postID/blog')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async putTistoryPost(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.body;
+    const { userID, type } = request.body;
     const { postID } = request.params;
     if (userID !== request.user?.userID) {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
-    await PostService.updateTistoryPost(userID, postID);
-    const post = await PostService.findPost(postID);
+    if (!type) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    if (type === 'tistory') await PostService.updateTistoryPost(userID, postID);
+    const post = await PostService.findOnePost(postID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
 
   @Post('/')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async postPost(@Req() request: Request, @Res() response: Response) {
+    const { userID } = request.body;
     const data = request.body;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
     const post = await PostService.createPost(data);
     return response.json({ code: RESPONSECODE.SUCCESS, data: post });
   }
@@ -128,7 +143,7 @@ export default class PostsRouter {
     }
     const { deletedCount } = await PostLikeService.removePostLike(userID, postID, likeID);
     if (!deletedCount) {
-      throw new Error(ERROR.NO_POST_LIKES);
+      throw new Error(ERROR.NOT_EXIST_POST_LIKE);
     }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
@@ -157,7 +172,7 @@ export default class PostsRouter {
     await CommentService.existsComment(postID, commentID, undefined);
     const { deletedCount } = await CommentLikeService.removeCommentLike(commentID, likeID);
     if (!deletedCount) {
-      throw new Error(ERROR.NO_COMMENT_LIKES);
+      throw new Error(ERROR.NOT_EXIST_COMMENT_LIKE);
     }
     return response.json({ code: RESPONSECODE.SUCCESS });
   }

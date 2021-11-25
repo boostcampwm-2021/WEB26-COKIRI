@@ -1,8 +1,5 @@
 import * as passport from 'passport';
 import * as GitHubStrategy from 'passport-github';
-import { User } from 'src/models';
-
-import { UserService } from 'src/services';
 
 export default function passportGithubLoader(): void {
   const githubStrategyOptions = {
@@ -15,26 +12,14 @@ export default function passportGithubLoader(): void {
     accessToken: string,
     refreshToken: string,
     profile: any,
-    cb: any,
+    done: any,
   ) => {
     try {
-      const { id, login: username } = profile._json;
-      const userIsExist = await UserService.existGithubUser(username);
-      let user;
-      if (userIsExist) {
-        const temp = await UserService.updateGithubUserInfo(username, { githubUsername: username });
-        user = { userID: temp };
-      } else {
-        user = await UserService.findOrCreateUserForProvider({
-          authProvider: 'github',
-          authProviderID: id,
-          githubUsername: username,
-        });
-      }
-
-      return cb(null, user);
+      const { id, username } = profile;
+      const user = { id, username };
+      return done(null, user);
     } catch (err) {
-      return cb(err);
+      return done(err);
     }
   };
 

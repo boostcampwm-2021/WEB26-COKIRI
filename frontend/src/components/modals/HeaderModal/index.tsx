@@ -6,12 +6,12 @@ import { Wrapper } from './style';
 interface Props {
   children: ReactNode;
   right?: boolean;
-  left?: boolean;
+  width?: number;
 }
 
-function HeaderModal({ children, left, right }: Props) {
+function HeaderModal({ children, right, width }: Props) {
   return (
-    <Wrapper left={left!} right={right!}>
+    <Wrapper right={right!} width={width!}>
       {children}
     </Wrapper>
   );
@@ -21,11 +21,12 @@ HeaderModal.propTyps = {
   children: PropTypes.node.isRequired,
   right: PropTypes.bool,
   left: PropTypes.bool,
+  width: PropTypes.number,
 };
 
 HeaderModal.defaultProps = {
   right: false,
-  left: true,
+  width: 400,
 };
 
 export default HeaderModal;

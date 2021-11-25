@@ -4,16 +4,16 @@ import { ThemeType } from 'src/types';
 
 interface Props {
   theme?: ThemeType;
-  left: boolean;
   right: boolean;
+  width: number;
 }
 
 const Wrapper = styled.div<Props>`
   position: fixed;
   top: 78px;
-  left: ${({ left }) => (left ? 0 : 'unset')};
+  left: ${({ right }) => (right ? 'unset' : 0)};
   right: ${({ right }) => (right ? 0 : 'unset')};
-  width: 350px;
+  width: ${({ width }) => `${width}px`};
   height: 300px;
   overflow-y: scroll;
   padding: 30px;
@@ -21,7 +21,7 @@ const Wrapper = styled.div<Props>`
   border-bottom: 1px solid #3e3e3e;
   border-left: 1px solid #3e3e3e;
   border-right: 1px solid #3e3e3e;
-  border-bottom-left-radius: ${({ left }) => (left ? 'unset' : '50px')};
+  border-bottom-left-radius: ${({ right }) => (right ? '50px' : 'unset')};
   border-bottom-right-radius: ${({ right }) => (right ? 'unset' : '50px')};
 `;
 

@@ -1,5 +1,13 @@
 import styled from '@emotion/styled';
 
+import { ThemeType } from 'src/types';
+
+interface Props {
+  width: number;
+  height: number;
+  theme?: ThemeType;
+}
+
 const Background = styled.div`
   position: fixed;
   z-index: 2;
@@ -12,37 +20,27 @@ const Background = styled.div`
   background-color: rgba(35, 35, 35, 0.65);
 `;
 
-const Card = styled.div`
+const Card = styled.div<Props>`
   position: fixed;
   z-index: 2;
   padding: 32px;
-  top: 146px;
+  top: 100px;
   left: 0;
   right: 0;
-  width: 384px;
+  height: ${({ height }) => (height === 0 ? 'unset' : `${height}px`)};
+  width: ${({ width }) => width}px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
   border-radius: 50px;
-  background: #1e1e1e;
-  box-shadow: 8px 8px 16px #1a1a1a, -8px -8px 16px #232323;
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e;
 `;
 
-const Button = styled.button`
-  margin: 0 24px;
-  width: 96px;
-  height: 48px;
-  border-radius: 50px;
-  background: #1e1e1e;
-  box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #232323;
+const Title = styled.p`
+  font-size: 22px;
+  margin: 16px 0;
 `;
 
-const CloseButton = styled(Button)`
-  background: #231e1e;
-  box-shadow: 5px 5px 10px #1f1a1a, -5px -5px 10px #282323;
-`;
-
-const ConfirmButton = styled(Button)``;
-
-export { Background, Card, CloseButton, ConfirmButton };
+export { Background, Card, Title };

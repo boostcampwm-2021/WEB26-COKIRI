@@ -12,7 +12,7 @@ interface Props {
 }
 
 function ImageInput({ onImageUpload, children }: Props) {
-  const handleOnChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
     // eslint-disable-next-line no-param-reassign
     event.target.value = '';
@@ -28,7 +28,7 @@ function ImageInput({ onImageUpload, children }: Props) {
         id='image'
         type='file'
         accept='image/jpg,image/png,image/jpeg,image/gif'
-        onChange={handleOnChange}
+        onChange={handleChange}
         multiple
       />
     </label>

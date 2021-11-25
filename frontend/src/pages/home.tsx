@@ -8,7 +8,6 @@ import Header from 'src/components/Header';
 import SigninCard from 'src/components/cards/SigninCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import SuggestionCard from 'src/components/cards/SuggestionCard';
-import LoadingIndicator from 'src/components/LoadingIndicator';
 import { Col } from 'src/components/Grid';
 
 import userAtom, {
@@ -22,7 +21,7 @@ import { Page } from 'src/styles';
 import { Fetcher } from 'src/utils';
 
 import { HOME_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 function Home() {
   const user = useRecoilValue(userAtom);
@@ -31,18 +30,13 @@ function Home() {
   const isRegistered = useRecoilValue(isRegisteredSelector);
 
   const [hasFollowTemp] = useState(hasFollow);
-  const { refetch, data } = useInfiniteQuery(
+  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['home', 'posts', user],
     (context) => Fetcher.getPosts(user, context),
     {
-      getNextPageParam: (lastPage) => lastPage, // @TODO nextCursor property update
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
-
-  const handlePostWrite = () => {
-    refetch();
-  };
-
   return (
     <>
       <Head>
@@ -50,16 +44,24 @@ function Home() {
         <meta name='description' content={HOME_DESCRIPTION} />
         <link rel='icon' href={FAVICON} />
       </Head>
-      <Header />
+
+      <Header page='home' />
       <Page.Main>
-        <LoadingIndicator />
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
-          {isAuthenticated && !hasFollowTemp && <SuggestionCard />}
-          {isRegistered && <Timeline pages={data?.pages} />}
+          {isRegistered && !hasFollowTemp && <SuggestionCard />}
+          {isRegistered && (
+            <Timeline
+              pages={data?.pages}
+              onPostDelete={refetch}
+              onNeedMore={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+            />
+          )}
         </Col>
       </Page.Main>
-      {isRegistered && <FloatingButton onPostWrite={handlePostWrite} />}
+      {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </>
   );
 }

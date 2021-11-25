@@ -1,9 +1,11 @@
+import { Types } from 'mongoose';
+
 import { Image } from 'src/models';
 import { ObjectStorageService } from 'src/services';
 import { URLParser } from 'src/utils';
 
 class ImageService {
-  async findPostImage(postID: string) {
+  async findPostImage(postID: string | Types.ObjectId) {
     return Image.find({ targetID: postID }, '-targetID');
   }
 

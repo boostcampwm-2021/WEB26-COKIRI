@@ -3,6 +3,10 @@ import { TistoryService } from 'src/services/index';
 import { ERROR } from 'src/utils';
 
 class BlogService {
+  async existsBlog(userID: string) {
+    return Blog.exists({ userID });
+  }
+
   async existsVelogBlog(userID: string, username: string) {
     return Blog.exists({ userID, identity: username });
   }
@@ -23,21 +27,22 @@ class BlogService {
   async findUserBlogs(userID: string) {
     const blogs = await Blog.find({ userID });
     if (blogs.length === 0) {
-      throw new Error(ERROR.NO_BLOGS);
+      return [];
     }
-    return Promise.all(
+    const blogPosts = await Promise.all(
       blogs.map(async (blog) => {
         const { type, identity } = blog;
         let posts: any[] = [];
         switch (type) {
           case 'tistory':
-            posts = await TistoryService.getAllPosts(userID, identity!);
+            posts = await TistoryService.findAllPosts(userID, identity!);
             break;
           default:
         }
         return posts;
       }),
     );
+    return blogPosts.reduce((prev, curr) => prev.concat(curr), []);
   }
 }
 

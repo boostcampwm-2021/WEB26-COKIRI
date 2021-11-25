@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { useCallback, useMemo, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
@@ -7,78 +7,79 @@ import CardCommon from 'src/components/cards/Common';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import ProfileImage from 'src/components/images/ProfileImage';
 import FollowSet from 'src/components/sets/FollowSet';
+import FollowsButton from 'src/components/buttons/FollowsButton';
+import FollowersButton from 'src/components/buttons/FollowersButton';
+import ButtonCommon from 'src/components/buttons/Common';
 import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import {
-  DEFAULT_PROFILE_IMAGE,
-  USER_INFO_PROFILE_IMAGE_SIZE,
-  USER_INFO_CARD_WIDTH,
-} from 'src/globals/constants';
+import { USER_INFO_PROFILE_IMAGE_SIZE, USER_INFO_CARD_WIDTH } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import userAtom from 'src/recoil/user';
 
-import { Wrapper, ImageHolder, Username } from './style';
+import { Username } from './style';
 
 interface Props {
   targetUser: UserType;
 }
 
+const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+
 function UserInfoCard({ targetUser }: Props) {
   const user = useRecoilValue(userAtom);
-  const { profileImage, username, postCount, followCount, name, bio } = targetUser;
+  const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
 
-  const isMe = useMemo(() => targetUser._id === user._id, [targetUser._id, user._id]);
-
-  const handleFollow = useCallback(() => {
-    setFollowerCount((prevState) => prevState + 1);
-  }, []);
-  const handleUnfollow = useCallback(() => {
-    setFollowerCount((prevState) => prevState - 1);
-  }, []);
+  const isMe = _id === user._id;
+  const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
+  const handleUnfollow = () => setFollowerCount((prevState) => prevState - 1);
+  const handleLogoutClick = () => {
+    window.open(`${url}/v1/users/logout`, '_self');
+  };
 
   return (
-    <Wrapper>
-      <CardCommon width={USER_INFO_CARD_WIDTH}>
-        <Row>
-          <ImageHolder>
-            <ProfileImage
-              size={USER_INFO_PROFILE_IMAGE_SIZE}
-              profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
-            />
-          </ImageHolder>
-          <Col>
-            <Row>
-              <Username>{username}</Username>
-              {isMe ? (
-                <NavigateIconButton href={`/users/${targetUser.username}/settings`}>
+    <CardCommon width={USER_INFO_CARD_WIDTH}>
+      <Row alignItems='center' justifyContent='center'>
+        <ProfileImage
+          size={USER_INFO_PROFILE_IMAGE_SIZE}
+          profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
+        />
+        <Col>
+          <Row alignItems='center' justifyContent='center'>
+            <Username>{username}</Username>
+            {isMe && (
+              <>
+                <NavigateIconButton href={`/users/${username}/settings`}>
                   <IoSettingsOutline />
                 </NavigateIconButton>
-              ) : (
-                <FollowSet
-                  targetUserID={targetUser._id!}
-                  onFollow={handleFollow}
-                  onUnfollow={handleUnfollow}
-                />
-              )}
-            </Row>
-            <Row>
-              <p>{postCount} posts</p>
-              <p>{followerCount} followers</p>
-              <p>{followCount} following</p>
-            </Row>
-            <Row>
-              <p>{name}</p>
-            </Row>
-            <Row>
-              <p>{bio}</p>
-            </Row>
-          </Col>
-        </Row>
-      </CardCommon>
-    </Wrapper>
+                <ButtonCommon onClick={handleLogoutClick}>로그아웃</ButtonCommon>
+              </>
+            )}
+            <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
+          </Row>
+          <Row alignItems='center' justifyContent='center'>
+            <p>{postCount} posts</p>
+            <FollowsButton
+              count={isMe ? user.follows!.length! : followCount!}
+              targetUserID={_id!}
+            />
+            <FollowersButton
+              count={isMe ? user.followers!.length! : followerCount!}
+              targetUserID={_id!}
+            />
+            <NavigateIconButton href={`/users/${username}/dashboard`}>Dashboard</NavigateIconButton>
+          </Row>
+          <Row>
+            <p>{name}</p>
+          </Row>
+          <Row>
+            <p>{bio}</p>
+          </Row>
+        </Col>
+      </Row>
+    </CardCommon>
   );
 }
 

@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { Comment, Post } from 'src/models';
 import { ERROR, SELECT } from 'src/utils';
 import { CommentLikeService, NotifyService } from 'src/services';
@@ -9,7 +11,7 @@ class CommentService {
       ? await Comment.exists({ _id: commentID, postID })
       : await Comment.exists({ _id: commentID, postID, userID });
     if (!isExist) {
-      throw new Error(ERROR.NO_COMMENTS);
+      throw new Error(ERROR.NOT_EXIST_COMMENT);
     }
   }
 
@@ -19,11 +21,11 @@ class CommentService {
     delete newComment!.userID;
     delete newComment!.postID;
     const post = await Post.findOne({ _id: postID }, 'userID -_id');
-    NotifyService.createNotify('postLike', userID, post?.userID, postID);
+    NotifyService.createNotify('postComment', userID, post?.userID, postID);
     return newComment;
   }
 
-  async findComments(postID: string) {
+  async findComments(postID: string | Types.ObjectId) {
     const comments: CommentType[] = await Comment.find({ postID }, '-postID')
       .sort({ createdAt: 1 })
       .populate('user', SELECT.USER)

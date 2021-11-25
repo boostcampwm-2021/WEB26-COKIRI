@@ -7,10 +7,18 @@ import PropTypes from 'prop-types';
 import ModalCommon from 'src/components/modals/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
 import PreviewImages from 'src/components/images/PreviewImages';
+import ButtonCommon from 'src/components/buttons/Common';
+import ReposModal from 'src/components/modals/ReposModal';
+import ProblemsModal from 'src/components/modals/ProblemsModal';
+import BlogsModal from 'src/components/modals/BlogsModal';
+import ExternalPreview from 'src/components/ExternalPreview';
+import { Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
+
+import { BlogType, ExternalType, ProblemType, RepoType } from 'src/types';
 
 import { Textarea, IconHolder } from './style';
 
@@ -20,14 +28,41 @@ interface Props {
 }
 
 function PostWriteModal({ onClose, onPostWrite }: Props) {
+  const user = useRecoilValue(userAtom);
+
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
-  const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.postPost(user, content, images), {
-    onSuccess: () => {
-      onPostWrite();
+  const [external, setExternal] = useState<ExternalType>();
+  const [externalType, setExternalType] = useState<'repo' | 'problem' | 'blog' | ''>('');
+
+  const [isReposModalShow, setIsReposModalShow] = useState(false);
+  const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
+  const [isBlogsModalShow, setIsBlogsModalShow] = useState(false);
+
+  const mutation = useMutation(() => Fetcher.postPost(user, content.trim(), images, external), {
+    onSuccess: () => onPostWrite(),
+  });
+  const problemMutation = useMutation((id: string) => Fetcher.getProblem(id), {
+    onSuccess: (problem: ExternalType) => {
+      setExternalType('problem');
+      setExternal(problem);
     },
   });
+  const repoMutation = useMutation((name: string) => Fetcher.getUserRepo(user, name), {
+    onSuccess: (repo: ExternalType) => {
+      setExternalType('repo');
+      setExternal(repo);
+    },
+  });
+  const blogMutation = useMutation(
+    (blog: BlogType) => Fetcher.getUserBlog(user, blog.identity, blog.postID),
+    {
+      onSuccess: (blog: ExternalType) => {
+        setExternalType('blog');
+        setExternal(blog);
+      },
+    },
+  );
 
   const handleConfirm = () => {
     mutation.mutate();
@@ -50,16 +85,69 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     setImages((prevState) => prevState.filter((image, i) => i !== index));
   }, []);
 
+  const handleExternalDelete = useCallback(() => {
+    setExternal(undefined);
+    setExternalType('');
+  }, []);
+
+  const handleClickGithub = () => setIsReposModalShow(true);
+  const handleClickProblems = () => setIsProblemsModalShow(true);
+  const handleClickBlogs = () => setIsBlogsModalShow(true);
+
+  const handleReposModalClose = () => setIsReposModalShow(false);
+  const handleProblemsModalClose = () => setIsProblemsModalShow(false);
+  const handleBlogsModalClose = () => setIsBlogsModalShow(false);
+
+  const handleRepoSelect = (repo: RepoType) => {
+    repoMutation.mutate(repo.name);
+    setIsReposModalShow(false);
+  };
+  const handleProblemSelect = (problem: ProblemType) => {
+    problemMutation.mutate(problem.id);
+    setIsProblemsModalShow(false);
+  };
+  const handleBlogSelect = (blog: BlogType) => {
+    blogMutation.mutate(blog);
+    setIsBlogsModalShow(false);
+  };
+
   return (
-    <ModalCommon close='취소' confirm='확인' onConfirm={handleConfirm} onClose={onClose}>
-      <ImageInput onImageUpload={handleImageUpload}>
-        <IconHolder>
-          <IoMdImages />
-        </IconHolder>
-      </ImageInput>
-      <Textarea autoFocus value={content} onChange={handleTextareaChange} />
-      <PreviewImages images={images} onDelete={handleImageDelete} />
-    </ModalCommon>
+    <>
+      {isReposModalShow && (
+        <ReposModal onClose={handleReposModalClose} onSelect={handleRepoSelect} />
+      )}
+      {isProblemsModalShow && (
+        <ProblemsModal onClose={handleProblemsModalClose} onSelect={handleProblemSelect} />
+      )}
+      {isBlogsModalShow && (
+        <BlogsModal onClose={handleBlogsModalClose} onSelect={handleBlogSelect} />
+      )}
+      <ModalCommon
+        close='취소'
+        confirm='확인'
+        onConfirm={handleConfirm}
+        onClose={onClose}
+        disabled={content.trim() === ''}
+      >
+        <Row justifyContent='center' alignItems='center'>
+          <ImageInput onImageUpload={handleImageUpload}>
+            <IconHolder>
+              <IoMdImages />
+            </IconHolder>
+          </ImageInput>
+          <ButtonCommon onClick={handleClickGithub}>깃허브</ButtonCommon>
+          <ButtonCommon onClick={handleClickProblems}>백준</ButtonCommon>
+          <ButtonCommon onClick={handleClickBlogs}>블로그</ButtonCommon>
+        </Row>
+        <Textarea autoFocus value={content} onChange={handleTextareaChange} />
+        <PreviewImages images={images} onDelete={handleImageDelete} />
+        <ExternalPreview
+          external={external}
+          externalType={externalType}
+          onDelete={handleExternalDelete}
+        />
+      </ModalCommon>
+    </>
   );
 }
 
