@@ -6,15 +6,10 @@ import { Wrapper } from './style';
 interface Props {
   children: ReactNode;
   right?: boolean;
-  left?: boolean;
 }
 
-function HeaderModal({ children, left, right }: Props) {
-  return (
-    <Wrapper left={left!} right={right!}>
-      {children}
-    </Wrapper>
-  );
+function HeaderModal({ children, right }: Props) {
+  return <Wrapper right={right!}>{children}</Wrapper>;
 }
 
 HeaderModal.propTyps = {
@@ -25,7 +20,6 @@ HeaderModal.propTyps = {
 
 HeaderModal.defaultProps = {
   right: false,
-  left: true,
 };
 
 export default HeaderModal;
