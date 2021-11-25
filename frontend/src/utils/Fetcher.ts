@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import { QueryFunctionContext } from 'react-query';
 
 import {
@@ -20,8 +20,20 @@ import {
   LanguageStatisticsType,
 } from 'src/types';
 
+import { NOT_EXIST_TOKEN } from 'src/globals/errors';
+
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const version = 'v1';
+
+async function run(requestConfig: AxiosRequestConfig) {
+  try {
+    const url = `${baseURL}/${version}/${requestConfig.url}`;
+    const result = await axios.request({ ...requestConfig, url });
+    return result.data;
+  } catch (error) {
+    return error as AxiosError;
+  }
+}
 
 class Fetcher {
   // for server side
