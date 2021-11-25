@@ -40,12 +40,13 @@ function DashboardBasicSettingModal({ onClose }: Props) {
   const { mutate } = useMutation(
     () =>
       Fetcher.putDashboardUserInfo(user, {
+        ...dashboardUserInfo,
         name,
         phoneNumber,
         birthday,
         region,
         school,
-        email,
+        email: email || undefined,
         profileImage,
       }),
     {
@@ -66,7 +67,7 @@ function DashboardBasicSettingModal({ onClose }: Props) {
 
   return (
     <ModalCommon
-      width={1200}
+      width={800}
       onConfirm={handleConfirm}
       onClose={onClose}
       confirm='저장'
