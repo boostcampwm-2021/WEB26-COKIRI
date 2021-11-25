@@ -196,77 +196,75 @@ const Fetcher = {
     return result.data;
   },
 
-  async getUserRepo(user: UserType, repoName: string): Promise<ExternalType> {
-    const result = await axios.get(
-      `${baseURL}/${version}/users/${user._id}/repositories/${repoName}`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
-    );
-    return result.data.data;
+  async getUserRepo(user: UserType, repoName: string) {
+    const result = await getWithAuth<ExternalType>({
+      url: `users/${user._id}/repositories/${repoName}`,
+      token: user.token!,
+    });
+    return result.data;
   },
 
   async getUserFollows(targetUserID: string) {
-    const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/follows`);
-    return result.data.data;
+    const result = await get<UserType[]>({ url: `users/${targetUserID}/follows` });
+    return result.data;
   },
 
   async getUserFollowers(targetUserID: string) {
-    const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/followers`);
-    return result.data.data;
-  },
-
-  async getProblems(query: string): Promise<ProblemType[]> {
-    const result = await axios.get(`${baseURL}/${version}/problems`, {
-      params: { query },
-    });
-    return result.data.data;
-  },
-
-  async getProblem(id: string): Promise<ExternalType> {
-    const result = await axios.get(`${baseURL}/${version}/problems/${id}`);
-    return result.data.data;
-  },
-
-  async getUserBlogs(user: UserType): Promise<BlogType[]> {
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/blogs`, {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
-    return result.data.data;
-  },
-
-  async getUserBlog(user: UserType, identity: string, postID: string): Promise<ExternalType> {
-    const result = await axios.get(
-      `${baseURL}/${version}/users/${user._id}/tistory/${identity}/posts/${postID}`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
-    );
-    return result.data.data;
-  },
-
-  async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
-    const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
+    const result = await get<UserType[]>({ url: `users/${targetUserID}/followers` });
     return result.data;
   },
 
-  async getTistoryAuthURL(user: UserType, redirectURI: string): Promise<string> {
-    const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
-      headers: { Authorization: `Bearer ${user.token}` },
+  async getProblems(query: string) {
+    const result = await get<ProblemType[]>({ url: 'problems', params: { query } });
+    return result.data;
+  },
+
+  async getProblem(id: string) {
+    const result = await get<ExternalType>({ url: `problems/${id}` });
+    return result.data;
+  },
+
+  async getUserBlogs(user: UserType) {
+    const result = await getWithAuth<BlogType[]>({
+      url: `users/${user._id}/blogs`,
+      token: user.token!,
+    });
+    return result.data;
+  },
+
+  async getUserBlog(user: UserType, identity: string, postID: string) {
+    const result = await getWithAuth<ExternalType>({
+      url: `users/${user._id}/tistory/${identity}/posts/${postID}`,
+      token: user.token!,
+    });
+    return result.data;
+  },
+
+  async getDashboardUserInfo(username: string) {
+    const result = await get<DashboardUserInfoType>({
+      url: `users/dashboard?username=${username}`,
+    });
+    return result.data;
+  },
+
+  async getTistoryAuthURL(user: UserType, redirectURI: string) {
+    const result = await getWithAuth<string>({
+      url: 'socials/tistory',
+      token: user.token!,
       params: { redirect_uri: redirectURI },
     });
-    return result.data.data;
-  },
-
-  async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
-    const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
     return result.data;
   },
 
-  async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
-    const result = await axios.get(
-      `${baseURL}/${version}/users/${userID}/dashboard/repositories/languages`,
-    );
+  async getDashboardRepo(userID: string) {
+    const result = await get<RepoType[]>({ url: `users/${userID}/dashboard/repositories` });
+    return result.data;
+  },
+
+  async getDashboardLanguageStatistics(userID: string) {
+    const result = await get<StatisticsType>({
+      url: `users/${userID}/dashboard/repositories/languages`,
+    });
     return result.data;
   },
 
@@ -290,7 +288,7 @@ const Fetcher = {
     images: string[],
     external?: ExternalType,
   ): Promise<ReturnType<PostType>> {
-    const result = await axios.post(
+    const result = await axios.post<PostType>(
       `${baseURL}/${version}/posts`,
       { userID: user._id, content, images, external },
       { headers: { Authorization: `Bearer ${user.token}` } },
@@ -398,6 +396,7 @@ const Fetcher = {
         email: dashboard.email || undefined,
         github: dashboard.github || undefined,
         blog: dashboard.blog || undefined,
+        solvedac: dashboard.solvedac || undefined,
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
