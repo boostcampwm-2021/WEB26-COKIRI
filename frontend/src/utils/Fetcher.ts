@@ -35,16 +35,20 @@ async function run(requestConfig: AxiosRequestConfig) {
   }
 }
 
-function getAuthHeader({ token, headers }: { token: string; headers?: AxiosRequestHeaders }): {
-  headers: AxiosRequestHeaders;
-} {
-  if (!token) {
-    throw new Error(NOT_EXIST_TOKEN);
-  }
-  const authorizationHeader = { Authorization: `Bearer ${token}` };
-  return {
-    headers: headers ? { ...headers, ...authorizationHeader } : authorizationHeader,
-  };
+function get(config: AxiosRequestConfig) {
+  return run({ ...config, method: 'GET' });
+}
+
+function post(config: AxiosRequestConfig) {
+  return run({ ...config, method: 'POST' });
+}
+
+function put(config: AxiosRequestConfig) {
+  return run({ ...config, method: 'PUT' });
+}
+
+function del(config: AxiosRequestConfig) {
+  return run({ ...config, method: 'DELETE' });
 }
 
 class Fetcher {
