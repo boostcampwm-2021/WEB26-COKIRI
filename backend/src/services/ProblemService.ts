@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 
 import { CRAWLING, ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
 import { ObjectType } from 'src/types';
+import { User } from 'src/models';
 
 class ProblemService {
   convertLevelToTear(level: number) {
@@ -56,6 +57,19 @@ class ProblemService {
     }
   }
 
+  async findOneDashboardStatistics(userID: string) {
+    const user = await User.findOne({ _id: userID }, 'dashboard.statistics.problem').lean();
+    if (
+      !user ||
+      !user.dashboard ||
+      !user.dashboard.statistics ||
+      !user.dashboard.statistics.problem
+    ) {
+      return {};
+    }
+    return user!.dashboard!.statistics!.problem;
+  }
+
   async findSolvedAcStatistics(username: string) {
     const url = OPENAPIURL.PROBLEM_STATISTICS;
     const solvedProfileHTML = (await axios.get(`${url}${username}`)).data;
@@ -82,8 +96,8 @@ class ProblemService {
     exps.each((index, exp) => {
       if (index > 9) return false;
       if (index !== 0) {
-        const expText = $(exp).text();
-        statistics[statisticsKeys[index - 1]] = expText;
+        const expText = $(exp).text() as string;
+        statistics[statisticsKeys[index - 1]] = +expText.replace(/,/g, '');
       }
       return true;
     });

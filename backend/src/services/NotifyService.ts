@@ -1,9 +1,19 @@
 import { Types } from 'mongoose';
 import { Notify } from 'src/models';
+import { SELECT } from 'src/utils';
 
 class NotifyService {
   async findNotify(userID: string | Types.ObjectId) {
-    return Notify.find({ userID }).sort({ createdAt: -1 });
+    const notifies = await Notify.find({ userID })
+      .sort({ createdAt: -1 })
+      .populate({ path: 'user', select: SELECT.USER })
+      .lean();
+    return notifies.map((notify) => {
+      const temp = { ...notify };
+      delete temp.userID;
+      delete temp.senderID;
+      return temp;
+    });
   }
 
   async createNotify(
