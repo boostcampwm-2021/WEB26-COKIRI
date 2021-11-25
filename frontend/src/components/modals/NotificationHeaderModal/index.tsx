@@ -4,30 +4,46 @@ import PropTypes from 'prop-types';
 
 import HeaderModal from 'src/components/modals/HeaderModal';
 import FollowSet from 'src/components/sets/FollowSet';
-import { Row } from 'src/components/Grid';
+import TimeFromNow from 'src/components/TimeFromNow';
+import ProfileSet from 'src/components/sets/ProfileSet';
+import { Row, Spacer } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { Background } from './style';
+import { Background, Notification } from './style';
 
 interface Props {
   onClose: () => void;
 }
+const typeMessages: { [type: string]: string } = {
+  postLike: '님이 내 글을 좋아해요',
+  postComment: '님이 내 글에 코멘트를 남겼어요',
+  commentLike: '님이 내 코멘트를 좋아해요',
+  follow: '님이 나를 팔로우 하기 시작했어요',
+};
 
 function NotificationHeaderModal({ onClose }: Props) {
   const user = useRecoilValue(userAtom);
-  const { data } = useQuery(['notifications', user._id], () => Fetcher.getUserNotifications(user));
+  const { data: notifications } = useQuery(['notifications', user._id], () =>
+    Fetcher.getUserNotifications(user),
+  );
+
   return (
     <>
       <Background onClick={onClose} />
-      <HeaderModal right>
-        {(data ?? []).map(({ _id }) => (
-          <Row key={_id} justifyContent='space-between' alignItems='center'>
-            test
-            <FollowSet targetUserID={_id!} />
-          </Row>
+      <HeaderModal right width={580}>
+        {(notifications ?? []).map(({ _id, type, user: targetUser, postID, createdAt }) => (
+          <Notification key={_id}>
+            <Row justifyContent='space-between' alignItems='center'>
+              <ProfileSet username={targetUser.username!} profileImage={targetUser.profileImage} />
+              {typeMessages[type]}
+              <Spacer />
+              <TimeFromNow time={createdAt} />
+              <FollowSet targetUserID={targetUser._id!} />
+            </Row>
+          </Notification>
         ))}
       </HeaderModal>
     </>
