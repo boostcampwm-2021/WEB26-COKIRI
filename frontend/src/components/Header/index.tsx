@@ -1,16 +1,11 @@
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
-import {
-  IoHomeOutline,
-  IoCompassOutline,
-  IoHeartOutline,
-  IoPersonCircleOutline,
-} from 'react-icons/io5';
+import { IoHomeOutline, IoCompassOutline, IoPersonCircleOutline } from 'react-icons/io5';
 
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import LogoButton from 'src/components/buttons/LogoButton';
-import IconButton from 'src/components/buttons/IconButton';
 import UserSearchInput from 'src/components/inputs/UserSearchInput';
+import NotificationButton from 'src/components/buttons/NotificationButton';
 
 import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
@@ -43,9 +38,7 @@ function Header({ page }: Props) {
       <Section>
         {isAuthenticated && (
           <>
-            <IconButton>
-              <IoHeartOutline />
-            </IconButton>
+            <NotificationButton />
             <NavigateIconButton href={`/users/${user.username}`} clicked={page === 'username'}>
               <IoPersonCircleOutline />
             </NavigateIconButton>
