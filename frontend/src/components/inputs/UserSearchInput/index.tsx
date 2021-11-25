@@ -55,7 +55,7 @@ function UserSearchInput() {
         placeholder='search'
         width={SEARCH_INPUT_WIDTH}
         icon={<IoSearchSharp />}
-        onChange={handleChange}
+        onChangeWithDebounce={handleChange}
       />
     </>
   );
