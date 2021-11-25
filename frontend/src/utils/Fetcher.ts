@@ -158,10 +158,6 @@ const Fetcher = {
     return get({ url: `users/${user._id}/posts`, params: { cursor: pageParam ?? 0 } });
   },
 
-  async getSignout(): Promise<void> {
-    await axios.get(`${baseURL}/${version}/users/logout`);
-  },
-
   async getSearch(query: string): Promise<UserType[]> {
     const result = await axios.get(`${baseURL}/${version}/search`, {
       params: { query },
