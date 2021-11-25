@@ -1,5 +1,3 @@
-import { HistoryType } from 'src/types';
-
 const MINUTE = 60; // SECONDS
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
@@ -40,7 +38,4 @@ const getBirthdayFormat = (time?: string) => {
   return '';
 };
 
-const compareTime = (firstHistory: HistoryType, secondHistory: HistoryType) =>
-  new Date(firstHistory.date).getTime() - new Date(secondHistory.date).getTime();
-
-export { getFromNow, getBirthdayFormat, compareTime };
+export { getFromNow, getBirthdayFormat };
