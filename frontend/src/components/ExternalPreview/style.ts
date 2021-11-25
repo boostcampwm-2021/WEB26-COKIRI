@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 const Wrapper = styled.div`
   position: relative;
   height: 100px;
+  width: 360px;
   overflow-y: hidden;
   border-radius: 16px;
   padding: 16px;
@@ -13,7 +14,7 @@ const Cover = styled.div`
   right: 0;
   left: 0;
   bottom: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(18, 18, 18, 1));
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(13, 13, 13, 1));
 `;
 
 const LinkButton = styled.a`

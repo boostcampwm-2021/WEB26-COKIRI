@@ -12,8 +12,6 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { REPOS_MODAL_HEIGHT } from 'src/globals/constants';
-
 import { RepoType } from 'src/types';
 
 import { Wrapper, Repos } from './style';
@@ -48,7 +46,6 @@ function ReposModal({ onClose, onSelect }: Props) {
         onConfirm={handleConfirm}
         close='취소'
         confirm='선택'
-        height={REPOS_MODAL_HEIGHT}
         onClose={onClose}
         disabled={selectedIndex === -1}
         title={hasExternalGithub ? '저장소를 선택하세요' : '연동된 깃헙이 없습니다'}

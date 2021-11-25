@@ -5,10 +5,7 @@ import CardCommon from 'src/components/cards/Common';
 import DashboardLinkSettingButton from 'src/components/buttons/dashboardSettings/DashboardLinkSettingButton';
 import { Row, Col } from 'src/components/Grid';
 
-import {
-  DASHBOARD_RIGHT_SECTION_CARD_WIDTH,
-  DASHBOARD_LINK_ROW_PADDING,
-} from 'src/globals/constants';
+import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -25,7 +22,7 @@ function DashboardLinkCard() {
 
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
-      <Row padding={DASHBOARD_LINK_ROW_PADDING} justifyContent='space-between'>
+      <Row justifyContent='space-between'>
         <Col>
           <Row>
             <Title>희망 직군</Title>

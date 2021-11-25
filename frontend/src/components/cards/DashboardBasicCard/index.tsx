@@ -19,7 +19,6 @@ import {
   USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT,
   DASHBOARD_LEFT_SECTION_CARD_WIDTH,
   DASHBOARD_USER_INFO_ICON_SIZE,
-  DASHBOARD_USER_INFO_COL_MARGIN,
 } from 'src/globals/constants';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -49,14 +48,14 @@ function DashboardBasicCard() {
         <Col>
           <Row alignItems='center'>
             <IoPersonOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>이름</Content>
               <Content>{name}</Content>
             </Col>
           </Row>
           <Row alignItems='center'>
             <IoCallOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>연락처</Content>
               <Content>{phoneNumber}</Content>
             </Col>
@@ -65,14 +64,14 @@ function DashboardBasicCard() {
         <Col>
           <Row alignItems='center'>
             <IoCalendarClearOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>생년 월일</Content>
               <Content>{getBirthdayFormat(birthday)}</Content>
             </Col>
           </Row>
           <Row alignItems='center'>
             <IoMailOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>이메일</Content>
               <Content>{email}</Content>
             </Col>
@@ -81,14 +80,14 @@ function DashboardBasicCard() {
         <Col>
           <Row alignItems='center'>
             <IoLocationOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>주소지</Content>
               <Content>{region}</Content>
             </Col>
           </Row>
           <Row alignItems='center'>
             <BsPencil size={DASHBOARD_USER_INFO_ICON_SIZE} />
-            <Col margin={DASHBOARD_USER_INFO_COL_MARGIN}>
+            <Col>
               <Content>학력</Content>
               <Content>{school}</Content>
             </Col>

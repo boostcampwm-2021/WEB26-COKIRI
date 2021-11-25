@@ -6,7 +6,8 @@ const Wrapper = styled.div`
 `;
 
 const Problems = styled.div`
-  height: 200px;
+  height: 400px;
+  width: 350px;
   overflow-y: scroll;
   padding: 16px;
 `;

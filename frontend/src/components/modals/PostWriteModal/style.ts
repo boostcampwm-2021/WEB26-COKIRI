@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 
 const Textarea = styled.textarea`
-  width: 100%;
+  width: 360px;
   height: 164px;
-  border: none;
   border-radius: 36px;
   padding: 24px;
-  margin-bottom: 36px;
-  background: #1e1e1e;
-  box-shadow: inset 5px 5px 11px #1a1a1a, inset -5px -5px 11px #232323;
+  margin: 24px 0;
+  background: #444444;
+  box-shadow: inset 5px 5px 10px #3a3a3a, inset -5px -5px 10px #4e4e4e;
   resize: none;
   font-size: 16px;
 `;
@@ -17,13 +16,13 @@ const IconHolder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: start;
+  align-self: center;
   width: 48px;
   height: 48px;
   border-radius: 12px;
   background: #444444;
-  box-shadow: 11px 11px 21px #3a3a3a, -11px -11px 21px #4e4e4e;
-  margin-right: 12px;
+  box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e;
+  margin: 0 12px;
 `;
 
 export { Textarea, IconHolder };

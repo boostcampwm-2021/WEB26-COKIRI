@@ -10,8 +10,6 @@ import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { EXTERNAL_MODAL_HEIGHT } from 'src/globals/constants';
-
 import { BlogType } from 'src/types';
 
 import userAtom from 'src/recoil/user';
@@ -49,7 +47,6 @@ function BlogsModal({ onClose, onSelect }: Props) {
         onClose={onClose}
         close='취소'
         confirm='선택'
-        height={EXTERNAL_MODAL_HEIGHT}
         onConfirm={handleConfirm}
         disabled={selectedIndex === -1}
         title={hasExternalBlog ? '게시글을 선택하세요' : '연동된 블로그가 없습니다'}
