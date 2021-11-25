@@ -21,7 +21,7 @@ import { Page } from 'src/styles';
 import { Fetcher } from 'src/utils';
 
 import { HOME_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 function Home() {
   const user = useRecoilValue(userAtom);

@@ -4,12 +4,12 @@ import Image from 'next/image';
 import ButtonCommon from 'src/components/buttons/Common';
 
 import {
-  LOGO_IMAGE,
   LOGO_BUTTON_WIDTH,
   LOGO_BUTTON_HEIGHT,
   LOGO_IMAGE_WIDTH,
   LOGO_IMAGE_HEIGHT,
 } from 'src/globals/constants';
+import { LOGO_IMAGE } from 'src/globals/images';
 
 function LogoButton() {
   return (

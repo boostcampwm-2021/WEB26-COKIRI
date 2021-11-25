@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import PostDetail from 'src/components/PostDetail';
 import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import { PostType } from 'src/types';
 

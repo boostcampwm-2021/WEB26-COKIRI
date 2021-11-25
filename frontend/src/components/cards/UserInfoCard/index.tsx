@@ -14,15 +14,10 @@ import { Row, Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
-import {
-  DEFAULT_PROFILE_IMAGE,
-  USER_INFO_PROFILE_IMAGE_SIZE,
-  USER_INFO_CARD_WIDTH,
-} from 'src/globals/constants';
+import { USER_INFO_PROFILE_IMAGE_SIZE, USER_INFO_CARD_WIDTH } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import userAtom from 'src/recoil/user';
-
-import { Fetcher } from 'src/utils';
 
 import { Username } from './style';
 

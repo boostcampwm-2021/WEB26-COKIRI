@@ -6,7 +6,7 @@ import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import { Row, Col } from 'src/components/Grid';
 
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import { Page } from 'src/styles';
 

@@ -14,7 +14,7 @@ import { UserType } from 'src/types';
 import { Fetcher } from 'src/utils';
 
 import { USERS_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import { isRegisteredSelector } from 'src/recoil/user';
 
