@@ -26,25 +26,23 @@ const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const version = 'v1';
 
 async function run(requestConfig: AxiosRequestConfig) {
-  try {
-    const url = `${baseURL}/${version}/${requestConfig.url}`;
-    const result = await axios.request({ ...requestConfig, url });
-    return result.data;
-  } catch (error) {
-    return error as AxiosError;
-  }
+  const url = `${baseURL}/${version}/${requestConfig.url}`;
+  const result = await axios.request({ ...requestConfig, url });
+  return result.data;
 }
 
-function getAuthHeader({ token, headers }: { token: string; headers?: AxiosRequestHeaders }): {
-  headers: AxiosRequestHeaders;
-} {
+function getAuthHeader({
+  token,
+  headers,
+}: {
+  token: string;
+  headers?: AxiosRequestHeaders;
+}): AxiosRequestHeaders {
   if (!token) {
     throw new Error(NOT_EXIST_TOKEN);
   }
   const authorizationHeader = { Authorization: `Bearer ${token}` };
-  return {
-    headers: headers ? { ...headers, ...authorizationHeader } : authorizationHeader,
-  };
+  return headers ? { ...headers, ...authorizationHeader } : authorizationHeader;
 }
 
 function get(config: AxiosRequestConfig) {
