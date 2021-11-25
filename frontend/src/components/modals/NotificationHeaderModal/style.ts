@@ -10,5 +10,8 @@ const Background = styled.div`
   width: 100vw;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Background };
+const Notification = styled.div`
+  height: 64px;
+`;
+
+export { Background, Notification };

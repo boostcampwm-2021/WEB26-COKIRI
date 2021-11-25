@@ -14,7 +14,7 @@ function NotificationButton() {
   return (
     <>
       {isModalShow && <NotificationHeaderModal onClose={() => setIsModalShow(false)} />}
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} clicked={isModalShow}>
         <IoHeartOutline />
       </IconButton>
     </>

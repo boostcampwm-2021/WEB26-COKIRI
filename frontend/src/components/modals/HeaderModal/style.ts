@@ -5,6 +5,7 @@ import { ThemeType } from 'src/types';
 interface Props {
   theme?: ThemeType;
   right: boolean;
+  width: number;
 }
 
 const Wrapper = styled.div<Props>`
@@ -12,7 +13,7 @@ const Wrapper = styled.div<Props>`
   top: 78px;
   left: ${({ right }) => (right ? 'unset' : 0)};
   right: ${({ right }) => (right ? 0 : 'unset')};
-  width: 350px;
+  width: ${({ width }) => `${width}px`};
   height: 300px;
   overflow-y: scroll;
   padding: 30px;
