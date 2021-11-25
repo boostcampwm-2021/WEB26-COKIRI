@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import ProfileImage from 'src/components/images/ProfileImage';
 
-import { DEFAULT_PROFILE_IMAGE, DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import { Wrapper } from './style';
 

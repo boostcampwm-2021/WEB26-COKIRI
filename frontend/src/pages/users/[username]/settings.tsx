@@ -9,7 +9,7 @@ import ExternalAuthCard from 'src/components/cards/ExternalAuthCard';
 import { Col } from 'src/components/Grid';
 
 import { SETTING_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import userAtom, { isRegisteredSelector } from 'src/recoil/user';
 

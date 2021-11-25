@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 
-import { DEFAULT_PROFILE_IMAGE, DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import { Wrapper } from './style';
 

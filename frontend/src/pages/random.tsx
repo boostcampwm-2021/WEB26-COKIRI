@@ -8,7 +8,7 @@ import FloatingButton from 'src/components/buttons/FloatingButton';
 import { Col } from 'src/components/Grid';
 
 import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/constants';
+import { FAVICON } from 'src/globals/images';
 
 import { Page } from 'src/styles';
 

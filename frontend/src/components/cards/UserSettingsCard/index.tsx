@@ -10,11 +10,8 @@ import ImageInput from 'src/components/inputs/ImageInput';
 import ProfileImage from 'src/components/images/ProfileImage';
 import { Row } from 'src/components/Grid';
 
-import {
-  USER_SETTING_CARD_WIDTH,
-  DEFAULT_PROFILE_IMAGE,
-  USER_SETTING_PROFILE_IMAGE_SIZE,
-} from 'src/globals/constants';
+import { USER_SETTING_CARD_WIDTH, USER_SETTING_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import { Fetcher } from 'src/utils';
 
