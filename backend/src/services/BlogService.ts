@@ -27,9 +27,9 @@ class BlogService {
   async findUserBlogs(userID: string) {
     const blogs = await Blog.find({ userID });
     if (blogs.length === 0) {
-      throw new Error(ERROR.NOT_EXIST_BLOG);
+      return [];
     }
-    return Promise.all(
+    const blogPosts = await Promise.all(
       blogs.map(async (blog) => {
         const { type, identity } = blog;
         let posts: any[] = [];
@@ -42,6 +42,7 @@ class BlogService {
         return posts;
       }),
     );
+    return blogPosts.reduce((prev, curr) => prev.concat(curr), []);
   }
 }
 
