@@ -38,4 +38,8 @@ const Card = styled.div<Props>`
   box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e;
 `;
 
-export { Background, Card };
+const Title = styled.p`
+  font-size: 18px;
+`;
+
+export { Background, Card, Title };
