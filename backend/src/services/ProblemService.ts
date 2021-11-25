@@ -82,8 +82,8 @@ class ProblemService {
     exps.each((index, exp) => {
       if (index > 9) return false;
       if (index !== 0) {
-        const expText = $(exp).text();
-        statistics[statisticsKeys[index - 1]] = expText;
+        const expText = $(exp).text() as string;
+        statistics[statisticsKeys[index - 1]] = Number(expText.replace(/,/g, ''));
       }
       return true;
     });
