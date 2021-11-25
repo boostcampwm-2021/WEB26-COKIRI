@@ -11,7 +11,14 @@ const Title = styled.p`
 `;
 
 const Stack = styled.p<Props>`
+  margin: 4px;
   background: ${({ color }) => color};
 `;
 
-export { Title, Stack };
+const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+`;
+
+export { Title, Stack, Field };

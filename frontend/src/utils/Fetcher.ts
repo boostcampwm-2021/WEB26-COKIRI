@@ -212,9 +212,9 @@ class Fetcher {
     return result.data;
   }
 
-  static async getTechStacksSearch(query: string): Promise<ReturnType<StackType[]>> {
+  static async getTechStacksSearch(query: string): Promise<StackType[]> {
     const result = await axios.get(`${baseURL}/${version}/techStacks/search?query=${query}`);
-    return result.data;
+    return result.data.data;
   }
 
   static async postPost(
