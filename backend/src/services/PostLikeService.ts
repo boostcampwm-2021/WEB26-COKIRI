@@ -12,7 +12,10 @@ class PostLikeService {
       { upsert: true, runValidators: true, new: true },
     );
     const post = await Post.findOne({ _id: postID }, 'userID -_id');
-    NotifyService.createNotify('postLike', userID, post?.userID, postID);
+    if (post?.userID !== undefined && userID !== ObjectID.objectIDToString(post?.userID)) {
+      NotifyService.createNotify('postLike', userID, post?.userID, postID);
+    }
+
     if (!upsertLike.upsertedId) {
       const likeID = await PostLike.findOne({ userID, postID }, '_id').lean();
       return likeID!._id;
