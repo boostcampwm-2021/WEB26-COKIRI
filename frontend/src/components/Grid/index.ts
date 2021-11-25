@@ -5,7 +5,6 @@ interface Props {
   alignItems?: string;
   margin?: number;
   padding?: number;
-  overFlowY?: string;
   expanded?: boolean;
 }
 
@@ -26,7 +25,6 @@ const Col = styled.div<Props>`
   justify-content: ${({ justifyContent }) => justifyContent};
   margin: ${({ margin }) => `${margin}px`};
   padding: ${({ padding }) => `${padding}px`};
-  overflow-y: ${({ overFlowY }) => overFlowY};
   height: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
 `;
 
@@ -44,7 +42,6 @@ Col.defaultProps = {
   justifyContent: 'unset',
   alignItems: 'unset',
   margin: 0,
-  overFlowY: 'unset',
 };
 
 export { Row, Col, Spacer };
