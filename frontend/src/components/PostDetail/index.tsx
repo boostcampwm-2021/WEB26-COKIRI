@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
@@ -12,7 +12,8 @@ import NormalContent from 'src/components/contents/NormalContent';
 import PostComments from 'src/components/PostComments';
 import CommentInput from 'src/components/inputs/CommentInput';
 import IconButton from 'src/components/buttons/IconButton';
-import { Row, Col } from 'src/components/Grid';
+import ExternalContent from 'src/components/contents/ExternalContent';
+import { Col } from 'src/components/Grid';
 
 import {
   DETAIL_POST_IMAGE_WIDTH,
@@ -34,7 +35,7 @@ interface Props {
 function PostDetail({ post }: Props) {
   const router = useRouter();
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
-  const { _id, images, user, likes, content } = post;
+  const { _id, images, user, likes, content, external } = post;
 
   const [comments, setComments] = useState(post.comments!);
   const [likeCount, setLikeCount] = useState(likes!.length);
@@ -61,7 +62,7 @@ function PostDetail({ post }: Props) {
       </ImageSection>
       <PostInfoSection>
         <Col>
-          <Col overFlowY='auto'>
+          <Col overFlowY='auto' alignItems='start'>
             <ProfileSet
               profileImage={user!.profileImage}
               username={user!.username!}
@@ -78,6 +79,7 @@ function PostDetail({ post }: Props) {
               expanded
               onCommentDelete={handleCommentDelete}
             />
+            {external !== undefined && <ExternalContent external={external} />}
           </Col>
           {isAuthenticated && <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />}
         </Col>

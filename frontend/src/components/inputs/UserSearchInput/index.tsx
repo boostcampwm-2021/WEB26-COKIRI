@@ -14,7 +14,9 @@ import { Fetcher } from 'src/utils';
 
 import { UserType } from 'src/types';
 
-function SearchInput() {
+import { Background } from './style';
+
+function UserSearchInput() {
   const [value, setValue] = useState('');
   const [userResults, setUserResults] = useState<UserType[]>([]);
   const mutation = useMutation((newValue: string) => Fetcher.getSearch(newValue));
@@ -28,10 +30,16 @@ function SearchInput() {
     }
   };
 
+  const handleBackgroundClick = () => {
+    setValue('');
+    setUserResults([]);
+  };
+
   return (
     <>
+      {value !== '' && <Background onClick={handleBackgroundClick} />}
       {userResults.length !== 0 && (
-        <HeaderModal left>
+        <HeaderModal>
           {userResults.map(({ _id, username, profileImage }) => (
             <Row key={_id} justifyContent='space-between' alignItems='center'>
               <Row alignItems='center'>
@@ -53,4 +61,4 @@ function SearchInput() {
   );
 }
 
-export default SearchInput;
+export default UserSearchInput;

@@ -15,6 +15,7 @@ import {
   StatisticsType,
   HistoryType,
   StackType,
+  NotificationType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -221,6 +222,14 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
+  }
+
+  static async getUserNotifications(user: UserType): Promise<NotificationType[]> {
+    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/notifies`, {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+
+    return result.data.data;
   }
 
   static async postPostLike(user: UserType, postID: string): Promise<ReturnType<LikeType>> {
