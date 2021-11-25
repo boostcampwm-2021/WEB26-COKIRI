@@ -97,7 +97,7 @@ class ProblemService {
       if (index > 9) return false;
       if (index !== 0) {
         const expText = $(exp).text() as string;
-        statistics[statisticsKeys[index - 1]] = Number(expText.replace(/,/g, ''));
+        statistics[statisticsKeys[index - 1]] = +expText.replace(/,/g, '');
       }
       return true;
     });
