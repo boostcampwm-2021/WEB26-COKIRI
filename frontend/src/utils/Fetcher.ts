@@ -45,19 +45,19 @@ function getAuthHeader({
   return headers ? { ...headers, ...authorizationHeader } : authorizationHeader;
 }
 
-function get(config: AxiosRequestConfig) {
+function get<R>(config: AxiosRequestConfig): Promise<ReturnType<R>> {
   return run({ ...config, method: 'GET' });
 }
 
-function post(config: AxiosRequestConfig) {
+function post<R>(config: AxiosRequestConfig): Promise<ReturnType<R>> {
   return run({ ...config, method: 'POST' });
 }
 
-function put(config: AxiosRequestConfig) {
+function put<R>(config: AxiosRequestConfig): Promise<ReturnType<R>> {
   return run({ ...config, method: 'PUT' });
 }
 
-function del(config: AxiosRequestConfig) {
+function del<R>(config: AxiosRequestConfig): Promise<ReturnType<R>> {
   return run({ ...config, method: 'DELETE' });
 }
 
@@ -132,7 +132,7 @@ const Fetcher = {
   },
 
   // for client side
-  async getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
+  getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined || !user.isRegistered) {
       return {};
     }
@@ -151,54 +151,49 @@ const Fetcher = {
     return result.data;
   },
 
-  async getUserPosts(user: UserType, { pageParam }: QueryFunctionContext) {
+  getUserPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined) {
       return {};
     }
-    return get({ url: `users/${user._id}/posts`, params: { cursor: pageParam ?? 0 } });
+    return get<PostType[]>({ url: `users/${user._id}/posts`, params: { cursor: pageParam ?? 0 } });
   },
 
-  async getSearch(query: string): Promise<UserType[]> {
-    const result = await axios.get(`${baseURL}/${version}/search`, {
-      params: { query },
-    });
-    return result.data.data;
+  async getSearch(query: string) {
+    const result = await get<UserType[]>({ url: 'search', params: { query } });
+    return result.data;
   },
 
   async getIsExistUsername(username: string) {
-    const result = await axios.get(`${baseURL}/${version}/users`, {
-      params: { query: username },
-    });
-    return result.data.data;
+    const result = await get<boolean>({ url: 'users', params: { query: username } });
+    return result.data;
   },
 
-  async getUserSuggestions(user: UserType): Promise<UserType[]> {
+  async getUserSuggestions(user: UserType) {
     if (user._id === undefined || !user.isRegistered) {
       return [];
     }
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/suggestions`, {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
-    return result.data.data;
-  },
-
-  async getRandomPosts({ pageParam }: QueryFunctionContext): Promise<ReturnType<PostType[]>> {
-    const result = await axios.get(`${baseURL}/${version}/posts/random`, {
-      params: { cursor: pageParam ?? 0 },
+    const result = await getWithAuth<UserType[]>({
+      url: `users/${user._id}/suggestions`,
+      token: user.token!,
     });
     return result.data;
   },
 
-  async getDetailPost(postID: string): Promise<PostType> {
-    const result = await axios.get(`${baseURL}/${version}/posts/${postID}`);
-    return result.data.data;
+  getRandomPosts({ pageParam }: QueryFunctionContext) {
+    return get<PostType[]>({ url: 'posts/random', params: { cursor: pageParam ?? 0 } });
   },
 
-  async getUserRepos(user: UserType): Promise<RepoType[]> {
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/repositories`, {
-      headers: { Authorization: `Bearer ${user.token}` },
+  async getDetailPost(postID: string) {
+    const result = await get<PostType>({ url: `posts/${postID}` });
+    return result.data;
+  },
+
+  async getUserRepos(user: UserType) {
+    const result = await getWithAuth<RepoType[]>({
+      url: `users/${user._id}/repositories`,
+      token: user.token!,
     });
-    return result.data.data;
+    return result.data;
   },
 
   async getUserRepo(user: UserType, repoName: string): Promise<ExternalType> {
