@@ -6,15 +6,17 @@ import { Row } from 'src/components/Grid';
 import { ProblemInfoType } from 'src/types';
 
 interface Props {
+  title: string;
   content: string;
   link: string;
   info: ProblemInfoType;
 }
 
-function ProblemContent({ content, info, link }: Props) {
+function ProblemContent({ content, info, link, title }: Props) {
   const sanitizer = dompurify.sanitize;
   return (
     <>
+      <h1>{title}</h1>
       <Row justifyContent='space-between'>
         <p>티어 {info.tear}</p>
         <p>푼 사람 {info.solvedUserCount}</p>
@@ -30,6 +32,7 @@ function ProblemContent({ content, info, link }: Props) {
 }
 
 ProblemContent.propTypes = {
+  title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   info: PropTypes.objectOf(PropTypes.any).isRequired,
   link: PropTypes.string.isRequired,

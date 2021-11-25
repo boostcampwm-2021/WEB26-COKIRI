@@ -6,15 +6,17 @@ import { Row, Col } from 'src/components/Grid';
 import { RepoInfoType } from 'src/types';
 
 interface Props {
-  content?: string;
+  title: string;
+  content: string;
   link: string;
   info: RepoInfoType;
 }
 
-function RepoContent({ content, link, info }: Props) {
+function RepoContent({ content, link, info, title }: Props) {
   const sanitizer = dompurify.sanitize;
   return (
     <>
+      <h1>{title}</h1>
       <Row justifyContent='space-between'>
         <p>별 {info.starCount}</p>
         <p>포크 {info.forkCount}</p>
@@ -26,7 +28,7 @@ function RepoContent({ content, link, info }: Props) {
         ))}
       </Row>
       {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: sanitizer(content!) }} />
+      <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />
       <a target='_blank' href={link} rel='noreferrer noopener'>
         글 보러가기
       </a>
@@ -35,13 +37,10 @@ function RepoContent({ content, link, info }: Props) {
 }
 
 RepoContent.propTypes = {
-  content: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
   info: PropTypes.objectOf(PropTypes.any).isRequired,
   link: PropTypes.string.isRequired,
-};
-
-RepoContent.defaultProps = {
-  content: '',
 };
 
 export default RepoContent;

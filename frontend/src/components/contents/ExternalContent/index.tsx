@@ -17,7 +17,7 @@ function ExternalContent({ external }: Props) {
   const handleMoreClick = () => {
     setIsExpand(true);
   };
-
+  const { title, content, info, link } = external;
   return (
     <Wrapper expanded={isExpand}>
       <Cover hidden={isExpand} />
@@ -31,23 +31,25 @@ function ExternalContent({ external }: Props) {
         if (external.type === 'problem') {
           return (
             <ProblemContent
-              content={external.content}
-              info={external.info! as ProblemInfoType}
-              link={external.link}
+              title={title ?? ''}
+              content={content ?? ''}
+              info={info! as ProblemInfoType}
+              link={link}
             />
           );
         }
         if (external.type === 'repository') {
           return (
             <RepoContent
-              content={external.content}
-              info={external.info! as RepoInfoType}
-              link={external.link}
+              title={title ?? ''}
+              content={content ?? ''}
+              info={info! as RepoInfoType}
+              link={link}
             />
           );
         }
         if (external.type === 'tistory') {
-          return <BlogContent content={external.content} link={external.link} />;
+          return <BlogContent title={title ?? ''} content={content ?? ''} link={link} />;
         }
         return null;
       })()}
