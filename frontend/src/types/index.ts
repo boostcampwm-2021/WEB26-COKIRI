@@ -12,6 +12,7 @@ import ExternalType from './external';
 import { RepoInfoType, ProblemInfoType } from './info';
 import StackType from './stack';
 import DashboardUserInfoType from './dashboardUserInfo';
+import StatisticsType from './statistics';
 import HistoryType from './history';
 
 export type {
@@ -30,5 +31,6 @@ export type {
   ProblemInfoType,
   StackType,
   DashboardUserInfoType,
+  StatisticsType,
   HistoryType,
 };

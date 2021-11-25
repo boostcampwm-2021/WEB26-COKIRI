@@ -12,6 +12,9 @@ import {
   DashboardUserInfoType,
   ExternalType,
   BlogType,
+  StatisticsType,
+  HistoryType,
+  StackType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -189,6 +192,23 @@ class Fetcher {
     window.open(`${baseURL}/${version}/users/logout`, '_self');
   }
 
+  static async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
+    const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
+    return result.data;
+  }
+
+  static async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
+    const result = await axios.get(
+      `${baseURL}/${version}/users/${userID}/dashboard/repositories/languages`,
+    );
+    return result.data;
+  }
+
+  static async getTechStacksSearch(query: string): Promise<ReturnType<StackType[]>> {
+    const result = await axios.get(`${baseURL}/${version}/techStacks/search?query=${query}`);
+    return result.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
@@ -251,6 +271,15 @@ class Fetcher {
     return result.data;
   }
 
+  static async postDashboardRepo(user: UserType, reponame: string): Promise<ReturnType<RepoType>> {
+    const result = await axios.post(
+      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${reponame}`,
+      { userID: user._id },
+      { headers: { Authorization: `Bearer ${user.token}` } },
+    );
+    return result.data;
+  }
+
   static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
     await axios.post(
       `${baseURL}/${version}/users/${targetUserID}/follows`,
@@ -280,6 +309,7 @@ class Fetcher {
       `${baseURL}/${version}/users/${user._id}/dashboard`,
       {
         name: dashboard.name,
+        profileImage: dashboard.profileImage,
         phoneNumber: dashboard.phoneNumber,
         school: dashboard.school,
         region: dashboard.region,
@@ -287,12 +317,33 @@ class Fetcher {
         email: dashboard.email,
         github: dashboard.github,
         blog: dashboard.blog,
-        jobObjects: dashboard.jobObjectives,
+        solvedac: dashboard.solvedac,
+        jobObjectives: dashboard.jobObjectives,
         techStacks: dashboard.techStacks,
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data.data;
+  }
+
+  static async putDashboardRepoLanguages(user: UserType): Promise<ReturnType<UserType>> {
+    const result = await axios.put(
+      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/languages`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    return result.data;
+  }
+
+  static async putSolvedacStatistics(
+    userID: string,
+    solvedUsername: string,
+  ): Promise<ReturnType<StatisticsType>> {
+    const result = await axios.put(
+      `${baseURL}/${version}/users/${userID}/problems/${solvedUsername}/statistics`,
+    );
+    return result.data;
   }
 
   static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
