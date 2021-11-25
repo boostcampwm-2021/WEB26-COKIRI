@@ -36,9 +36,9 @@ function DashboardLinkSettingModal({ onClose }: Props) {
       Fetcher.putDashboardUserInfo(user, {
         ...dashboardUserInfo,
         jobObjectives,
-        github: github || undefined,
-        blog: blog || undefined,
-        solvedac: solvedac || undefined,
+        github,
+        blog,
+        solvedac,
       }),
     {
       onSuccess: (dashboard) => {

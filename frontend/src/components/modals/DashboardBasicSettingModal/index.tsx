@@ -46,7 +46,7 @@ function DashboardBasicSettingModal({ onClose }: Props) {
         birthday,
         region,
         school,
-        email: email || undefined,
+        email,
         profileImage,
       }),
     {
