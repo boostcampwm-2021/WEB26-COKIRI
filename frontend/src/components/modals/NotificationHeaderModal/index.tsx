@@ -6,6 +6,7 @@ import HeaderModal from 'src/components/modals/HeaderModal';
 import FollowSet from 'src/components/sets/FollowSet';
 import TimeFromNow from 'src/components/TimeFromNow';
 import ProfileSet from 'src/components/sets/ProfileSet';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Row, Spacer } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -41,6 +42,9 @@ function NotificationHeaderModal({ onClose }: Props) {
               {typeMessages[type]}
               <Spacer />
               <TimeFromNow time={createdAt} />
+              {postID && (
+                <NavigateIconButton href={`/posts/${postID}`}>바로가기</NavigateIconButton>
+              )}
               <FollowSet targetUserID={targetUser._id!} />
             </Row>
           </Notification>
