@@ -12,7 +12,7 @@ class CommentLikeService {
       { upsert: true, runValidators: true, new: true },
     );
     const post = await Comment.findOne({ _id: commentID }, 'userID postID -_id');
-    if (post?.userID !== undefined && userID === ObjectID.objectIDToString(post?.userID)) {
+    if (post?.userID !== undefined && userID !== ObjectID.objectIDToString(post?.userID)) {
       NotifyService.createNotify('commentLike', userID, post?.userID, post?.postID);
     }
     if (!upsertLike.upsertedId) {
