@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 
 import { CRAWLING, ERROR, OPENAPIURL, PROBLEMTEAR } from 'src/utils';
 import { ObjectType } from 'src/types';
+import { User } from 'src/models';
 
 class ProblemService {
   convertLevelToTear(level: number) {
@@ -54,6 +55,19 @@ class ProblemService {
     } catch (error) {
       throw new Error(ERROR.NOT_EXIST_PROBLEM);
     }
+  }
+
+  async findOneDashboardStatistics(userID: string) {
+    const user = await User.findOne({ _id: userID }, 'dashboard.statistics.problem').lean();
+    if (
+      !user ||
+      !user.dashboard ||
+      !user.dashboard.statistics ||
+      !user.dashboard.statistics.problem
+    ) {
+      return {};
+    }
+    return user!.dashboard!.statistics!.problem;
   }
 
   async findSolvedAcStatistics(username: string) {
