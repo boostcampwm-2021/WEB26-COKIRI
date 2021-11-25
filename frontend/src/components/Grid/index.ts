@@ -4,6 +4,10 @@ interface Props {
   justifyContent?: string;
   alignItems?: string;
   margin?: number;
+  marginTop?: number;
+  marginBottom?: number;
+  marginLeft?: number;
+  marginRight?: number;
   padding?: number;
   expanded?: boolean;
 }
@@ -16,6 +20,10 @@ const Row = styled.div<Props>`
   margin: ${({ margin }) => `${margin}px`};
   padding: ${({ padding }) => `${padding}px`};
   width: ${({ expanded }) => (expanded === true ? '100%' : 'unset')};
+  margin-top: ${({ marginTop }) => (marginTop ? `${marginTop}px` : `unset`)};
+  margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : `unset`)};
+  margin-left: ${({ marginLeft }) => (marginLeft ? `${marginLeft}px` : `unset`)};
+  margin-right: ${({ marginRight }) => (marginRight ? `${marginRight}px` : `unset`)};
 `;
 
 const Col = styled.div<Props>`
