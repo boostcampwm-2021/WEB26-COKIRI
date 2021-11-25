@@ -30,5 +30,12 @@ const getFromNow = (time: string) => {
   return '방금';
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { getFromNow };
+const getBirthdayFormat = (time?: string) => {
+  if (time) {
+    const date = new Date(time);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  }
+  return '';
+};
+
+export { getFromNow, getBirthdayFormat };
