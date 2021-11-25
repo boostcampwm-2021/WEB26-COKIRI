@@ -99,26 +99,14 @@ function deleteWithAuth<R, D = object>(config: {
 
 class Fetcher {
   // for server side
-  static async getUsersMe(token: string): Promise<UserType> {
-    try {
-      const result = await axios.get(`${baseURL}/${version}/users/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return result.data.data;
-    } catch (error) {
-      return {};
-    }
+  static async getUsersMe(token: string) {
+    const result = await getWithAuth<UserType>({ url: 'users/me', token });
+    return result.data;
   }
 
-  static async getUsersByUsername(username: string): Promise<UserType> {
-    try {
-      const result = await axios.get(`${baseURL}/${version}/users`, {
-        params: { username },
-      });
-      return result.data.data;
-    } catch (error) {
-      return {};
-    }
+  static async getUsersByUsername(token: string, username: string) {
+    const result = await getWithAuth<UserType>({ url: 'users', token, params: { username } });
+    return result.data;
   }
 
   static async getDashboardUserInfo(username: string): Promise<DashboardUserInfoType> {
