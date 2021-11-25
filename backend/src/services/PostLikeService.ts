@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { PostLike, Post } from 'src/models';
-import { SELECT } from 'src/utils';
+import { SELECT, ObjectID } from 'src/utils';
 import { NotifyService } from 'src/services';
 
 class PostLikeService {
