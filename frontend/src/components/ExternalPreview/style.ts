@@ -36,7 +36,7 @@ const LinkButton = styled.a`
 
 const ButtonHolder = styled.div`
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 0;
 `;
 
