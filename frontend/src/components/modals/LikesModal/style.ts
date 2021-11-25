@@ -1,16 +1,13 @@
 import styled from '@emotion/styled';
 
-import { Col } from 'src/components/Grid';
-
-const Wrapper = styled.div`
-  ${Col} {
-    ${Col} {
-      overflow-y: scroll;
-      height: 240px;
-    }
-    justify-content: start;
-  }
+const Likes = styled.div`
+  overflow-y: scroll;
+  height: 240px;
+  width: 360px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+const Like = styled.div`
+  height: 64px;
+`;
+
+export { Likes, Like };
