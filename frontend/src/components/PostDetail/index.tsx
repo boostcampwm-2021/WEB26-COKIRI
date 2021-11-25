@@ -13,7 +13,7 @@ import PostComments from 'src/components/PostComments';
 import CommentInput from 'src/components/inputs/CommentInput';
 import IconButton from 'src/components/buttons/IconButton';
 import ExternalContent from 'src/components/contents/ExternalContent';
-import { Col } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import {
   DETAIL_POST_IMAGE_WIDTH,
@@ -26,7 +26,7 @@ import { PostType, CommentType } from 'src/types';
 
 import { isAuthenticatedSelector } from 'src/recoil/user';
 
-import { Wrapper, ImageSection, PostInfoSection } from './style';
+import { Wrapper, ImageSection, PostInfoSection, CommentSection, Space } from './style';
 
 interface Props {
   post: PostType;
@@ -61,28 +61,29 @@ function PostDetail({ post }: Props) {
         />
       </ImageSection>
       <PostInfoSection>
-        <Col>
-          <Col overFlowY='auto' alignItems='start'>
-            <ProfileSet
-              profileImage={user!.profileImage}
-              username={user!.username!}
-              marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
-            />
-            {isAuthenticated && (
-              <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
-            )}
+        <ProfileSet
+          profileImage={user!.profileImage}
+          username={user!.username!}
+          marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
+        />
+        {isAuthenticated && (
+          <Row>
+            <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
             {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
-            <NormalContent content={content!} expanded />
-            <PostComments
-              postID={_id!}
-              comments={comments}
-              expanded
-              onCommentDelete={handleCommentDelete}
-            />
-            {external !== undefined && <ExternalContent external={external} />}
-          </Col>
+          </Row>
+        )}
+        <NormalContent content={content!} expanded />
+        {external !== undefined && <ExternalContent external={external} />}
+        <PostComments
+          postID={_id!}
+          comments={comments}
+          expanded
+          onCommentDelete={handleCommentDelete}
+        />
+        <Space />
+        <CommentSection>
           {isAuthenticated && <CommentInput postID={_id!} onCommentWrite={handleCommentWrite} />}
-        </Col>
+        </CommentSection>
       </PostInfoSection>
     </Wrapper>
   );

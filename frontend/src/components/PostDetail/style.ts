@@ -1,8 +1,14 @@
 import styled from '@emotion/styled';
 
-import { Col } from 'src/components/Grid';
+import PostComments from 'src/components/PostComments';
 
 import { POST_WIDTH } from 'src/globals/constants';
+
+import { ThemeType } from 'src/types';
+
+interface Props {
+  theme?: ThemeType;
+}
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,9 +38,19 @@ const PostInfoSection = styled.div`
   right: 0;
   width: ${POST_WIDTH}px;
   height: 100vh;
-  ${Col} {
-    height: 99vh;
-  }
+  overflow-y: scroll;
 `;
 
-export { Wrapper, ImageSection, PostInfoSection };
+const Space = styled.div`
+  height: 128px;
+`;
+
+const CommentSection = styled.div<Props>`
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: ${POST_WIDTH}px;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export { Wrapper, ImageSection, PostInfoSection, CommentSection, Space };
