@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Comment, CommentLike } from 'src/models';
-import { SELECT } from 'src/utils';
+import { SELECT, ObjectID } from 'src/utils';
 import { NotifyService } from 'src/services';
 
 class CommentLikeService {
@@ -12,7 +12,9 @@ class CommentLikeService {
       { upsert: true, runValidators: true, new: true },
     );
     const post = await Comment.findOne({ _id: commentID }, 'userID postID -_id');
-    NotifyService.createNotify('postLike', userID, post?.userID, post?.postID);
+    if (post?.userID !== undefined && userID === ObjectID.objectIDToString(post?.userID)) {
+      NotifyService.createNotify('commentLike', userID, post?.userID, post?.postID);
+    }
     if (!upsertLike.upsertedId) {
       const likeID = await CommentLike.findOne({ userID, commentID }, '_id').lean();
       return likeID!._id;
