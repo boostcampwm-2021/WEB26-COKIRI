@@ -35,7 +35,7 @@ const Card = styled.div<Props>`
   margin: auto;
   border-radius: 50px;
   background: ${({ theme }) => theme.colors.background};
-  box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e; ;
+  box-shadow: 4px 4px 8px #3a3a3a, -4px -4px 8px #4e4e4e;
 `;
 
 export { Background, Card };
