@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import ButtonCommon from 'src/components/buttons/Common';
 import ModalCommon from 'src/components/modals/Common';
+import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -25,6 +26,7 @@ interface Props {
 
 function ReposModal({ onClose, onSelect }: Props) {
   const user = useRecoilValue(userAtom);
+  const { hasExternalGithub } = user;
 
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const { data: repos } = useQuery(['repositories', user._id], () => Fetcher.getUserRepos(user));
@@ -49,19 +51,26 @@ function ReposModal({ onClose, onSelect }: Props) {
         height={REPOS_MODAL_HEIGHT}
         onClose={onClose}
         disabled={selectedIndex === -1}
+        title={hasExternalGithub ? '저장소를 선택하세요' : '연동된 깃헙이 없습니다'}
       >
-        <Repos>
-          {(repos ?? []).map((repo, index) => (
-            <Col key={repo.name}>
-              <ButtonCommon
-                onClick={() => handleRepoClick(index)}
-                clicked={index === selectedIndex}
-              >
-                {repo.name}
-              </ButtonCommon>
-            </Col>
-          ))}
-        </Repos>
+        {hasExternalGithub ? (
+          <Repos>
+            {(repos ?? []).map((repo, index) => (
+              <Col key={repo.name}>
+                <ButtonCommon
+                  onClick={() => handleRepoClick(index)}
+                  clicked={index === selectedIndex}
+                >
+                  {repo.name}
+                </ButtonCommon>
+              </Col>
+            ))}
+          </Repos>
+        ) : (
+          <NavigateIconButton href={`/users/${user.username}/settings`}>
+            연동하러 가기
+          </NavigateIconButton>
+        )}
       </ModalCommon>
     </Wrapper>
   );
