@@ -2,7 +2,7 @@ import { selector } from 'recoil';
 
 import { HistoryType } from 'src/types';
 
-import { timeCompare } from 'src/utils/moment';
+import { compareTime } from 'src/utils/moment';
 
 import dashboardUserInfoAtom from './atom';
 
@@ -13,7 +13,7 @@ const dashboardHistoriesSelector = selector<HistoryType[]>({
     set(dashboardUserInfoAtom, (oldValue) => {
       const newdashboardUserInfo = { ...oldValue };
       if (Array.isArray(newValue)) {
-        newdashboardUserInfo.dashboardHistories = [...newValue].sort(timeCompare);
+        newdashboardUserInfo.dashboardHistories = [...newValue].sort(compareTime);
       }
       return newdashboardUserInfo;
     });
