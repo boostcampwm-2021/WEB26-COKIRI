@@ -7,7 +7,7 @@ const History = styled.div`
   border-left: 2px solid #ffffff;
 `;
 
-const HorizentalLine = styled.div`
+const HorizontalLine = styled.div`
   width: 200px;
   border-bottom: 1px solid #ffffff;
 `;
@@ -21,4 +21,4 @@ const Section = styled.div`
   }
 `;
 
-export { History, HorizentalLine, Section };
+export { History, HorizontalLine, Section };

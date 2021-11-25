@@ -12,11 +12,11 @@ const dashboardHistoriesSelector = selector<HistoryType[]>({
   get: ({ get }) => get(dashboardUserInfoAtom).dashboardHistories ?? [],
   set: ({ set }, newValue) => {
     set(dashboardUserInfoAtom, (oldValue) => {
-      const newdashboardUserInfo = { ...oldValue };
+      const newDashboardUserInfo = { ...oldValue };
       if (Array.isArray(newValue)) {
-        newdashboardUserInfo.dashboardHistories = [...newValue].sort(compareTime);
+        newDashboardUserInfo.dashboardHistories = [...newValue].sort(compareTime);
       }
-      return newdashboardUserInfo;
+      return newDashboardUserInfo;
     });
   },
 });

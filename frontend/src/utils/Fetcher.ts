@@ -271,9 +271,9 @@ class Fetcher {
     return result.data;
   }
 
-  static async postDashboardRepo(user: UserType, reponame: string): Promise<ReturnType<RepoType>> {
+  static async postDashboardRepo(user: UserType, repoName: string): Promise<ReturnType<RepoType>> {
     const result = await axios.post(
-      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${reponame}`,
+      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );

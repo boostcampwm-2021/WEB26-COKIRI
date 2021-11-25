@@ -1,5 +1,5 @@
-import LanguageType from './language';
+import LanguageType from './statistics';
 
-export default interface LanguateStatistics {
+export default interface LanguageStatistics {
   reposLanguage: LanguageType;
 }
