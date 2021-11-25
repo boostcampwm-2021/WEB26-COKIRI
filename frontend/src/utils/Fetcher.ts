@@ -92,6 +92,13 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getIsExistUsername(username: string) {
+    const result = await axios.get(`${baseURL}/${version}/users`, {
+      params: { query: username },
+    });
+    return result.data.data;
+  }
+
   static async getUserSuggestions(user: UserType): Promise<UserType[]> {
     if (user._id === undefined || !user.isRegistered) {
       return [];
