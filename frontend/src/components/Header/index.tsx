@@ -10,7 +10,7 @@ import {
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import LogoButton from 'src/components/buttons/LogoButton';
 import IconButton from 'src/components/buttons/IconButton';
-import SearchInput from 'src/components/inputs/SearchInput';
+import UserSearchInput from 'src/components/inputs/UserSearchInput';
 
 import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
@@ -28,7 +28,7 @@ function Header({ page }: Props) {
     <Wrapper>
       <Section>
         <LogoButton />
-        <SearchInput />
+        <UserSearchInput />
       </Section>
 
       <Section>
