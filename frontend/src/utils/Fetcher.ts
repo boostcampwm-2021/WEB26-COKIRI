@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+import axios, { AxiosRequestConfig, AxiosError, AxiosRequestHeaders } from 'axios';
 import { QueryFunctionContext } from 'react-query';
 
 import {
@@ -33,6 +33,18 @@ async function run(requestConfig: AxiosRequestConfig) {
   } catch (error) {
     return error as AxiosError;
   }
+}
+
+function getAuthHeader({ token, headers }: { token: string; headers?: AxiosRequestHeaders }): {
+  headers: AxiosRequestHeaders;
+} {
+  if (!token) {
+    throw new Error(NOT_EXIST_TOKEN);
+  }
+  const authorizationHeader = { Authorization: `Bearer ${token}` };
+  return {
+    headers: headers ? { ...headers, ...authorizationHeader } : authorizationHeader,
+  };
 }
 
 class Fetcher {
