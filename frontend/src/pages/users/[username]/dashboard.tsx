@@ -4,6 +4,7 @@ import Header from 'src/components/Header';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
+import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCard';
 import { Row, Col } from 'src/components/Grid';
 
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
@@ -28,6 +29,9 @@ function Dashboard() {
             <DashboardLinkCard />
           </Row>
           <Row>
+            <Col>
+              <DashboardTeckStacksCard />
+            </Col>
             <DashboardHistoryCard />
           </Row>
         </Col>
