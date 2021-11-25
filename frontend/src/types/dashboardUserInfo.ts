@@ -1,5 +1,6 @@
 import StackType from './stack';
 import HistoryType from './history';
+import LanguageStatisticsType from './languageStatistics';
 
 export default interface DashboardUserInfoType {
   name?: string;
@@ -15,4 +16,5 @@ export default interface DashboardUserInfoType {
   solvedac?: string;
   jobObjectives?: string[];
   techStacks?: { [field: string]: StackType[] };
+  statistics?: LanguageStatisticsType;
 }
