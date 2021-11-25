@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosError, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { QueryFunctionContext } from 'react-query';
 
 import {
@@ -97,19 +97,19 @@ function deleteWithAuth<R, D = object>(config: {
   return run({ ...config, headers: getAuthHeader(config), method: 'DELETE' });
 }
 
-class Fetcher {
+const Fetcher = {
   // for server side
-  static async getUsersMe(token: string) {
+  async getUsersMe(token: string) {
     const result = await getWithAuth<UserType>({ url: 'users/me', token });
     return result.data;
-  }
+  },
 
-  static async getUsersByUsername(token: string, username: string) {
+  async getUsersByUsername(token: string, username: string) {
     const result = await getWithAuth<UserType>({ url: 'users', token, params: { username } });
     return result.data;
-  }
+  },
 
-  static async getDashboardUserInfo(username: string): Promise<DashboardUserInfoType> {
+  async getDashboardUserInfo(username: string): Promise<DashboardUserInfoType> {
     try {
       const result = await axios.get(`${baseURL}/${version}/users/dashboard`, {
         params: { username },
@@ -118,9 +118,9 @@ class Fetcher {
     } catch {
       return { username: '' };
     }
-  }
+  },
 
-  static async getFirstPost(user: UserType, token: string): Promise<PostType> {
+  async getFirstPost(user: UserType, token: string): Promise<PostType> {
     if (user._id === undefined || !user.isRegistered) {
       return {};
     }
@@ -129,62 +129,54 @@ class Fetcher {
       params: { user_id: user._id, cursor: 0 },
     });
     return result.data.data[0];
-  }
+  },
 
   // for client side
-  static async getPosts(
-    user: UserType,
-    { pageParam }: QueryFunctionContext,
-  ): Promise<ReturnType<PostType[]>> {
+  async getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined || !user.isRegistered) {
       return {};
     }
-    const result = await axios.get(`${baseURL}/${version}/posts`, {
-      headers: { Authorization: `Bearer ${user.token}` },
+    return getWithAuth<PostType[]>({
+      url: 'posts',
+      token: user.token!,
       params: { user_id: user._id, cursor: pageParam ?? 1 },
     });
-    return result.data;
-  }
+  },
 
-  static async getPostLikes(user: UserType, postID: string): Promise<LikeType[]> {
-    const result = await axios.get(`${baseURL}/${version}/posts/${postID}/likes`, {
-      headers: { Authorization: `Bearer ${user.token}` },
+  async getPostLikes(user: UserType, postID: string) {
+    const result = await getWithAuth<LikeType[]>({
+      url: `posts/${postID}/likes`,
+      token: user.token!,
     });
-    return result.data.data;
-  }
+    return result.data;
+  },
 
-  static async getUserPosts(
-    user: UserType,
-    { pageParam }: QueryFunctionContext,
-  ): Promise<ReturnType<PostType[]>> {
+  async getUserPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined) {
       return {};
     }
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/posts`, {
-      params: { cursor: pageParam ?? 0 },
-    });
-    return result.data;
-  }
+    return get({ url: `users/${user._id}/posts`, params: { cursor: pageParam ?? 0 } });
+  },
 
-  static async getSignout(): Promise<void> {
+  async getSignout(): Promise<void> {
     await axios.get(`${baseURL}/${version}/users/logout`);
-  }
+  },
 
-  static async getSearch(query: string): Promise<UserType[]> {
+  async getSearch(query: string): Promise<UserType[]> {
     const result = await axios.get(`${baseURL}/${version}/search`, {
       params: { query },
     });
     return result.data.data;
-  }
+  },
 
-  static async getIsExistUsername(username: string) {
+  async getIsExistUsername(username: string) {
     const result = await axios.get(`${baseURL}/${version}/users`, {
       params: { query: username },
     });
     return result.data.data;
-  }
+  },
 
-  static async getUserSuggestions(user: UserType): Promise<UserType[]> {
+  async getUserSuggestions(user: UserType): Promise<UserType[]> {
     if (user._id === undefined || !user.isRegistered) {
       return [];
     }
@@ -192,30 +184,28 @@ class Fetcher {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     return result.data.data;
-  }
+  },
 
-  static async getRandomPosts({
-    pageParam,
-  }: QueryFunctionContext): Promise<ReturnType<PostType[]>> {
+  async getRandomPosts({ pageParam }: QueryFunctionContext): Promise<ReturnType<PostType[]>> {
     const result = await axios.get(`${baseURL}/${version}/posts/random`, {
       params: { cursor: pageParam ?? 0 },
     });
     return result.data;
-  }
+  },
 
-  static async getDetailPost(postID: string): Promise<PostType> {
+  async getDetailPost(postID: string): Promise<PostType> {
     const result = await axios.get(`${baseURL}/${version}/posts/${postID}`);
     return result.data.data;
-  }
+  },
 
-  static async getUserRepos(user: UserType): Promise<RepoType[]> {
+  async getUserRepos(user: UserType): Promise<RepoType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/repositories`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     return result.data.data;
-  }
+  },
 
-  static async getUserRepo(user: UserType, repoName: string): Promise<ExternalType> {
+  async getUserRepo(user: UserType, repoName: string): Promise<ExternalType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${user._id}/repositories/${repoName}`,
       {
@@ -223,42 +213,38 @@ class Fetcher {
       },
     );
     return result.data.data;
-  }
+  },
 
-  static async getUserFollows(targetUserID: string) {
+  async getUserFollows(targetUserID: string) {
     const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/follows`);
     return result.data.data;
-  }
+  },
 
-  static async getUserFollowers(targetUserID: string) {
+  async getUserFollowers(targetUserID: string) {
     const result = await axios.get(`${baseURL}/${version}/users/${targetUserID}/followers`);
     return result.data.data;
-  }
+  },
 
-  static async getProblems(query: string): Promise<ProblemType[]> {
+  async getProblems(query: string): Promise<ProblemType[]> {
     const result = await axios.get(`${baseURL}/${version}/problems`, {
       params: { query },
     });
     return result.data.data;
-  }
+  },
 
-  static async getProblem(id: string): Promise<ExternalType> {
+  async getProblem(id: string): Promise<ExternalType> {
     const result = await axios.get(`${baseURL}/${version}/problems/${id}`);
     return result.data.data;
-  }
+  },
 
-  static async getUserBlogs(user: UserType): Promise<BlogType[]> {
+  async getUserBlogs(user: UserType): Promise<BlogType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/blogs`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     return result.data.data;
-  }
+  },
 
-  static async getUserBlog(
-    user: UserType,
-    identity: string,
-    postID: string,
-  ): Promise<ExternalType> {
+  async getUserBlog(user: UserType, identity: string, postID: string): Promise<ExternalType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${user._id}/tistory/${identity}/posts/${postID}`,
       {
@@ -266,43 +252,48 @@ class Fetcher {
       },
     );
     return result.data.data;
-  }
+  },
 
-  static async getTistoryAuthURL(user: UserType, redirectURI: string): Promise<string> {
+  async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
+    const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
+    return result.data;
+  },
+
+  async getTistoryAuthURL(user: UserType, redirectURI: string): Promise<string> {
     const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
       headers: { Authorization: `Bearer ${user.token}` },
       params: { redirect_uri: redirectURI },
     });
     return result.data.data;
-  }
+  },
 
-  static async getDashboardRepo(userID: string): Promise<DashboardRepoType[]> {
+  async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
     const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
-    return result.data.data;
-  }
+    return result.data;
+  },
 
-  static async getDashboardLanguageStatistics(userID: string): Promise<StatisticsType> {
+  async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${userID}/dashboard/repositories/languages`,
     );
-    return result.data.data;
-  }
+    return result.data;
+  },
 
-  static async getTechStacksSearch(query: string): Promise<StackType[]> {
+  async getTechStacksSearch(query: string): Promise<StackType[]> {
     const result = await axios.get(`${baseURL}/${version}/techStacks/search?`, {
       params: { query },
     });
     return result.data.data;
-  }
+  },
 
-  static async getProblemStatistics(userID: string): Promise<StatisticsType> {
+  async getProblemStatistics(userID: string): Promise<StatisticsType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${userID}/dashboard/problems/statistics`,
     );
     return result.data.data;
-  }
+  },
 
-  static async postPost(
+  async postPost(
     user: UserType,
     content: string,
     images: string[],
@@ -314,26 +305,26 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
-  }
+  },
 
-  static async getUserNotifications(user: UserType): Promise<NotificationType[]> {
+  async getUserNotifications(user: UserType): Promise<NotificationType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${user._id}/notifies`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
 
     return result.data.data;
-  }
+  },
 
-  static async postPostLike(user: UserType, postID: string): Promise<ReturnType<LikeType>> {
+  async postPostLike(user: UserType, postID: string): Promise<ReturnType<LikeType>> {
     const result = await axios.post(
       `${baseURL}/${version}/posts/${postID}/likes`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
-  }
+  },
 
-  static async postPostComment(
+  async postPostComment(
     user: UserType,
     postID: string,
     content: string,
@@ -344,9 +335,9 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
-  }
+  },
 
-  static async postCommentLike(
+  async postCommentLike(
     user: UserType,
     postID: string,
     commentID: string,
@@ -357,39 +348,35 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
-  }
+  },
 
-  static async postDashboardHistory(
-    user: UserType,
-    content: string,
-    date: string,
-  ): Promise<HistoryType> {
+  async postDashboardHistory(user: UserType, content: string, date: string): Promise<HistoryType> {
     const result = await axios.post(
       `${baseURL}/${version}/users/${user._id}/dashboard/histories`,
       { content, date },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data;
-  }
+  },
 
-  static async postDashboardRepo(user: UserType, repoName: string): Promise<DashboardRepoType> {
+  async postDashboardRepo(user: UserType, repoName: string): Promise<ReturnType<RepoType>> {
     const result = await axios.post(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data.data;
-  }
+    return result.data;
+  },
 
-  static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
+  async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
     await axios.post(
       `${baseURL}/${version}/users/${targetUserID}/follows`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-  }
+  },
 
-  static async putUserSettings(user: UserType, newUser: UserType): Promise<void> {
+  async putUserSettings(user: UserType, newUser: UserType): Promise<void> {
     await axios.put(
       `${baseURL}/${version}/users/${user._id}/settings`,
       {
@@ -400,9 +387,9 @@ class Fetcher {
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-  }
+  },
 
-  static async putDashboardUserInfo(
+  async putDashboardUserInfo(
     user: UserType,
     dashboard: DashboardUserInfoType,
   ): Promise<DashboardUserInfoType> {
@@ -424,18 +411,19 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data.data;
-  }
+  },
 
-  static async putDashboardRepoLanguages(user: UserType): Promise<LanguageStatisticsType> {
+  async putDashboardRepoLanguages(user: UserType): Promise<LanguageStatisticsType> {
     const result = await axios.put(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/languages`,
-      { userID: user._id },
-      { headers: { Authorization: `Bearer ${user.token}` } },
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
     );
     return result.data.data.dashboard.statistics;
-  }
+  },
 
-  static async putProblemStatistics(
+  async putProblemStatistics(
     user: UserType,
     solvedacUsername: string,
   ): Promise<StatisticsType> {
@@ -445,23 +433,23 @@ class Fetcher {
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
     return result.data.data;
-  }
+  },
 
-  static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
+  async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/likes/${likeID}`, {
       data: { userID: `${user._id}` },
       headers: { Authorization: `Bearer ${user.token}` },
     });
-  }
+  },
 
-  static async deleteUserFollow(user: UserType, targetUserID: string): Promise<void> {
+  async deleteUserFollow(user: UserType, targetUserID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/users/${targetUserID}/follows`, {
       data: { userID: user._id },
       headers: { Authorization: `Bearer ${user.token}` },
     });
-  }
+  },
 
-  static async deleteCommentLike(
+  async deleteCommentLike(
     user: UserType,
     postID: string,
     commentID: string,
@@ -474,30 +462,30 @@ class Fetcher {
         headers: { Authorization: `Bearer ${user.token}` },
       },
     );
-  }
+  },
 
-  static async deletePost(user: UserType, postID: string): Promise<void> {
+  async deletePost(user: UserType, postID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}`, {
       data: { userID: `${user._id}` },
       headers: { Authorization: `Bearer ${user.token}` },
     });
-  }
+  },
 
-  static async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
+  async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
       data: { userID: user._id },
       headers: { Authorization: `Bearer ${user.token}` },
     });
-  }
+  },
 
-  static async deleteDashboardHistory(user: UserType, historyID: string): Promise<void> {
+  async deleteDashboardHistory(user: UserType, historyID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/users/${user._id}/dashboard/histories`, {
       data: { historyID },
       headers: { Authorization: `Bearer ${user.token}` },
     });
-  }
+  },
 
-  static async deleteDashboardRepo(user: UserType, repoName: string): Promise<void> {
+  async deleteDashboardRepo(user: UserType, repoName: string): Promise<void> {
     await axios.delete(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
       {
@@ -505,7 +493,7 @@ class Fetcher {
         headers: { Authorization: `Bearer ${user.token}` },
       },
     );
-  }
-}
+  },
+};
 
 export default Fetcher;
