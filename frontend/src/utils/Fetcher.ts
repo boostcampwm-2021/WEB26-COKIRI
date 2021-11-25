@@ -35,6 +35,18 @@ async function run(requestConfig: AxiosRequestConfig) {
   }
 }
 
+function getAuthHeader({ token, headers }: { token: string; headers?: AxiosRequestHeaders }): {
+  headers: AxiosRequestHeaders;
+} {
+  if (!token) {
+    throw new Error(NOT_EXIST_TOKEN);
+  }
+  const authorizationHeader = { Authorization: `Bearer ${token}` };
+  return {
+    headers: headers ? { ...headers, ...authorizationHeader } : authorizationHeader,
+  };
+}
+
 function get(config: AxiosRequestConfig) {
   return run({ ...config, method: 'GET' });
 }
@@ -49,6 +61,42 @@ function put(config: AxiosRequestConfig) {
 
 function del(config: AxiosRequestConfig) {
   return run({ ...config, method: 'DELETE' });
+}
+
+function getWithAuth<R, P = object>(config: {
+  url: string;
+  token: string;
+  params?: P;
+  headers?: AxiosRequestHeaders;
+}): Promise<ReturnType<R>> {
+  return run({ ...config, headers: getAuthHeader(config), method: 'GET' });
+}
+
+function postWithAuth<R, D = object>(config: {
+  url: string;
+  token: string;
+  data?: D;
+  headers?: AxiosRequestHeaders;
+}): Promise<ReturnType<R>> {
+  return run({ ...config, headers: getAuthHeader(config), method: 'POST' });
+}
+
+function putWithAuth<R, D = object>(config: {
+  url: string;
+  token: string;
+  data?: D;
+  headers?: AxiosRequestHeaders;
+}): Promise<ReturnType<R>> {
+  return run({ ...config, headers: getAuthHeader(config), method: 'PUT' });
+}
+
+function deleteWithAuth<R, D = object>(config: {
+  url: string;
+  token: string;
+  data?: D;
+  headers?: AxiosRequestHeaders;
+}): Promise<ReturnType<R>> {
+  return run({ ...config, headers: getAuthHeader(config), method: 'DELETE' });
 }
 
 class Fetcher {
