@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from 'src/components/Header';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
+import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
 import { Row, Col } from 'src/components/Grid';
 
 import { DASHBOARD_DESCRIPTION } from 'src/globals/descriptions';
@@ -24,6 +25,7 @@ function Dashboard() {
         <Col alignItems='center'>
           <Row>
             <DashboardBasicCard />
+            <DashboardLinkCard />
           </Row>
           <Row>
             <DashboardHistoryCard />

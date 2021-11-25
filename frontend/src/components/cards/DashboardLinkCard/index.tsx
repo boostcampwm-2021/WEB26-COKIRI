@@ -1,54 +1,58 @@
-import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
+import DashboardLinkSettingButton from 'src/components/buttons/dashboardSettings/DashboardLinkSettingButton';
 import { Row, Col } from 'src/components/Grid';
 
 import {
   DASHBOARD_RIGHT_SECTION_CARD_WIDTH,
   DASHBOARD_LINK_ROW_PADDING,
-  DASHBOARD_LINK_COL_PADDING,
 } from 'src/globals/constants';
 
-interface Props {
-  jobObjectives?: string[];
-  github?: string;
-  blog?: string;
-}
+import userAtom from 'src/recoil/user';
+import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
 
-function DashboardLinkCard({ jobObjectives, github, blog }: Props) {
+import { Title, Content } from './style';
+
+function DashboardLinkCard() {
+  const router = useRouter();
+  const username = router.query.username as string;
+  const user = useRecoilValue(userAtom);
+  const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
+  const { jobObjectives, github, blog, solvedac } = dashboardUserInfo;
+  const isMe = user.username === username;
+
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
-      <Row padding={DASHBOARD_LINK_ROW_PADDING}>
-        <Col padding={DASHBOARD_LINK_COL_PADDING}>
-          <p>희망 직군</p>
-          <p>GitHub</p>
-          <p>Blog</p>
+      <Row padding={DASHBOARD_LINK_ROW_PADDING} justifyContent='space-between'>
+        <Col>
+          <Row>
+            <Title>희망 직군</Title>
+            <Col>
+              {jobObjectives?.map((jobObjective) => (
+                <Content key={jobObjective}>{jobObjective}</Content>
+              ))}
+            </Col>
+          </Row>
+          <Row>
+            <Title>GitHub</Title>
+            <p>{github}</p>
+          </Row>
+          <Row>
+            <Title>Blog</Title>
+            <p>{blog}</p>
+          </Row>
+          <Row>
+            <Title>Solved.ac</Title>
+            <p>{solvedac}</p>
+          </Row>
         </Col>
-        <Col padding={DASHBOARD_LINK_COL_PADDING}>
-          <p>:</p>
-          <p>:</p>
-          <p>:</p>
-        </Col>
-        <Col padding={DASHBOARD_LINK_COL_PADDING}>
-          <p>{jobObjectives?.reduce((prev, curr) => `${prev}, ${curr}`, '')}</p>
-          <p>{github}</p>
-          <p>{blog}</p>
-        </Col>
+
+        {isMe && <DashboardLinkSettingButton />}
       </Row>
     </CardCommon>
   );
 }
-
-DashboardLinkCard.propTypes = {
-  jobObjectives: PropTypes.arrayOf(PropTypes.string),
-  github: PropTypes.string,
-  blog: PropTypes.string,
-};
-
-DashboardLinkCard.defaultProps = {
-  jobObjectives: [],
-  github: '',
-  blog: '',
-};
 
 export default DashboardLinkCard;
