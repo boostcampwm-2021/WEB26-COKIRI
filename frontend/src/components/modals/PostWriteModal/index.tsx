@@ -39,7 +39,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
   const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
   const [isBlogsModalShow, setIsBlogsModalShow] = useState(false);
 
-  const mutation = useMutation(() => Fetcher.postPost(user, content, images, external), {
+  const mutation = useMutation(() => Fetcher.postPost(user, content.trim(), images, external), {
     onSuccess: () => onPostWrite(),
   });
   const problemMutation = useMutation((id: string) => Fetcher.getProblem(id), {
@@ -127,7 +127,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         confirm='확인'
         onConfirm={handleConfirm}
         onClose={onClose}
-        disabled={content === ''}
+        disabled={content.trim() === ''}
       >
         <Row justifyContent='center' alignItems='center' margin={16}>
           <ImageInput onImageUpload={handleImageUpload}>
