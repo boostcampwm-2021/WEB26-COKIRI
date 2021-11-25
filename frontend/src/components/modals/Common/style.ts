@@ -39,7 +39,8 @@ const Card = styled.div<Props>`
 `;
 
 const Title = styled.p`
-  font-size: 18px;
+  font-size: 22px;
+  margin: 16px 0;
 `;
 
 export { Background, Card, Title };
