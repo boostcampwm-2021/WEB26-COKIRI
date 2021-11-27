@@ -112,3 +112,7 @@ export const RADAR_CHART_HEIGHT = 30;
 
 // TIME
 export const DEFAULT_DEBOUNCE_TIME = 200;
+
+// NOTIFY
+export const NOTIFY_WIDTH = 600;
+export const NOTIFY_HEIGHT = 80;

@@ -8,6 +8,7 @@ import FloatingButton from 'src/components/buttons/FloatingButton';
 import SigninCard from 'src/components/cards/SigninCard';
 import UserHead from 'src/components/heads/UserHead';
 import { Col } from 'src/components/Grid';
+import IsUserExistNotify from 'src/components/notify/IsUserExistNotify';
 
 import { UserType } from 'src/types';
 
@@ -19,6 +20,7 @@ import { Page } from 'src/styles';
 
 interface Props {
   targetUser: UserType;
+  username: string;
 }
 
 function User({ targetUser }: Props) {
@@ -54,7 +56,7 @@ function User({ targetUser }: Props) {
               />
             </>
           ) : (
-            <>없다!</>
+            <IsUserExistNotify username={username} />
           )}
         </Col>
       </Page.Main>
@@ -67,7 +69,7 @@ export async function getServerSideProps(context: any) {
   const { username } = context.query;
   const targetUser = await Fetcher.getUsersByUsername(username);
   return {
-    props: { targetUser },
+    props: { targetUser, username },
   };
 }
 
