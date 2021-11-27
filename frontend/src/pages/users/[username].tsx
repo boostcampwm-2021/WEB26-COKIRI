@@ -37,7 +37,7 @@ function User({ targetUser }: Props) {
 
   return (
     <>
-      <UserHead username={username!} profileImage={profileImage} bio={bio} name={name} />
+      <UserHead username={username} profileImage={profileImage} bio={bio} name={name} />
       <Header />
       <Page.Main>
         <Col alignItems='center'>
@@ -65,8 +65,7 @@ function User({ targetUser }: Props) {
 
 export async function getServerSideProps(context: any) {
   const { username } = context.query;
-  const token = context.req?.cookies.jwt;
-  const targetUser = await Fetcher.getUsersByUsername(token, username);
+  const targetUser = await Fetcher.getUsersByUsername(username);
   return {
     props: { targetUser },
   };

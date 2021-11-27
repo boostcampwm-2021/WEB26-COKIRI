@@ -24,13 +24,14 @@ function UserHead({ username, profileImage, name, bio }: Props) {
 UserHead.propTypes = {
   bio: PropTypes.string,
   name: PropTypes.string,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
   profileImage: PropTypes.string,
 };
 
 UserHead.defaultProps = {
   bio: 'COCOO',
   name: '개발자',
+  username: '개발자',
   profileImage: undefined,
 };
 
