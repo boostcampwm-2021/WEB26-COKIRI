@@ -42,7 +42,6 @@ function Settings() {
           )}
         </Col>
       </Page.Main>
-      {isRegistered && <FloatingButton />}
     </>
   );
 }

@@ -53,7 +53,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
       >
         {hasExternalBlog ? (
           <Blogs>
-            {(blogs ?? [])!.map(({ postID, postTitle }, index) => (
+            {(blogs ?? []).map(({ postID, postTitle }, index) => (
               <Col key={postID}>
                 <ButtonCommon
                   onClick={() => handleBlogClick(index)}

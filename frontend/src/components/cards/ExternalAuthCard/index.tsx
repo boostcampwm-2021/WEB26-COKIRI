@@ -32,11 +32,11 @@ function ExternalAuthCard() {
     <CardCommon width={EXTERNAL_AUTH_CARD_WIDTH}>
       <Row justifyContent='center'>
         <Col alignItems='center'>
-          {hasExternalGithub && <p>연동 완료</p>}
+          {hasExternalGithub ? <p>연동 완료</p> : <p>연동 정보 없음</p>}
           <ButtonCommon onClick={handleClickGithub}>깃허브 연동하기</ButtonCommon>
         </Col>
         <Col alignItems='center'>
-          {hasExternalBlog && <p>연동 완료</p>}
+          {hasExternalBlog ? <p>연동 완료</p> : <p>연동 정보 없음</p>}
           <ButtonCommon onClick={handleClickBlog}>블로그 연동하기</ButtonCommon>
         </Col>
       </Row>

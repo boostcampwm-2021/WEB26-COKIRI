@@ -39,8 +39,8 @@ function ModalCommon({
           <Title>{title}</Title>
           {children}
           <Row>
-            {close !== '' && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
-            {confirm !== '' && (
+            {close && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
+            {confirm && (
               <ButtonCommon onClick={onConfirm} disabled={disabled}>
                 {confirm}
               </ButtonCommon>
@@ -67,8 +67,8 @@ ModalCommon.propTyps = {
 ModalCommon.defaultProps = {
   onClose: () => {},
   onConfirm: () => {},
-  close: '',
-  confirm: '',
+  close: undefined,
+  confirm: undefined,
   width: DEFAULT_MODAL_WIDTH,
   height: 0,
   disabled: false,
