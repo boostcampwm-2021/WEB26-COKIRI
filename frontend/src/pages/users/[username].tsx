@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
@@ -7,16 +6,14 @@ import Timeline from 'src/components/Timeline';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import SigninCard from 'src/components/cards/SigninCard';
+import UserHead from 'src/components/heads/UserHead';
 import { Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { USERS_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/images';
-
-import { isRegisteredSelector } from 'src/recoil/user';
+import { isAuthenticatedSelector, isRegisteredSelector } from 'src/recoil/user';
 
 import { Page } from 'src/styles';
 
@@ -25,9 +22,10 @@ interface Props {
 }
 
 function User({ targetUser }: Props) {
-  const isAuthenticated = useRecoilValue(isRegisteredSelector);
-  const isUserExist = Object.keys(targetUser).length !== 0;
+  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
+
+  const isUserExist = Object.keys(targetUser).length !== 0;
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['user', 'posts', targetUser],
     (context) => Fetcher.getUserPosts(targetUser, context),
@@ -35,16 +33,12 @@ function User({ targetUser }: Props) {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+  const { username, profileImage, bio, name } = targetUser;
 
   return (
     <>
-      <Head>
-        <title>COCOO</title>
-        <meta name='description' content={USERS_DESCRIPTION} />
-        <link rel='icon' href={FAVICON} />
-      </Head>
-
-      <Header page='username' />
+      <UserHead username={username!} profileImage={profileImage} bio={bio} name={name} />
+      <Header />
       <Page.Main>
         <Col alignItems='center'>
           {!isAuthenticated && <SigninCard />}
