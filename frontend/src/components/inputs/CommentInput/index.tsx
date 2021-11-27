@@ -36,7 +36,7 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
   const [value, setValue] = useState('');
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
-    onSuccess: ({ data }) => onCommentWrite(data!),
+    onSuccess: (data) => onCommentWrite(data!),
   });
 
   const handleClick = () => {

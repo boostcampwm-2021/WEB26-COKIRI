@@ -134,7 +134,7 @@ const Fetcher = {
   },
 
   // for client side
-  getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
+  async getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined || !user.isRegistered) {
       return {};
     }
@@ -153,7 +153,7 @@ const Fetcher = {
     return result.data!;
   },
 
-  getUserPosts(user: UserType, { pageParam }: QueryFunctionContext) {
+  async getUserPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined) {
       return {};
     }
