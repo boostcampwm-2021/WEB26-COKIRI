@@ -1,4 +1,4 @@
-import { MutableSnapshot, RecoilRoot } from 'recoil';
+import { MutableSnapshot, RecoilRoot, useRecoilValue } from 'recoil';
 
 import Header from 'src/components/Header';
 import DashboardHead from 'src/components/heads/DashboardHead';
@@ -9,8 +9,9 @@ import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCar
 import { Row, Col } from 'src/components/Grid';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
+import userAtom from 'src/recoil/user';
 
-import { DashboardUserInfoType } from 'src/types';
+import { DashboardUserInfoType, UserType } from 'src/types';
 
 import { Page } from 'src/styles';
 
@@ -21,18 +22,22 @@ interface Props {
 }
 
 const initState =
-  (dashboardUserInfo: DashboardUserInfoType) =>
-  ({ set }: MutableSnapshot) =>
+  (dashboardUserInfo: DashboardUserInfoType, user: UserType) =>
+  ({ set }: MutableSnapshot) => {
     set(dashboardUserInfoAtom, dashboardUserInfo);
+    set(userAtom, user);
+  };
 
 function Dashboard({ dashboardUserInfo }: Props) {
   const { profileImage, username } = dashboardUserInfo;
+  const user = useRecoilValue(userAtom);
+
   return (
     <>
       <DashboardHead username={username} profileImage={profileImage} />
       <Header />
       <Page.Main>
-        <RecoilRoot initializeState={initState(dashboardUserInfo)}>
+        <RecoilRoot initializeState={initState(dashboardUserInfo, user)}>
           <Col alignItems='center'>
             <Row>
               <DashboardBasicCard />
