@@ -33,7 +33,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
   const postCommentLike = () => Fetcher.postCommentLike(user, postID, commentID);
   const deleteCommentLike = () => Fetcher.deleteCommentLike(user, postID, commentID, likeID);
   const likeMutation = useMutation(postCommentLike, {
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       setLikeCount((prevState) => prevState + 1);
       setIsLike(true);
       setLikeID(data!._id);

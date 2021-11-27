@@ -25,7 +25,7 @@ import { NOT_EXIST_TOKEN } from 'src/globals/errors';
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
 const version = 'v1';
 
-async function run(requestConfig: AxiosRequestConfig) {
+async function run<R>(requestConfig: AxiosRequestConfig): Promise<ReturnType<R>> {
   const url = `${baseURL}/${version}/${requestConfig.url}`;
   const result = await axios.request({ ...requestConfig, url });
   return result.data;
@@ -75,8 +75,8 @@ function postWithAuth<R, D = object>(config: {
   token: string;
   data?: D;
   headers?: AxiosRequestHeaders;
-}): Promise<ReturnType<R>> {
-  return run({ ...config, headers: getAuthHeader(config), method: 'POST' });
+}) {
+  return run<R>({ ...config, headers: getAuthHeader(config), method: 'POST' });
 }
 
 function putWithAuth<R, D = object>(config: {
@@ -352,26 +352,23 @@ const Fetcher = {
     });
   },
 
-  async putUserSettings(user: UserType, newUser: UserType): Promise<void> {
-    await axios.put(
-      `${baseURL}/${version}/users/${user._id}/settings`,
-      {
+  async putUserSettings(user: UserType, newUser: UserType) {
+    await putWithAuth<void>({
+      url: `/users/${user._id}/settings`,
+      data: {
         username: newUser.username,
         name: newUser.name,
         profileImage: newUser.profileImage,
         bio: newUser.bio,
       },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+      token: user.token!,
+    });
   },
 
-  async putDashboardUserInfo(
-    user: UserType,
-    dashboard: DashboardUserInfoType,
-  ): Promise<DashboardUserInfoType> {
-    const result = await axios.put(
-      `${baseURL}/${version}/users/${user._id}/dashboard`,
-      {
+  async putDashboardUserInfo(user: UserType, dashboard: DashboardUserInfoType) {
+    const result = await putWithAuth<DashboardUserInfoType>({
+      url: `users/${user._id}/dashboard`,
+      data: {
         name: dashboard.name,
         profileImage: dashboard.profileImage,
         phoneNumber: dashboard.phoneNumber,
@@ -385,19 +382,17 @@ const Fetcher = {
         blog: dashboard.blog || undefined,
         solvedac: dashboard.solvedac || undefined,
       },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
-    return result.data.data;
+      token: user.token!,
+    });
+    return result.data;
   },
 
-  async putDashboardRepoLanguages(user: UserType): Promise<LanguageStatisticsType> {
-    const result = await axios.put(
-      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/languages`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
-    );
-    return result.data.data.dashboard.statistics;
+  async putDashboardRepoLanguages(user: UserType) {
+    const result = await putWithAuth<UserType>({
+      url: `users/${user._id}/dashboard/repositories/languages`,
+      token: user.token!,
+    });
+    return result.data;
   },
 
   async putProblemStatistics(
@@ -415,50 +410,47 @@ const Fetcher = {
   async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/likes/${likeID}`, {
       data: { userID: `${user._id}` },
-      headers: { Authorization: `Bearer ${user.token}` },
+      token: user.token!,
     });
   },
 
-  async deleteUserFollow(user: UserType, targetUserID: string): Promise<void> {
-    await axios.delete(`${baseURL}/${version}/users/${targetUserID}/follows`, {
+  async deleteUserFollow(user: UserType, targetUserID: string) {
+    await deleteWithAuth<void>({
+      url: `users/${targetUserID}/follows`,
       data: { userID: user._id },
-      headers: { Authorization: `Bearer ${user.token}` },
+      token: user.token!,
     });
   },
 
-  async deleteCommentLike(
-    user: UserType,
-    postID: string,
-    commentID: string,
-    likeID: string,
-  ): Promise<void> {
-    await axios.delete(
-      `${baseURL}/${version}/posts/${postID}/comments/${commentID}/likes/${likeID}`,
-      {
-        data: { userID: `${user._id}` },
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
-    );
-  },
-
-  async deletePost(user: UserType, postID: string): Promise<void> {
-    await axios.delete(`${baseURL}/${version}/posts/${postID}`, {
+  async deleteCommentLike(user: UserType, postID: string, commentID: string, likeID: string) {
+    await deleteWithAuth<void>({
+      url: `posts/${postID}/comments/${commentID}/likes/${likeID}`,
       data: { userID: `${user._id}` },
-      headers: { Authorization: `Bearer ${user.token}` },
+      token: user.token!,
     });
   },
 
-  async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
-    await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
-      data: { userID: user._id },
-      headers: { Authorization: `Bearer ${user.token}` },
+  async deletePost(user: UserType, postID: string) {
+    await deleteWithAuth<void>({
+      url: `posts/${postID}`,
+      data: { userID: `${user._id}` },
+      token: user.token!,
     });
   },
 
-  async deleteDashboardHistory(user: UserType, historyID: string): Promise<void> {
-    await axios.delete(`${baseURL}/${version}/users/${user._id}/dashboard/histories`, {
+  async deleteComment(user: UserType, postID: string, commentID: string) {
+    await deleteWithAuth<void>({
+      url: `posts/${postID}/comments/${commentID}`,
+      data: { userID: `${user._id}` },
+      token: user.token!,
+    });
+  },
+
+  async deleteDashboardHistory(user: UserType, historyID: string) {
+    await deleteWithAuth({
+      url: `users/${user._id}/dashboard/histories`,
       data: { historyID },
-      headers: { Authorization: `Bearer ${user.token}` },
+      token: user.token!,
     });
   },
 
