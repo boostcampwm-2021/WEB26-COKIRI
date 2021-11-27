@@ -371,4 +371,15 @@ export default class UsersRouter {
     await DashboardHistoryService.deleteDashboardHistory(userID, historyID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
+
+  @Delete('/:userID/dashboard/repositories/:repoName')
+  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
+  async deleteDashboardRepo(@Req() request: Request, @Res() response: Response) {
+    const { userID, repoName } = request.params;
+    if (userID !== request.user?.userID) {
+      throw new Error(ERROR.PERMISSION_DENIED);
+    }
+    await DashboardRepoService.deleteDashboardRepo(userID, repoName);
+    return response.json({ code: RESPONSECODE.SUCCESS });
+  }
 }
