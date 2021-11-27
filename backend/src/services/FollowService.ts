@@ -15,7 +15,10 @@ class FollowService {
   }
 
   async createFollow(followID: string, followerID: string) {
-    NotifyService.createNotify('follow', followID, followerID, undefined);
+    if (followID !== followerID) {
+      NotifyService.createNotify('follow', followID, followerID, undefined);
+    }
+
     return Follow.updateOne(
       { followID, followerID },
       { $setOnInsert: { followID, followerID } },
