@@ -5,6 +5,7 @@ import { TIME_MIN_WIDTH } from 'src/globals/constants';
 const Time = styled.p`
   color: #aaaaaa;
   font-size: 13px;
+  padding: 0 8px;
   min-width: ${TIME_MIN_WIDTH}px;
 `;
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -23,9 +23,9 @@ function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
   const followers = useRecoilValue(followersSelector);
   const [follows, setFollows] = useRecoilState<string[]>(followsSelector);
 
-  const isMe = useMemo(() => targetUserID === user._id, [targetUserID, user._id]);
-  const isFollower = useMemo(() => followers?.includes(targetUserID!), [targetUserID, followers]);
-  const isFollow = useMemo(() => follows?.includes(targetUserID!), [targetUserID, follows]);
+  const isMe = targetUserID === user._id;
+  const isFollower = followers?.includes(targetUserID!);
+  const isFollow = follows?.includes(targetUserID!);
 
   const handleFollow = useCallback(() => {
     setFollows((prevState) => [...prevState, targetUserID!]);
@@ -36,9 +36,11 @@ function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
     setFollows((prevState) => prevState.filter((id) => id !== targetUserID));
     onUnfollow();
   }, [onUnfollow, setFollows, targetUserID]);
+
   if (isMe || !isAuthenticated) {
     return null;
   }
+
   return isFollow ? (
     <UnfollowButton targetUserID={targetUserID} onUnfollow={handleUnfollow} />
   ) : (

@@ -196,10 +196,6 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getLogout() {
-    window.open(`${baseURL}/${version}/users/logout`, '_self');
-  }
-
   static async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
     const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
     return result.data;

@@ -12,6 +12,7 @@ import { Fetcher } from 'src/utils';
 import userAtom, { isAuthenticatedSelector, isRegisteredSelector } from 'src/recoil/user';
 
 const validateUsername = (username: string) => /^[a-zA-Z0-9_-]{1,20}/.test(username);
+const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
 
 function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
@@ -41,9 +42,13 @@ function RegisterModal() {
       setIsValid(false);
     }
   };
+
+  const handleClose = () => window.open(`${url}/v1/users/logout`, '_self');
+
   return (
     <ModalCommon
       onConfirm={handleConfirm}
+      onClose={handleClose}
       close='로그아웃'
       confirm='확인'
       title='username 입력'

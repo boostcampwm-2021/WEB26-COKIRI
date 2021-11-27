@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
-import { Row, Col, Spacer } from 'src/components/Grid';
 import ButtonCommon from 'src/components/buttons/Common';
+import { Row, Col } from 'src/components/Grid';
 
 import { DEFAULT_MODAL_WIDTH } from 'src/globals/constants';
 
@@ -39,7 +39,6 @@ function ModalCommon({
           <Title>{title}</Title>
           {children}
           <Row>
-            <Spacer />
             {close !== '' && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
             {confirm !== '' && (
               <ButtonCommon onClick={onConfirm} disabled={disabled}>
