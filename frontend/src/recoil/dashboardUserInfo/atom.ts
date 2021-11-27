@@ -4,7 +4,9 @@ import type { DashboardUserInfoType } from 'src/types';
 
 const dashboardUserInfoAtom = atom<DashboardUserInfoType>({
   key: 'dashboardUserInfo',
-  default: {},
+  default: {
+    username: '',
+  },
 });
 
 export default dashboardUserInfoAtom;
