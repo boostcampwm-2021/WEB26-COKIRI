@@ -10,20 +10,19 @@ import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 import { Cover, LinkButton, Wrapper, ButtonHolder } from './style';
 
 interface Props {
-  externalType: string;
   external?: ExternalType;
   onDelete: () => void;
 }
 
-function ExternalPreview({ external, externalType, onDelete }: Props) {
-  if (externalType === '') {
+function ExternalPreview({ external, onDelete }: Props) {
+  const { title, content, info, link, type } = external!;
+  if (!type) {
     return null;
   }
-  const { title, content, info, link } = external!;
   return (
     <Wrapper>
       <Cover />
-      {externalType === 'repo' && (
+      {type === 'repository' && (
         <RepoContent
           title={title ?? ''}
           content={content ?? ''}
@@ -31,7 +30,7 @@ function ExternalPreview({ external, externalType, onDelete }: Props) {
           link={link}
         />
       )}
-      {externalType === 'problem' && (
+      {type === 'problem' && (
         <ProblemContent
           title={title ?? ''}
           content={content ?? ''}
@@ -39,7 +38,7 @@ function ExternalPreview({ external, externalType, onDelete }: Props) {
           link={link}
         />
       )}
-      {externalType === 'blog' && (
+      {type === 'tistory' && (
         <BlogContent title={title ?? ''} content={content ?? ''} link={link} />
       )}
       <LinkButton href={external!.link} target='_blank' rel='noreferrer noopener'>
@@ -53,7 +52,6 @@ function ExternalPreview({ external, externalType, onDelete }: Props) {
 }
 
 ExternalPreview.propTypes = {
-  externalType: PropTypes.string.isRequired,
   external: PropTypes.objectOf(PropTypes.any),
   onDelete: PropTypes.func.isRequired,
 };

@@ -33,7 +33,6 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
   const [content, setContent] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [external, setExternal] = useState<ExternalType>();
-  const [externalType, setExternalType] = useState<'repo' | 'problem' | 'blog' | ''>('');
 
   const [isReposModalShow, setIsReposModalShow] = useState(false);
   const [isProblemsModalShow, setIsProblemsModalShow] = useState(false);
@@ -43,24 +42,15 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
     onSuccess: () => onPostWrite(),
   });
   const problemMutation = useMutation((id: string) => Fetcher.getProblem(id), {
-    onSuccess: (problem: ExternalType) => {
-      setExternalType('problem');
-      setExternal(problem);
-    },
+    onSuccess: (problem: ExternalType) => setExternal(problem),
   });
   const repoMutation = useMutation((name: string) => Fetcher.getUserRepo(user, name), {
-    onSuccess: (repo: ExternalType) => {
-      setExternalType('repo');
-      setExternal(repo);
-    },
+    onSuccess: (repo: ExternalType) => setExternal(repo),
   });
   const blogMutation = useMutation(
     (blog: BlogType) => Fetcher.getUserBlog(user, blog.identity, blog.postID),
     {
-      onSuccess: (blog: ExternalType) => {
-        setExternalType('blog');
-        setExternal(blog);
-      },
+      onSuccess: (blog: ExternalType) => setExternal(blog),
     },
   );
 
@@ -87,7 +77,6 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
 
   const handleExternalDelete = useCallback(() => {
     setExternal(undefined);
-    setExternalType('');
   }, []);
 
   const handleClickGithub = () => setIsReposModalShow(true);
@@ -141,11 +130,7 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />
-        <ExternalPreview
-          external={external}
-          externalType={externalType}
-          onDelete={handleExternalDelete}
-        />
+        <ExternalPreview external={external} onDelete={handleExternalDelete} />
       </ModalCommon>
     </>
   );
