@@ -54,7 +54,7 @@ function ProblemsModal({ onClose, onSelect }: Props) {
           <ButtonCommon onClick={handleSearchClick}> 검색</ButtonCommon>
         </Row>
         <Problems>
-          {(problems ?? [])!.map(({ id, title }, index) => (
+          {(problems ?? []).map(({ id, title }, index) => (
             <Col key={id}>
               <ButtonCommon
                 onClick={() => handleProblemClick(index)}
