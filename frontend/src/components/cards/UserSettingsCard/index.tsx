@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 
@@ -29,20 +29,15 @@ function UserSettingsCard() {
   const mutation = useMutation(
     () => Fetcher.putUserSettings(user, { profileImage, username, name, bio }),
     {
-      onSuccess: () => {
+      onSuccess: async () => {
         setUser({ ...user, profileImage, username, name, bio });
-        router.push(`/users/${username}/settings`, '', { shallow: true });
+        await router.push(`/users/${username}`, '', { shallow: true });
       },
     },
   );
 
-  const handleClick = () => {
-    mutation.mutate();
-  };
-
-  const handleImageUpload = (url: string) => {
-    setProfileImage(url);
-  };
+  const handleClick = useCallback(() => mutation.mutate(), [mutation]);
+  const handleImageUpload = useCallback((url: string) => setProfileImage(url), []);
 
   return (
     <CardCommon width={USER_SETTING_CARD_WIDTH}>
@@ -67,9 +62,7 @@ function UserSettingsCard() {
         <Input bind={[bio, setBio]} placeholder={user.bio} />
       </Row>
       <Row justifyContent='end'>
-        <Button onClick={handleClick} margin={24}>
-          저장
-        </Button>
+        <Button onClick={handleClick}>저장</Button>
       </Row>
     </CardCommon>
   );
