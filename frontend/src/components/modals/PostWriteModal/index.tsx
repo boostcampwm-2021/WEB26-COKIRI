@@ -20,7 +20,7 @@ import userAtom from 'src/recoil/user';
 
 import { BlogType, ExternalType, ProblemType, RepoType } from 'src/types';
 
-import { Textarea, IconHolder } from './style';
+import { Textarea, ImageInputHolder } from './style';
 
 interface Props {
   onPostWrite: () => void;
@@ -119,11 +119,12 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
         disabled={content.trim() === ''}
       >
         <Row justifyContent='center' alignItems='center'>
-          <ImageInput onImageUpload={handleImageUpload}>
-            <IconHolder>
+          <ImageInputHolder>
+            <ImageInput onImageUpload={handleImageUpload}>
               <IoMdImages />
-            </IconHolder>
-          </ImageInput>
+              <p>{images.length} / 3</p>
+            </ImageInput>
+          </ImageInputHolder>
           <ButtonCommon onClick={handleClickGithub}>깃허브</ButtonCommon>
           <ButtonCommon onClick={handleClickProblems}>백준</ButtonCommon>
           <ButtonCommon onClick={handleClickBlogs}>블로그</ButtonCommon>

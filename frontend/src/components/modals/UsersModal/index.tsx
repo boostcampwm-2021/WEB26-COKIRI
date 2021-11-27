@@ -22,7 +22,7 @@ function UsersModal({ title, users, onClose }: Props) {
       <Users>
         {users?.map((user) => (
           <User key={user._id}>
-            <Row justifyContent='space-between'>
+            <Row justifyContent='space-between' alignItems='center'>
               <ProfileSet
                 profileImage={user.profileImage}
                 username={user.username!}

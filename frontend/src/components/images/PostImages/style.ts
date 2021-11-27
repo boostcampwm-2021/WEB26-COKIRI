@@ -10,7 +10,7 @@ const Wrapper = styled.div<Props>`
   width: ${({ width, expanded }) => (expanded ? '100vh' : `${width}px`)};
   height: ${({ expanded }) => (expanded ? '100vh' : 'auto')};
   position: relative;
-  margin: 0 auto;
+  margin: 12px 0;
   overflow: hidden;
 `;
 
