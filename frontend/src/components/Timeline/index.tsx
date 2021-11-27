@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import ReactLoading from 'react-loading';
 
 import Post from 'src/components/Post';
 
@@ -26,7 +27,7 @@ function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNext
       )}
 
       <div ref={ref} />
-      {isFetchingNextPage && <p>원해?</p>}
+      {isFetchingNextPage && <ReactLoading type='bubbles' color='#fff' />}
       {!hasNextPage && <p>끝!</p>}
     </>
   );
