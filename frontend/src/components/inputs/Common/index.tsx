@@ -32,7 +32,14 @@ function InputCommon({ bind, placeholder, width, icon, onChange, onChangeWithDeb
 
   return (
     <Wrapper width={width!}>
-      <Input width={width!} value={state} onChange={handleChange} placeholder={placeholder} />
+      <Input
+        width={width!}
+        value={state}
+        onChange={handleChange}
+        placeholder={placeholder}
+        autoComplete='off'
+        spellCheck={false}
+      />
       {icon}
     </Wrapper>
   );
