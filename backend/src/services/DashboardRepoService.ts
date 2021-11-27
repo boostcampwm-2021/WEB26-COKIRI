@@ -46,6 +46,10 @@ class DashboardRepoService {
       { new: true },
     );
   }
+
+  async deleteDashboardRepo(userID: string, repoName: string) {
+    return DashboardRepository.deleteOne({ userID, repoName });
+  }
 }
 
 export default new DashboardRepoService();
