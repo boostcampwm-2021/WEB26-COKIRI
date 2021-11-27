@@ -282,87 +282,74 @@ const Fetcher = {
     return result.data.data;
   },
 
-  async postPost(
-    user: UserType,
-    content: string,
-    images: string[],
-    external?: ExternalType,
-  ): Promise<ReturnType<PostType>> {
-    const result = await axios.post<PostType>(
-      `${baseURL}/${version}/posts`,
-      { userID: user._id, content, images, external },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
-    return result.data;
-  },
-
-  async getUserNotifications(user: UserType): Promise<NotificationType[]> {
-    const result = await axios.get(`${baseURL}/${version}/users/${user._id}/notifies`, {
-      headers: { Authorization: `Bearer ${user.token}` },
+  async postPost(user: UserType, content: string, images: string[], external?: ExternalType) {
+    const result = await postWithAuth<PostType>({
+      url: 'posts',
+      data: { userID: user._id, content, images, external },
+      token: user.token!,
     });
-
-    return result.data.data;
-  },
-
-  async postPostLike(user: UserType, postID: string): Promise<ReturnType<LikeType>> {
-    const result = await axios.post(
-      `${baseURL}/${version}/posts/${postID}/likes`,
-      { userID: user._id },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
     return result.data;
   },
 
-  async postPostComment(
-    user: UserType,
-    postID: string,
-    content: string,
-  ): Promise<ReturnType<CommentType>> {
-    const result = await axios.post(
-      `${baseURL}/${version}/posts/${postID}/comments`,
-      { userID: user._id, content },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+  async getUserNotifications(user: UserType) {
+    const result = await getWithAuth<NotificationType[]>({
+      url: `users/${user._id}/notifies`,
+      token: user.token!,
+    });
     return result.data;
   },
 
-  async postCommentLike(
-    user: UserType,
-    postID: string,
-    commentID: string,
-  ): Promise<ReturnType<LikeType>> {
-    const result = await axios.post(
-      `${baseURL}/${version}/posts/${postID}/comments/${commentID}/likes`,
-      { userID: user._id },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+  async postPostLike(user: UserType, postID: string) {
+    const result = await postWithAuth<LikeType>({
+      url: `posts/${postID}/likes`,
+      data: { userID: user._id },
+      token: user.token!,
+    });
     return result.data;
   },
 
-  async postDashboardHistory(user: UserType, content: string, date: string): Promise<HistoryType> {
-    const result = await axios.post(
-      `${baseURL}/${version}/users/${user._id}/dashboard/histories`,
-      { content, date },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+  async postPostComment(user: UserType, postID: string, content: string) {
+    const result = await postWithAuth<CommentType>({
+      url: `posts/${postID}/comments`,
+      data: { userID: user._id, content },
+      token: user.token!,
+    });
     return result.data;
   },
 
-  async postDashboardRepo(user: UserType, repoName: string): Promise<ReturnType<RepoType>> {
-    const result = await axios.post(
-      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
-      { userID: user._id },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+  async postCommentLike(user: UserType, postID: string, commentID: string) {
+    const result = await postWithAuth<LikeType>({
+      url: `posts/${postID}/comments/${commentID}/likes`,
+      data: { userID: user._id },
+      token: user.token!,
+    });
     return result.data;
   },
 
-  async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
-    await axios.post(
-      `${baseURL}/${version}/users/${targetUserID}/follows`,
-      { userID: user._id },
-      { headers: { Authorization: `Bearer ${user.token}` } },
-    );
+  async postDashboardHistory(user: UserType, content: string, date: string) {
+    const result = await postWithAuth<HistoryType>({
+      url: `users/${user._id}/dashboard/histories`,
+      data: { content, date },
+      token: user.token!,
+    });
+    return result.data;
+  },
+
+  async postDashboardRepo(user: UserType, repoName: string) {
+    const result = await postWithAuth<RepoType>({
+      url: `users/${user._id}/dashboard/repositories/${repoName}`,
+      data: { userID: user._id },
+      token: user.token!,
+    });
+    return result.data;
+  },
+
+  async postUserFollow(user: UserType, targetUserID: string) {
+    await postWithAuth<void>({
+      url: `users/${targetUserID}/follows`,
+      data: { userID: user._id },
+      token: user.token!,
+    });
   },
 
   async putUserSettings(user: UserType, newUser: UserType): Promise<void> {

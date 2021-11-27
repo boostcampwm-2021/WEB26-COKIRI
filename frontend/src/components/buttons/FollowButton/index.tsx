@@ -16,7 +16,7 @@ interface Props {
 
 function FollowButton({ targetUserID, isFollower, onFollow }: Props) {
   const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.putUserFollow(user, targetUserID), {
+  const mutation = useMutation(() => Fetcher.postUserFollow(user, targetUserID), {
     onSuccess: () => {
       onFollow();
     },
