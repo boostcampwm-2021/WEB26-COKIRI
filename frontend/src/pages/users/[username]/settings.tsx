@@ -28,7 +28,7 @@ function Settings() {
               <ExternalAuthCard />
             </>
           ) : (
-            <p>퍼미션 디나이드</p>
+            <p>퍼미션 디나이드permission denied</p>
           )}
         </Col>
       </Page.Main>
