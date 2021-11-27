@@ -4,7 +4,7 @@ export const DEFAULT_POST_IMAGE_HEIGHT = 360;
 
 export const DEFAULT_PROFILE_IMAGE_SIZE = 36;
 
-export const USER_INFO_PROFILE_IMAGE_SIZE = 128;
+export const USER_INFO_PROFILE_IMAGE_SIZE = 168;
 export const USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT = 16;
 
 export const SUGGESTION_PROFILE_IMAGE_SIZE = 64;
@@ -54,8 +54,6 @@ export const NAVIGATE_BUTTON_PADDING = 16;
 
 export const RETURN_BUTTON_SIZE = 25;
 
-export const PROBLEM_BUTTON_WIDTH = 380;
-
 // ICON
 export const SOCIAL_ICON_SIZE = 48;
 
@@ -79,7 +77,7 @@ export const SIGNIN_CARD_WIDTH = 500;
 
 export const SUGGESTION_CARD_WIDTH = 800;
 
-export const USER_INFO_CARD_WIDTH = 500;
+export const USER_INFO_CARD_WIDTH = 600;
 
 export const USER_SETTING_CARD_WIDTH = 600;
 
@@ -98,23 +96,15 @@ export const POST_CONTENT_WIDTH = 575;
 // MODAL
 export const DELETE_MODAL_TITLE_HEIGHT = 50;
 
-export const EXTERNAL_MODAL_HEIGHT = 400;
-
 export const DEFAULT_MODAL_WIDTH = 384;
 
 // COUNT
 export const SUGGESTION_COUNT = 3;
 
-// MODAL
-export const REPOS_MODAL_HEIGHT = 500;
-
 // TIME
-export const TIME_MIN_WIDTH = 60;
+export const TIME_MIN_WIDTH = 40;
 
 // DASHBOARD
-export const DASHBOARD_USER_INFO_COL_MARGIN = 8;
-export const DASHBOARD_STACK_GRID_PADDING = 16;
-export const DASHBOARD_LINK_ROW_PADDING = 24;
 export const DASHBOARD_HISTORY_MARGIN_LEFT = 50;
 export const DASHBOARD_STACK_TITLE_FONT_SIZE = 16;
 export const RADAR_CHART_WIDTH = 30;

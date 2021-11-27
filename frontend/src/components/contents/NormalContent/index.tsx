@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ContentCommon from 'src/components/contents/Common';
+import ButtonCommon from 'src/components/buttons/Common';
+
+import { POST_CONTENT_LIMIT_LENGTH } from 'src/globals/constants';
+
+import { Wrapper, Content } from './style';
 
 interface Props {
   content: string;
@@ -8,7 +13,29 @@ interface Props {
 }
 
 function NormalContent({ content, expanded }: Props) {
-  return <ContentCommon content={content} expanded={expanded} />;
+  const [isExpand, setIsExpand] = useState(expanded);
+  const isShort = content.length < POST_CONTENT_LIMIT_LENGTH;
+  const shortContent = content.substr(0, POST_CONTENT_LIMIT_LENGTH);
+  const handleClick = () => {
+    setIsExpand(true);
+  };
+  if (isShort) {
+    return (
+      <Wrapper>
+        <Content>{shortContent}</Content>
+      </Wrapper>
+    );
+  }
+  return isExpand ? (
+    <Wrapper>
+      <Content>{content}</Content>
+    </Wrapper>
+  ) : (
+    <Wrapper>
+      <Content>{shortContent}</Content>
+      <ButtonCommon onClick={handleClick}>더보기</ButtonCommon>
+    </Wrapper>
+  );
 }
 
 NormalContent.propTypes = {

@@ -1,14 +1,11 @@
-import Head from 'next/head';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
 
 import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
 import FloatingButton from 'src/components/buttons/FloatingButton';
+import RandomHead from 'src/components/heads/RandomHead';
 import { Col } from 'src/components/Grid';
-
-import { RANDOM_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/images';
 
 import { Page } from 'src/styles';
 
@@ -25,15 +22,11 @@ function Random() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+
   return (
     <>
-      <Head>
-        <title>COCOO</title>
-        <meta name='description' content={RANDOM_DESCRIPTION} />
-        <link rel='icon' href={FAVICON} />
-      </Head>
-
-      <Header page='random' />
+      <RandomHead />
+      <Header />
       <Page.Main>
         <Col alignItems='center'>
           <Timeline

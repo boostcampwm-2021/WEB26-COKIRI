@@ -23,7 +23,11 @@ function UnfollowButton({ targetUserID, onUnfollow }: Props) {
   const handleClick = () => {
     mutation.mutate();
   };
-  return <ButtonCommon onClick={handleClick}>Unfollow</ButtonCommon>;
+  return (
+    <ButtonCommon onClick={handleClick} red>
+      언팔
+    </ButtonCommon>
+  );
 }
 
 UnfollowButton.propTypes = {

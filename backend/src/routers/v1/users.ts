@@ -98,7 +98,7 @@ export default class UsersRouter {
     const dashboardHistories = await DashboardHistoryService.findDashboardHistory(dashboard._id!);
     return response.json({
       code: RESPONSECODE.SUCCESS,
-      data: { _id: dashboard._id, ...dashboard.dashboard, dashboardHistories },
+      data: { _id: dashboard._id, username, ...dashboard.dashboard, dashboardHistories },
     });
   }
 

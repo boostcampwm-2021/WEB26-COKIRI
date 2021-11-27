@@ -34,16 +34,22 @@ class Fetcher {
     }
   }
 
-  static async getUsersByUsername(token: string, username: string): Promise<UserType> {
+  static async getUsersByUsername(username: string): Promise<UserType> {
     try {
       const result = await axios.get(`${baseURL}/${version}/users`, {
-        headers: { Authorization: `Bearer ${token}` },
         params: { username },
       });
       return result.data.data;
     } catch (error) {
       return {};
     }
+  }
+
+  static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
+    const result = await axios.get(`${baseURL}/${version}/users/dashboard`, {
+      params: { username },
+    });
+    return result.data;
   }
 
   // for client side
@@ -183,21 +189,12 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
-    const result = await axios.get(`${baseURL}/${version}/users/dashboard?username=${username}`);
-    return result.data;
-  }
-
   static async getTistoryAuthURL(user: UserType, redirectURI: string): Promise<string> {
     const result = await axios.get(`${baseURL}/${version}/socials/tistory`, {
       headers: { Authorization: `Bearer ${user.token}` },
       params: { redirect_uri: redirectURI },
     });
     return result.data.data;
-  }
-
-  static async getLogout() {
-    window.open(`${baseURL}/${version}/users/logout`, '_self');
   }
 
   static async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {

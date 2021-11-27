@@ -52,6 +52,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
       size={COMMENT_LIKE_BUTTON_SIZE}
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
+      clicked
     >
       <IoHeartSharp />
       {likeCount !== 0 && likeCount}

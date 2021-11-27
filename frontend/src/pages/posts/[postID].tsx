@@ -1,8 +1,5 @@
-import Head from 'next/head';
-
 import PostDetail from 'src/components/PostDetail';
-import { POSTS_DESCRIPTION } from 'src/globals/descriptions';
-import { FAVICON } from 'src/globals/images';
+import PostHead from 'src/components/heads/PostHead';
 
 import { PostType } from 'src/types';
 
@@ -13,14 +10,11 @@ interface Props {
 }
 
 function Post({ post }: Props) {
+  const { _id, content, images } = post;
+
   return (
     <>
-      <Head>
-        <title>COCOO</title>
-        <meta name='description' content={POSTS_DESCRIPTION} />
-        <link rel='icon' href={FAVICON} />
-      </Head>
-
+      <PostHead postID={_id!} content={content!} image={images![0]?.url} />
       <PostDetail post={post} />
     </>
   );

@@ -24,7 +24,11 @@ function FollowButton({ targetUserID, isFollower, onFollow }: Props) {
   const handleClick = () => {
     mutation.mutate();
   };
-  return <ButtonCommon onClick={handleClick}>{isFollower ? '맞Follow' : 'Follow'}</ButtonCommon>;
+  return (
+    <ButtonCommon onClick={handleClick} green>
+      {isFollower ? '맞팔' : '팔로'}
+    </ButtonCommon>
+  );
 }
 
 FollowButton.propTypes = {

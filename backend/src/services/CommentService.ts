@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Comment, Post } from 'src/models';
-import { ERROR, SELECT } from 'src/utils';
+import { ERROR, SELECT, ObjectID } from 'src/utils';
 import { CommentLikeService, NotifyService } from 'src/services';
 import { CommentType } from 'src/types';
 
@@ -21,7 +21,10 @@ class CommentService {
     delete newComment!.userID;
     delete newComment!.postID;
     const post = await Post.findOne({ _id: postID }, 'userID -_id');
-    NotifyService.createNotify('postComment', userID, post?.userID, postID);
+    if (post?.userID !== undefined && userID !== ObjectID.objectIDToString(post?.userID)) {
+      NotifyService.createNotify('postComment', userID, post?.userID, postID);
+    }
+
     return newComment;
   }
 

@@ -3,6 +3,7 @@ import HistoryType from './history';
 import LanguageStatisticsType from './languageStatistics';
 
 export default interface DashboardUserInfoType {
+  username: string;
   name?: string;
   profileImage?: string;
   phoneNumber?: string;
