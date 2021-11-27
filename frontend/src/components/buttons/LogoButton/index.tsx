@@ -16,7 +16,7 @@ function LogoButton() {
     <ButtonCommon width={LOGO_BUTTON_WIDTH} height={LOGO_BUTTON_HEIGHT}>
       <Link href='/home' passHref>
         <a>
-          <Image src={LOGO_IMAGE} width={LOGO_IMAGE_WIDTH} height={LOGO_IMAGE_HEIGHT} />
+          <Image src={LOGO_IMAGE} width={LOGO_IMAGE_WIDTH} height={LOGO_IMAGE_HEIGHT} alt='cocoo' />
         </a>
       </Link>
     </ButtonCommon>

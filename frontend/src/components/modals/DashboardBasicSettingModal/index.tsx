@@ -78,7 +78,11 @@ function DashboardBasicSettingModal({ onClose }: Props) {
         <ImageInput onImageUpload={handleImageUpload}>
           <ImageCover>변경</ImageCover>
         </ImageInput>
-        <ProfileImage size={USER_SETTING_PROFILE_IMAGE_SIZE} profileImage={profileImage} />
+        <ProfileImage
+          size={USER_SETTING_PROFILE_IMAGE_SIZE}
+          profileImage={profileImage}
+          username=''
+        />
       </ImageHolder>
       <Row justifyContent='space-evenly'>
         <Col>

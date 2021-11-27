@@ -46,7 +46,7 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
 
   return (
     <Row justifyContent='center' alignItems='center'>
-      <ProfileImage profileImage={user.profileImage} />
+      <ProfileImage profileImage={user.profileImage} username={user.username!} />
       <InputCommon bind={[value, setValue]} width={width} icon={<BiComment />} />
       <IconButton onClick={handleClick} size={iconSize!} padding={padding!}>
         <BiSend />

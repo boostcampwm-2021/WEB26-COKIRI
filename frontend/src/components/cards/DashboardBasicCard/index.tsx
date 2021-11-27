@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import {
   IoPersonOutline,
@@ -31,9 +30,8 @@ import { Content } from './style';
 function DashboardBasicCard() {
   const user = useRecoilValue(userAtom);
   const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
-  const { name, phoneNumber, email, birthday, region, school, profileImage } = dashboardUserInfo;
-  const router = useRouter();
-  const username = router.query.username as string;
+  const { name, phoneNumber, email, birthday, region, school, profileImage, username } =
+    dashboardUserInfo;
 
   const isMe = user.username === username;
 
@@ -44,6 +42,7 @@ function DashboardBasicCard() {
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage}
           marginRight={USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT}
+          username={username}
         />
         <Col justifyContent='space-evenly'>
           <Row alignItems='center'>

@@ -39,6 +39,7 @@ function UserInfoCard({ targetUser }: Props) {
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
+          username={username!}
         />
         <Col>
           <Row alignItems='center'>

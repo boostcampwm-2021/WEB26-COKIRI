@@ -46,7 +46,11 @@ function UserSettingsCard() {
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
           </ImageInput>
-          <ProfileImage size={USER_SETTING_PROFILE_IMAGE_SIZE} profileImage={profileImage} />
+          <ProfileImage
+            size={USER_SETTING_PROFILE_IMAGE_SIZE}
+            profileImage={profileImage}
+            username={username}
+          />
         </ImageHolder>
       </Row>
       <Row justifyContent='center'>
