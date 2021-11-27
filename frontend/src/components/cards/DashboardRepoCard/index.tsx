@@ -37,6 +37,7 @@ function DashBoardRepoCard({ targetUserID }: Props) {
       content: dashboardRepo.content,
       link: dashboardRepo.repoUrl!,
       info: {
+        forkCount: dashboardRepo.forkCount!,
         language: dashboardRepo.languageInfo,
         starCount: dashboardRepo.starCount!.toString(),
       },

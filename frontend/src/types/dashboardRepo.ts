@@ -5,6 +5,7 @@ export default interface DashboardRepoType {
   repoName?: string;
   repoUrl?: string;
   starCount?: number;
+  forkCount?: number;
   updatedAt?: string;
   userID?: string;
   _id?: string;
