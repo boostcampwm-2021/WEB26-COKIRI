@@ -16,6 +16,7 @@ import {
   HistoryType,
   StackType,
   NotificationType,
+  DashboardRepoType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -197,9 +198,9 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
+  static async getDashboardRepo(userID: string): Promise<DashboardRepoType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
-    return result.data;
+    return result.data.data;
   }
 
   static async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
@@ -284,13 +285,13 @@ class Fetcher {
     return result.data;
   }
 
-  static async postDashboardRepo(user: UserType, repoName: string): Promise<ReturnType<RepoType>> {
+  static async postDashboardRepo(user: UserType, repoName: string): Promise<DashboardRepoType> {
     const result = await axios.post(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
