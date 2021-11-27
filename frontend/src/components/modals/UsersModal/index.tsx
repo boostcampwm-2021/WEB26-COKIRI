@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
 
-import { Col, Row } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import ModalCommon from 'src/components/modals/Common';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import FollowSet from 'src/components/sets/FollowSet';
 
 import { UserType } from 'src/types';
+
+import { Users, User } from './style';
 
 interface Props {
   title: string;
@@ -16,20 +18,21 @@ interface Props {
 
 function UsersModal({ title, users, onClose }: Props) {
   return (
-    <ModalCommon confirm='확인' onConfirm={onClose} onClose={onClose}>
-      {title}
-      <Col>
+    <ModalCommon confirm='확인' onConfirm={onClose} onClose={onClose} title={title}>
+      <Users>
         {users?.map((user) => (
-          <Row justifyContent='space-between' key={user._id}>
-            <ProfileSet
-              profileImage={user.profileImage}
-              username={user.username!}
-              onClick={onClose}
-            />
-            <FollowSet targetUserID={user._id!} />
-          </Row>
+          <User key={user._id}>
+            <Row justifyContent='space-between'>
+              <ProfileSet
+                profileImage={user.profileImage}
+                username={user.username!}
+                onClick={onClose}
+              />
+              <FollowSet targetUserID={user._id!} />
+            </Row>
+          </User>
         ))}
-      </Col>
+      </Users>
     </ModalCommon>
   );
 }
