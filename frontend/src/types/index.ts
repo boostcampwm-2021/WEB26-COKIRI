@@ -15,6 +15,7 @@ import DashboardUserInfoType from './dashboardUserInfo';
 import StatisticsType from './statistics';
 import HistoryType from './history';
 import NotificationType from './notification';
+import DashboardRepoType from './dashboardRepo';
 
 export type {
   UserType,
@@ -35,4 +36,5 @@ export type {
   StatisticsType,
   HistoryType,
   NotificationType,
+  DashboardRepoType,
 };

@@ -5,7 +5,7 @@ export interface ProblemInfoType {
 }
 
 export interface RepoInfoType {
-  forkCount: number;
+  forkCount?: number;
   starCount: string;
   language: any;
 }
