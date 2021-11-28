@@ -203,15 +203,17 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
+  static async getDashboardLanguageStatistics(userID: string): Promise<StatisticsType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${userID}/dashboard/repositories/languages`,
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async getTechStacksSearch(query: string): Promise<StackType[]> {
-    const result = await axios.get(`${baseURL}/${version}/techStacks/search?query=${query}`);
+    const result = await axios.get(`${baseURL}/${version}/techStacks/search?`, {
+      params: { query },
+    });
     return result.data.data;
   }
 
@@ -398,7 +400,7 @@ class Fetcher {
 
   static async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
-      data: { userID: `${user._id}` },
+      data: { userID: user._id },
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
@@ -408,6 +410,16 @@ class Fetcher {
       data: { historyID },
       headers: { Authorization: `Bearer ${user.token}` },
     });
+  }
+
+  static async deleteDashboardRepo(user: UserType, repoName: string): Promise<void> {
+    await axios.delete(
+      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
+      {
+        data: { userID: user._id },
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
   }
 }
 
