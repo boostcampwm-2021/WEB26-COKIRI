@@ -27,7 +27,7 @@ function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNext
       )}
 
       <div ref={ref} />
-      {isFetchingNextPage && <ReactLoading type='bubbles' color='#fff' />}
+      {isFetchingNextPage && <ReactLoading type='bubbles' color='#ffffff' />}
       {!hasNextPage && <p>더 이상 게시물이 없습니다.</p>}
     </>
   );

@@ -86,6 +86,10 @@ export const EXTERNAL_AUTH_CARD_WIDTH = 600;
 export const DASHBOARD_LEFT_SECTION_CARD_WIDTH = 740;
 export const DASHBOARD_RIGHT_SECTION_CARD_WIDTH = 500;
 export const DASHBOARD_STATISTICS_CARD_HEIGHT = 200;
+
+export const NOTIFY_CARD_WIDTH = 600;
+export const NOTIFY_CARD_HEIGHT = 80;
+
 // POST
 export const POST_WIDTH = 600;
 
@@ -112,7 +116,3 @@ export const RADAR_CHART_HEIGHT = 30;
 
 // TIME
 export const DEFAULT_DEBOUNCE_TIME = 200;
-
-// NOTIFY
-export const NOTIFY_WIDTH = 600;
-export const NOTIFY_HEIGHT = 80;
