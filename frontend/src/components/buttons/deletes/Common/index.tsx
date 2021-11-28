@@ -12,8 +12,6 @@ import {
   DASHBOARD_DELETE_BUTTON_HEIGHT,
 } from 'src/globals/constants';
 
-import { Title } from './style';
-
 interface Props {
   onClick: () => void;
   content: string;
@@ -33,9 +31,11 @@ function DeleteCommon({ onClick, content }: Props) {
   return (
     <>
       {isModalShow && (
-        <DeleteModal onConfirm={onClick} onClose={handleClose}>
-          <Title>{content}을(를) 삭제하시겠습니까?</Title>
-        </DeleteModal>
+        <DeleteModal
+          onConfirm={onClick}
+          onClose={handleClose}
+          title={`${content}을(를) 삭제하시겠습니까?`}
+        />
       )}
       <IconButton
         onClick={changeModalShow}

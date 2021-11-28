@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
 
 const Title = styled.p`
+  display: flex;
+  align-items: center;
   font-size: 22px;
-  margin: 0 0 0 16px;
-  padding: 16px;
+  margin-left: 16px;
+  padding-left: 16px;
 `;
 
 const Contents = styled.div`

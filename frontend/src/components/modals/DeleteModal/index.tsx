@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 
 import ModalCommon from 'src/components/modals/Common';
@@ -6,21 +5,25 @@ import ModalCommon from 'src/components/modals/Common';
 interface Props {
   onConfirm: () => void;
   onClose: () => void;
-  children: ReactNode;
+  title: string;
 }
 
-function PostDeleteModal({ onConfirm, onClose, children }: Props) {
+function DeleteModal({ onConfirm, onClose, title }: Props) {
   return (
-    <ModalCommon confirm='삭제' close='취소' onConfirm={onConfirm} onClose={onClose}>
-      {children}
-    </ModalCommon>
+    <ModalCommon
+      confirm='삭제'
+      close='취소'
+      onConfirm={onConfirm}
+      onClose={onClose}
+      title={title}
+    />
   );
 }
 
-PostDeleteModal.propTypes = {
+DeleteModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
-export default PostDeleteModal;
+export default DeleteModal;

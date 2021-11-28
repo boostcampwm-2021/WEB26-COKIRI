@@ -9,7 +9,7 @@ import { DEFAULT_MODAL_WIDTH } from 'src/globals/constants';
 import { Background, Card, Title } from './style';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
   onClose?: () => void;
   onConfirm?: () => void;
   close?: string;
@@ -53,7 +53,7 @@ function ModalCommon({
 }
 
 ModalCommon.propTyps = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   close: PropTypes.string,
@@ -65,6 +65,7 @@ ModalCommon.propTyps = {
 };
 
 ModalCommon.defaultProps = {
+  children: null,
   onClose: () => {},
   onConfirm: () => {},
   close: undefined,

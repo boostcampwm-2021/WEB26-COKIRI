@@ -24,6 +24,22 @@ interface Props {
   targetUserID: string;
 }
 
+const convertToExternalType = (dashboardRepo: DashboardRepoType): ExternalType => {
+  const external = {
+    title: dashboardRepo.repoName,
+    content: dashboardRepo.content,
+    link: dashboardRepo.repoUrl!,
+    info: {
+      forkCount: dashboardRepo.forkCount!,
+      language: dashboardRepo.languageInfo,
+      starCount: dashboardRepo.starCount!.toString(),
+    },
+    type: 'repository' as 'repository',
+    target: dashboardRepo.repoName,
+  };
+  return external;
+};
+
 function DashBoardRepoCard({ targetUserID }: Props) {
   const router = useRouter();
   const username = router.query.username as string;
@@ -32,21 +48,7 @@ function DashBoardRepoCard({ targetUserID }: Props) {
   const { data } = useQuery(['dashboard', 'repos', user._id], () =>
     Fetcher.getDashboardRepo(targetUserID),
   );
-  const convertToExternalType = (dashboardRepo: DashboardRepoType): ExternalType => {
-    const external = {
-      title: dashboardRepo.repoName,
-      content: dashboardRepo.content,
-      link: dashboardRepo.repoUrl!,
-      info: {
-        forkCount: dashboardRepo.forkCount!,
-        language: dashboardRepo.languageInfo,
-        starCount: dashboardRepo.starCount!.toString(),
-      },
-      type: 'repository' as 'repository',
-      target: dashboardRepo.repoName,
-    };
-    return external;
-  };
+
   const [dashboardRepos, setDashboardRepos] = useState<ExternalType[]>([]);
 
   useEffect(() => {
