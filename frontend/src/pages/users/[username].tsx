@@ -7,6 +7,7 @@ import UserInfoCard from 'src/components/cards/UserInfoCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import SigninCard from 'src/components/cards/SigninCard';
 import UserHead from 'src/components/heads/UserHead';
+import UserNotFoundCard from 'src/components/cards/UserNotFoundCard';
 import { Col } from 'src/components/Grid';
 
 import { UserType } from 'src/types';
@@ -54,7 +55,7 @@ function User({ targetUser }: Props) {
               />
             </>
           ) : (
-            <>없다!</>
+            <UserNotFoundCard />
           )}
         </Col>
       </Page.Main>

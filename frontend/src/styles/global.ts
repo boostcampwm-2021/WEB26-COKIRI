@@ -3,6 +3,20 @@ import { css } from '@emotion/react';
 import { ThemeType } from 'src/types';
 
 const global = (theme: ThemeType) => css`
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+    background: rgb(67, 67, 67);
+    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.25), inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
   @font-face {
     font-family: 'IBMPlexSansKR-Regular';
     src: local('IBMPlexSansKR-Regular'), url('/fonts/IBMPlexSansKR-Regular.woff2') format('woff2'),

@@ -5,6 +5,7 @@ import Header from 'src/components/Header';
 import UserSettingsCard from 'src/components/cards/UserSettingsCard';
 import ExternalAuthCard from 'src/components/cards/ExternalAuthCard';
 import SettingsHead from 'src/components/heads/SettingsHead';
+import PermissionDeniedCard from 'src/components/cards/PermissionDeniedCard';
 import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -28,7 +29,7 @@ function Settings() {
               <ExternalAuthCard />
             </>
           ) : (
-            <p>퍼미션 디나이드</p>
+            <PermissionDeniedCard />
           )}
         </Col>
       </Page.Main>
