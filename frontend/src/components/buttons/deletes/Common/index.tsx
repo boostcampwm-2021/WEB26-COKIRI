@@ -5,7 +5,12 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 import IconButton from 'src/components/buttons/IconButton';
 import DeleteModal from 'src/components/modals/DeleteModal';
 
-import { DELETE_BUTTON_SIZE, DELETE_BUTTON_PADDING } from 'src/globals/constants';
+import {
+  DELETE_BUTTON_SIZE,
+  DELETE_BUTTON_PADDING,
+  DASHBOARD_DELETE_BUTTON_WIDTH,
+  DASHBOARD_DELETE_BUTTON_HEIGHT,
+} from 'src/globals/constants';
 
 import { Title } from './style';
 
@@ -29,11 +34,13 @@ function DeleteCommon({ onClick, content }: Props) {
     <>
       {isModalShow && (
         <DeleteModal onConfirm={onClick} onClose={handleClose}>
-          <Title>{content}을 삭제하시겠습니까?</Title>
+          <Title>{content}을(를) 삭제하시겠습니까?</Title>
         </DeleteModal>
       )}
       <IconButton
         onClick={changeModalShow}
+        width={DASHBOARD_DELETE_BUTTON_WIDTH}
+        height={DASHBOARD_DELETE_BUTTON_HEIGHT}
         size={DELETE_BUTTON_SIZE}
         padding={DELETE_BUTTON_PADDING}
       >

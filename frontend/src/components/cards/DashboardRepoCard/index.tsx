@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import CardCommon from 'src/components/cards/Common';
 import DashboardRepoAddButton from 'src/components/buttons/dashboardSettings/DashboardRepoAddButton';
 import ExternalContent from 'src/components/contents/ExternalContent';
+import RepoDeleteButton from 'src/components/buttons/deletes/RepoDeleteButton';
 import { Row, Col } from 'src/components/Grid';
 
 import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
@@ -17,7 +18,7 @@ import { ExternalType, DashboardRepoType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { Title, Contents } from './style';
+import { Title, Contents, Content } from './style';
 
 interface Props {
   targetUserID: string;
@@ -52,8 +53,12 @@ function DashBoardRepoCard({ targetUserID }: Props) {
     setDashboardRepos(data?.map((repo) => convertToExternalType(repo)) ?? []);
   }, [data]);
 
-  const hanldeAddRepos = (repo: DashboardRepoType) => {
+  const handleAddRepo = (repo: DashboardRepoType) => {
     setDashboardRepos((prevState) => [...prevState, convertToExternalType(repo)]);
+  };
+
+  const handleDeleteRepo = (repoName: string) => {
+    setDashboardRepos((prevState) => [...prevState].filter((repo) => repo.title !== repoName));
   };
 
   return (
@@ -61,11 +66,18 @@ function DashBoardRepoCard({ targetUserID }: Props) {
       <Col>
         <Row justifyContent='space-between'>
           <Title>GitHub Repo</Title>
-          {isMe && <DashboardRepoAddButton onAddRepo={hanldeAddRepos} />}
+          {isMe && <DashboardRepoAddButton onAddRepo={handleAddRepo} />}
         </Row>
         <Contents>
           {dashboardRepos.map((repo) => (
-            <ExternalContent external={repo} key={repo.title} />
+            <Content key={repo.title}>
+              <ExternalContent external={repo} widthExpanded />
+              {isMe && (
+                <Col justifyContent='center'>
+                  <RepoDeleteButton repoName={repo.title!} onDeleteRepo={handleDeleteRepo} />
+                </Col>
+              )}
+            </Content>
           ))}
         </Contents>
       </Col>

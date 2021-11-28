@@ -9,7 +9,13 @@ const Title = styled.p`
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
-  width: 740px;
+  align-items: center;
 `;
 
-export { Title, Contents };
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 700px;
+`;
+
+export { Title, Contents, Content };

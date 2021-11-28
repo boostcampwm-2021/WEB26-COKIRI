@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import RepoContent from 'src/components/contents/RepoContent';
 import BlogContent from 'src/components/contents/BlogContent';
@@ -9,17 +10,18 @@ import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 import { Wrapper, Cover, MoreButton, LinkButton } from './style';
 
 interface Props {
+  widthExpanded?: boolean;
   external: ExternalType;
 }
 
-function ExternalContent({ external }: Props) {
+function ExternalContent({ external, widthExpanded }: Props) {
   const [isExpand, setIsExpand] = useState(false);
   const handleMoreClick = () => {
     setIsExpand(true);
   };
   const { title, content, info, link } = external;
   return (
-    <Wrapper expanded={isExpand}>
+    <Wrapper heightExpanded={isExpand} widthExpanded={widthExpanded!}>
       <Cover hidden={isExpand} />
       {!isExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
       {!isExpand && (
@@ -56,5 +58,14 @@ function ExternalContent({ external }: Props) {
     </Wrapper>
   );
 }
+
+ExternalContent.propTypes = {
+  widthExpanded: PropTypes.bool,
+  external: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+ExternalContent.defaultProps = {
+  widthExpanded: false,
+};
 
 export default ExternalContent;
