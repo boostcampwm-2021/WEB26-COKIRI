@@ -9,11 +9,7 @@ import DashboardRepoAddButton from 'src/components/buttons/dashboardSettings/Das
 import ExternalContent from 'src/components/contents/ExternalContent';
 import { Row, Col } from 'src/components/Grid';
 
-import {
-  DASHBOARD_LEFT_SECTION_CARD_WIDTH,
-  DASHBOARD_MY_REPO_CONTENT_WIDTH,
-  DASHBOARD_OTHER_REPO_CONTENT_WIDTH,
-} from 'src/globals/constants';
+import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
 
@@ -59,8 +55,6 @@ function DashBoardRepoCard({ targetUserID }: Props) {
     setDashboardRepos((prevState) => [...prevState, convertToExternalType(repo)]);
   };
 
-  const contentWidth = isMe ? DASHBOARD_MY_REPO_CONTENT_WIDTH : DASHBOARD_OTHER_REPO_CONTENT_WIDTH;
-
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
       <Col>
@@ -68,7 +62,7 @@ function DashBoardRepoCard({ targetUserID }: Props) {
           <Title>GitHub Repo</Title>
           {isMe && <DashboardRepoAddButton onAddRepo={hanldeAddRepos} />}
         </Row>
-        <Contents width={contentWidth}>
+        <Contents>
           {dashboardRepos.map((repo) => (
             <ExternalContent external={repo} key={repo.title} />
           ))}
