@@ -15,16 +15,16 @@ interface Props {
 }
 
 function ExternalContent({ external, widthExpanded }: Props) {
-  const [isExpand, setIsExpand] = useState(false);
+  const [isHeightExpand, setIsHeightExpand] = useState(false);
   const handleMoreClick = () => {
-    setIsExpand(true);
+    setIsHeightExpand(true);
   };
   const { title, content, info, link } = external;
   return (
-    <Wrapper heightExpanded={isExpand} widthExpanded={widthExpanded!}>
-      <Cover hidden={isExpand} />
-      {!isExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
-      {!isExpand && (
+    <Wrapper heightExpanded={isHeightExpand} widthExpanded={widthExpanded!}>
+      <Cover hidden={isHeightExpand} />
+      {!isHeightExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
+      {!isHeightExpand && (
         <LinkButton href={external.link} target='_blank' rel='noreferrer noopener'>
           바로가기
         </LinkButton>
