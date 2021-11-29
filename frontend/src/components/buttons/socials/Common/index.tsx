@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import IconButton from 'src/components/buttons/IconButton';
@@ -6,11 +6,10 @@ import IconButton from 'src/components/buttons/IconButton';
 import { SOCIAL_BUTTON_WIDTH, SOCIAL_BUTTON_HEIGHT, SOCIAL_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
-  children: ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function SocialCommon({ children, onClick }: Props) {
+function SocialCommon({ children, onClick }: PropsWithChildren<Props>) {
   return (
     <IconButton
       onClick={onClick}

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
@@ -7,13 +7,12 @@ import { DEFAULT_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   href: string;
-  children: ReactNode;
   size?: number;
   plain?: boolean;
   clicked?: boolean;
 }
 
-function NavigateIconButton({ href, children, size, plain, clicked }: Props) {
+function NavigateIconButton({ href, children, size, plain, clicked }: PropsWithChildren<Props>) {
   return (
     <IconButton padding={0} size={size} plain={plain} clicked={clicked!}>
       <Link href={href} passHref>

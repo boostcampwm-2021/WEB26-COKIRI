@@ -1,15 +1,14 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 
 import PropTypes from 'prop-types';
 import { Wrapper } from './style';
 
 interface Props {
-  children: ReactNode;
   right?: boolean;
   width?: number;
 }
 
-function HeaderModal({ children, right, width }: Props) {
+function HeaderModal({ children, right, width }: PropsWithChildren<Props>) {
   return (
     <Wrapper right={right!} width={width!}>
       {children}

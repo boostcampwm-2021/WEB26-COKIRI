@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
@@ -13,7 +13,6 @@ import {
 interface Props {
   width?: number;
   height?: number;
-  children: ReactNode;
   padding?: number;
   margin?: number;
   plain?: boolean;
@@ -36,7 +35,7 @@ function IconButton({
   size,
   clicked,
   disabled,
-}: Props) {
+}: PropsWithChildren<Props>) {
   const props = useMemo(() => ({ size: `${size}` }), [size]);
   return (
     <ButtonCommon

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import ButtonCommon from 'src/components/buttons/Common';
@@ -9,7 +9,6 @@ import { DEFAULT_MODAL_WIDTH } from 'src/globals/constants';
 import { Background, Card, Title } from './style';
 
 interface Props {
-  children?: ReactNode;
   onClose?: VoidFunction;
   onConfirm?: VoidFunction;
   close?: string;
@@ -30,7 +29,7 @@ function ModalCommon({
   width,
   disabled,
   title,
-}: Props) {
+}: PropsWithChildren<Props>) {
   return (
     <>
       <Background onClick={onClose} />
