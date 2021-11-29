@@ -8,6 +8,7 @@ import ModalCommon from 'src/components/modals/Common';
 import InputCommon from 'src/components/inputs/Common';
 import IconButton from 'src/components/buttons/IconButton';
 import SearchedTechStacksModal from 'src/components/modals/SearchedTechStacksModal';
+import TechStackDeleteButton from 'src/components/buttons/deletes/TechStackDeleteButton';
 import { Row, Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
@@ -17,7 +18,7 @@ import { StackType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { Title, Label, Content } from './style';
+import { Label, Stacks, Stack } from './style';
 
 interface Props {
   onClose: () => void;
@@ -58,8 +59,24 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
     } else {
       newTechStacks[newField] = [newTechStack];
     }
-    setTechStack(newTechStack.techStack!);
+    setNewField('');
+    setTechStack('');
     setTechStacks(newTechStacks);
+  };
+
+  const handleDeleteTechStack = (whichField: string, deletedTechStack: string) => {
+    setTechStacks((prevState) => {
+      const deletedTechStacks = { ...prevState };
+      const deletedField = [...deletedTechStacks[whichField]].filter(
+        (stack) => stack.techStack !== deletedTechStack,
+      );
+      if (!deletedField.length) {
+        delete deletedTechStacks[whichField];
+      } else {
+        deletedTechStacks[whichField] = deletedField;
+      }
+      return deletedTechStacks;
+    });
   };
 
   return (
@@ -69,6 +86,7 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
       onClose={onClose}
       confirm='저장'
       close='취소'
+      title='Tech Stacks'
     >
       <Row>
         <Col>
@@ -92,21 +110,23 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
           </Row>
         </Col>
         <Col>
-          <Title>Tech Stacks</Title>
-          <Col>
-            {fields.map((field) => (
-              <Col key={field} alignItems='center'>
-                <p>{field}</p>
-                <Row>
-                  {techStacks[field].map((stack) => (
-                    <Content color={stack.color!} key={stack.techStack}>
-                      {stack.techStack}
-                    </Content>
-                  ))}
-                </Row>
-              </Col>
-            ))}
-          </Col>
+          {fields.map((field) => (
+            <Col key={field} alignItems='center'>
+              <p>{field}</p>
+              <Stacks>
+                {techStacks[field].map((stack) => (
+                  <Row key={stack.techStack} alignItems='center'>
+                    <Stack color={stack.color!}>{stack.techStack}</Stack>
+                    <TechStackDeleteButton
+                      techStack={stack.techStack!}
+                      field={field}
+                      onDeleteTechStack={handleDeleteTechStack}
+                    />
+                  </Row>
+                ))}
+              </Stacks>
+            </Col>
+          ))}
         </Col>
       </Row>
     </ModalCommon>
