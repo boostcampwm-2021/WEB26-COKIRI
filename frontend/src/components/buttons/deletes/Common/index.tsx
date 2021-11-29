@@ -10,7 +10,7 @@ import {
   DELETE_BUTTON_PADDING,
   DASHBOARD_DELETE_BUTTON_WIDTH,
   DASHBOARD_DELETE_BUTTON_HEIGHT,
-  UNICODE,
+  TITLE_UNICODE,
 } from 'src/globals/constants';
 
 interface Props {
@@ -29,7 +29,7 @@ function DeleteCommon({ onClick, content }: Props) {
     setIsModalShow(false);
   }, []);
 
-  const hasFinal = (content.substr(content.length - 1).charCodeAt(0) - UNICODE) % 28 > 0;
+  const hasFinal = (content.substr(content.length - 1).charCodeAt(0) - TITLE_UNICODE) % 28 > 0;
   const title = `${content}${hasFinal ? '을' : '를'} 삭제하시겠습니까?`;
 
   return (
