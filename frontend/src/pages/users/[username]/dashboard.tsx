@@ -6,6 +6,7 @@ import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
 import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCard';
+import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
 import { Row, Col } from 'src/components/Grid';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -19,6 +20,7 @@ import { Fetcher } from 'src/utils';
 
 interface Props {
   dashboardUserInfo: DashboardUserInfoType;
+  targetUserID: string;
 }
 
 const initState =
@@ -28,7 +30,7 @@ const initState =
     set(userAtom, user);
   };
 
-function Dashboard({ dashboardUserInfo }: Props) {
+function Dashboard({ dashboardUserInfo, targetUserID }: Props) {
   const { profileImage, username } = dashboardUserInfo;
   const user = useRecoilValue(userAtom);
 
@@ -46,6 +48,7 @@ function Dashboard({ dashboardUserInfo }: Props) {
             <Row>
               <Col>
                 <DashboardTeckStacksCard />
+                <DashboardRepoCard targetUserID={targetUserID} />
               </Col>
               <DashboardHistoryCard />
             </Row>
@@ -60,12 +63,14 @@ export async function getServerSideProps(context: any) {
   const { username } = context.query;
   try {
     const { data: dashboardUserInfo } = await Fetcher.getDashboardUserInfo(username);
+    const targetUser = await Fetcher.getUsersByUsername(username);
+
     return {
-      props: { dashboardUserInfo },
+      props: { dashboardUserInfo, targetUserID: targetUser._id },
     };
   } catch (error) {
     return {
-      props: { dashboardUserInfo: { username: '' } },
+      props: { dashboardUserInfo: { username: '' }, targetUserID: '' },
     };
   }
 }

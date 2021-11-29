@@ -16,6 +16,7 @@ import {
   HistoryType,
   StackType,
   NotificationType,
+  DashboardRepoType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -197,20 +198,22 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async getDashboardRepo(userID: string): Promise<ReturnType<RepoType[]>> {
+  static async getDashboardRepo(userID: string): Promise<DashboardRepoType[]> {
     const result = await axios.get(`${baseURL}/${version}/users/${userID}/dashboard/repositories`);
-    return result.data;
+    return result.data.data;
   }
 
-  static async getDashboardLanguageStatistics(userID: string): Promise<ReturnType<StatisticsType>> {
+  static async getDashboardLanguageStatistics(userID: string): Promise<StatisticsType> {
     const result = await axios.get(
       `${baseURL}/${version}/users/${userID}/dashboard/repositories/languages`,
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async getTechStacksSearch(query: string): Promise<StackType[]> {
-    const result = await axios.get(`${baseURL}/${version}/techStacks/search?query=${query}`);
+    const result = await axios.get(`${baseURL}/${version}/techStacks/search?`, {
+      params: { query },
+    });
     return result.data.data;
   }
 
@@ -284,13 +287,13 @@ class Fetcher {
     return result.data;
   }
 
-  static async postDashboardRepo(user: UserType, repoName: string): Promise<ReturnType<RepoType>> {
+  static async postDashboardRepo(user: UserType, repoName: string): Promise<DashboardRepoType> {
     const result = await axios.post(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
       { userID: user._id },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async putUserFollow(user: UserType, targetUserID: string): Promise<void> {
@@ -397,7 +400,7 @@ class Fetcher {
 
   static async deleteComment(user: UserType, postID: string, commentID: string): Promise<void> {
     await axios.delete(`${baseURL}/${version}/posts/${postID}/comments/${commentID}`, {
-      data: { userID: `${user._id}` },
+      data: { userID: user._id },
       headers: { Authorization: `Bearer ${user.token}` },
     });
   }
@@ -407,6 +410,16 @@ class Fetcher {
       data: { historyID },
       headers: { Authorization: `Bearer ${user.token}` },
     });
+  }
+
+  static async deleteDashboardRepo(user: UserType, repoName: string): Promise<void> {
+    await axios.delete(
+      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
+      {
+        data: { userID: user._id },
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
   }
 }
 
