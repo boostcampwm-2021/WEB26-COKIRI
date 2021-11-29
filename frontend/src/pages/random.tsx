@@ -3,6 +3,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import Header from 'src/components/Header';
 import RandomHead from 'src/components/heads/RandomHead';
 import RandomMain from 'src/components/mains/RandomMain';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
 import userAtom from 'src/recoil/user';
 
@@ -23,9 +24,10 @@ function Random({ user }: Props) {
   return (
     <>
       <RandomHead />
-      <Header />
       <RecoilRoot initializeState={initState(user ?? {})}>
+        <Header />
         <RandomMain />
+        <RegisterModal />
       </RecoilRoot>
     </>
   );

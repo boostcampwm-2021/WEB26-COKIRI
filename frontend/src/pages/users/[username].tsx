@@ -3,6 +3,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import Header from 'src/components/Header';
 import UserMain from 'src/components/mains/UserMain';
 import UserHead from 'src/components/heads/UserHead';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
 import { UserType } from 'src/types';
 
@@ -26,9 +27,10 @@ function User({ user, targetUser }: Props) {
   return (
     <>
       <UserHead username={username} profileImage={profileImage} bio={bio} name={name} />
-      <Header />
       <RecoilRoot initializeState={initState(user ?? {})}>
+        <Header />
         <UserMain targetUser={targetUser ?? {}} />
+        <RegisterModal />
       </RecoilRoot>
     </>
   );

@@ -3,6 +3,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import Header from 'src/components/Header';
 import SettingsHead from 'src/components/heads/SettingsHead';
 import SettingsMain from 'src/components/mains/SettingsMain';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
 import userAtom from 'src/recoil/user';
 
@@ -23,9 +24,10 @@ function Settings({ user }: Props) {
   return (
     <>
       <SettingsHead />
-      <Header />
       <RecoilRoot initializeState={initState(user ?? {})}>
+        <Header />
         <SettingsMain />
+        <RegisterModal />
       </RecoilRoot>
     </>
   );

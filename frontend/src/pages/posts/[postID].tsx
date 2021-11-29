@@ -2,6 +2,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import PostDetail from 'src/components/PostDetail';
 import PostHead from 'src/components/heads/PostHead';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
 import { PostType, UserType } from 'src/types';
 
@@ -27,6 +28,7 @@ function Post({ user, post }: Props) {
       {post && <PostHead postID={_id!} content={content!} image={images![0]?.url} />}
       <RecoilRoot initializeState={initState(user ?? {})}>
         {post && <PostDetail post={post} />}
+        <RegisterModal />
       </RecoilRoot>
     </>
   );

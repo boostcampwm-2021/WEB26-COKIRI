@@ -1,6 +1,7 @@
-import { MutableSnapshot, RecoilRoot, useRecoilValue } from 'recoil';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import Header from 'src/components/Header';
+import RegisterModal from 'src/components/modals/RegisterModal';
 import DashboardHead from 'src/components/heads/DashboardHead';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
@@ -20,8 +21,8 @@ import { Page } from 'src/styles';
 import { Fetcher } from 'src/utils';
 
 interface Props {
+  user?: UserType;
   dashboardUserInfo: DashboardUserInfoType;
-  targetUserID: string;
 }
 
 const initState =
@@ -31,16 +32,15 @@ const initState =
     set(userAtom, user);
   };
 
-function Dashboard({ dashboardUserInfo, targetUserID }: Props) {
+function Dashboard({ user, dashboardUserInfo }: Props) {
   const { profileImage, username } = dashboardUserInfo;
-  const user = useRecoilValue(userAtom);
 
   return (
     <>
       <DashboardHead username={username} profileImage={profileImage} />
-      <Header />
-      <Page.Main>
-        <RecoilRoot initializeState={initState(dashboardUserInfo, user)}>
+      <RecoilRoot initializeState={initState(dashboardUserInfo, user ?? {})}>
+        <Header />
+        <Page.Main>
           <Col alignItems='center'>
             <Row>
               <DashboardBasicCard />
@@ -49,32 +49,34 @@ function Dashboard({ dashboardUserInfo, targetUserID }: Props) {
             <Row>
               <Col>
                 <DashboardTechStacksCard />
-                <DashboardStatisticsCard targetUserID={targetUserID} />
-                <DashboardRepoCard targetUserID={targetUserID} />
+                <DashboardStatisticsCard />
+                <DashboardRepoCard />
               </Col>
               <DashboardHistoryCard />
             </Row>
           </Col>
-        </RecoilRoot>
-      </Page.Main>
+        </Page.Main>
+        <RegisterModal />
+      </RecoilRoot>
     </>
   );
 }
 
-export async function getServerSideProps(context: any) {
-  const { username } = context.query;
-  try {
-    const { data: dashboardUserInfo } = await Fetcher.getDashboardUserInfo(username);
-    const targetUser = await Fetcher.getUsersByUsername(username);
+Dashboard.defaultProps = {
+  user: undefined,
+};
 
-    return {
-      props: { dashboardUserInfo, targetUserID: targetUser._id },
-    };
-  } catch (error) {
-    return {
-      props: { dashboardUserInfo: { username: '' }, targetUserID: '' },
-    };
+export async function getServerSideProps({ req, query }: any) {
+  const props: { user?: UserType; dashboardUserInfo?: DashboardUserInfoType } = {};
+  const { username } = query;
+  const dashboardUserInfoRequest = await Fetcher.getDashboardUserInfo(username);
+  const token = req.headers.cookie?.split('=')[1];
+  if (token !== undefined) {
+    const userRequest = Fetcher.getUsersMe(token);
+    props.user = { ...(await userRequest), token };
   }
+  props.dashboardUserInfo = await dashboardUserInfoRequest;
+  return { props };
 }
 
 export default Dashboard;
