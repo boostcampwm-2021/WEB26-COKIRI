@@ -1,3 +1,6 @@
+# custom
+*/test/stress/*.json
+*/test/stress/*.json.html
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,macos,jetbrains,windows,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,jetbrains,windows,visualstudiocode
