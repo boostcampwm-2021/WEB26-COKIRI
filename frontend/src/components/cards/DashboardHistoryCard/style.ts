@@ -8,7 +8,7 @@ const History = styled.div`
 `;
 
 const HorizontalLine = styled.div`
-  width: 200px;
+  width: 300px;
   border-bottom: 1px solid #ffffff;
 `;
 
