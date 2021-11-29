@@ -358,7 +358,6 @@ class Fetcher {
         email: dashboard.email || undefined,
         github: dashboard.github || undefined,
         blog: dashboard.blog || undefined,
-        solvedac: dashboard.solvedac || undefined,
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
