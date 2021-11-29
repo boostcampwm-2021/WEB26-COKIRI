@@ -42,14 +42,13 @@ User.defaultProps = {
 export async function getServerSideProps({ query, req }: any) {
   const props: { user?: UserType; targetUser?: UserType } = {};
   const { username } = query;
-  const token = req.headers.cookie?.split('=')[1];
-  if (token === undefined) {
-    return props;
-  }
   const targetUserRequest = Fetcher.getUsersByUsername(username);
-  const userRequest = Fetcher.getUsersMe(token);
+  const token = req.headers.cookie?.split('=')[1];
+  if (token !== undefined) {
+    const userRequest = Fetcher.getUsersMe(token);
+    props.user = { ...(await userRequest), token };
+  }
   props.targetUser = await targetUserRequest;
-  props.user = { ...(await userRequest), token };
   return { props };
 }
 

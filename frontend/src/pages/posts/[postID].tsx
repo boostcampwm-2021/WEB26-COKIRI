@@ -24,7 +24,7 @@ function Post({ user, post }: Props) {
 
   return (
     <>
-      <PostHead postID={_id!} content={content!} image={images![0]?.url} />
+      {post && <PostHead postID={_id!} content={content!} image={images![0]?.url} />}
       <RecoilRoot initializeState={initState(user ?? {})}>
         {post && <PostDetail post={post} />}
       </RecoilRoot>
@@ -41,13 +41,12 @@ export async function getServerSideProps({ req, query }: any) {
   const props: { user?: UserType; post?: PostType } = {};
   const { postID } = query;
   const token = req.headers.cookie?.split('=')[1];
-  if (token === undefined) {
-    return { props };
-  }
   const postRequest = Fetcher.getDetailPost(postID);
-  const userRequest = Fetcher.getUsersMe(token);
+  if (token !== undefined) {
+    const userRequest = Fetcher.getUsersMe(token);
+    props.user = { ...(await userRequest), token };
+  }
   props.post = await postRequest;
-  props.user = { ...(await userRequest), token };
   return { props };
 }
 
