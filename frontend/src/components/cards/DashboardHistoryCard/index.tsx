@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import CardCommon from 'src/components/cards/Common';
 import DashboardHistoryAddButton from 'src/components/buttons/dashboardSettings/DashboardHistoryAddButton';
 import HistoryDeleteButton from 'src/components/buttons/deletes/HistoryDeleteButton';
-import { Col, Row } from 'src/components/Grid';
+import { Col } from 'src/components/Grid';
 
 import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
