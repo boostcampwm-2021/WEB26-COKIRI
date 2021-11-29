@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
 import DashboardTechStacksSettingButton from 'src/components/buttons/dashboardSettings/DashboardTechStacksSettingButton';
-import { Col, Row } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
@@ -22,24 +22,22 @@ function DashboardTechStacksCard() {
 
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <Col>
-        <Row justifyContent='space-between'>
-          <Title>Tech Stacks</Title>
-          {isMe && <DashboardTechStacksSettingButton />}
-        </Row>
-        {fields.map((field) => (
-          <Field key={field}>
-            <SubTitle>{field}</SubTitle>
-            <Row>
-              {dashboardTechStacks[field].map((stack) => (
-                <Stack color={stack.color!} key={stack.techStack}>
-                  {stack.techStack}
-                </Stack>
-              ))}
-            </Row>
-          </Field>
-        ))}
-      </Col>
+      <Row justifyContent='space-between'>
+        <Title>Tech Stacks</Title>
+        {isMe && <DashboardTechStacksSettingButton />}
+      </Row>
+      {fields.map((field) => (
+        <Field key={field}>
+          <SubTitle>{field}</SubTitle>
+          <Row>
+            {dashboardTechStacks[field].map((stack) => (
+              <Stack color={stack.color!} key={stack.techStack}>
+                {stack.techStack}
+              </Stack>
+            ))}
+          </Row>
+        </Field>
+      ))}
     </CardCommon>
   );
 }

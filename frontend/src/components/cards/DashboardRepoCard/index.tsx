@@ -62,24 +62,22 @@ function DashBoardRepoCard() {
 
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <Col>
-        <Row justifyContent='space-between'>
-          <Title>GitHub Repo</Title>
-          {isMe && <DashboardRepoAddButton onAddRepo={handleAddRepo} />}
-        </Row>
-        <Contents>
-          {dashboardRepos.map((repo) => (
-            <Content key={repo.title}>
-              <ExternalContent external={repo} widthExpanded />
-              {isMe && (
-                <Col justifyContent='center'>
-                  <RepoDeleteButton repoName={repo.title!} onDeleteRepo={handleDeleteRepo} />
-                </Col>
-              )}
-            </Content>
-          ))}
-        </Contents>
-      </Col>
+      <Row justifyContent='space-between'>
+        <Title>GitHub Repo</Title>
+        {isMe && <DashboardRepoAddButton onAddRepo={handleAddRepo} />}
+      </Row>
+      <Contents>
+        {dashboardRepos.map((repo) => (
+          <Content key={repo.title}>
+            <ExternalContent external={repo} widthExpanded />
+            {isMe && (
+              <Col justifyContent='center'>
+                <RepoDeleteButton repoName={repo.title!} onDeleteRepo={handleDeleteRepo} />
+              </Col>
+            )}
+          </Content>
+        ))}
+      </Contents>
     </CardCommon>
   );
 }

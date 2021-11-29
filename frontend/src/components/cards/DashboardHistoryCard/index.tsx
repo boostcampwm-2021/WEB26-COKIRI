@@ -24,22 +24,20 @@ function DashboardHistoryCard() {
 
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
-      <Col>
-        <Title>History</Title>
-        <History>
-          {dashboardHistories.map((history) => (
-            <Section key={history._id}>
-              <Col>
-                <p>{getBirthdayFormat(history.date!)}</p>
-                <HorizontalLine />
-                <p>{history.content}</p>
-              </Col>
-              {isMe && <HistoryDeleteButton historyID={history._id} content={history.content} />}
-            </Section>
-          ))}
-        </History>
-        {isMe && <DashboardHistoryAddButton />}
-      </Col>
+      <Title>History</Title>
+      <History>
+        {dashboardHistories.map((history) => (
+          <Section key={history._id}>
+            <Col>
+              <p>{getBirthdayFormat(history.date!)}</p>
+              <HorizontalLine />
+              <p>{history.content}</p>
+            </Col>
+            {isMe && <HistoryDeleteButton historyID={history._id} content={history.content} />}
+          </Section>
+        ))}
+      </History>
+      {isMe && <DashboardHistoryAddButton />}
     </CardCommon>
   );
 }
