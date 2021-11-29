@@ -5,7 +5,7 @@ import DashboardHead from 'src/components/heads/DashboardHead';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
-import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCard';
+import DashboardTechStacksCard from 'src/components/cards/DashboardTechStacksCard';
 import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
 import DashboardStatisticsCard from 'src/components/cards/DashboardStatisticsCard';
 import { Row, Col } from 'src/components/Grid';
@@ -48,7 +48,7 @@ function Dashboard({ dashboardUserInfo, targetUserID }: Props) {
             </Row>
             <Row>
               <Col>
-                <DashboardTeckStacksCard />
+                <DashboardTechStacksCard />
                 <DashboardStatisticsCard targetUserID={targetUserID} />
                 <DashboardRepoCard targetUserID={targetUserID} />
               </Col>

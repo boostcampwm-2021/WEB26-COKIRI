@@ -9,7 +9,7 @@ import PieChart from 'src/components/charts/Pie';
 import RadarChart from 'src/components/charts/Radar';
 import UpdateLanguageStatisticsButton from 'src/components/buttons/UpdateLanguageStatisticsButton';
 import UpdateProblemStatisticsButton from 'src/components/buttons/UpdateProblemStatisticsButton';
-import { Row, Col } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import {
   DASHBOARD_LEFT_SECTION_CARD_WIDTH,
