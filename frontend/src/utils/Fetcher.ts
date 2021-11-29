@@ -47,11 +47,15 @@ class Fetcher {
     }
   }
 
-  static async getDashboardUserInfo(username: string): Promise<ReturnType<DashboardUserInfoType>> {
-    const result = await axios.get(`${baseURL}/${version}/users/dashboard`, {
-      params: { username },
-    });
-    return result.data;
+  static async getDashboardUserInfo(username: string): Promise<DashboardUserInfoType> {
+    try {
+      const result = await axios.get(`${baseURL}/${version}/users/dashboard`, {
+        params: { username },
+      });
+      return result.data.data;
+    } catch {
+      return { username: '' };
+    }
   }
 
   static async getFirstPost(user: UserType, token: string): Promise<PostType> {
