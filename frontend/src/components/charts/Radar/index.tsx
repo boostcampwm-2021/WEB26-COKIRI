@@ -1,19 +1,23 @@
 import { Radar } from 'react-chartjs-2';
+import PropTypes from 'prop-types';
 
-import { RADAR_CHART_WIDTH, RADAR_CHART_HEIGHT } from 'src/globals/constants';
+import { PIE_CHART_WIDTH, PIE_CHART_HEIGHT } from 'src/globals/constants';
 
-import { options } from 'src/utils';
+import { radarOption } from 'src/utils/options';
 
-function RadarChart() {
+interface Props {
+  statistics?: { [key: string]: number };
+}
+
+function RadarChart({ statistics }: Props) {
+  const problems = Object.keys(statistics!);
   const data = {
-    labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+    labels: problems,
     datasets: [
       {
-        label: 'My First Dataset',
-        data: [65, 59, 90, 81, 56, 55, 40],
+        label: 'Solvedac Statistics',
+        data: problems.map((problem) => statistics![problem]),
         fill: true,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgb(255, 99, 132)',
         pointBackgroundColor: 'rgb(255, 99, 132)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
@@ -21,15 +25,20 @@ function RadarChart() {
       },
     ],
   };
-
+  if (problems.length === 0) {
+    return null;
+  }
   return (
-    <Radar
-      data={data}
-      width={RADAR_CHART_WIDTH}
-      height={RADAR_CHART_HEIGHT}
-      options={options.RadarOptions}
-    />
+    <Radar data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={radarOption} />
   );
 }
+
+RadarChart.propTypes = {
+  statistics: PropTypes.objectOf(PropTypes.any),
+};
+
+RadarChart.defaultProps = {
+  statistics: {},
+};
 
 export default RadarChart;
