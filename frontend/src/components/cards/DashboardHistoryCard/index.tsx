@@ -13,7 +13,7 @@ import { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { getBirthdayFormat } from 'src/utils/moment';
 
-import { History, HorizontalLine, Section } from './style';
+import { History, HorizontalLine, Section, Title } from './style';
 
 function DashboardHistoryCard() {
   const router = useRouter();
@@ -24,6 +24,7 @@ function DashboardHistoryCard() {
 
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
+      <Title>History</Title>
       <History>
         {dashboardHistories.map((history) => (
           <Section key={history._id}>

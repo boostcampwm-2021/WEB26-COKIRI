@@ -45,7 +45,7 @@ function DashboardBasicCard() {
           profileImage={profileImage}
           marginRight={USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT}
         />
-        <Col>
+        <Col justifyContent='space-evenly'>
           <Row alignItems='center'>
             <IoPersonOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col>
@@ -61,7 +61,7 @@ function DashboardBasicCard() {
             </Col>
           </Row>
         </Col>
-        <Col>
+        <Col justifyContent='space-evenly'>
           <Row alignItems='center'>
             <IoCalendarClearOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col>
@@ -77,7 +77,7 @@ function DashboardBasicCard() {
             </Col>
           </Row>
         </Col>
-        <Col>
+        <Col justifyContent='space-evenly'>
           <Row alignItems='center'>
             <IoLocationOutline size={DASHBOARD_USER_INFO_ICON_SIZE} />
             <Col>

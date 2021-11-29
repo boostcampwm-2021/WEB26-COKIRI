@@ -122,3 +122,10 @@ export const PIE_CHART_HEIGHT = 300;
 
 // TIME
 export const DEFAULT_DEBOUNCE_TIME = 200;
+
+// TEXT
+export const TITLE_UNICODE = 44032;
+export const CONSONANT_COUNT = 28;
+export const HEXADECIMAL = 16;
+export const COLOR_START_INDEX = 1;
+export const COLOR_END_INDEX = 6;

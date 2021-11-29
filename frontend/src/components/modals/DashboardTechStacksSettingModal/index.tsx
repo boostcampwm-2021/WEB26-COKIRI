@@ -12,7 +12,7 @@ import TechStackDeleteButton from 'src/components/buttons/deletes/TechStackDelet
 import { Row, Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
-import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
+import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { StackType } from 'src/types';
 
@@ -27,6 +27,7 @@ interface Props {
 function DashboardTechStacksSettingModal({ onClose }: Props) {
   const user = useRecoilValue(userAtom);
   const [dashboardUserInfo, setDashboardUserInfo] = useRecoilState(dashboardUserInfoAtom);
+  const dashboardHistories = useRecoilValue(dashboardHistoriesSelector);
   const [techStacks, setTechStacks] = useState<{ [field: string]: StackType[] }>(
     dashboardUserInfo.techStacks ?? {},
   );
@@ -38,7 +39,7 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
     () => Fetcher.putDashboardUserInfo(user, { ...dashboardUserInfo, techStacks }),
     {
       onSuccess: (dashboard) => {
-        setDashboardUserInfo(dashboard);
+        setDashboardUserInfo({ ...dashboard, dashboardHistories });
         onClose();
       },
     },

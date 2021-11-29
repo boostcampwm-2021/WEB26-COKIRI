@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import PropTypes from 'prop-types';
 
 import CardCommon from 'src/components/cards/Common';
 import PieChart from 'src/components/charts/Pie';
@@ -17,6 +16,7 @@ import {
 } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
+import { dashboardIDSelector } from 'src/recoil/dashboardUserInfo';
 
 import { StatisticsType } from 'src/types';
 
@@ -24,16 +24,13 @@ import { Fetcher } from 'src/utils';
 
 import { Title, Section } from './style';
 
-interface Props {
-  targetUserID: string;
-}
-
-function DashBoardStatisticsCard({ targetUserID }: Props) {
+function DashBoardStatisticsCard() {
   const router = useRouter();
   const username = router.query.username as string;
   const user = useRecoilValue(userAtom);
+  const targetUserID = useRecoilValue(dashboardIDSelector);
   const isMe = user.username === username;
-  const [languageStatistics, setLanguageStatistcs] = useState({});
+  const [languageStatistics, setLanguageStatistics] = useState({});
   const [problemStatistics, setProblemStatistics] = useState({});
   const { data: repoStatistics } = useQuery(['dashboard', 'repoStatistics', targetUserID], () =>
     Fetcher.getDashboardLanguageStatistics(targetUserID),
@@ -42,11 +39,11 @@ function DashBoardStatisticsCard({ targetUserID }: Props) {
     ['dashboard', 'solvedacStatistics', targetUserID],
     () => Fetcher.getProblemStatistics(targetUserID),
   );
-  useEffect(() => setLanguageStatistcs(repoStatistics!), [repoStatistics]);
+  useEffect(() => setLanguageStatistics(repoStatistics!), [repoStatistics]);
   useEffect(() => setProblemStatistics(solvedacStatistics!), [solvedacStatistics]);
 
   const handleUpdateLanguageStatistics = (newStatistics: StatisticsType) => {
-    setLanguageStatistcs(newStatistics);
+    setLanguageStatistics(newStatistics);
   };
 
   const handleUpdateProblemStatistics = (newStatistics: StatisticsType) => {
@@ -74,9 +71,5 @@ function DashBoardStatisticsCard({ targetUserID }: Props) {
     </CardCommon>
   );
 }
-
-DashBoardStatisticsCard.propTypes = {
-  targetUserID: PropTypes.string.isRequired,
-};
 
 export default DashBoardStatisticsCard;
