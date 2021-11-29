@@ -122,3 +122,6 @@ export const PIE_CHART_HEIGHT = 300;
 
 // TIME
 export const DEFAULT_DEBOUNCE_TIME = 200;
+
+// TEXT
+export const UNICODE = 44032;
