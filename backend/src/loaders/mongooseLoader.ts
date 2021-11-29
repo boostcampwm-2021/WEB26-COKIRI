@@ -6,7 +6,7 @@ export default function mongooseLoader(): void {
   const dbHost: string | undefined = process.env.DB_HOST;
   const dbPort: string | undefined = process.env.DB_PORT;
   const dbName: string | undefined = process.env.DB_NAME;
-  const connectStr = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/directConnection=true`;
+  const connectStr = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?directConnection=true`;
   if (process.env.NODE_ENV !== 'test') {
     mongoose.connect(connectStr, (err) => {
       if (err) {

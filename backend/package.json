@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register --delay 500ms ./src/bin/www.ts --watch",
     "pm2": "pm2 restart node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts",
-    "test": "NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage"
+    "test": "NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage",
+    "test-coverage": "NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage --coverage"
   },
   "dependencies": {
     "aws-sdk": "^2.348.0",
@@ -19,6 +20,7 @@
     "express": "~4.16.1",
     "js-base64": "^3.7.2",
     "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^8.0.3",
     "mongoose": "^6.0.12",
     "mongoose-lean-virtuals": "^0.9.0",
     "morgan": "~1.9.1",
@@ -59,7 +61,6 @@
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.1",
-    "mongodb-memory-server": "^8.0.3",
     "ts-jest": "^27.0.7",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.4",

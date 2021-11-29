@@ -8,11 +8,9 @@ export async function connect() {
   mongod = await MongoMemoryServer.create();
   const uri = mongod.getUri();
 
-  await mongoose.connect(`${uri}${dbName}?directConnection=true`, { dbName }, (err) => {
+  await mongoose.connect(`${uri}${dbName}?directConnection=true`, { dbName }, async (err) => {
     if (err) {
-      console.error('mongodb connection error', err);
-    } else {
-      console.log('mongodb connected');
+      throw new Error(err.message);
     }
   });
 }

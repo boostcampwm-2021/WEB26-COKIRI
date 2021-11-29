@@ -36,6 +36,12 @@ class Authorization {
     });
   }
 
+  createTestJWT() {
+    return jwt.sign({ userID: process.env.TEST_USER_ID }, process.env.JWT_ACCESS_SECRET!, {
+      expiresIn: process.env.TEST_EXPIRE_IN!,
+    });
+  }
+
   createRefreshJWT(user: Express.User) {
     return jwt.sign(user, process.env.JWT_REFRESH_SECRET!, {
       expiresIn: process.env.JWT_REFRESH_EXPIRE_IN!,
