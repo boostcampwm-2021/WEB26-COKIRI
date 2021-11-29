@@ -9,12 +9,7 @@
 <p align="center">
     <a href="/"><img src="https://img.shields.io/badge/node-16.13.0-9181d6?logo=node.js" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/npm-8.1.0-9181D6?logo=npm" alt=""></a>
-    <a href="/"><img src="https://img.shields.io/badge/express-4.17.1-9181D6?logo=express" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/ubuntu-18.04-9181D6?logo=ubuntu" alt=""></a>
-    <a href="/"><img src="https://img.shields.io/badge/ESlint-7.32.0-9181D6?logo=ESLint" alt=""></a>
-    <a href="/"><img src="https://img.shields.io/badge/Next.js-12.0.2-9181D6?logo=Next.js" alt=""></a>
-    <a href="/"><img src="https://img.shields.io/badge/MongoDB-4.2-9181D6?logo=MongoDB" alt=""></a>
-    <a href="/"><img src="https://img.shields.io/badge/Jest-27.3.1-9181D6?logo=Jest" alt=""></a>
     <a href="/"><img src="https://img.shields.io/badge/TypeScript-4.4.4-9181D6?logo=TypeScript" alt=""></a>
     <br>
     <a href="/">
