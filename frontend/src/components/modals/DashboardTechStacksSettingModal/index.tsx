@@ -21,7 +21,7 @@ import { Fetcher } from 'src/utils';
 import { Label, Stacks, Stack } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function DashboardTechStacksSettingModal({ onClose }: Props) {

@@ -9,8 +9,8 @@ import { useIntersectionObserver } from 'src/hooks';
 
 interface Props {
   pages?: ReturnType<PostType[]>[];
-  onPostDelete?: () => void;
-  onNeedMore?: () => void;
+  onPostDelete?: VoidFunction;
+  onNeedMore?: VoidFunction;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
 }

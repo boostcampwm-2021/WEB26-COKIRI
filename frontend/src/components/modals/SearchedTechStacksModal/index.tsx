@@ -12,7 +12,7 @@ import Fetcher from 'src/utils/Fetcher';
 
 interface Props {
   techStack: string;
-  onClose: () => void;
+  onClose: VoidFunction;
   // eslint-disable-next-line no-unused-vars
   onSelect: (techStack: StackType) => void;
 }

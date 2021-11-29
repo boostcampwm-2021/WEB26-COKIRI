@@ -16,7 +16,7 @@ import { Fetcher } from 'src/utils';
 import { Background, Notification } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 const typeMessages: { [type: string]: string } = {
   postLike: '님이 내 글을 좋아해요',

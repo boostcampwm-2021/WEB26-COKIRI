@@ -11,7 +11,7 @@ import { Cover, LinkButton, Wrapper, ButtonHolder } from './style';
 
 interface Props {
   external?: ExternalType;
-  onDelete: () => void;
+  onDelete: VoidFunction;
 }
 
 function ExternalPreview({ external, onDelete }: Props) {

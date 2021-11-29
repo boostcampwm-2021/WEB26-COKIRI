@@ -24,7 +24,7 @@ import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
 interface Props {
   post: PostType;
-  onPostDelete: () => void;
+  onPostDelete: VoidFunction;
 }
 
 function Post({ post, onPostDelete }: Props) {

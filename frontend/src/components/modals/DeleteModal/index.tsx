@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import ModalCommon from 'src/components/modals/Common';
 
 interface Props {
-  onConfirm: () => void;
-  onClose: () => void;
+  onConfirm: VoidFunction;
+  onClose: VoidFunction;
   title: string;
 }
 

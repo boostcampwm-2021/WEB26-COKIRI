@@ -9,7 +9,7 @@ import { FLOATING_BUTTON_WIDTH, FLOATING_BUTTON_HEIGHT } from 'src/globals/const
 import { Wrapper } from './style';
 
 interface Props {
-  onPostWrite?: () => void;
+  onPostWrite?: VoidFunction;
 }
 
 function FloatingButton({ onPostWrite }: Props) {

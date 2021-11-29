@@ -17,7 +17,7 @@ import { Fetcher } from 'src/utils';
 import { Repos } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
   // eslint-disable-next-line no-unused-vars
   onAddRepo: (repo: DashboardRepoType) => void;
 }

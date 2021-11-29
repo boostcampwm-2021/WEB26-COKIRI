@@ -15,7 +15,7 @@ interface Props {
   profileImage?: string;
   username: string;
   marginLeft?: number;
-  onClick: () => void;
+  onClick: VoidFunction;
 }
 
 function ProfileSet({ profileImage, username, marginLeft, onClick }: Props) {

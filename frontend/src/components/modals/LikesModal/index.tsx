@@ -10,7 +10,7 @@ import UsersModal from 'src/components/modals/UsersModal';
 
 interface Props {
   postID: string;
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function LikesModal({ postID, onClose }: Props) {

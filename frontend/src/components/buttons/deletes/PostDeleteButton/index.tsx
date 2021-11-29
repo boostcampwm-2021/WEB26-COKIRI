@@ -10,7 +10,7 @@ import { Fetcher } from 'src/utils';
 
 interface Props {
   postID: string;
-  onPostDelete: () => void;
+  onPostDelete: VoidFunction;
 }
 
 function PostDeleteButton({ postID, onPostDelete }: Props) {

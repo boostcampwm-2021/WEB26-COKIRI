@@ -7,7 +7,7 @@ import { Fetcher } from 'src/utils';
 
 interface Props {
   targetUserID: string;
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function FollowsModal({ targetUserID, onClose }: Props) {

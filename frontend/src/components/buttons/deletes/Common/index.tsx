@@ -13,7 +13,7 @@ import {
 } from 'src/globals/constants';
 
 interface Props {
-  onClick: () => void;
+  onClick: VoidFunction;
   content: string;
 }
 

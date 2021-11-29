@@ -13,7 +13,7 @@ import { Users, User } from './style';
 interface Props {
   title: string;
   users: UserType[];
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function UsersModal({ title, users, onClose }: Props) {

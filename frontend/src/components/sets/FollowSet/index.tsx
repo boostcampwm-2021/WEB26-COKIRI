@@ -13,8 +13,8 @@ import userAtom, {
 
 interface Props {
   targetUserID: string;
-  onFollow: () => void;
-  onUnfollow: () => void;
+  onFollow: VoidFunction;
+  onUnfollow: VoidFunction;
 }
 
 function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
