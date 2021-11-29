@@ -7,6 +7,7 @@ import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
 import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCard';
 import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
+import DashboardStatisticsCard from 'src/components/cards/DashboardStatisticsCard';
 import { Row, Col } from 'src/components/Grid';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -48,6 +49,7 @@ function Dashboard({ dashboardUserInfo, targetUserID }: Props) {
             <Row>
               <Col>
                 <DashboardTeckStacksCard />
+                <DashboardStatisticsCard targetUserID={targetUserID} />
                 <DashboardRepoCard targetUserID={targetUserID} />
               </Col>
               <DashboardHistoryCard />

@@ -88,7 +88,7 @@ export const EXTERNAL_AUTH_CARD_WIDTH = 600;
 
 export const DASHBOARD_LEFT_SECTION_CARD_WIDTH = 740;
 export const DASHBOARD_RIGHT_SECTION_CARD_WIDTH = 500;
-export const DASHBOARD_STATISTICS_CARD_HEIGHT = 250;
+export const DASHBOARD_STATISTICS_CARD_HEIGHT = 350;
 
 export const NOTIFY_CARD_WIDTH = 600;
 export const NOTIFY_CARD_HEIGHT = 80;
@@ -117,8 +117,8 @@ export const DASHBOARD_STACK_TITLE_FONT_SIZE = 16;
 
 export const RADAR_CHART_WIDTH = 30;
 export const RADAR_CHART_HEIGHT = 30;
-export const PIE_CHART_WIDTH = 30;
-export const PIE_CHART_HEIGHT = 30;
+export const PIE_CHART_WIDTH = 300;
+export const PIE_CHART_HEIGHT = 300;
 
 // TIME
 export const DEFAULT_DEBOUNCE_TIME = 200;
