@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import CardCommon from 'src/components/cards/Common';
 import DashboardHistoryAddButton from 'src/components/buttons/dashboardSettings/DashboardHistoryAddButton';
 import HistoryDeleteButton from 'src/components/buttons/deletes/HistoryDeleteButton';
-import { Col } from 'src/components/Grid';
+import { Col, Row } from 'src/components/Grid';
 
 import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
@@ -13,7 +13,7 @@ import { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { getBirthdayFormat } from 'src/utils/moment';
 
-import { History, HorizontalLine, Section } from './style';
+import { History, HorizontalLine, Section, Title } from './style';
 
 function DashboardHistoryCard() {
   const router = useRouter();
@@ -24,19 +24,22 @@ function DashboardHistoryCard() {
 
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
-      <History>
-        {dashboardHistories.map((history) => (
-          <Section key={history._id}>
-            <Col>
-              <p>{getBirthdayFormat(history.date!)}</p>
-              <HorizontalLine />
-              <p>{history.content}</p>
-            </Col>
-            {isMe && <HistoryDeleteButton historyID={history._id} content={history.content} />}
-          </Section>
-        ))}
-      </History>
-      {isMe && <DashboardHistoryAddButton />}
+      <Col>
+        <Title>History</Title>
+        <History>
+          {dashboardHistories.map((history) => (
+            <Section key={history._id}>
+              <Col>
+                <p>{getBirthdayFormat(history.date!)}</p>
+                <HorizontalLine />
+                <p>{history.content}</p>
+              </Col>
+              {isMe && <HistoryDeleteButton historyID={history._id} content={history.content} />}
+            </Section>
+          ))}
+        </History>
+        {isMe && <DashboardHistoryAddButton />}
+      </Col>
     </CardCommon>
   );
 }

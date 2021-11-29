@@ -22,4 +22,12 @@ const Section = styled.div`
   }
 `;
 
-export { History, HorizontalLine, Section };
+const Title = styled.p`
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  margin-left: 32px;
+  height: 76px;
+`;
+
+export { History, HorizontalLine, Section, Title };

@@ -10,7 +10,7 @@ import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 import userAtom from 'src/recoil/user';
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
 
-import { Title, Content } from './style';
+import { Title, SubTitle, Content } from './style';
 
 function DashboardLinkCard() {
   const router = useRouter();
@@ -22,28 +22,28 @@ function DashboardLinkCard() {
 
   return (
     <CardCommon width={DASHBOARD_RIGHT_SECTION_CARD_WIDTH}>
-      <Row justifyContent='space-between'>
-        <Col>
-          <Row>
-            <Title>희망 직군</Title>
-            <Col>
-              {jobObjectives?.map((jobObjective) => (
-                <Content key={jobObjective}>{jobObjective}</Content>
-              ))}
-            </Col>
-          </Row>
-          <Row>
-            <Title>GitHub</Title>
-            <p>{github}</p>
-          </Row>
-          <Row>
-            <Title>Blog</Title>
-            <p>{blog}</p>
-          </Row>
-        </Col>
-
-        {isMe && <DashboardLinkSettingButton />}
-      </Row>
+      <Col>
+        <Row justifyContent='space-between'>
+          <Title>Link</Title>
+          {isMe && <DashboardLinkSettingButton />}
+        </Row>
+        <Row>
+          <SubTitle>희망 직군</SubTitle>
+          <Col>
+            {jobObjectives?.map((jobObjective) => (
+              <Content key={jobObjective}>{jobObjective}</Content>
+            ))}
+          </Col>
+        </Row>
+        <Row>
+          <SubTitle>GitHub</SubTitle>
+          <p>{github}</p>
+        </Row>
+        <Row>
+          <SubTitle>Blog</SubTitle>
+          <p>{blog}</p>
+        </Row>
+      </Col>
     </CardCommon>
   );
 }

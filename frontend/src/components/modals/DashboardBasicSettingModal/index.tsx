@@ -16,6 +16,7 @@ import userAtom from 'src/recoil/user';
 import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { Fetcher } from 'src/utils';
+import { getBirthdayFormat } from 'src/utils/moment';
 
 import { Label, ImageHolder, ImageCover } from './style';
 
@@ -31,7 +32,7 @@ function DashboardBasicSettingModal({ onClose }: Props) {
   const [email, setEmail] = useState(dashboardUserInfo.email ?? '');
   const [school, setSchool] = useState(dashboardUserInfo.school ?? '');
   const [region, setRegion] = useState(dashboardUserInfo.region ?? '');
-  const [birthday, setBirthday] = useState(dashboardUserInfo.birthday ?? '');
+  const [birthday, setBirthday] = useState(getBirthdayFormat(dashboardUserInfo.birthday) ?? '');
   const [phoneNumber, setPhoneNumber] = useState(dashboardUserInfo.phoneNumber ?? '');
   const [profileImage, setProfileImage] = useState(
     dashboardUserInfo.profileImage ?? DEFAULT_PROFILE_IMAGE,

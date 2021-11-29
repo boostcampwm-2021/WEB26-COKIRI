@@ -10,7 +10,7 @@ import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 import userAtom from 'src/recoil/user';
 import { dashboardTechStacksSelector } from 'src/recoil/dashboardUserInfo';
 
-import { Title, Stack, Field } from './style';
+import { Title, SubTitle, Stack, Field } from './style';
 
 function DashboardTechStacksCard() {
   const router = useRouter();
@@ -22,23 +22,24 @@ function DashboardTechStacksCard() {
 
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
-      <Row justifyContent='space-between'>
-        <Col>
-          {fields.map((field) => (
-            <Field key={field}>
-              <Title>{field}</Title>
-              <Row>
-                {dashboardTechStacks[field].map((stack) => (
-                  <Stack color={stack.color!} key={stack.techStack}>
-                    {stack.techStack}
-                  </Stack>
-                ))}
-              </Row>
-            </Field>
-          ))}
-        </Col>
-        {isMe && <DashboardTechStacksSettingButton />}
-      </Row>
+      <Col>
+        <Row justifyContent='space-between'>
+          <Title>Tech Stacks</Title>
+          {isMe && <DashboardTechStacksSettingButton />}
+        </Row>
+        {fields.map((field) => (
+          <Field key={field}>
+            <SubTitle>{field}</SubTitle>
+            <Row>
+              {dashboardTechStacks[field].map((stack) => (
+                <Stack color={stack.color!} key={stack.techStack}>
+                  {stack.techStack}
+                </Stack>
+              ))}
+            </Row>
+          </Field>
+        ))}
+      </Col>
     </CardCommon>
   );
 }
