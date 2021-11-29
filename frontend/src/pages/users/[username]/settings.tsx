@@ -1,40 +1,51 @@
-import { useRecoilValue } from 'recoil';
-import { useRouter } from 'next/router';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import Header from 'src/components/Header';
-import UserSettingsCard from 'src/components/cards/UserSettingsCard';
-import ExternalAuthCard from 'src/components/cards/ExternalAuthCard';
 import SettingsHead from 'src/components/heads/SettingsHead';
-import PermissionDeniedCard from 'src/components/cards/PermissionDeniedCard';
-import { Col } from 'src/components/Grid';
+import SettingsMain from 'src/components/mains/SettingsMain';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
 import userAtom from 'src/recoil/user';
 
-import { Page } from 'src/styles';
+import { UserType } from 'src/types';
 
-function Settings() {
-  const user = useRecoilValue(userAtom);
-  const router = useRouter();
-  const targetUsername = router.query.username;
+import { Fetcher } from 'src/utils';
 
+const initState =
+  (user: UserType) =>
+  ({ set }: MutableSnapshot) =>
+    set(userAtom, user);
+
+interface Props {
+  user?: UserType;
+}
+
+function Settings({ user }: Props) {
   return (
     <>
       <SettingsHead />
-      <Header />
-      <Page.Main>
-        <Col justifyContent='center' alignItems='center'>
-          {targetUsername === user.username ? (
-            <>
-              <UserSettingsCard />
-              <ExternalAuthCard />
-            </>
-          ) : (
-            <PermissionDeniedCard />
-          )}
-        </Col>
-      </Page.Main>
+      <RecoilRoot initializeState={initState(user ?? {})}>
+        <Header />
+        <SettingsMain />
+        <RegisterModal />
+      </RecoilRoot>
     </>
   );
+}
+
+Settings.defaultProps = {
+  user: undefined,
+};
+
+export async function getServerSideProps({ req }: any) {
+  const props: { user?: UserType } = {};
+  const token = req.headers.cookie?.split('=')[1];
+  if (token === undefined) {
+    return props;
+  }
+  const user = await Fetcher.getUsersMe(token);
+  props.user = { ...user, token };
+  return { props };
 }
 
 export default Settings;
