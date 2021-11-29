@@ -36,7 +36,7 @@
 <div align="center">
 💧 &nbsp
 <a href="https://pool-storm-1a3.notion.site/b1de384e2f8c47948ee4b347bda6de04">노션</a>　|　
-<a href="https://github.com/boostcampwm-2021/web15-TadakTadak/wiki">위키</a>　|　
+<a href="https://github.com/boostcampwm-2021/web26-COKIRI/wiki">위키</a>　|　
 <a href="https://docs.google.com/spreadsheets/d/14WwTBta7pvPAq2TPi0Rga9ThRRph-Lt7dCHPDHVWlRo">백로그</a>　|　
 <a href="https://documenter.getpostman.com/view/12433390/UVBznV9T">API 명세서</a>　|　
 <a href="https://miro.com/app/board/o9J_lnmq-7Y=/?invite_link_id=740345289660">디자인</a>　|　
