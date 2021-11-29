@@ -1,46 +1,43 @@
-import { useInfiniteQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
-import FloatingButton from 'src/components/buttons/FloatingButton';
 import RandomHead from 'src/components/heads/RandomHead';
-import { Col } from 'src/components/Grid';
+import RandomMain from 'src/components/mains/RandomMain';
 
-import { Page } from 'src/styles';
-
-import { isRegisteredSelector } from 'src/recoil/user';
+import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-function Random() {
-  const isRegistered = useRecoilValue(isRegisteredSelector);
-  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['random', 'posts'],
-    (context) => Fetcher.getRandomPosts(context),
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  );
+import { UserType } from 'src/types';
 
+interface Props {
+  user: UserType;
+}
+
+const initState =
+  (user: UserType) =>
+  ({ set }: MutableSnapshot) =>
+    set(userAtom, user);
+
+function Random({ user }: Props) {
   return (
     <>
       <RandomHead />
       <Header />
-      <Page.Main>
-        <Col alignItems='center'>
-          <Timeline
-            pages={data?.pages}
-            onPostDelete={refetch}
-            onNeedMore={fetchNextPage}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-          />
-        </Col>
-      </Page.Main>
-      {isRegistered && <FloatingButton />}
+      <RecoilRoot initializeState={initState(user)}>
+        <RandomMain />
+      </RecoilRoot>
     </>
   );
+}
+
+export async function getServerSideProps({ req }: any) {
+  const token = req.headers.cookie?.split('=')[1];
+  if (token === undefined) {
+    return { props: { user: {} } };
+  }
+  const user = await Fetcher.getUsersMe(token);
+  return { props: { user: { ...user, token } } };
 }
 
 export default Random;
