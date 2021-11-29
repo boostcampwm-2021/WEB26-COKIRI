@@ -16,7 +16,7 @@ import { StatisticsType } from 'src/types';
 import { Label } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
   // eslint-disable-next-line no-unused-vars
   onUpdate: (newStatistics: StatisticsType) => void;
 }

@@ -10,8 +10,8 @@ import { Background, Card, Title } from './style';
 
 interface Props {
   children?: ReactNode;
-  onClose?: () => void;
-  onConfirm?: () => void;
+  onClose?: VoidFunction;
+  onConfirm?: VoidFunction;
   close?: string;
   confirm?: string;
   width?: number;

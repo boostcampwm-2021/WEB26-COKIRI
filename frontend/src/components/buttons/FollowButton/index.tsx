@@ -11,7 +11,7 @@ import userAtom from 'src/recoil/user';
 interface Props {
   targetUserID: string;
   isFollower?: boolean;
-  onFollow: () => void;
+  onFollow: VoidFunction;
 }
 
 function FollowButton({ targetUserID, isFollower, onFollow }: Props) {

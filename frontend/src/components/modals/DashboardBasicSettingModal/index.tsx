@@ -20,7 +20,7 @@ import { Fetcher } from 'src/utils';
 import { Label, ImageHolder, ImageCover } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function DashboardBasicSettingModal({ onClose }: Props) {

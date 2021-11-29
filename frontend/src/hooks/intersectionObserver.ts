@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useIntersectionObserver = (callback: () => void) => {
+const useIntersectionObserver = (callback: VoidFunction) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const ref = useRef<HTMLDivElement | null>(null);
 

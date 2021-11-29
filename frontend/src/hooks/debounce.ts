@@ -1,6 +1,6 @@
 import { DependencyList, useEffect, useRef } from 'react';
 
-const useDebounce = (callback: () => void, delay: number, deps: DependencyList) => {
+const useDebounce = (callback: VoidFunction, delay: number, deps: DependencyList) => {
   const timer = useRef<ReturnType<typeof setTimeout>>();
   useEffect(() => {
     if (+timer.current! !== 0) {

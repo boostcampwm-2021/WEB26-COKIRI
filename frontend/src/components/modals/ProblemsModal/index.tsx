@@ -16,7 +16,7 @@ import { Wrapper, Problems } from './style';
 interface Props {
   // eslint-disable-next-line no-unused-vars
   onSelect: (problem: ProblemType) => void;
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function ProblemsModal({ onClose, onSelect }: Props) {

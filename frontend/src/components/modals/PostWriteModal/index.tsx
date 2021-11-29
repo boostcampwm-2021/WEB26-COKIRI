@@ -23,8 +23,8 @@ import { BlogType, ExternalType, ProblemType, RepoType } from 'src/types';
 import { Textarea, ImageInputHolder } from './style';
 
 interface Props {
-  onPostWrite: () => void;
-  onClose: () => void;
+  onPostWrite: VoidFunction;
+  onClose: VoidFunction;
 }
 
 function PostWriteModal({ onClose, onPostWrite }: Props) {

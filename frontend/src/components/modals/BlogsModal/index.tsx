@@ -19,7 +19,7 @@ import { Wrapper, Blogs } from './style';
 interface Props {
   // eslint-disable-next-line no-unused-vars
   onSelect: (problem: BlogType) => void;
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function BlogsModal({ onClose, onSelect }: Props) {

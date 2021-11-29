@@ -17,7 +17,7 @@ import { Fetcher } from 'src/utils';
 import { Label } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function DashboardHistoryAddModal({ onClose }: Props) {
