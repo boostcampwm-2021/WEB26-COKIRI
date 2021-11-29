@@ -8,11 +8,13 @@ import RegisterModal from 'src/components/modals/RegisterModal';
 
 import { theme, global } from 'src/styles';
 
-import { DashboardUserInfoType, UserType } from 'src/types';
+import { UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
+
+import useScrollRestoration from 'src/hooks/scrollResoration';
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,8 @@ interface Props extends AppProps {
   user: UserType;
 }
 
-function MyApp({ user, Component, pageProps }: Props) {
+function MyApp({ Component, pageProps, router, user }: Props) {
+  useScrollRestoration(router);
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot initializeState={initState(user)}>
@@ -49,7 +52,7 @@ MyApp.defaultProps = {
 };
 
 MyApp.getInitialProps = async (context: AppContext) => {
-  const props: { user?: UserType; dashboardUserInfo?: DashboardUserInfoType } = {};
+  const props: { user?: UserType } = {};
   const token = context.ctx.req?.headers.cookie?.split('=')[1];
   if (token === undefined) {
     return props;

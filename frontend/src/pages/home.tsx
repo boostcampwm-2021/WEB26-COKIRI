@@ -11,7 +11,7 @@ import { Fetcher } from 'src/utils';
 import { PostType, UserType } from 'src/types';
 
 interface Props {
-  user: UserType;
+  user?: UserType;
   firstPost?: PostType;
 }
 
@@ -25,7 +25,7 @@ function Home({ user, firstPost }: Props) {
     <>
       <HomeHead />
       <Header />
-      <RecoilRoot initializeState={initState(user)}>
+      <RecoilRoot initializeState={initState(user ?? {})}>
         <HomeMain firstPost={firstPost} />
       </RecoilRoot>
     </>
@@ -33,17 +33,21 @@ function Home({ user, firstPost }: Props) {
 }
 
 Home.defaultProps = {
+  user: undefined,
   firstPost: undefined,
 };
 
 export async function getServerSideProps({ req }: any) {
+  const props: { user?: UserType; firstPost?: PostType } = {};
   const token = req.headers.cookie?.split('=')[1];
   if (token === undefined) {
-    return { props: { user: {} } };
+    return { props };
   }
   const user = await Fetcher.getUsersMe(token);
   const firstPost = await Fetcher.getFirstPost(user, token);
-  return { props: { user: { ...user, token }, firstPost } };
+  props.user = { ...user, token };
+  props.firstPost = firstPost;
+  return { props };
 }
 
 export default Home;

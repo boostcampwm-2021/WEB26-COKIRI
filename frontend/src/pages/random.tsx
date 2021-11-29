@@ -11,7 +11,7 @@ import { Fetcher } from 'src/utils';
 import { UserType } from 'src/types';
 
 interface Props {
-  user: UserType;
+  user?: UserType;
 }
 
 const initState =
@@ -24,20 +24,25 @@ function Random({ user }: Props) {
     <>
       <RandomHead />
       <Header />
-      <RecoilRoot initializeState={initState(user)}>
+      <RecoilRoot initializeState={initState(user ?? {})}>
         <RandomMain />
       </RecoilRoot>
     </>
   );
 }
 
+Random.defaultProps = {
+  user: undefined,
+};
+
 export async function getServerSideProps({ req }: any) {
+  const props: { user?: UserType } = {};
   const token = req.headers.cookie?.split('=')[1];
   if (token === undefined) {
-    return { props: { user: {} } };
+    return { props };
   }
-  const user = await Fetcher.getUsersMe(token);
-  return { props: { user: { ...user, token } } };
+  props.user = await Fetcher.getUsersMe(token);
+  return { props };
 }
 
 export default Random;
