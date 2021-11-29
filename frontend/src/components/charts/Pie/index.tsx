@@ -37,7 +37,9 @@ function PieChart({ statistics }: Props) {
       },
     ],
   };
-
+  if (sortedLanguages.length === 0) {
+    return null;
+  }
   return <Pie data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={pieOption} />;
 }
 

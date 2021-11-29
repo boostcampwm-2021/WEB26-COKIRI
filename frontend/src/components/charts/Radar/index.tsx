@@ -25,7 +25,9 @@ function RadarChart({ statistics }: Props) {
       },
     ],
   };
-
+  if (problems.length === 0) {
+    return null;
+  }
   return (
     <Radar data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={radarOption} />
   );

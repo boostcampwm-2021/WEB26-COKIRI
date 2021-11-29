@@ -22,7 +22,7 @@ import { StatisticsType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { Title } from './style';
+import { Title, Section } from './style';
 
 interface Props {
   targetUserID: string;
@@ -56,20 +56,20 @@ function DashBoardStatisticsCard({ targetUserID }: Props) {
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH} height={DASHBOARD_STATISTICS_CARD_HEIGHT}>
       <Row justifyContent='center'>
-        <Col>
+        <Section>
           <Row justifyContent='center'>
             <Title>Repo Statistics</Title>
             {isMe && <UpdateLanguageStatisticsButton onUpdate={handleUpdateLanguageStatistics} />}
           </Row>
           <PieChart statistics={languageStatistics} />
-        </Col>
-        <Col>
+        </Section>
+        <Section>
           <Row justifyContent='center'>
             <Title>Solvedac Statistics</Title>
             {isMe && <UpdateProblemStatisticsButton onUpdate={handleUpdateProblemStatistics} />}
           </Row>
           <RadarChart statistics={problemStatistics} />
-        </Col>
+        </Section>
       </Row>
     </CardCommon>
   );
