@@ -10,7 +10,7 @@ import JobObjectiveAddButton from 'src/components/buttons/dashboardSettings/JobO
 import { Row, Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
-import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
+import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { Fetcher } from 'src/utils';
 
@@ -23,13 +23,13 @@ interface Props {
 function DashboardLinkSettingModal({ onClose }: Props) {
   const user = useRecoilValue(userAtom);
   const [dashboardUserInfo, setDashboardUserInfo] = useRecoilState(dashboardUserInfoAtom);
+  const dashboardHistories = useRecoilValue(dashboardHistoriesSelector);
   const [jobObjectives, setJobObjectives] = useState<string[]>(
     dashboardUserInfo.jobObjectives ?? [],
   );
   const [jobObjective, setJobObjective] = useState('');
   const [github, setGitHub] = useState(dashboardUserInfo.github ?? '');
   const [blog, setBlog] = useState(dashboardUserInfo.blog ?? '');
-  const [solvedac, setSolvedac] = useState(dashboardUserInfo.solvedac ?? '');
 
   const { mutate } = useMutation(
     () =>
@@ -38,11 +38,10 @@ function DashboardLinkSettingModal({ onClose }: Props) {
         jobObjectives,
         github,
         blog,
-        solvedac,
       }),
     {
       onSuccess: (dashboard) => {
-        setDashboardUserInfo(dashboard);
+        setDashboardUserInfo({ ...dashboard, dashboardHistories });
         onClose();
       },
     },
@@ -82,10 +81,6 @@ function DashboardLinkSettingModal({ onClose }: Props) {
           <Row>
             <Label>blog</Label>
             <InputCommon bind={[blog, setBlog]} placeholder={blog} />
-          </Row>
-          <Row>
-            <Label>solved.ac</Label>
-            <InputCommon bind={[solvedac, setSolvedac]} placeholder={solvedac} />
           </Row>
         </Col>
         <DashboardJobObjectives

@@ -13,7 +13,7 @@ import { USER_SETTING_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
 import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import userAtom from 'src/recoil/user';
-import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
+import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
 import { Fetcher } from 'src/utils';
 
@@ -26,7 +26,7 @@ interface Props {
 function DashboardBasicSettingModal({ onClose }: Props) {
   const user = useRecoilValue(userAtom);
   const [dashboardUserInfo, setDashboardUserInfo] = useRecoilState(dashboardUserInfoAtom);
-
+  const dashboardHistories = useRecoilValue(dashboardHistoriesSelector);
   const [name, setName] = useState(dashboardUserInfo.name ?? '');
   const [email, setEmail] = useState(dashboardUserInfo.email ?? '');
   const [school, setSchool] = useState(dashboardUserInfo.school ?? '');
@@ -51,7 +51,7 @@ function DashboardBasicSettingModal({ onClose }: Props) {
       }),
     {
       onSuccess: (dashboard) => {
-        setDashboardUserInfo(dashboard);
+        setDashboardUserInfo({ ...dashboard, dashboardHistories });
         onClose();
       },
     },

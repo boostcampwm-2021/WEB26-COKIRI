@@ -17,7 +17,7 @@ function DashboardLinkCard() {
   const username = router.query.username as string;
   const user = useRecoilValue(userAtom);
   const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
-  const { jobObjectives, github, blog, solvedac } = dashboardUserInfo;
+  const { jobObjectives, github, blog } = dashboardUserInfo;
   const isMe = user.username === username;
 
   return (
@@ -39,10 +39,6 @@ function DashboardLinkCard() {
           <Row>
             <Title>Blog</Title>
             <p>{blog}</p>
-          </Row>
-          <Row>
-            <Title>Solved.ac</Title>
-            <p>{solvedac}</p>
           </Row>
         </Col>
 
