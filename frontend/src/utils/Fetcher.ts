@@ -54,6 +54,17 @@ class Fetcher {
     return result.data;
   }
 
+  static async getFirstPost(user: UserType, token: string): Promise<PostType> {
+    if (user._id === undefined || !user.isRegistered) {
+      return {};
+    }
+    const result = await axios.get(`${baseURL}/${version}/posts`, {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { user_id: user._id, cursor: 0 },
+    });
+    return result.data.data[0];
+  }
+
   // for client side
   static async getPosts(
     user: UserType,
@@ -64,7 +75,7 @@ class Fetcher {
     }
     const result = await axios.get(`${baseURL}/${version}/posts`, {
       headers: { Authorization: `Bearer ${user.token}` },
-      params: { user_id: user._id, cursor: pageParam ?? 0 },
+      params: { user_id: user._id, cursor: pageParam ?? 1 },
     });
     return result.data;
   }
