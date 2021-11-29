@@ -17,7 +17,7 @@ import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
 
 import { Wrapper, Section } from './style';
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function Header() {
   const user = useRecoilValue(userAtom);

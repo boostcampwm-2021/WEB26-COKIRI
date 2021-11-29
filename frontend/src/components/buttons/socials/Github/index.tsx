@@ -2,7 +2,7 @@ import { RiGithubFill } from 'react-icons/ri';
 
 import SocialCommon from 'src/components/buttons/socials/Common';
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function Github() {
   const handleClick = () => {
