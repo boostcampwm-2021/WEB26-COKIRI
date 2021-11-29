@@ -17,6 +17,7 @@ import {
   StackType,
   NotificationType,
   DashboardRepoType,
+  LanguageStatisticsType,
 } from 'src/types';
 
 const baseURL = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -217,6 +218,13 @@ class Fetcher {
     return result.data.data;
   }
 
+  static async getProblemStatistics(userID: string): Promise<StatisticsType> {
+    const result = await axios.get(
+      `${baseURL}/${version}/users/${userID}/dashboard/problems/statistics`,
+    );
+    return result.data.data;
+  }
+
   static async postPost(
     user: UserType,
     content: string,
@@ -342,24 +350,25 @@ class Fetcher {
     return result.data.data;
   }
 
-  static async putDashboardRepoLanguages(user: UserType): Promise<ReturnType<UserType>> {
+  static async putDashboardRepoLanguages(user: UserType): Promise<LanguageStatisticsType> {
     const result = await axios.put(
       `${baseURL}/${version}/users/${user._id}/dashboard/repositories/languages`,
-      {
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
+      { userID: user._id },
+      { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data.dashboard.statistics;
   }
 
-  static async putSolvedacStatistics(
-    userID: string,
-    solvedUsername: string,
-  ): Promise<ReturnType<StatisticsType>> {
+  static async putProblemStatistics(
+    user: UserType,
+    solvedacUsername: string,
+  ): Promise<StatisticsType> {
     const result = await axios.put(
-      `${baseURL}/${version}/users/${userID}/problems/${solvedUsername}/statistics`,
+      `${baseURL}/${version}/users/${user._id}/dashboard/problems/${solvedacUsername}/statistics`,
+      { userID: user._id },
+      { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return result.data;
+    return result.data.data;
   }
 
   static async deletePostLike(user: UserType, postID: string, likeID: string): Promise<void> {
