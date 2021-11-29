@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
@@ -6,11 +7,16 @@ import { Col, Row } from 'src/components/Grid';
 
 import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
+import userAtom from 'src/recoil/user';
 import { dashboardTechStacksSelector } from 'src/recoil/dashboardUserInfo';
 
 import { Title, Stack, Field } from './style';
 
 function DashboardTechStacksCard() {
+  const router = useRouter();
+  const username = router.query.username as string;
+  const user = useRecoilValue(userAtom);
+  const isMe = user.username === username;
   const dashboardTechStacks = useRecoilValue(dashboardTechStacksSelector);
   const fields = Object.keys(dashboardTechStacks);
 
@@ -31,7 +37,7 @@ function DashboardTechStacksCard() {
             </Field>
           ))}
         </Col>
-        <DashboardTechStacksSettingButton />
+        {isMe && <DashboardTechStacksSettingButton />}
       </Row>
     </CardCommon>
   );
