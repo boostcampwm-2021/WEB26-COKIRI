@@ -15,6 +15,7 @@ const HorizontalLine = styled.div`
 const Section = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   p {
     padding: 8px;
     word-wrap: break-word;
