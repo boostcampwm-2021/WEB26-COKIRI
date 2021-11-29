@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { PIE_CHART_WIDTH, PIE_CHART_HEIGHT } from 'src/globals/constants';
 
-import { RadarOptions } from 'src/utils/options';
+import { radarOption } from 'src/utils/options';
 
 interface Props {
   statistics?: { [key: string]: number };
@@ -27,7 +27,7 @@ function RadarChart({ statistics }: Props) {
   };
 
   return (
-    <Radar data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={RadarOptions} />
+    <Radar data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={radarOption} />
   );
 }
 

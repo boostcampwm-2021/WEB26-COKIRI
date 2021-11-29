@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { PIE_CHART_WIDTH, PIE_CHART_HEIGHT } from 'src/globals/constants';
 
+import { pieOption } from 'src/utils/options';
+
 interface Props {
   statistics?: { [key: string]: number };
 }
@@ -36,13 +38,7 @@ function PieChart({ statistics }: Props) {
     ],
   };
 
-  const options = {
-    maintainAspectRatio: false,
-    responsive: false,
-    radius: 80,
-  };
-
-  return <Pie data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={options} />;
+  return <Pie data={data} width={PIE_CHART_WIDTH} height={PIE_CHART_HEIGHT} options={pieOption} />;
 }
 
 PieChart.propTypes = {

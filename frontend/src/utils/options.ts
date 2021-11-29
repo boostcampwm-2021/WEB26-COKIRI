@@ -1,7 +1,8 @@
 import { theme } from 'src/styles';
 
-const RadarOptions = {
+const radarOption = {
   maintainAspectRatio: false,
+  responsive: false,
   scales: {
     r: {
       ticks: {
@@ -10,7 +11,17 @@ const RadarOptions = {
       },
     },
   },
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { RadarOptions };
+const pieOption = {
+  maintainAspectRatio: false,
+  responsive: false,
+  radius: 80,
+};
+
+export { radarOption, pieOption };
