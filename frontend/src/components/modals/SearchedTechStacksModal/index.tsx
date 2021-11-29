@@ -44,7 +44,7 @@ function SearchedTechStacksModal({ techStack, onClose, onSelect }: Props) {
       <Col>
         {(searchedTechStacks ?? [])!.map((searchedTechStack, index) => (
           <ButtonCommon onClick={() => handleClick(index)} clicked={index === selectedIndex}>
-            {searchedTechStack.searchString}
+            {searchedTechStack.techStack}
           </ButtonCommon>
         ))}
       </Col>

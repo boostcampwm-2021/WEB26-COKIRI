@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import CardCommon from 'src/components/cards/Common';
 import DashboardHistoryAddButton from 'src/components/buttons/dashboardSettings/DashboardHistoryAddButton';
-import DashboardHistoryDeleteButton from 'src/components/buttons/dashboardSettings/DashboardHistoryDeleteButton';
+import HistoryDeleteButton from 'src/components/buttons/deletes/HistoryDeleteButton';
 import { Col } from 'src/components/Grid';
 
 import { DASHBOARD_RIGHT_SECTION_CARD_WIDTH } from 'src/globals/constants';
@@ -32,7 +32,7 @@ function DashboardHistoryCard() {
               <HorizontalLine />
               <p>{history.content}</p>
             </Col>
-            {isMe && <DashboardHistoryDeleteButton historyID={history._id} />}
+            {isMe && <HistoryDeleteButton historyID={history._id} content={history.content} />}
           </Section>
         ))}
       </History>

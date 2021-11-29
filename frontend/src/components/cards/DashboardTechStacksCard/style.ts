@@ -13,6 +13,8 @@ const Title = styled.p`
 const Stack = styled.p<Props>`
   margin: 4px;
   background: ${({ color }) => color};
+  border-radius: 20px;
+  padding: 1px 8px;
 `;
 
 const Field = styled.div`
