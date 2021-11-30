@@ -21,9 +21,12 @@ function ProfileImage({ profileImage, size, username }: Props) {
     setIsImageLoading(false);
   };
 
+  const imageWidth = `${size}px`;
+  const imageHeight = `${size}px`;
+
   return (
     <Wrapper size={size}>
-      {isImageLoading && <SkeletonLoading circle width={size} height={size} />}
+      {isImageLoading && <SkeletonLoading circle width={imageWidth} height={imageHeight} />}
       <Image
         src={profileImage}
         width={size}

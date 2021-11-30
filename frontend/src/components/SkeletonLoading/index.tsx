@@ -3,8 +3,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import PropTypes from 'prop-types';
 
 interface Props {
-  width: string | number;
-  height: string | number;
+  width: string;
+  height: string;
   circle: boolean;
 }
 
@@ -17,8 +17,8 @@ function SkeletonLoading({ width, height, circle }: Props) {
 }
 
 SkeletonLoading.propTypes = {
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
   circle: PropTypes.bool,
 };
 
