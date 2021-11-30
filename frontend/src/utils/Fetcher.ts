@@ -121,15 +121,16 @@ const Fetcher = {
     }
   },
 
-  async getFirstPost(user: UserType, token: string): Promise<PostType> {
+  async getFirstPost(user: UserType, token: string) {
     if (user._id === undefined || !user.isRegistered) {
       return {};
     }
-    const result = await axios.get(`${baseURL}/${version}/posts`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const result = await getWithAuth<PostType[]>({
+      url: 'posts',
+      token,
       params: { user_id: user._id, cursor: 0 },
     });
-    return result.data.data[0];
+    return result.data![0];
   },
 
   // for client side
@@ -436,21 +437,19 @@ const Fetcher = {
   },
 
   async deleteDashboardHistory(user: UserType, historyID: string) {
-    await deleteWithAuth({
+    await deleteWithAuth<void>({
       url: `users/${user._id}/dashboard/histories`,
       data: { historyID },
       token: user.token!,
     });
   },
 
-  async deleteDashboardRepo(user: UserType, repoName: string): Promise<void> {
-    await axios.delete(
-      `${baseURL}/${version}/users/${user._id}/dashboard/repositories/${repoName}`,
-      {
-        data: { userID: user._id },
-        headers: { Authorization: `Bearer ${user.token}` },
-      },
-    );
+  async deleteDashboardRepo(user: UserType, repoName: string) {
+    await deleteWithAuth<void>({
+      url: `users/${user._id}/dashboard/repositories/${repoName}`,
+      data: { userID: user._id },
+      token: user.token!,
+    });
   },
 };
 
