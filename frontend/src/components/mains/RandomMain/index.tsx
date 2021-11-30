@@ -23,15 +23,13 @@ function RandomMain() {
 
   return (
     <Page.Main>
-      <Col alignItems='center'>
-        <Timeline
-          pages={data?.pages}
-          onPostDelete={refetch}
-          onNeedMore={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        />
-      </Col>
+      <Timeline
+        pages={data?.pages}
+        onPostDelete={refetch}
+        onNeedMore={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+      />
       {isRegistered && <FloatingButton />}
     </Page.Main>
   );

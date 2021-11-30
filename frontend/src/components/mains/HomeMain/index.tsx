@@ -7,7 +7,7 @@ import SuggestionCard from 'src/components/cards/SuggestionCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import Post from 'src/components/Post';
 import Timeline from 'src/components/Timeline';
-import { Col } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import userAtom, {
   hasFollowSelector,
@@ -42,22 +42,24 @@ function HomeMain({ firstPost }: Props) {
 
   return (
     <Page.Main>
-      <Col alignItems='center'>
-        {!isAuthenticated && <SigninCard />}
-        {isRegistered && !hasFollowTemp && <SuggestionCard />}
-        {isRegistered && (
-          <>
-            {firstPost && <Post onPostDelete={refetch} post={firstPost} />}
-            <Timeline
-              pages={data?.pages}
-              onPostDelete={refetch}
-              onNeedMore={fetchNextPage}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-            />
-          </>
-        )}
-      </Col>
+      {!isAuthenticated && <SigninCard />}
+      {isRegistered && !hasFollowTemp && <SuggestionCard />}
+      {isRegistered && (
+        <>
+          {firstPost && (
+            <Row justifyContent='center' expanded>
+              <Post onPostDelete={refetch} post={firstPost} />
+            </Row>
+          )}
+          <Timeline
+            pages={data?.pages}
+            onPostDelete={refetch}
+            onNeedMore={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        </>
+      )}
       {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </Page.Main>
   );

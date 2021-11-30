@@ -12,11 +12,13 @@ import { Wrapper, Cover, MoreButton, LinkButton } from './style';
 interface Props {
   widthExpanded: boolean;
   external: ExternalType;
+  onExpand: VoidFunction;
 }
 
-function ExternalContent({ external, widthExpanded }: Props) {
+function ExternalContent({ external, widthExpanded, onExpand }: Props) {
   const [isHeightExpand, setIsHeightExpand] = useState(false);
   const handleMoreClick = () => {
+    onExpand();
     setIsHeightExpand(true);
   };
   const { title, content, info, link } = external;
@@ -62,10 +64,12 @@ function ExternalContent({ external, widthExpanded }: Props) {
 ExternalContent.propTypes = {
   widthExpanded: PropTypes.bool,
   external: PropTypes.objectOf(PropTypes.any).isRequired,
+  onExpand: PropTypes.func,
 };
 
 ExternalContent.defaultProps = {
   widthExpanded: false,
+  onExpand: () => {},
 };
 
 export default ExternalContent;

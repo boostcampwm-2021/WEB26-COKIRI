@@ -6,7 +6,7 @@ import SigninCard from 'src/components/cards/SigninCard';
 import UserInfoCard from 'src/components/cards/UserInfoCard';
 import UserNotFoundCard from 'src/components/cards/UserNotFoundCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import { Col } from 'src/components/Grid';
+import { Row } from 'src/components/Grid';
 
 import { Page } from 'src/styles';
 
@@ -34,23 +34,27 @@ function UserMain({ targetUser }: Props) {
   );
   return (
     <Page.Main>
-      <Col alignItems='center'>
-        {!isAuthenticated && <SigninCard />}
-        {isUserExist ? (
-          <>
+      {!isAuthenticated && (
+        <Row justifyContent='center'>
+          <SigninCard />
+        </Row>
+      )}
+      {isUserExist ? (
+        <>
+          <Row justifyContent='center'>
             <UserInfoCard targetUser={targetUser} />
-            <Timeline
-              pages={data?.pages}
-              onPostDelete={refetch}
-              onNeedMore={fetchNextPage}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-            />
-          </>
-        ) : (
-          <UserNotFoundCard />
-        )}
-      </Col>
+          </Row>
+          <Timeline
+            pages={data?.pages}
+            onPostDelete={refetch}
+            onNeedMore={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        </>
+      ) : (
+        <UserNotFoundCard />
+      )}
       {isRegistered && <FloatingButton onPostWrite={refetch} />}
     </Page.Main>
   );
