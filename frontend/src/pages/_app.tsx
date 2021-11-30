@@ -2,8 +2,6 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider, Global } from '@emotion/react';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
-import RegisterModal from 'src/components/modals/RegisterModal';
-
 import { theme, global } from 'src/styles';
 
 import { UserType } from 'src/types';
