@@ -125,9 +125,15 @@ function PostWriteModal({ onClose, onPostWrite }: Props) {
               <p>{images.length} / 3</p>
             </ImageInput>
           </ImageInputHolder>
-          <ButtonCommon onClick={handleClickGithub}>깃허브</ButtonCommon>
-          <ButtonCommon onClick={handleClickProblems}>백준</ButtonCommon>
-          <ButtonCommon onClick={handleClickBlogs}>블로그</ButtonCommon>
+          <ButtonCommon onClick={handleClickGithub} title='github'>
+            깃허브
+          </ButtonCommon>
+          <ButtonCommon onClick={handleClickProblems} title='problem'>
+            백준
+          </ButtonCommon>
+          <ButtonCommon onClick={handleClickBlogs} title='blog'>
+            블로그
+          </ButtonCommon>
         </Row>
         <Textarea autoFocus value={content} onChange={handleTextareaChange} />
         <PreviewImages images={images} onDelete={handleImageDelete} />

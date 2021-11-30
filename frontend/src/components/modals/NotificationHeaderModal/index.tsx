@@ -43,7 +43,9 @@ function NotificationHeaderModal({ onClose }: Props) {
               <Spacer />
               <TimeFromNow time={createdAt} />
               {postID && (
-                <NavigateIconButton href={`/posts/${postID}`}>바로가기</NavigateIconButton>
+                <NavigateIconButton href={`/posts/${postID}`} title='post'>
+                  바로가기
+                </NavigateIconButton>
               )}
               <FollowSet targetUserID={targetUser._id!} />
             </Row>

@@ -27,7 +27,7 @@ function UpdateLanguageStatisticsButton({ onUpdate }: Props) {
   };
 
   return (
-    <IconButton onClick={handleClick}>
+    <IconButton onClick={handleClick} title='update'>
       <MdAutorenew />
     </IconButton>
   );

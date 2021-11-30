@@ -7,26 +7,34 @@ import { DEFAULT_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   href: string;
-  size?: number;
-  plain?: boolean;
-  clicked?: boolean;
+  title: string;
+  size: number;
+  plain: boolean;
+  clicked: boolean;
 }
 
-function NavigateIconButton({ href, children, size, plain, clicked }: PropsWithChildren<Props>) {
+function NavigateIconButton({
+  href,
+  children,
+  size,
+  plain,
+  clicked,
+  title,
+}: PropsWithChildren<Props>) {
   return (
-    <IconButton padding={0} size={size} plain={plain} clicked={clicked!}>
+    <IconButton padding={0} size={size} plain={plain} clicked={clicked!} title='navigate'>
       <Link href={href} passHref>
-        <a>{children}</a>
+        <a aria-label={title}>{children}</a>
       </Link>
     </IconButton>
   );
 }
 
-NavigateIconButton.propsType = {
+NavigateIconButton.propTypes = {
+  title: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   size: PropTypes.number,
-  padding: PropTypes.number,
   plain: PropTypes.bool,
   clicked: PropTypes.bool,
 };

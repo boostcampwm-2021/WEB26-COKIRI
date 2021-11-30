@@ -6,8 +6,9 @@ import { DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_PADDING } from 'src/globals/const
 import { Button } from './style';
 
 interface Props {
-  width?: number;
-  height?: number;
+  title: string;
+  width: number;
+  height: number;
   margin?: number;
   padding?: number;
   plain?: boolean;
@@ -32,11 +33,12 @@ function ButtonCommon({
   disabled,
   red,
   green,
+  title,
 }: PropsWithChildren<Props>) {
   return (
     <Button
-      width={width!}
-      height={height!}
+      width={width}
+      height={height}
       margin={margin!}
       padding={padding!}
       onClick={onClick!}
@@ -46,13 +48,15 @@ function ButtonCommon({
       disabled={disabled!}
       red={red!}
       green={green!}
+      title={title}
     >
       {children}
     </Button>
   );
 }
 
-ButtonCommon.propsType = {
+ButtonCommon.propTypes = {
+  title: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,

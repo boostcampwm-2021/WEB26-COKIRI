@@ -4,8 +4,8 @@ import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 
 import CardCommon from 'src/components/cards/Common';
-import Input from 'src/components/inputs/Common';
-import Button from 'src/components/buttons/Common';
+import InputCommon from 'src/components/inputs/Common';
+import ButtonCommon from 'src/components/buttons/Common';
 import ImageInput from 'src/components/inputs/ImageInput';
 import ProfileImage from 'src/components/images/ProfileImage';
 import { Row } from 'src/components/Grid';
@@ -46,23 +46,29 @@ function UserSettingsCard() {
           <ImageInput onImageUpload={handleImageUpload}>
             <ImageCover>변경</ImageCover>
           </ImageInput>
-          <ProfileImage size={USER_SETTING_PROFILE_IMAGE_SIZE} profileImage={profileImage} />
+          <ProfileImage
+            size={USER_SETTING_PROFILE_IMAGE_SIZE}
+            profileImage={profileImage}
+            username={username}
+          />
         </ImageHolder>
       </Row>
       <Row justifyContent='center'>
         <Label>username</Label>
-        <Input bind={[username, setUsername]} placeholder={user.username} />
+        <InputCommon bind={[username, setUsername]} placeholder={user.username} title='username' />
       </Row>
       <Row justifyContent='center'>
         <Label>name</Label>
-        <Input bind={[name, setName]} placeholder={user.name} />
+        <InputCommon bind={[name, setName]} placeholder={user.name} title='name' />
       </Row>
       <Row justifyContent='center'>
         <Label>bio</Label>
-        <Input bind={[bio, setBio]} placeholder={user.bio} />
+        <InputCommon bind={[bio, setBio]} placeholder={user.bio} title='bio' />
       </Row>
       <Row justifyContent='end'>
-        <Button onClick={handleClick}>저장</Button>
+        <ButtonCommon onClick={handleClick} title='save'>
+          저장
+        </ButtonCommon>
       </Row>
     </CardCommon>
   );

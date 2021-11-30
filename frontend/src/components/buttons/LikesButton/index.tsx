@@ -16,13 +16,15 @@ function LikesButton({ postID, likeCount }: Props) {
 
   return (
     <>
-      <ButtonCommon onClick={handleClick}>좋아요 {likeCount}개</ButtonCommon>
+      <ButtonCommon onClick={handleClick} title='like-list'>
+        좋아요 {likeCount}개
+      </ButtonCommon>
       {isModalShow && <LikesModal postID={postID} onClose={handleClose} />}
     </>
   );
 }
 
-LikesButton.propsType = {
+LikesButton.propTypes = {
   postID: PropTypes.string.isRequired,
   likeCount: PropTypes.number.isRequired,
 };

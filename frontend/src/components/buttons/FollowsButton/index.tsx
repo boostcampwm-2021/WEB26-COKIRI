@@ -19,7 +19,9 @@ function FollowsButton({ count, targetUserID }: Props) {
   return (
     <>
       {isModalShow && <FollowsModal targetUserID={targetUserID} onClose={switchIsModalShow} />}
-      <ButtonCommon onClick={switchIsModalShow}>{count} follows</ButtonCommon>
+      <ButtonCommon onClick={switchIsModalShow} title='follows'>
+        {count} follows
+      </ButtonCommon>
     </>
   );
 }

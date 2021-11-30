@@ -43,7 +43,11 @@ function PostComments({ postID, comments, expanded, onCommentDelete }: Props) {
                 onCommentDelete={onCommentDelete}
               />
             ))}
-      {!isExpand && isLong && <ButtonCommon onClick={handleClick}>댓글 더보기</ButtonCommon>}
+      {!isExpand && isLong && (
+        <ButtonCommon onClick={handleClick} title='more'>
+          댓글 더보기
+        </ButtonCommon>
+      )}
     </Wrapper>
   );
 }

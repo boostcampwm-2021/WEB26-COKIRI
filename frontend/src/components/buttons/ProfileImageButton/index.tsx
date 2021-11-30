@@ -21,14 +21,14 @@ function ProfileImageButton({ username, profileImage, size, marginRight, marginT
     <Wrapper marginRight={marginRight!} marginTop={marginTop!} size={size!}>
       <Link href={`/users/${username}`} passHref>
         <a>
-          <ProfileImage profileImage={profileImage!} size={size} />
+          <ProfileImage profileImage={profileImage!} size={size} username={username} />
         </a>
       </Link>
     </Wrapper>
   );
 }
 
-ProfileImageButton.propsType = {
+ProfileImageButton.propTypes = {
   username: PropTypes.string.isRequired,
   profileImage: PropTypes.string,
   size: PropTypes.number,

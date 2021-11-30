@@ -49,7 +49,7 @@ function PostDetail({ post }: Props) {
 
   return (
     <Wrapper>
-      <IconButton onClick={() => router.back()} size={RETURN_BUTTON_SIZE} plain>
+      <IconButton onClick={() => router.back()} size={RETURN_BUTTON_SIZE} plain title='back'>
         <IoCloseCircleOutline />
       </IconButton>
       <ImageSection>

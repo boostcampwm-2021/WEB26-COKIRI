@@ -36,7 +36,7 @@ function PostImages({ images, width, height, expanded }: Props) {
       <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
         {images.map((image) => (
           <li key={image._id}>
-            <Image src={image.url} width={width} height={height} />
+            <Image src={image.url} width={width} height={height} alt='post-image' />
           </li>
         ))}
       </ImageHolder>

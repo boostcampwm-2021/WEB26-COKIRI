@@ -33,7 +33,9 @@ function NormalContent({ content, expanded }: Props) {
   ) : (
     <Wrapper>
       <Content>{shortContent}</Content>
-      <ButtonCommon onClick={handleClick}>더보기</ButtonCommon>
+      <ButtonCommon onClick={handleClick} title='more'>
+        더보기
+      </ButtonCommon>
     </Wrapper>
   );
 }

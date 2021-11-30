@@ -93,12 +93,17 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
         <Col>
           <Row alignItems='center'>
             <Label>field</Label>
-            <InputCommon bind={[newField, setNewField]} placeholder='' width={150} />
+            <InputCommon bind={[newField, setNewField]} placeholder='' width={150} title='field' />
           </Row>
           <Row alignItems='center'>
             <Label>tech stack</Label>
-            <InputCommon bind={[techStack, setTechStack]} placeholder='' width={150} />
-            <IconButton onClick={switchIsModalShow}>
+            <InputCommon
+              bind={[techStack, setTechStack]}
+              placeholder=''
+              width={150}
+              title='tech-stack'
+            />
+            <IconButton onClick={switchIsModalShow} title='search'>
               <IoMdSearch />
             </IconButton>
             {isModalShow && (

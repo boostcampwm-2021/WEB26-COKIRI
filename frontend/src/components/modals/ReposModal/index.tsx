@@ -57,6 +57,7 @@ function ReposModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleRepoClick(index)}
                   clicked={index === selectedIndex}
+                  title='repo'
                 >
                   {repo.name}
                 </ButtonCommon>
@@ -64,7 +65,7 @@ function ReposModal({ onClose, onSelect }: Props) {
             ))}
           </Repos>
         ) : (
-          <NavigateIconButton href={`/users/${user.username}/settings`}>
+          <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
             연동하러 가기
           </NavigateIconButton>
         )}

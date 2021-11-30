@@ -7,23 +7,25 @@ import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 import { Wrapper } from './style';
 
 interface Props {
-  profileImage?: string;
-  size?: number;
-  marginRight?: number;
+  profileImage: string;
+  size: number;
+  marginRight: number;
+  username: string;
 }
 
-function ProfileImage({ profileImage, size, marginRight }: Props) {
+function ProfileImage({ profileImage, size, marginRight, username }: Props) {
   return (
-    <Wrapper size={size!} marginRight={marginRight!}>
-      <Image src={profileImage!} width={size} height={size} />
+    <Wrapper size={size} marginRight={marginRight}>
+      <Image src={profileImage} width={size} height={size} alt={username} />
     </Wrapper>
   );
 }
 
-ProfileImage.propsType = {
+ProfileImage.propTypes = {
   profileImage: PropTypes.string,
   size: PropTypes.number,
   marginRight: PropTypes.number,
+  username: PropTypes.string.isRequired,
 };
 
 ProfileImage.defaultProps = {

@@ -38,6 +38,7 @@ function DeleteCommon({ onClick, content }: Props) {
     <>
       {isModalShow && <DeleteModal onConfirm={onClick} onClose={handleClose} title={title} />}
       <IconButton
+        title='delete'
         onClick={changeModalShow}
         width={DASHBOARD_DELETE_BUTTON_WIDTH}
         height={DASHBOARD_DELETE_BUTTON_HEIGHT}

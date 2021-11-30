@@ -36,10 +36,10 @@ function Header() {
         <UserSearchInput />
       </Section>
       <Section>
-        <NavigateIconButton href='/home' clicked={firstRoute === 'home'}>
+        <NavigateIconButton href='/home' clicked={firstRoute === 'home'} title='home'>
           <IoHomeOutline />
         </NavigateIconButton>
-        <NavigateIconButton href='/random' clicked={firstRoute === 'random'}>
+        <NavigateIconButton href='/random' clicked={firstRoute === 'random'} title='random'>
           <IoCompassOutline />
         </NavigateIconButton>
       </Section>
@@ -50,10 +50,11 @@ function Header() {
             <NavigateIconButton
               href={`/users/${user.username}`}
               clicked={firstRoute === 'users' && username === user.username}
+              title='users'
             >
               <IoPersonCircleOutline />
             </NavigateIconButton>
-            <IconButton onClick={handleLogoutClick}>
+            <IconButton onClick={handleLogoutClick} title='logout'>
               <IoLogOutOutline />
             </IconButton>
           </>

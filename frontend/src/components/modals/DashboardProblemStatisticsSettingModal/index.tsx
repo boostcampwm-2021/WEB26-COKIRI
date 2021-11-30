@@ -46,7 +46,7 @@ function DashboardProblemStatisticsSettingModal({ onClose, onUpdate }: Props) {
     >
       <Row>
         <Label>username</Label>
-        <InputCommon bind={[username, setUsername]} />
+        <InputCommon bind={[username, setUsername]} title='username' />
       </Row>
     </ModalCommon>
   );

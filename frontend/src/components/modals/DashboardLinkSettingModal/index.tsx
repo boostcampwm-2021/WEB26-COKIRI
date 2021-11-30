@@ -71,16 +71,16 @@ function DashboardLinkSettingModal({ onClose }: Props) {
         <Col>
           <Row>
             <Label>desired job</Label>
-            <InputCommon bind={[jobObjective, setJobObjective]} placeholder='' />
+            <InputCommon bind={[jobObjective, setJobObjective]} title='desired-job' />
             <JobObjectiveAddButton onAddJobObjective={handleAddJobObjective} />
           </Row>
           <Row>
             <Label>GitHub</Label>
-            <InputCommon bind={[github, setGitHub]} placeholder={github} />
+            <InputCommon bind={[github, setGitHub]} placeholder={github} title='github' />
           </Row>
           <Row>
             <Label>blog</Label>
-            <InputCommon bind={[blog, setBlog]} placeholder={blog} />
+            <InputCommon bind={[blog, setBlog]} placeholder={blog} title='blog' />
           </Row>
         </Col>
         <DashboardJobObjectives

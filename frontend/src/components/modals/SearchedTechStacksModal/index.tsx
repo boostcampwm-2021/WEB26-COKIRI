@@ -43,7 +43,11 @@ function SearchedTechStacksModal({ techStack, onClose, onSelect }: Props) {
     <ModalCommon onClose={handleClose} onConfirm={handleConfirm} confirm='추가' close='취소'>
       <Col>
         {(searchedTechStacks ?? [])!.map((searchedTechStack, index) => (
-          <ButtonCommon onClick={() => handleClick(index)} clicked={index === selectedIndex}>
+          <ButtonCommon
+            onClick={() => handleClick(index)}
+            clicked={index === selectedIndex}
+            title='tech-stack'
+          >
             {searchedTechStack.techStack}
           </ButtonCommon>
         ))}

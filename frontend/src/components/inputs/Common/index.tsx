@@ -8,9 +8,10 @@ import { DEFAULT_DEBOUNCE_TIME } from 'src/globals/constants';
 import { Wrapper, Input } from './style';
 
 interface Props {
+  title: string;
   bind: [string, Dispatch<SetStateAction<string>>];
-  placeholder?: string;
-  width?: number;
+  placeholder: string;
+  width: number;
   icon?: ReactNode;
   // eslint-disable-next-line no-unused-vars
   onChange?: (state: string) => void;
@@ -18,7 +19,15 @@ interface Props {
   onChangeWithDebounce?: (state: string) => void;
 }
 
-function InputCommon({ bind, placeholder, width, icon, onChange, onChangeWithDebounce }: Props) {
+function InputCommon({
+  title,
+  bind,
+  placeholder,
+  width,
+  icon,
+  onChange,
+  onChangeWithDebounce,
+}: Props) {
   const [state, setState] = bind;
   useDebounce(() => onChangeWithDebounce!(state), DEFAULT_DEBOUNCE_TIME, [state]);
   const handleChange = useCallback(
@@ -31,9 +40,13 @@ function InputCommon({ bind, placeholder, width, icon, onChange, onChangeWithDeb
   );
 
   return (
-    <Wrapper width={width!}>
+    <Wrapper width={width}>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label htmlFor={title}>label</label>
       <Input
-        width={width!}
+        id={title}
+        type='text'
+        width={width}
         value={state}
         onChange={handleChange}
         placeholder={placeholder}
@@ -46,6 +59,7 @@ function InputCommon({ bind, placeholder, width, icon, onChange, onChangeWithDeb
 }
 
 InputCommon.propTypes = {
+  title: PropTypes.string.isRequired,
   bind: PropTypes.arrayOf(PropTypes.any).isRequired,
   placeholder: PropTypes.string,
   width: PropTypes.number,

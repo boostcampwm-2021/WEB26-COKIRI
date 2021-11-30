@@ -19,7 +19,7 @@ function UsernameButton({ username, marginRight, width }: Props) {
   );
 }
 
-UsernameButton.propsType = {
+UsernameButton.propTypes = {
   username: PropTypes.string.isRequired,
   marginRight: PropTypes.number,
   width: PropTypes.number,

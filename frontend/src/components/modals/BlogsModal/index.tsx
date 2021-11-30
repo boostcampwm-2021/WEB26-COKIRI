@@ -58,6 +58,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleBlogClick(index)}
                   clicked={index === selectedIndex}
+                  title='blog'
                 >
                   {postTitle}
                 </ButtonCommon>
@@ -65,7 +66,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
             ))}
           </Blogs>
         ) : (
-          <NavigateIconButton href={`/users/${user.username}/settings`}>
+          <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
             연동하러 가기
           </NavigateIconButton>
         )}

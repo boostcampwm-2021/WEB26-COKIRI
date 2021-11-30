@@ -24,7 +24,7 @@ function UnfollowButton({ targetUserID, onUnfollow }: Props) {
     mutation.mutate();
   };
   return (
-    <ButtonCommon onClick={handleClick} red>
+    <ButtonCommon onClick={handleClick} red title='unfollow'>
       언팔
     </ButtonCommon>
   );

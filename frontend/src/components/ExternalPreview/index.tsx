@@ -45,7 +45,7 @@ function ExternalPreview({ external, onDelete }: Props) {
         바로가기
       </LinkButton>
       <ButtonHolder onClick={onDelete}>
-        <ButtonCommon>삭제</ButtonCommon>
+        <ButtonCommon title='delete'>삭제</ButtonCommon>
       </ButtonHolder>
     </Wrapper>
   );

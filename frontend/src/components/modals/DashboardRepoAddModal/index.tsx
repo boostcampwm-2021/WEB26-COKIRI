@@ -77,6 +77,7 @@ function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
           {(repos ?? []).map((repo, index) => (
             <Col key={repo.name}>
               <ButtonCommon
+                title='repo'
                 onClick={() => handleRepoClick(index)}
                 clicked={index === selectedIndex}
               >
@@ -86,7 +87,7 @@ function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
           ))}
         </Repos>
       ) : (
-        <NavigateIconButton href={`/users/${user.username}/settings`}>
+        <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
           연동하러 가기
         </NavigateIconButton>
       )}

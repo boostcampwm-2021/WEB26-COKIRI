@@ -24,7 +24,7 @@ function UpdateProblemStatisticsButton({ onUpdate }: Props) {
       {isModalShow && (
         <DashboardProblemStatisticsSettingModal onClose={switchIsModalShow} onUpdate={onUpdate} />
       )}
-      <IconButton onClick={switchIsModalShow}>
+      <IconButton onClick={switchIsModalShow} title='update'>
         <MdAutorenew />
       </IconButton>
     </>

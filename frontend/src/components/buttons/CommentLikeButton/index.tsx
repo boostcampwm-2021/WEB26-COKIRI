@@ -53,6 +53,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
       clicked
+      title='dislike'
     >
       <IoHeartSharp />
       {likeCount !== 0 && likeCount}
@@ -64,6 +65,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
       disabled={!isAuthenticated}
+      title='like'
     >
       <IoHeartOutline />
       {likeCount !== 0 && likeCount}
