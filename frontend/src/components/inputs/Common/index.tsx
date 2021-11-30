@@ -41,19 +41,19 @@ function InputCommon({
 
   return (
     <Wrapper width={width}>
-      <label htmlFor={title}>
-        <Input
-          id={title}
-          type='text'
-          width={width}
-          value={state}
-          onChange={handleChange}
-          placeholder={placeholder}
-          autoComplete='off'
-          spellCheck={false}
-        />
-        {icon}
-      </label>
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label htmlFor={title}>label</label>
+      <Input
+        id={title}
+        type='text'
+        width={width}
+        value={state}
+        onChange={handleChange}
+        placeholder={placeholder}
+        autoComplete='off'
+        spellCheck={false}
+      />
+      {icon}
     </Wrapper>
   );
 }
