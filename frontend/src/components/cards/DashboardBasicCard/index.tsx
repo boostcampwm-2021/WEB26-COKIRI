@@ -29,12 +29,13 @@ import { Content } from './style';
 
 function DashboardBasicCard() {
   const router = useRouter();
-  const username = router.query.username as string;
+  const targetUsername = router.query.username as string;
   const user = useRecoilValue(userAtom);
   const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
-  const { name, phoneNumber, email, birthday, region, school, profileImage } = dashboardUserInfo;
+  const { name, phoneNumber, email, birthday, region, school, profileImage, username } =
+    dashboardUserInfo;
 
-  const isMe = user.username === username;
+  const isMe = user.username === targetUsername;
 
   return (
     <CardCommon width={DASHBOARD_LEFT_SECTION_CARD_WIDTH}>
@@ -42,7 +43,7 @@ function DashboardBasicCard() {
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage}
-          username={dashboardUserInfo.username}
+          username={username}
         />
         <Col justifyContent='space-evenly'>
           <Row alignItems='center'>
