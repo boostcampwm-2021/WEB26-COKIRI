@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import { DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_PADDING } from 'src/globals/constants';
@@ -12,7 +12,6 @@ interface Props {
   padding?: number;
   plain?: boolean;
   hidden?: boolean;
-  children: ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   clicked?: boolean;
   disabled?: boolean;
@@ -33,7 +32,7 @@ function ButtonCommon({
   disabled,
   red,
   green,
-}: Props) {
+}: PropsWithChildren<Props>) {
   return (
     <Button
       width={width!}
