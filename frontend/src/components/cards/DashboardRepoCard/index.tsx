@@ -7,34 +7,31 @@ import CardCommon from 'src/components/cards/Common';
 import DashboardRepoAddButton from 'src/components/buttons/dashboardSettings/DashboardRepoAddButton';
 import ExternalContent from 'src/components/contents/ExternalContent';
 import RepoDeleteButton from 'src/components/buttons/deletes/RepoDeleteButton';
-import { Row, Col } from 'src/components/Grid';
+import { Col, Row } from 'src/components/Grid';
 
 import { DASHBOARD_LEFT_SECTION_CARD_WIDTH } from 'src/globals/constants';
 
 import userAtom from 'src/recoil/user';
 import { dashboardIDSelector } from 'src/recoil/dashboardUserInfo';
 
-import { ExternalType, DashboardRepoType } from 'src/types';
+import { DashboardRepoType, ExternalType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
-import { Title, Contents, Content } from './style';
+import { Content, Contents, Title } from './style';
 
-const convertToExternalType = (dashboardRepo: DashboardRepoType): ExternalType => {
-  const external = {
-    title: dashboardRepo.repoName,
-    content: dashboardRepo.content,
-    link: dashboardRepo.repoUrl!,
-    info: {
-      forkCount: dashboardRepo.forkCount!,
-      language: dashboardRepo.languageInfo,
-      starCount: dashboardRepo.starCount!.toString(),
-    },
-    type: 'repository' as 'repository',
-    target: dashboardRepo.repoName,
-  };
-  return external;
-};
+const convertToExternalType = (dashboardRepo: DashboardRepoType): ExternalType => ({
+  title: dashboardRepo.repoName,
+  content: dashboardRepo.content,
+  link: dashboardRepo.repoUrl!,
+  info: {
+    forkCount: dashboardRepo.forkCount!,
+    language: dashboardRepo.languageInfo,
+    starCount: dashboardRepo.starCount!.toString(),
+  },
+  type: 'repository' as 'repository',
+  target: dashboardRepo.repoName,
+});
 
 function DashBoardRepoCard() {
   const router = useRouter();
