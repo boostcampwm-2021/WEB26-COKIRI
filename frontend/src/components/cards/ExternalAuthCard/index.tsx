@@ -10,7 +10,7 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function ExternalAuthCard() {
   const user = useRecoilValue(userAtom);

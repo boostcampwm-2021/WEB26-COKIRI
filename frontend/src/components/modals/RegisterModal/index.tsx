@@ -12,7 +12,7 @@ import { Fetcher } from 'src/utils';
 import userAtom, { isAuthenticatedSelector, isRegisteredSelector } from 'src/recoil/user';
 
 const validateUsername = (username: string) => /^[a-zA-Z0-9_-]{1,20}/.test(username);
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);

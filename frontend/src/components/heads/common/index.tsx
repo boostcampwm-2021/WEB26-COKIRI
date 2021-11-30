@@ -11,7 +11,7 @@ interface Props {
   keywords: string[];
 }
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function HeadCommon({ path, title, description, image, keywords }: Props) {
   return (
