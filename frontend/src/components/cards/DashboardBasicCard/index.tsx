@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import { useRouter } from 'next/router';
 import {
   IoPersonOutline,
   IoCalendarClearOutline,
@@ -15,7 +16,6 @@ import { Row, Col } from 'src/components/Grid';
 
 import {
   USER_INFO_PROFILE_IMAGE_SIZE,
-  USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT,
   DASHBOARD_LEFT_SECTION_CARD_WIDTH,
   DASHBOARD_USER_INFO_ICON_SIZE,
 } from 'src/globals/constants';
@@ -28,10 +28,11 @@ import { getBirthdayFormat } from 'src/utils/moment';
 import { Content } from './style';
 
 function DashboardBasicCard() {
+  const router = useRouter();
+  const username = router.query.username as string;
   const user = useRecoilValue(userAtom);
   const dashboardUserInfo = useRecoilValue(dashboardUserInfoAtom);
-  const { name, phoneNumber, email, birthday, region, school, profileImage, username } =
-    dashboardUserInfo;
+  const { name, phoneNumber, email, birthday, region, school, profileImage } = dashboardUserInfo;
 
   const isMe = user.username === username;
 
@@ -41,7 +42,7 @@ function DashboardBasicCard() {
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage}
-          username={username}
+          username={dashboardUserInfo.username}
         />
         <Col justifyContent='space-evenly'>
           <Row alignItems='center'>
