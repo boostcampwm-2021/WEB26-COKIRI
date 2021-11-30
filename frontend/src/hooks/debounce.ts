@@ -9,6 +9,7 @@ const useDebounce = (callback: VoidFunction, delay: number, deps: DependencyList
     timer.current = setTimeout(() => {
       callback();
     }, delay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
 
