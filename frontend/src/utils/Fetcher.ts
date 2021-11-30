@@ -268,11 +268,11 @@ const Fetcher = {
     return result.data!;
   },
 
-  async getProblemStatistics(userID: string): Promise<StatisticsType> {
-    const result = await axios.get(
-      `${baseURL}/${version}/users/${userID}/dashboard/problems/statistics`,
-    );
-    return result.data.data;
+  async getProblemStatistics(userID: string) {
+    const result = await get<StatisticsType>({
+      url: `users/${userID}/dashboard/problems/statistics`,
+    });
+    return result.data;
   },
 
   async postPost(user: UserType, content: string, images: string[], external?: ExternalType) {
