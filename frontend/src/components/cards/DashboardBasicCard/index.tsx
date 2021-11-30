@@ -41,7 +41,6 @@ function DashboardBasicCard() {
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage}
-          marginRight={USER_INFO_PROFILE_IMAGE_MARGIN_RIGHT}
           username={username}
         />
         <Col justifyContent='space-evenly'>

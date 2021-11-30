@@ -9,13 +9,12 @@ import { Wrapper } from './style';
 interface Props {
   profileImage: string;
   size: number;
-  marginRight: number;
   username: string;
 }
 
-function ProfileImage({ profileImage, size, marginRight, username }: Props) {
+function ProfileImage({ profileImage, size, username }: Props) {
   return (
-    <Wrapper size={size} marginRight={marginRight}>
+    <Wrapper size={size}>
       <Image src={profileImage} width={size} height={size} alt={username} />
     </Wrapper>
   );
@@ -24,14 +23,12 @@ function ProfileImage({ profileImage, size, marginRight, username }: Props) {
 ProfileImage.propTypes = {
   profileImage: PropTypes.string,
   size: PropTypes.number,
-  marginRight: PropTypes.number,
   username: PropTypes.string.isRequired,
 };
 
 ProfileImage.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
   size: DEFAULT_PROFILE_IMAGE_SIZE,
-  marginRight: 0,
 };
 
 export default ProfileImage;

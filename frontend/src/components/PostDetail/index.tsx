@@ -18,7 +18,6 @@ import { Row } from 'src/components/Grid';
 import {
   DETAIL_POST_IMAGE_WIDTH,
   DETAIL_POST_IMAGE_HEIGHT,
-  DETAIL_PROFILE_SET_MARGIN_LEFT,
   RETURN_BUTTON_SIZE,
 } from 'src/globals/constants';
 
@@ -61,11 +60,9 @@ function PostDetail({ post }: Props) {
         />
       </ImageSection>
       <PostInfoSection>
-        <ProfileSet
-          profileImage={user!.profileImage}
-          username={user!.username!}
-          marginLeft={DETAIL_PROFILE_SET_MARGIN_LEFT}
-        />
+        <Row>
+          <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
+        </Row>
         {isAuthenticated && (
           <Row>
             <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />

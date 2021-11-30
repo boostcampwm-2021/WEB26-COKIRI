@@ -10,18 +10,16 @@ import { Wrapper } from './style';
 
 interface Props {
   username: string;
-  profileImage?: string;
-  size?: number;
-  marginRight?: number;
-  marginTop?: number;
+  profileImage: string;
+  size: number;
 }
 
-function ProfileImageButton({ username, profileImage, size, marginRight, marginTop }: Props) {
+function ProfileImageButton({ username, profileImage, size }: Props) {
   return (
-    <Wrapper marginRight={marginRight!} marginTop={marginTop!} size={size!}>
+    <Wrapper size={size}>
       <Link href={`/users/${username}`} passHref>
         <a>
-          <ProfileImage profileImage={profileImage!} size={size} username={username} />
+          <ProfileImage profileImage={profileImage} size={size} username={username} />
         </a>
       </Link>
     </Wrapper>
@@ -32,15 +30,11 @@ ProfileImageButton.propTypes = {
   username: PropTypes.string.isRequired,
   profileImage: PropTypes.string,
   size: PropTypes.number,
-  marginRight: PropTypes.number,
-  marginTop: PropTypes.number,
 };
 
 ProfileImageButton.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
   size: DEFAULT_PROFILE_IMAGE_SIZE,
-  marginRight: 0,
-  marginTop: 0,
 };
 
 export default ProfileImageButton;
