@@ -43,12 +43,104 @@ class PostService {
       { $skip: cursor },
       { $limit: PERPAGE },
       { $sort: { createdAt: -1 } },
-      { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
+      {
+        $lookup: {
+          from: 'users',
+          let: { userID: '$userID' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
+            { $project: { _id: 1, username: 1, profileImage: 1 } },
+          ],
+          as: 'user',
+        },
+      },
       { $unwind: '$user' },
+      {
+        $lookup: {
+          from: 'images',
+          let: { postID: '$_id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$targetID', '$$postID'] } } },
+            { $unset: 'targetID' },
+          ],
+          as: 'images',
+        },
+      },
+      {
+        $lookup: {
+          from: 'comments',
+          let: { postID: '$_id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$postID', '$$postID'] } } },
+            {
+              $lookup: {
+                from: 'users',
+                let: { userID: '$userID' },
+                pipeline: [
+                  { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
+                  { $project: { _id: 1, username: 1, profileImage: 1 } },
+                ],
+                as: 'user',
+              },
+            },
+            { $unwind: '$user' },
+            {
+              $lookup: {
+                from: 'commentlikes',
+                let: { commentID: '$_id' },
+                pipeline: [
+                  { $match: { $expr: { $eq: ['$commentID', '$$commentID'] } } },
+                  {
+                    $lookup: {
+                      from: 'users',
+                      let: { userID: '$userID' },
+                      pipeline: [
+                        { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
+                        { $project: { _id: 1, username: 1, profileImage: 1 } },
+                      ],
+                      as: 'user',
+                    },
+                  },
+                  { $unwind: '$user' },
+                  { $unset: ['commentID', 'userID'] },
+                ],
+                as: 'likes',
+              },
+            },
+            { $unset: ['postID', 'userID'] },
+          ],
+          as: 'comments',
+        },
+      },
+      {
+        $lookup: {
+          from: 'postlikes',
+          let: { postID: '$_id' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$postID', '$$postID'] } } },
+            {
+              $lookup: {
+                from: 'users',
+                let: { userID: '$userID' },
+                pipeline: [
+                  { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
+                  { $project: { _id: 1, username: 1, profileImage: 1 } },
+                ],
+                as: 'user',
+              },
+            },
+            { $unwind: '$user' },
+            { $unset: ['postID', 'userID'] },
+          ],
+          as: 'likes',
+        },
+      },
+
+      { $unset: 'userID' },
     ]);
 
     const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
-    return { posts: await this.findPosts(randomPosts), postCount };
+    return { posts: randomPosts, postCount };
   }
 
   async findUserTimeline(userID: string, cursor: number) {
