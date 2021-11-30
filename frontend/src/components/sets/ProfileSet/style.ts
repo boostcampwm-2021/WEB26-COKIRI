@@ -1,14 +1,8 @@
 import styled from '@emotion/styled';
 
-interface Props {
-  marginLeft: number;
-}
-const Wrapper = styled.div<Props>`
-  display: flex;
-  align-items: center;
-  height: 50px;
-  margin-left: ${({ marginLeft }) => (marginLeft === 0 ? 'unset' : `${marginLeft}px`)};
+const Username = styled.p`
+  margin: 8px 8px 8px 12px;
 `;
 
 // eslint-disable-next-line import/prefer-default-export
-export { Wrapper };
+export { Username };

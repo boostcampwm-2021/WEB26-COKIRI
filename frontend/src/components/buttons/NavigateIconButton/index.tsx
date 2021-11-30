@@ -9,20 +9,20 @@ interface Props {
   href: string;
   title: string;
   size: number;
-  plain: boolean;
   clicked: boolean;
+  onClick: VoidFunction;
 }
 
 function NavigateIconButton({
   href,
   children,
   size,
-  plain,
   clicked,
   title,
+  onClick,
 }: PropsWithChildren<Props>) {
   return (
-    <IconButton padding={0} size={size} plain={plain} clicked={clicked!} title='navigate'>
+    <IconButton padding={0} size={size} clicked={clicked} title='navigate' onClick={onClick}>
       <Link href={href} passHref>
         <a aria-label={title}>{children}</a>
       </Link>
@@ -35,14 +35,14 @@ NavigateIconButton.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   size: PropTypes.number,
-  plain: PropTypes.bool,
   clicked: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 NavigateIconButton.defaultProps = {
   size: DEFAULT_ICON_SIZE,
-  plain: false,
   clicked: false,
+  onClick: () => {},
 };
 
 export default NavigateIconButton;

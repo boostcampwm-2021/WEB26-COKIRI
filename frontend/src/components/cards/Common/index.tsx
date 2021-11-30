@@ -5,12 +5,12 @@ import { Wrapper } from './style';
 
 interface Props {
   width: number;
-  height?: number;
+  height: number;
 }
 
 function CardCommon({ children, width, height }: PropsWithChildren<Props>) {
   return (
-    <Wrapper width={width} height={height} padding='35px 30px'>
+    <Wrapper width={width} height={height}>
       {children}
     </Wrapper>
   );

@@ -10,7 +10,7 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
-  isFollower?: boolean;
+  isFollower: boolean;
   onFollow: VoidFunction;
 }
 

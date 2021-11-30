@@ -58,7 +58,6 @@ function SuggestionCard() {
                     size={SUGGESTION_PROFILE_IMAGE_SIZE}
                     username={suggestedUser.username!}
                     profileImage={suggestedUser.profileImage}
-                    marginTop={8}
                   />
                   <FollowSet targetUserID={suggestedUser._id!} />
                 </Col>

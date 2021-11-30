@@ -9,15 +9,15 @@ interface Props {
   title: string;
   width: number;
   height: number;
-  margin?: number;
-  padding?: number;
-  plain?: boolean;
-  hidden?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  clicked?: boolean;
-  disabled?: boolean;
-  red?: boolean;
-  green?: boolean;
+  margin: number;
+  padding: number;
+  plain: boolean;
+  hidden: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  clicked: boolean;
+  disabled: boolean;
+  red: boolean;
+  green: boolean;
 }
 
 function ButtonCommon({
@@ -39,15 +39,15 @@ function ButtonCommon({
     <Button
       width={width}
       height={height}
-      margin={margin!}
-      padding={padding!}
-      onClick={onClick!}
-      plain={plain!}
-      hidden={hidden!}
-      clicked={clicked!}
-      disabled={disabled!}
-      red={red!}
-      green={green!}
+      margin={margin}
+      padding={padding}
+      onClick={onClick}
+      plain={plain}
+      hidden={hidden}
+      clicked={clicked}
+      disabled={disabled}
+      red={red}
+      green={green}
       title={title}
     >
       {children}

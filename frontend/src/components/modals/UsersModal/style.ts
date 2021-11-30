@@ -7,7 +7,7 @@ const Users = styled.div`
 `;
 
 const User = styled.div`
-  height: 64px;
+  height: 72px;
 `;
 
 export { Users, User };

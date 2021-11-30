@@ -10,12 +10,12 @@ import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 import { Cover, LinkButton, Wrapper, ButtonHolder } from './style';
 
 interface Props {
-  external?: ExternalType;
+  external: ExternalType;
   onDelete: VoidFunction;
 }
 
 function ExternalPreview({ external, onDelete }: Props) {
-  const { title, content, info, link, type } = external!;
+  const { title, content, info, link, type } = external;
   if (!type) {
     return null;
   }
@@ -41,7 +41,7 @@ function ExternalPreview({ external, onDelete }: Props) {
       {type === 'tistory' && (
         <BlogContent title={title ?? ''} content={content ?? ''} link={link} />
       )}
-      <LinkButton href={external!.link} target='_blank' rel='noreferrer noopener'>
+      <LinkButton href={external.link} target='_blank' rel='noreferrer noopener'>
         바로가기
       </LinkButton>
       <ButtonHolder onClick={onDelete}>
