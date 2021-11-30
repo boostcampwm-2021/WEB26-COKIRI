@@ -37,6 +37,7 @@ const PostInfoSection = styled.div`
   width: ${POST_WIDTH}px;
   height: 100vh;
   overflow-y: scroll;
+  margin-right: -16px;
 `;
 
 const Space = styled.div`
@@ -48,6 +49,7 @@ const CommentSection = styled.div<Props>`
   bottom: 0;
   right: 0;
   width: ${POST_WIDTH}px;
+  margin-right: -16px;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
