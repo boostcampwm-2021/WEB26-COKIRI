@@ -98,11 +98,7 @@ export const POST_WIDTH = 600;
 
 export const POST_CONTENT_LIMIT_LENGTH = 100;
 
-export const POST_CONTENT_WIDTH = 575;
-
 // MODAL
-export const DELETE_MODAL_TITLE_HEIGHT = 50;
-
 export const DEFAULT_MODAL_WIDTH = 384;
 
 // COUNT
@@ -115,8 +111,6 @@ export const TIME_MIN_WIDTH = 40;
 export const DASHBOARD_HISTORY_MARGIN_LEFT = 50;
 export const DASHBOARD_STACK_TITLE_FONT_SIZE = 16;
 
-export const RADAR_CHART_WIDTH = 30;
-export const RADAR_CHART_HEIGHT = 30;
 export const PIE_CHART_WIDTH = 300;
 export const PIE_CHART_HEIGHT = 300;
 
