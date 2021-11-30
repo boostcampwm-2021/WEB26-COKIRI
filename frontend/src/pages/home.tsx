@@ -48,7 +48,9 @@ export async function getServerSideProps({ req }: any) {
   const user = await Fetcher.getUsersMe(token);
   const firstPost = await Fetcher.getFirstPost(user, token);
   props.user = { ...user, token };
-  props.firstPost = firstPost;
+  if (firstPost) {
+    props.firstPost = firstPost;
+  }
   return { props };
 }
 
