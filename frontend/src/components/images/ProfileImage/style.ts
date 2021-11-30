@@ -7,6 +7,9 @@ interface Props {
 const Wrapper = styled.div<Props>`
   display: flex;
   align-items: center;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+  overflow: hidden;
   img {
     min-height: ${({ size }) => size}px;
     min-width: ${({ size }) => size}px;
