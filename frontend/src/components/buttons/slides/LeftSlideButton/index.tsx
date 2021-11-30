@@ -13,14 +13,14 @@ interface Props {
 function LefSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <IconButton onClick={onClick} padding={0} plain>
+      <IconButton onClick={onClick} padding={0} plain title='left-slide'>
         <IoIosArrowDropleftCircle />
       </IconButton>
     </Wrapper>
   );
 }
 
-LefSlideButton.propsType = {
+LefSlideButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 

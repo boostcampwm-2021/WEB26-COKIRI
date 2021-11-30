@@ -88,27 +88,31 @@ function DashboardBasicSettingModal({ onClose }: Props) {
         <Col>
           <Row>
             <Label>name</Label>
-            <InputCommon bind={[name, setName]} placeholder={name} />
+            <InputCommon bind={[name, setName]} placeholder={name} title='name' />
           </Row>
           <Row>
             <Label>birthday</Label>
-            <InputCommon bind={[birthday, setBirthday]} placeholder={birthday} />
+            <InputCommon bind={[birthday, setBirthday]} placeholder={birthday} title='birthday' />
           </Row>
           <Row>
             <Label>region</Label>
-            <InputCommon bind={[region, setRegion]} placeholder={region} />
+            <InputCommon bind={[region, setRegion]} placeholder={region} title='region' />
           </Row>
           <Row>
             <Label>phone number</Label>
-            <InputCommon bind={[phoneNumber, setPhoneNumber]} placeholder={phoneNumber} />
+            <InputCommon
+              bind={[phoneNumber, setPhoneNumber]}
+              placeholder={phoneNumber}
+              title='phone-number'
+            />
           </Row>
           <Row>
             <Label>email</Label>
-            <InputCommon bind={[email, setEmail]} placeholder={email} />
+            <InputCommon bind={[email, setEmail]} placeholder={email} title='email' />
           </Row>
           <Row>
             <Label>school</Label>
-            <InputCommon bind={[school, setSchool]} placeholder={school} />
+            <InputCommon bind={[school, setSchool]} placeholder={school} title='school' />
           </Row>
         </Col>
       </Row>

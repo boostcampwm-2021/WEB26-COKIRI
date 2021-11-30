@@ -23,6 +23,7 @@ function DashboardSettingCommon({ icon, isModalShow, modal, onClick }: Props) {
         onClick={onClick}
         width={DASHBOARD_SETTING_ICON_BUTTON_WIDTH}
         height={DASHBOARD_SETTING_ICON_BUTTON_HEIGHT}
+        title='setting'
       >
         {icon}
       </IconButton>

@@ -58,6 +58,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleBlogClick(index)}
                   clicked={index === selectedIndex}
+                  title='blog'
                 >
                   {postTitle}
                 </ButtonCommon>

@@ -44,11 +44,11 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   };
 
   return isLike ? (
-    <IconButton onClick={handleClickDislike} clicked>
+    <IconButton onClick={handleClickDislike} clicked title='dislike'>
       <IoHeartSharp />
     </IconButton>
   ) : (
-    <IconButton onClick={handleClickLike}>
+    <IconButton onClick={handleClickLike} title='like'>
       <IoHeartOutline />
     </IconButton>
   );

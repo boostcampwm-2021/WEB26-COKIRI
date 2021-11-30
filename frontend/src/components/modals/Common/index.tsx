@@ -38,9 +38,13 @@ function ModalCommon({
           <Title>{title}</Title>
           {children}
           <Row>
-            {close && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
+            {close && (
+              <ButtonCommon title='modal-close' onClick={onClose}>
+                {close}
+              </ButtonCommon>
+            )}
             {confirm && (
-              <ButtonCommon onClick={onConfirm} disabled={disabled}>
+              <ButtonCommon onClick={onConfirm} disabled={disabled} title='modal-confirm'>
                 {confirm}
               </ButtonCommon>
             )}

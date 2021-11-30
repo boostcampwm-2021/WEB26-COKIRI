@@ -57,6 +57,7 @@ function ReposModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleRepoClick(index)}
                   clicked={index === selectedIndex}
+                  title='repo'
                 >
                   {repo.name}
                 </ButtonCommon>

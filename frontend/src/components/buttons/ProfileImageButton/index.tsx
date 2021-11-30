@@ -28,7 +28,7 @@ function ProfileImageButton({ username, profileImage, size, marginRight, marginT
   );
 }
 
-ProfileImageButton.propsType = {
+ProfileImageButton.propTypes = {
   username: PropTypes.string.isRequired,
   profileImage: PropTypes.string,
   size: PropTypes.number,

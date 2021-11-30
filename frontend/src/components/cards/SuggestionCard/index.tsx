@@ -43,7 +43,7 @@ function SuggestionCard() {
   return (
     <CardCommon width={SUGGESTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
-        <IconButton hidden={isFirst} onClick={handleClickLeft}>
+        <IconButton hidden={isFirst} onClick={handleClickLeft} title='left'>
           <AiOutlineLeft />
         </IconButton>
         <Col alignItems='center'>
@@ -65,7 +65,7 @@ function SuggestionCard() {
               ))}
           </Row>
         </Col>
-        <IconButton hidden={isLast} onClick={handleClickRight}>
+        <IconButton hidden={isLast} onClick={handleClickRight} title='right'>
           <AiOutlineRight />
         </IconButton>
       </Row>

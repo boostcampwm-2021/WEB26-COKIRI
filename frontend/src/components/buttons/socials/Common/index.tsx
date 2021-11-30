@@ -16,6 +16,7 @@ function SocialCommon({ children, onClick }: PropsWithChildren<Props>) {
       width={SOCIAL_BUTTON_WIDTH}
       height={SOCIAL_BUTTON_HEIGHT}
       size={SOCIAL_ICON_SIZE}
+      title='social'
     >
       {children}
     </IconButton>

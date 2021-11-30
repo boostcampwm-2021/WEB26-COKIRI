@@ -53,7 +53,7 @@ function Header() {
             >
               <IoPersonCircleOutline />
             </NavigateIconButton>
-            <IconButton onClick={handleLogoutClick}>
+            <IconButton onClick={handleLogoutClick} title='logout'>
               <IoLogOutOutline />
             </IconButton>
           </>

@@ -77,6 +77,7 @@ function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
           {(repos ?? []).map((repo, index) => (
             <Col key={repo.name}>
               <ButtonCommon
+                title='repo'
                 onClick={() => handleRepoClick(index)}
                 clicked={index === selectedIndex}
               >

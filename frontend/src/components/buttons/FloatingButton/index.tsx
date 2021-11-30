@@ -35,6 +35,7 @@ function FloatingButton({ onPostWrite }: Props) {
         onClick={changeModalShow}
         width={FLOATING_BUTTON_WIDTH}
         height={FLOATING_BUTTON_HEIGHT}
+        title='write'
       >
         작성
       </ButtonCommon>

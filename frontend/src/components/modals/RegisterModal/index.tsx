@@ -57,6 +57,7 @@ function RegisterModal() {
       <Col alignItems='center'>
         <p>영문 대소문자 및 숫자만 가능해요</p>
         <InputCommon
+          title='username'
           bind={[username, setUsername]}
           onChangeWithDebounce={handleChange}
           icon={isValid ? <AiOutlineCheck /> : null}

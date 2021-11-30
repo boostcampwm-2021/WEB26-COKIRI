@@ -50,8 +50,10 @@ function ProblemsModal({ onClose, onSelect }: Props) {
         title='문제를 검색하고 선택하세요'
       >
         <Row>
-          <InputCommon bind={[query, setQuery]} />
-          <ButtonCommon onClick={handleSearchClick}> 검색</ButtonCommon>
+          <InputCommon bind={[query, setQuery]} title='problem-search' />
+          <ButtonCommon onClick={handleSearchClick} title='search'>
+            검색
+          </ButtonCommon>
         </Row>
         <Problems>
           {(problems ?? []).map(({ id, title }, index) => (
@@ -59,6 +61,7 @@ function ProblemsModal({ onClose, onSelect }: Props) {
               <ButtonCommon
                 onClick={() => handleProblemClick(index)}
                 clicked={index === selectedIndex}
+                title='problem'
               >
                 {id}:{title}
               </ButtonCommon>

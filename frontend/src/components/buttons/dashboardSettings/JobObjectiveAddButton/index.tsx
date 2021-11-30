@@ -9,7 +9,7 @@ interface Props {
 
 function JobObjectiveAddButton({ onAddJobObjective }: Props) {
   return (
-    <IconButton onClick={onAddJobObjective}>
+    <IconButton onClick={onAddJobObjective} title='add'>
       <BsPlusCircle />
     </IconButton>
   );

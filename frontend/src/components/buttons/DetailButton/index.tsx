@@ -16,7 +16,7 @@ function DetailButton({ postID }: Props) {
   );
 }
 
-DetailButton.propsType = {
+DetailButton.propTypes = {
   postID: PropTypes.string.isRequired,
 };
 

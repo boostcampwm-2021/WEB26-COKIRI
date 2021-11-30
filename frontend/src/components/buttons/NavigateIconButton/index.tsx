@@ -14,7 +14,7 @@ interface Props {
 
 function NavigateIconButton({ href, children, size, plain, clicked }: PropsWithChildren<Props>) {
   return (
-    <IconButton padding={0} size={size} plain={plain} clicked={clicked!}>
+    <IconButton padding={0} size={size} plain={plain} clicked={clicked!} title='navigate'>
       <Link href={href} passHref>
         <a>{children}</a>
       </Link>
@@ -22,7 +22,7 @@ function NavigateIconButton({ href, children, size, plain, clicked }: PropsWithC
   );
 }
 
-NavigateIconButton.propsType = {
+NavigateIconButton.propTypes = {
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   size: PropTypes.number,

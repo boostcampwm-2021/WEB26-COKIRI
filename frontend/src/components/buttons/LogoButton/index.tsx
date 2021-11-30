@@ -13,7 +13,7 @@ import { LOGO_IMAGE } from 'src/globals/images';
 
 function LogoButton() {
   return (
-    <ButtonCommon width={LOGO_BUTTON_WIDTH} height={LOGO_BUTTON_HEIGHT}>
+    <ButtonCommon width={LOGO_BUTTON_WIDTH} height={LOGO_BUTTON_HEIGHT} title='logo'>
       <Link href='/home' passHref>
         <a>
           <Image src={LOGO_IMAGE} width={LOGO_IMAGE_WIDTH} height={LOGO_IMAGE_HEIGHT} alt='cocoo' />
