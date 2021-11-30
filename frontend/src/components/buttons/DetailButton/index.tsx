@@ -10,7 +10,7 @@ interface Props {
 
 function DetailButton({ postID }: Props) {
   return (
-    <NavigateButton href={`/posts/${postID}`}>
+    <NavigateButton href={`/posts/${postID}`} title='detail'>
       <BsArrowsAngleExpand />
     </NavigateButton>
   );

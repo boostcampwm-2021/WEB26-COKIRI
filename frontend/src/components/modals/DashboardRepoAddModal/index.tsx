@@ -87,7 +87,7 @@ function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
           ))}
         </Repos>
       ) : (
-        <NavigateIconButton href={`/users/${user.username}/settings`}>
+        <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
           연동하러 가기
         </NavigateIconButton>
       )}

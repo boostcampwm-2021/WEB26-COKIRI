@@ -45,12 +45,14 @@ function UserInfoCard({ targetUser }: Props) {
           <Row alignItems='center'>
             <Username>{username}</Username>
             {isMe && (
-              <NavigateIconButton href={`/users/${username}/settings`}>
+              <NavigateIconButton href={`/users/${username}/settings`} title='settings'>
                 <IoSettingsOutline />
               </NavigateIconButton>
             )}
             <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
-            <NavigateIconButton href={`/users/${username}/dashboard`}>대쉬보드</NavigateIconButton>
+            <NavigateIconButton href={`/users/${username}/dashboard`} title='dashboard'>
+              대쉬보드
+            </NavigateIconButton>
           </Row>
           <Row alignItems='center'>
             <Posts>{postCount} posts</Posts>
