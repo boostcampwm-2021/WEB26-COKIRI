@@ -9,7 +9,7 @@ import { Wrapper, Content } from './style';
 
 interface Props {
   content: string;
-  expanded?: boolean;
+  expanded: boolean;
 }
 
 function NormalContent({ content, expanded }: Props) {

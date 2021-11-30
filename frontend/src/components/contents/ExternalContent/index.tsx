@@ -10,7 +10,7 @@ import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 import { Wrapper, Cover, MoreButton, LinkButton } from './style';
 
 interface Props {
-  widthExpanded?: boolean;
+  widthExpanded: boolean;
   external: ExternalType;
 }
 
@@ -21,7 +21,7 @@ function ExternalContent({ external, widthExpanded }: Props) {
   };
   const { title, content, info, link } = external;
   return (
-    <Wrapper heightExpanded={isHeightExpand} widthExpanded={widthExpanded!}>
+    <Wrapper heightExpanded={isHeightExpand} widthExpanded={widthExpanded}>
       <Cover hidden={isHeightExpand} />
       {!isHeightExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
       {!isHeightExpand && (

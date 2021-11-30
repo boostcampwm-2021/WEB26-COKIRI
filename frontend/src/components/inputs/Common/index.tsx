@@ -12,11 +12,11 @@ interface Props {
   bind: [string, Dispatch<SetStateAction<string>>];
   placeholder: string;
   width: number;
-  icon?: ReactNode;
+  icon: ReactNode;
   // eslint-disable-next-line no-unused-vars
-  onChange?: (state: string) => void;
+  onChange: (state: string) => void;
   // eslint-disable-next-line no-unused-vars
-  onChangeWithDebounce?: (state: string) => void;
+  onChangeWithDebounce: (state: string) => void;
 }
 
 function InputCommon({
@@ -29,12 +29,12 @@ function InputCommon({
   onChangeWithDebounce,
 }: Props) {
   const [state, setState] = bind;
-  useDebounce(() => onChangeWithDebounce!(state), DEFAULT_DEBOUNCE_TIME, [state]);
+  useDebounce(() => onChangeWithDebounce(state), DEFAULT_DEBOUNCE_TIME, [state]);
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newState = event.target.value;
       setState(newState);
-      onChange!(newState);
+      onChange(newState);
     },
     [onChange, setState],
   );

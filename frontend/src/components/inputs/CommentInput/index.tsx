@@ -25,9 +25,9 @@ interface Props {
   postID: string;
   // eslint-disable-next-line no-unused-vars
   onCommentWrite: (comment: CommentType) => void;
-  width?: number;
-  iconSize?: number;
-  padding?: number;
+  width: number;
+  iconSize: number;
+  padding: number;
 }
 
 function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Props) {
@@ -53,7 +53,7 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
         icon={<BiComment />}
         title={`comment-${postID}`}
       />
-      <IconButton onClick={handleClick} size={iconSize!} padding={padding!} title='comment-write'>
+      <IconButton onClick={handleClick} size={iconSize} padding={padding} title='comment-write'>
         <BiSend />
       </IconButton>
     </Row>

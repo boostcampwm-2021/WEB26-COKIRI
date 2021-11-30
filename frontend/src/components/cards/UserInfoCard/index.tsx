@@ -73,7 +73,7 @@ function UserInfoCard({ targetUser }: Props) {
   );
 }
 
-UserInfoCard.prototype = {
+UserInfoCard.propTypes = {
   targetUser: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

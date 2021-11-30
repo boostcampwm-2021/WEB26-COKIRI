@@ -4,22 +4,21 @@ import PropTypes from 'prop-types';
 import { Wrapper } from './style';
 
 interface Props {
-  right?: boolean;
-  width?: number;
+  right: boolean;
+  width: number;
 }
 
 function HeaderModal({ children, right, width }: PropsWithChildren<Props>) {
   return (
-    <Wrapper right={right!} width={width!}>
+    <Wrapper right={right} width={width}>
       {children}
     </Wrapper>
   );
 }
 
-HeaderModal.propTyps = {
+HeaderModal.propTypes = {
   children: PropTypes.node.isRequired,
   right: PropTypes.bool,
-  left: PropTypes.bool,
   width: PropTypes.number,
 };
 
