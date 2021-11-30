@@ -16,8 +16,6 @@ import {
   HistoryType,
   StackType,
   NotificationType,
-  DashboardRepoType,
-  LanguageStatisticsType,
 } from 'src/types';
 
 import { NOT_EXIST_TOKEN } from 'src/globals/errors';
@@ -106,17 +104,18 @@ const Fetcher = {
     return result.data!;
   },
 
-  async getUsersByUsername(token: string, username: string) {
-    const result = await getWithAuth<UserType>({ url: 'users', token, params: { username } });
+  async getUsersByUsername(username: string) {
+    const result = await get<UserType>({ url: 'users', params: { username } });
     return result.data!;
   },
 
   async getDashboardUserInfo(username: string): Promise<DashboardUserInfoType> {
     try {
-      const result = await axios.get(`${baseURL}/${version}/users/dashboard`, {
+      const result = await get<DashboardUserInfoType>({
+        url: `users/dashboard`,
         params: { username },
       });
-      return result.data.data;
+      return result.data!;
     } catch {
       return { username: '' };
     }
@@ -238,13 +237,6 @@ const Fetcher = {
     const result = await getWithAuth<ExternalType>({
       url: `users/${user._id}/tistory/${identity}/posts/${postID}`,
       token: user.token!,
-    });
-    return result.data!;
-  },
-
-  async getDashboardUserInfo(username: string) {
-    const result = await get<DashboardUserInfoType>({
-      url: `users/dashboard?username=${username}`,
     });
     return result.data!;
   },
@@ -380,7 +372,6 @@ const Fetcher = {
         email: dashboard.email || undefined,
         github: dashboard.github || undefined,
         blog: dashboard.blog || undefined,
-        solvedac: dashboard.solvedac || undefined,
       },
       token: user.token!,
     });
