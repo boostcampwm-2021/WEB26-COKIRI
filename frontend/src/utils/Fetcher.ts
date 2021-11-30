@@ -386,9 +386,11 @@ const Fetcher = {
     return result.data!;
   },
 
-  async putSolvedacStatistics(userID: string, solvedUsername: string) {
-    const result = await put<StatisticsType>({
-      url: `users/${userID}/problems/${solvedUsername}/statistics`,
+  async putProblemStatistics(user: UserType, solvedacUsername: string) {
+    const result = await putWithAuth<StatisticsType>({
+      url: `users/${user._id}/dashboard/problems/${solvedacUsername}/statistics`,
+      data: { userID: user._id },
+      token: user.token!,
     });
     return result.data!;
   },
