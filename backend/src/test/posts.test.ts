@@ -203,4 +203,37 @@ describe('타임라인', () => {
     ]);
     expect(response.status).toBe(200);
   });
+
+  test('댓글 좋아요 취소', async () => {
+    const response = await request(app)
+      .delete(`/v1/posts/${posts[0]._id}/comments/${mockComment._id}/likes/${mockCommentLike._id}`)
+      .send({ userID: ObjectID.objectIDToString(user._id!) })
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(200);
+  });
+
+  test('포스트 좋아요 취소', async () => {
+    const response = await request(app)
+      .delete(`/v1/posts/${posts[0]._id}/likes/${mockPostLike._id}`)
+      .send({ userID: ObjectID.objectIDToString(user._id!) })
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(200);
+  });
+
+  test('댓글 삭제', async () => {
+    const response = await request(app)
+      .delete(`/v1/posts/${posts[0]._id}/comments/${mockComment._id}`)
+      .send({ userID: ObjectID.objectIDToString(user._id!) })
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(200);
+  });
+
+  test('삭제 확인', async () => {
+    const response = await request(app)
+      .get(`/v1/posts`)
+      .query({ user_id: ObjectID.objectIDToString(user._id!), cursor: 0 })
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.body.data).toEqual(posts);
+    expect(response.status).toBe(200);
+  });
 });
