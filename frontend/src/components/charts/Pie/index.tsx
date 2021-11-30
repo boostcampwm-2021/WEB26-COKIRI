@@ -12,7 +12,7 @@ import {
 import { pieOption } from 'src/utils/options';
 
 interface Props {
-  statistics?: { [key: string]: number };
+  statistics: { [key: string]: number };
 }
 
 const compareLanguages = (
@@ -31,7 +31,7 @@ const makeRandomColors = (number: number) =>
     );
 
 function PieChart({ statistics }: Props) {
-  const sortedLanguages = Object.entries(statistics!).sort(compareLanguages);
+  const sortedLanguages = Object.entries(statistics).sort(compareLanguages);
 
   const data = {
     labels: sortedLanguages.map(([language]: [string, number]) => language),

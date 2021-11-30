@@ -26,8 +26,8 @@ function FollowersButton({ count, targetUserID }: Props) {
   );
 }
 
-FollowersButton.protoTypes = {
-  number: PropTypes.number.isRequired,
+FollowersButton.propTypes = {
+  count: PropTypes.number.isRequired,
   targetUserID: PropTypes.string.isRequired,
 };
 

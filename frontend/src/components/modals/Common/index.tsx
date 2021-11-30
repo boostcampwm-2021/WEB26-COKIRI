@@ -9,14 +9,14 @@ import { DEFAULT_MODAL_WIDTH } from 'src/globals/constants';
 import { Background, Card, Title } from './style';
 
 interface Props {
-  onClose?: VoidFunction;
-  onConfirm?: VoidFunction;
-  close?: string;
-  confirm?: string;
-  width?: number;
-  height?: number;
-  disabled?: boolean;
-  title?: string;
+  onClose: VoidFunction;
+  onConfirm: VoidFunction;
+  close: string;
+  confirm: string;
+  width: number;
+  height: number;
+  disabled: boolean;
+  title: string;
 }
 
 function ModalCommon({
@@ -33,7 +33,7 @@ function ModalCommon({
   return (
     <>
       <Background onClick={onClose} />
-      <Card width={width!} height={height!}>
+      <Card width={width} height={height}>
         <Col alignItems='center' justifyContent='space-between' expanded>
           <Title>{title}</Title>
           {children}
@@ -55,7 +55,7 @@ function ModalCommon({
   );
 }
 
-ModalCommon.propTyps = {
+ModalCommon.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,

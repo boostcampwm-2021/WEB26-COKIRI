@@ -13,9 +13,9 @@ import { Wrapper, ImageHolder, SlideButtons } from './style';
 
 interface Props {
   images: ImageType[];
-  width?: number;
-  height?: number;
-  expanded?: boolean;
+  width: number;
+  height: number;
+  expanded: boolean;
 }
 
 function PostImages({ images, width, height, expanded }: Props) {
@@ -28,12 +28,12 @@ function PostImages({ images, width, height, expanded }: Props) {
   useEffect(() => {
     imageHolderRef.current!.style.marginLeft = expanded
       ? `-${slideIndex * 100}vh`
-      : `-${slideIndex * width!}px`;
+      : `-${slideIndex * width}px`;
   }, [slideIndex, expanded, width]);
 
   return (
-    <Wrapper width={width!} expanded={expanded}>
-      <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
+    <Wrapper width={width} expanded={expanded}>
+      <ImageHolder ref={imageHolderRef} count={images.length} width={width} expanded={expanded}>
         {images.map((image) => (
           <li key={image._id}>
             <Image src={image.url} width={width} height={height} alt='post-image' />

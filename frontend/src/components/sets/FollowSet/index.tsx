@@ -44,7 +44,7 @@ function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
   return isFollow ? (
     <UnfollowButton targetUserID={targetUserID} onUnfollow={handleUnfollow} />
   ) : (
-    <FollowButton isFollower={isFollower!} targetUserID={targetUserID} onFollow={handleFollow} />
+    <FollowButton isFollower={isFollower} targetUserID={targetUserID} onFollow={handleFollow} />
   );
 }
 

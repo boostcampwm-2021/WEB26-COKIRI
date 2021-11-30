@@ -4,13 +4,13 @@ import { ThemeType } from 'src/types';
 
 const global = (theme: ThemeType) => css`
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 16px;
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 30px;
-    background: rgb(67, 67, 67);
-    box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.25), inset -2px -2px 2px rgba(0, 0, 0, 0.25);
+    background: #444444;
+    box-shadow: inset 3px 3px 6px #3a3a3a, inset -3px -3px 6px #4e4e4e;
   }
 
   ::-webkit-scrollbar-track {
@@ -36,6 +36,7 @@ const global = (theme: ThemeType) => css`
 
   html,
   main {
+    overflow-y: scroll;
     background-color: ${theme.colors.background};
   }
 

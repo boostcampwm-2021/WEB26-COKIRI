@@ -18,7 +18,7 @@ interface Props {
   postID: string;
   commentID: string;
   commentLikes: LikeType[];
-  margin?: number;
+  margin: number;
 }
 
 function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {

@@ -43,7 +43,7 @@ function FloatingButton({ onPostWrite }: Props) {
   );
 }
 
-FloatingButton.prototype = {
+FloatingButton.propTypes = {
   onPostWrite: PropTypes.func,
 };
 
