@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useInfiniteQuery } from 'react-query';
 
@@ -12,6 +13,7 @@ import { Fetcher } from 'src/utils';
 
 function RandomMain() {
   const isRegistered = useRecoilValue(isRegisteredSelector);
+  const [refetchCount, setRefetchCount] = useState(0);
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['random', 'posts'],
     (context) => Fetcher.getRandomPosts(context),
@@ -20,16 +22,22 @@ function RandomMain() {
     },
   );
 
+  const refetchWithCount = async () => {
+    await refetch();
+    setRefetchCount(refetchCount + 1);
+  };
+
   return (
     <Page.Main>
       <Timeline
         pages={data?.pages}
-        onPostDelete={refetch}
+        onPostDelete={refetchWithCount}
         onNeedMore={fetchNextPage}
+        refetchCount={refetchCount}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
       />
-      {isRegistered && <FloatingButton />}
+      {isRegistered && <FloatingButton onPostWrite={refetchWithCount} />}
     </Page.Main>
   );
 }
