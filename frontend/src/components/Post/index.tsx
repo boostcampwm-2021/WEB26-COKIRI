@@ -38,11 +38,13 @@ function Post({ post, onPostDelete, onLoad, onResize }: Props) {
 
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
+    onResize();
   };
   const handleCommentDelete = (commentID: string) => {
     setComments((prevState: CommentType[]) =>
       [...prevState].filter((comment) => comment._id !== commentID),
     );
+    onResize();
   };
   const { _id, user: targetUser, images, content, likes, createdAt, external } = post;
   const isMe = user._id !== targetUser?._id;
