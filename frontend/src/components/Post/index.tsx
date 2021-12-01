@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -40,7 +40,7 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
 
   const [likeCount, setLikeCount] = useState(post.likes?.length ?? 0);
   const [comments, setComments] = useState(post.comments!);
-
+  useEffect(() => setComments(post.comments!), [post]);
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
     onResize();
@@ -74,7 +74,7 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
       <NormalContent content={content ?? ''} onExpand={onResize} />
       <PostComments
         postID={_id!}
-        comments={comments ?? []}
+        comments={comments}
         onCommentDelete={handleCommentDelete}
         onExpand={onResize}
       />
