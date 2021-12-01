@@ -1,11 +1,23 @@
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
+import {
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+  ListRowProps,
+  WindowScroller,
+} from 'react-virtualized';
 
 import Post from 'src/components/Post';
+import { Row } from 'src/components/Grid';
 
 import { PostType, ReturnType } from 'src/types';
 
 import { useIntersectionObserver } from 'src/hooks';
+
+import { Observer, EndLabel } from './style';
 
 interface Props {
   pages: ReturnType<PostType[]>[];
@@ -15,20 +27,72 @@ interface Props {
   isFetchingNextPage?: boolean;
 }
 
-function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
-  const { ref } = useIntersectionObserver(() => {
-    onNeedMore();
-  });
+const cache = new CellMeasurerCache({
+  fixedWidth: true,
+});
 
+function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
+  useEffect(() => () => cache.clearAll(), []);
+  const listRef = useRef<List | null>(null);
+  const { ref } = useIntersectionObserver(() => onNeedMore());
+  const posts: PostType[] = pages.reduce<PostType[]>(
+    (acc, cur) => [...acc, ...(cur.data ?? [])],
+    [],
+  );
+  const rowRenderer = ({ index, key, parent, style }: ListRowProps) => (
+    <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
+      {({ measure }) => (
+        <Row style={style} justifyContent='center'>
+          <Post
+            key={key}
+            post={posts[index]}
+            onPostDelete={onPostDelete}
+            onResize={() => {
+              cache.clear(index, 0);
+              listRef.current?.recomputeRowHeights(index);
+            }}
+            onLoad={measure}
+          />
+        </Row>
+      )}
+    </CellMeasurer>
+  );
   return (
     <>
-      {pages.map(({ data }) =>
-        data!.map((post) => <Post key={post._id} post={post} onPostDelete={onPostDelete} />),
-      )}
+      <WindowScroller>
+        {({ height, scrollTop, isScrolling, onChildScroll }) => (
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <List
+                ref={listRef}
+                autoHeight
+                height={height}
+                width={width}
+                isScrolling={isScrolling}
+                overscanRowCount={0}
+                onScroll={onChildScroll}
+                scrollTop={scrollTop}
+                rowCount={posts.length}
+                rowHeight={cache.rowHeight}
+                rowRenderer={rowRenderer}
+                deferredMeasurementCache={cache}
+              />
+            )}
+          </AutoSizer>
+        )}
+      </WindowScroller>
 
-      <div ref={ref} />
-      {isFetchingNextPage && <ReactLoading type='bubbles' color='#ffffff' />}
-      {!hasNextPage && <p>끝</p>}
+      {isFetchingNextPage && (
+        <Row justifyContent='center'>
+          <ReactLoading type='bubbles' color='#ffffff' />
+        </Row>
+      )}
+      {!hasNextPage && (
+        <Row justifyContent='center'>
+          <EndLabel>끝</EndLabel>
+        </Row>
+      )}
+      <Observer ref={ref} />
     </>
   );
 }

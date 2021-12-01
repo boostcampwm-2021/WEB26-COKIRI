@@ -17,9 +17,10 @@ interface Props {
   width: number;
   height: number;
   expanded: boolean;
+  onLoad: VoidFunction;
 }
 
-function PostImages({ images, width, height, expanded }: Props) {
+function PostImages({ images, width, height, expanded, onLoad }: Props) {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const isLeftButton = slideIndex !== 0;
@@ -41,16 +42,17 @@ function PostImages({ images, width, height, expanded }: Props) {
   const imageHeight = expanded ? '100vh' : `${height}px`;
 
   return (
-    <Wrapper width={width!} expanded={expanded}>
-      <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
+    <Wrapper width={width} expanded={expanded}>
+      <ImageHolder ref={imageHolderRef} count={images.length} width={width} expanded={expanded}>
         {isImageLoading && <SkeletonLoading width={imageWidth} height={imageHeight} />}
-        {images.map((image) => (
+        {images.map((image, index) => (
           <li key={image._id}>
             <Image
               src={image.url}
               width={width}
               height={height}
               alt='post-image'
+              onLoad={() => index === 0 && onLoad()}
               onLoadingComplete={handleLoadingComplete}
             />
           </li>
@@ -69,12 +71,14 @@ PostImages.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   expanded: PropTypes.bool,
+  onLoad: PropTypes.func,
 };
 
 PostImages.defaultProps = {
   width: DEFAULT_POST_IMAGE_WIDTH,
   height: DEFAULT_POST_IMAGE_HEIGHT,
   expanded: false,
+  onLoad: () => {},
 };
 
 export default PostImages;

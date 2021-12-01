@@ -36,6 +36,9 @@ const global = (theme: ThemeType) => css`
 
   html,
   main {
+    max-width: 100%;
+    min-width: 100%;
+    overflow-x: hidden;
     overflow-y: scroll;
     background-color: ${theme.colors.background};
   }

@@ -3,7 +3,6 @@ import { useInfiniteQuery } from 'react-query';
 
 import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
-import { Col } from 'src/components/Grid';
 
 import { Page } from 'src/styles';
 
@@ -23,15 +22,13 @@ function RandomMain() {
 
   return (
     <Page.Main>
-      <Col alignItems='center'>
-        <Timeline
-          pages={data?.pages}
-          onPostDelete={refetch}
-          onNeedMore={fetchNextPage}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-        />
-      </Col>
+      <Timeline
+        pages={data?.pages}
+        onPostDelete={refetch}
+        onNeedMore={fetchNextPage}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+      />
       {isRegistered && <FloatingButton />}
     </Page.Main>
   );

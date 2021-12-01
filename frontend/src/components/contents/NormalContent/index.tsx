@@ -10,13 +10,15 @@ import { Wrapper, Content } from './style';
 interface Props {
   content: string;
   expanded: boolean;
+  onExpand: VoidFunction;
 }
 
-function NormalContent({ content, expanded }: Props) {
+function NormalContent({ content, expanded, onExpand }: Props) {
   const [isExpand, setIsExpand] = useState(expanded);
   const isShort = content.length < POST_CONTENT_LIMIT_LENGTH;
   const shortContent = content.substr(0, POST_CONTENT_LIMIT_LENGTH);
   const handleClick = () => {
+    onExpand();
     setIsExpand(true);
   };
   if (isShort) {
@@ -43,10 +45,12 @@ function NormalContent({ content, expanded }: Props) {
 NormalContent.propTypes = {
   content: PropTypes.string.isRequired,
   expanded: PropTypes.bool,
+  onExpand: PropTypes.func,
 };
 
 NormalContent.defaultProps = {
   expanded: false,
+  onExpand: () => {},
 };
 
 export default NormalContent;
