@@ -4,9 +4,9 @@ class Pipeline {
   postPipelineTemplate(match: object, cursor: number, PERPAGE: number) {
     return [
       match,
+      { $sort: { createdAt: -1 } },
       { $skip: cursor },
       { $limit: PERPAGE },
-      { $sort: { createdAt: -1 } },
       {
         $lookup: {
           from: 'users',
@@ -114,6 +114,14 @@ class Pipeline {
   timeline(containsArray: any, cursor: number, PERPAGE: number) {
     return this.postPipelineTemplate(
       { $match: { userID: { $in: containsArray } } },
+      cursor,
+      PERPAGE,
+    );
+  }
+
+  userTimeline(userID: string, cursor: number, PERPAGE: number) {
+    return this.postPipelineTemplate(
+      { $match: { userID: new Types.ObjectId(userID) } },
       cursor,
       PERPAGE,
     );

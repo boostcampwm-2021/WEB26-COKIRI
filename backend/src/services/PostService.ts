@@ -45,17 +45,8 @@ class PostService {
   }
 
   async findUserTimeline(userID: string, cursor: number) {
-    const postList = await Post.find({ userID })
-      .sort({ createdAt: -1 })
-      .skip(cursor)
-      .limit(PERPAGE)
-      .populate({ path: 'user', select: SELECT.USER })
-      .lean();
-
-    const [posts, postCount] = await Promise.all([
-      this.findPosts(postList),
-      Post.countDocuments({ userID }).exec(),
-    ]);
+    const posts = await Post.aggregate(Pipeline.userTimeline(userID, cursor, PERPAGE));
+    const postCount = await Post.countDocuments({ userID });
     return { posts, postCount };
   }
 
