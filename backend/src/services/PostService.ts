@@ -26,17 +26,6 @@ class PostService {
     return newPost;
   }
 
-  async findPosts(posts: PostType[]) {
-    return Promise.all(
-      posts.map(async (post) => {
-        const newPost = { ...post };
-        delete newPost.userID;
-        const results = await this.findOnePost(post._id!);
-        return { ...newPost, ...results };
-      }),
-    );
-  }
-
   async findRandomPost(userID: any, cursor: number) {
     const randomPosts = await Post.aggregate(Pipeline.randomPosts(userID, cursor, PERPAGE));
 
