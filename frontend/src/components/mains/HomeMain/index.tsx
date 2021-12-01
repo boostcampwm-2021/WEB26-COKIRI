@@ -43,7 +43,7 @@ function HomeMain({ firstPost }: Props) {
     ['home', 'posts', user],
     (context) => Fetcher.getPosts(user, context),
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      getNextPageParam: (lastPage) => lastPage?.nextCursor,
     },
   );
 
@@ -58,7 +58,6 @@ function HomeMain({ firstPost }: Props) {
   const deleteMutation = useMutation((postID: string) => Fetcher.deletePost(user, postID), {
     onSuccess: () => refetchWithCount(),
   });
-
   return (
     <Page.Main>
       {!isAuthenticated && (

@@ -5,5 +5,8 @@ const Title = styled.p`
   font-size: 24px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
-export { Title };
+const User = styled.div`
+  width: 160px;
+`;
+
+export { Title, User };
