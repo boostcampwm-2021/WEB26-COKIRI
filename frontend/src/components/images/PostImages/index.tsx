@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import LeftSlideButton from 'src/components/buttons/slides/LeftSlideButton';
 import RightSlideButton from 'src/components/buttons/slides/RightSlideButton';
+import SkeletonLoading from 'src/components/SkeletonLoading';
 
 import { DEFAULT_POST_IMAGE_WIDTH, DEFAULT_POST_IMAGE_HEIGHT } from 'src/globals/constants';
 
@@ -23,6 +24,7 @@ function PostImages({ images, width, height, expanded }: Props) {
   const [slideIndex, setSlideIndex] = useState(0);
   const isLeftButton = slideIndex !== 0;
   const isRightButton = images.length > 1 && slideIndex !== images.length - 1;
+  const [isImageLoading, setIsImageLoading] = useState(images.length !== 0);
   const slideLeft = () => setSlideIndex(slideIndex - 1);
   const slideRight = () => setSlideIndex(slideIndex + 1);
   useEffect(() => {
@@ -31,12 +33,26 @@ function PostImages({ images, width, height, expanded }: Props) {
       : `-${slideIndex * width}px`;
   }, [slideIndex, expanded, width]);
 
+  const handleLoadingComplete = () => {
+    setIsImageLoading(false);
+  };
+
+  const imageWidth = expanded ? '100vh' : `${width}px`;
+  const imageHeight = expanded ? '100vh' : `${height}px`;
+
   return (
-    <Wrapper width={width} expanded={expanded}>
-      <ImageHolder ref={imageHolderRef} count={images.length} width={width} expanded={expanded}>
+    <Wrapper width={width!} expanded={expanded}>
+      <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
+        {isImageLoading && <SkeletonLoading width={imageWidth} height={imageHeight} />}
         {images.map((image) => (
           <li key={image._id}>
-            <Image src={image.url} width={width} height={height} alt='post-image' />
+            <Image
+              src={image.url}
+              width={width}
+              height={height}
+              alt='post-image'
+              onLoadingComplete={handleLoadingComplete}
+            />
           </li>
         ))}
       </ImageHolder>

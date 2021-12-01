@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+
+import SkeletonLoading from 'src/components/SkeletonLoading';
 
 import { DEFAULT_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
 import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
@@ -13,9 +16,24 @@ interface Props {
 }
 
 function ProfileImage({ profileImage, size, username }: Props) {
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const handleLoadingComplete = () => {
+    setIsImageLoading(false);
+  };
+
+  const imageWidth = `${size}px`;
+  const imageHeight = `${size}px`;
+
   return (
     <Wrapper size={size}>
-      <Image src={profileImage} width={size} height={size} alt={username} />
+      {isImageLoading && <SkeletonLoading circle width={imageWidth} height={imageHeight} />}
+      <Image
+        src={profileImage}
+        width={size}
+        height={size}
+        alt={username}
+        onLoadingComplete={handleLoadingComplete}
+      />
     </Wrapper>
   );
 }
