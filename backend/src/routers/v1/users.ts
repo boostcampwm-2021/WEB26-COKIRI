@@ -287,7 +287,7 @@ export default class UsersRouter {
       throw new Error(ERROR.WRONG_BODY_TYPE);
     }
     const history = await DashboardHistoryService.createDashboardHistory(userID, content, date);
-    return response.json(history);
+    return response.json({ code: RESPONSECODE.SUCCESS, data: history });
   }
 
   @Put('/:userID/settings')
