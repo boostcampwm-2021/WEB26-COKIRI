@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
@@ -12,7 +13,6 @@ import LikesButton from 'src/components/buttons/LikesButton';
 import CardCommon from 'src/components/cards/Common';
 import CommentInput from 'src/components/inputs/CommentInput';
 import PostDeleteButton from 'src/components/buttons/deletes/PostDeleteButton';
-import TimeFromNow from 'src/components/TimeFromNow';
 import ExternalContent from 'src/components/contents/ExternalContent';
 import { Row, Spacer } from 'src/components/Grid';
 
@@ -21,6 +21,10 @@ import { CommentType, PostType } from 'src/types';
 import { POST_WIDTH } from 'src/globals/constants';
 
 import userAtom, { isAuthenticatedSelector } from 'src/recoil/user';
+
+const TimeFromNow = dynamic(() => import('src/components/TimeFromNow'), {
+  ssr: false,
+});
 
 interface Props {
   post: PostType;

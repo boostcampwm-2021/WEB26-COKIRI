@@ -1,9 +1,9 @@
+import dynamic from 'next/dynamic';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
 import CommentLikeButton from 'src/components/buttons/CommentLikeButton';
 import CommentDeleteButton from 'src/components/buttons/deletes/CommentDeleteButton';
-import TimeFromNow from 'src/components/TimeFromNow';
 import ProfileSet from 'src/components/sets/ProfileSet';
 import { Row, Spacer } from 'src/components/Grid';
 
@@ -14,6 +14,10 @@ import { CommentType } from 'src/types';
 import userAtom from 'src/recoil/user';
 
 import { Content } from './style';
+
+const TimeFromNow = dynamic(() => import('src/components/TimeFromNow'), {
+  ssr: false,
+});
 
 interface Props {
   postID: string;
