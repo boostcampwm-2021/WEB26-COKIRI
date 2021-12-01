@@ -8,6 +8,7 @@ import FloatingButton from 'src/components/buttons/FloatingButton';
 import Post from 'src/components/Post';
 import Timeline from 'src/components/Timeline';
 import LikesModal from 'src/components/modals/LikesModal';
+import DeleteModal from 'src/components/modals/DeleteModal';
 import { Row } from 'src/components/Grid';
 
 import userAtom, {
@@ -21,7 +22,6 @@ import { Fetcher } from 'src/utils';
 import { PostType } from 'src/types';
 
 import { Page } from 'src/styles';
-import DeleteModal from 'src/components/modals/DeleteModal';
 
 interface Props {
   firstPost?: PostType;
@@ -61,8 +61,16 @@ function HomeMain({ firstPost }: Props) {
 
   return (
     <Page.Main>
-      {!isAuthenticated && <SigninCard />}
-      {isRegistered && !hasFollowTemp && <SuggestionCard />}
+      {!isAuthenticated && (
+        <Row justifyContent='center'>
+          <SigninCard />
+        </Row>
+      )}
+      {isRegistered && !hasFollowTemp && (
+        <Row justifyContent='center'>
+          <SuggestionCard />
+        </Row>
+      )}
       {isRegistered && (
         <>
           {isLikesModalShow && (
