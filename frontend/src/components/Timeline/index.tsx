@@ -1,3 +1,5 @@
+import { useRecoilValue } from 'recoil';
+import { useMutation } from 'react-query';
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
@@ -11,12 +13,17 @@ import {
 } from 'react-virtualized';
 
 import LikesModal from 'src/components/modals/LikesModal';
+import DeleteModal from 'src/components/modals/DeleteModal';
 import Post from 'src/components/Post';
 import { Row } from 'src/components/Grid';
 
 import { PostType, ReturnType } from 'src/types';
 
 import { useIntersectionObserver } from 'src/hooks';
+
+import { Fetcher } from 'src/utils';
+
+import userAtom from 'src/recoil/user';
 
 import { Observer, EndLabel } from './style';
 
@@ -41,6 +48,7 @@ function Timeline({
   isFetchingNextPage,
   refetchCount,
 }: Props) {
+  const user = useRecoilValue(userAtom);
   const listRef = useRef<List | null>(null);
   const { ref } = useIntersectionObserver(() => onNeedMore());
 
@@ -51,11 +59,15 @@ function Timeline({
   }, [refetchCount]);
 
   const [isLikesModalShow, setIsLikesModalShow] = useState(false);
+  const [isPostDeleteModalShow, setIsPostDeleteModalShow] = useState(false);
   const [modalPostID, setModalPostID] = useState<string>('');
   const posts: PostType[] = pages.reduce<PostType[]>(
     (acc, cur) => [...acc, ...(cur.data ?? [])],
     [],
   );
+  const mutation = useMutation((postID: string) => Fetcher.deletePost(user, postID), {
+    onSuccess: () => onPostDelete(),
+  });
   const rowRenderer = ({ index, key, parent, style }: ListRowProps) => (
     <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
       {({ measure }) => (
@@ -63,7 +75,10 @@ function Timeline({
           <Post
             key={key}
             post={posts[index]}
-            onPostDelete={onPostDelete}
+            onPostDelete={(postID: string) => {
+              setIsPostDeleteModalShow(true);
+              setModalPostID(postID);
+            }}
             onResize={() => {
               cache.clear(index, 0);
               listRef.current?.recomputeRowHeights(index);
@@ -82,6 +97,16 @@ function Timeline({
     <>
       {isLikesModalShow && (
         <LikesModal postID={modalPostID} onClose={() => setIsLikesModalShow(false)} />
+      )}
+      {isPostDeleteModalShow && (
+        <DeleteModal
+          onClose={() => setIsPostDeleteModalShow(false)}
+          onConfirm={() => {
+            mutation.mutate(modalPostID);
+            setIsPostDeleteModalShow(false);
+          }}
+          title='포스트를 삭제하시겠습니까?'
+        />
       )}
       <WindowScroller>
         {({ height, scrollTop, isScrolling, onChildScroll }) => (

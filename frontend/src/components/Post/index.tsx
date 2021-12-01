@@ -28,10 +28,10 @@ const TimeFromNow = dynamic(() => import('src/components/TimeFromNow'), {
 
 interface Props {
   post: PostType;
-  onPostDelete: VoidFunction;
   onLoad: VoidFunction;
   onResize: VoidFunction;
   onLikes: Function;
+  onPostDelete: Function;
 }
 
 function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
@@ -85,10 +85,10 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
 
 Post.propTypes = {
   post: PropTypes.objectOf(PropTypes.any).isRequired,
-  onPostDelete: PropTypes.func.isRequired,
   onLoad: PropTypes.func,
   onResize: PropTypes.func,
   onLikes: PropTypes.func,
+  onPostDelete: PropTypes.func.isRequired,
 };
 
 Post.defaultProps = {

@@ -1,27 +1,19 @@
-import { useMutation } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 
-import DeleteCommon from 'src/components/buttons/deletes/Common';
-
-import userAtom from 'src/recoil/user';
-
-import { Fetcher } from 'src/utils';
+import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
   postID: string;
-  onPostDelete: VoidFunction;
+  onPostDelete: Function;
 }
 
 function PostDeleteButton({ postID, onPostDelete }: Props) {
-  const user = useRecoilValue(userAtom);
-  const mutation = useMutation(() => Fetcher.deletePost(user, postID), {
-    onSuccess: () => onPostDelete(),
-  });
-  const handleClick = () => {
-    mutation.mutate();
-  };
-  return <DeleteCommon onClick={handleClick} content='게시물' />;
+  return (
+    <IconButton onClick={() => onPostDelete(postID)} title='post-delete'>
+      <IoCloseCircleOutline />
+    </IconButton>
+  );
 }
 
 PostDeleteButton.propTypes = {
