@@ -41,7 +41,7 @@ class PostService {
 
   async findTimeline(userID: string, cursor: number) {
     const follows = await FollowService.findFollowsID(userID);
-    const containsArray = !follows ? [userID] : [...follows, userID];
+    const containsArray = !follows ? [userID] : [...follows, new Types.ObjectId(userID)];
     const posts = await Post.aggregate(Pipeline.timeline(containsArray, cursor, PERPAGE));
     const postCount = await Post.countDocuments({ userID: { $in: containsArray } });
     return { posts, postCount };
