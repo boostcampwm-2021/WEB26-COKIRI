@@ -1,8 +1,9 @@
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 
-import DeleteCommon from 'src/components/buttons/deletes/Common';
+import IconButton from 'src/components/buttons/IconButton';
 
 import userAtom from 'src/recoil/user';
 
@@ -24,7 +25,18 @@ function CommentDeleteButton({ postID, commentID, onCommentDelete }: Props) {
   const handleClick = () => {
     mutation.mutate();
   };
-  return <DeleteCommon onClick={handleClick} content='댓글' />;
+  return (
+    <IconButton
+      onClick={handleClick}
+      title='comment-delete'
+      height={36}
+      width={36}
+      size={20}
+      padding={0}
+    >
+      <IoCloseCircleOutline />
+    </IconButton>
+  );
 }
 
 CommentDeleteButton.propTypes = {
