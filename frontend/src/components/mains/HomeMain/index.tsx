@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation } from 'react-query';
 
 import SigninCard from 'src/components/cards/SigninCard';
 import SuggestionCard from 'src/components/cards/SuggestionCard';
@@ -35,6 +35,7 @@ function HomeMain({ firstPost }: Props) {
   const [isLikesModalShow, setIsLikesModalShow] = useState(false);
   const [modalPostID, setModalPostID] = useState<string>('');
   const [refetchCount, setRefetchCount] = useState(0);
+  const [firstPostTemp, setFirstPostTemp] = useState(firstPost);
 
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['home', 'posts', user],
@@ -44,7 +45,12 @@ function HomeMain({ firstPost }: Props) {
     },
   );
 
+  const mutation = useMutation(() => Fetcher.getFirstPost(user, user.token!), {
+    onSuccess: (result) => setFirstPostTemp(result),
+  });
+
   const refetchWithCount = async () => {
+    mutation.mutate();
     await refetch();
     setRefetchCount(refetchCount + 1);
   };
@@ -58,11 +64,11 @@ function HomeMain({ firstPost }: Props) {
           {isLikesModalShow && (
             <LikesModal postID={modalPostID} onClose={() => setIsLikesModalShow(false)} />
           )}
-          {firstPost && (
-            <Row justifyContent='center' expanded>
+          {firstPostTemp && (
+            <Row justifyContent='center'>
               <Post
                 onPostDelete={refetchWithCount}
-                post={firstPost}
+                post={firstPostTemp}
                 onLikes={(postID: string) => {
                   setIsLikesModalShow(true);
                   setModalPostID(postID);
