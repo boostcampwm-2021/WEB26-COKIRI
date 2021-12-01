@@ -57,12 +57,12 @@ function Post({ post, onPostDelete, onLoad, onResize }: Props) {
       </Row>
       {images?.length !== 0 && <PostImages images={images ?? []} onLoad={onLoad} />}
       <Row>
+        <DetailButton postID={_id!} />
         {isAuthenticated && (
           <LikeButton postID={_id!} postLikes={likes ?? []} setLikeCount={setLikeCount} />
         )}
-        <DetailButton postID={_id!} />
+        {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} />}
       </Row>
-      {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} />}
       {external !== undefined && <ExternalContent external={external} onExpand={onResize} />}
       <NormalContent content={content ?? ''} onExpand={onResize} />
       <PostComments
