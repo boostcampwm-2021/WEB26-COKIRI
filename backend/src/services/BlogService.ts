@@ -1,6 +1,5 @@
 import { Blog } from 'src/models';
 import { TistoryService } from 'src/services/index';
-import { ERROR } from 'src/utils';
 
 class BlogService {
   async existsBlog(userID: string) {

@@ -11,7 +11,8 @@
     "paths": {
       "src/*": ["./src/*"]
     },
-    "typeRoots": ["./src/types"]
+    "typeRoots": ["./src/types"],
+    "types": ["@types/jest"],
   },
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,10 @@
 import { Types } from 'mongoose';
 
 class ObjectID {
+  create(): Types.ObjectId {
+    return new Types.ObjectId();
+  }
+
   stringToObjectID(id: string): Types.ObjectId {
     return new Types.ObjectId(id);
   }
