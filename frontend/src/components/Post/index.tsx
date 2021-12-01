@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
@@ -27,7 +27,6 @@ interface Props {
   onPostDelete: VoidFunction;
   onLoad: VoidFunction;
   onResize: VoidFunction;
-  onUnmount: VoidFunction;
 }
 
 function Post({ post, onPostDelete, onLoad, onResize }: Props) {
@@ -82,13 +81,11 @@ Post.propTypes = {
   onPostDelete: PropTypes.func.isRequired,
   onLoad: PropTypes.func,
   onResize: PropTypes.func,
-  onUnmount: PropTypes.func,
 };
 
 Post.defaultProps = {
   onLoad: () => {},
   onResize: () => {},
-  onUnmount: () => {},
 };
 
 export default Post;
