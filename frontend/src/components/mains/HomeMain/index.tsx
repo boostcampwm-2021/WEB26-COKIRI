@@ -7,6 +7,7 @@ import SuggestionCard from 'src/components/cards/SuggestionCard';
 import FloatingButton from 'src/components/buttons/FloatingButton';
 import Post from 'src/components/Post';
 import Timeline from 'src/components/Timeline';
+import LikesModal from 'src/components/modals/LikesModal';
 import { Row } from 'src/components/Grid';
 
 import userAtom, {
@@ -31,6 +32,8 @@ function HomeMain({ firstPost }: Props) {
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
   const [hasFollowTemp] = useState(hasFollow);
+  const [isLikesModalShow, setIsLikesModalShow] = useState(false);
+  const [modalPostID, setModalPostID] = useState<string>('');
 
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['home', 'posts', user],
@@ -46,9 +49,19 @@ function HomeMain({ firstPost }: Props) {
       {isRegistered && !hasFollowTemp && <SuggestionCard />}
       {isRegistered && (
         <>
+          {isLikesModalShow && (
+            <LikesModal postID={modalPostID} onClose={() => setIsLikesModalShow(false)} />
+          )}
           {firstPost && (
             <Row justifyContent='center' expanded>
-              <Post onPostDelete={refetch} post={firstPost} />
+              <Post
+                onPostDelete={refetch}
+                post={firstPost}
+                onLikes={(postID: string) => {
+                  setIsLikesModalShow(true);
+                  setModalPostID(postID);
+                }}
+              />
             </Row>
           )}
           <Timeline

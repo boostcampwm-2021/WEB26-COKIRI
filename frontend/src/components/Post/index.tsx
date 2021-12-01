@@ -31,9 +31,10 @@ interface Props {
   onPostDelete: VoidFunction;
   onLoad: VoidFunction;
   onResize: VoidFunction;
+  onLikes: Function;
 }
 
-function Post({ post, onPostDelete, onLoad, onResize }: Props) {
+function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
   const user = useRecoilValue(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
 
@@ -67,7 +68,7 @@ function Post({ post, onPostDelete, onLoad, onResize }: Props) {
         {isAuthenticated && (
           <LikeButton postID={_id!} postLikes={likes ?? []} setLikeCount={setLikeCount} />
         )}
-        {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} />}
+        {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} onLikes={onLikes} />}
       </Row>
       {external !== undefined && <ExternalContent external={external} onExpand={onResize} />}
       <NormalContent content={content ?? ''} onExpand={onResize} />
@@ -87,11 +88,13 @@ Post.propTypes = {
   onPostDelete: PropTypes.func.isRequired,
   onLoad: PropTypes.func,
   onResize: PropTypes.func,
+  onLikes: PropTypes.func,
 };
 
 Post.defaultProps = {
   onLoad: () => {},
   onResize: () => {},
+  onLikes: () => {},
 };
 
 export default Post;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import ReactLoading from 'react-loading';
 import {
@@ -10,6 +10,7 @@ import {
   WindowScroller,
 } from 'react-virtualized';
 
+import LikesModal from 'src/components/modals/LikesModal';
 import Post from 'src/components/Post';
 import { Row } from 'src/components/Grid';
 
@@ -33,6 +34,8 @@ const cache = new CellMeasurerCache({
 
 function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
   useEffect(() => () => cache.clearAll(), []);
+  const [isLikesModalShow, setIsLikesModalShow] = useState(false);
+  const [modalPostID, setModalPostID] = useState<string>('');
   const listRef = useRef<List | null>(null);
   const { ref } = useIntersectionObserver(() => onNeedMore());
   const posts: PostType[] = pages.reduce<PostType[]>(
@@ -52,6 +55,10 @@ function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNext
               listRef.current?.recomputeRowHeights(index);
             }}
             onLoad={measure}
+            onLikes={(postID: string) => {
+              setIsLikesModalShow(true);
+              setModalPostID(postID);
+            }}
           />
         </Row>
       )}
@@ -59,6 +66,9 @@ function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNext
   );
   return (
     <>
+      {isLikesModalShow && (
+        <LikesModal postID={modalPostID} onClose={() => setIsLikesModalShow(false)} />
+      )}
       <WindowScroller>
         {({ height, scrollTop, isScrolling, onChildScroll }) => (
           <AutoSizer disableHeight>
