@@ -1,8 +1,12 @@
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import DashboardLinkSettingModal from 'src/components/modals/DashboardLinkSettingModal';
+
+const DashboardLinkSettingModal = dynamic(
+  () => import('src/components/modals/DashboardLinkSettingModal'),
+);
 
 function DashboardLinkSettingButton() {
   const [isModalShow, setIsModalShow] = useState(false);

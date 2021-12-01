@@ -125,7 +125,7 @@ const Fetcher = {
 
   async getFirstPost(user: UserType, token: string) {
     if (user._id === undefined || !user.isRegistered) {
-      return {};
+      return undefined;
     }
     const result = await getWithAuth<PostType[]>({
       url: 'posts',
@@ -138,7 +138,7 @@ const Fetcher = {
   // for client side
   async getPosts(user: UserType, { pageParam }: QueryFunctionContext) {
     if (user._id === undefined || !user.isRegistered) {
-      return {};
+      return { data: [] };
     }
     return getWithAuth<PostType[]>({
       url: 'posts',
@@ -351,7 +351,7 @@ const Fetcher = {
 
   async putUserSettings(user: UserType, newUser: UserType) {
     await putWithAuth<void>({
-      url: `/users/${user._id}/settings`,
+      url: `users/${user._id}/settings`,
       data: {
         username: newUser.username,
         name: newUser.name,

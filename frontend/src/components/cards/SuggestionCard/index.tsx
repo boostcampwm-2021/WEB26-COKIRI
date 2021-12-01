@@ -20,7 +20,7 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { Title } from './style';
+import { Title, User } from './style';
 
 function SuggestionCard() {
   const user = useRecoilValue(userAtom);
@@ -52,15 +52,17 @@ function SuggestionCard() {
             {(users ?? [])!
               .slice(startIndex, startIndex + SUGGESTION_COUNT)
               .map((suggestedUser) => (
-                <Col alignItems='center' key={suggestedUser._id}>
-                  <UsernameButton username={suggestedUser.username!} />
-                  <ProfileImageButton
-                    size={SUGGESTION_PROFILE_IMAGE_SIZE}
-                    username={suggestedUser.username!}
-                    profileImage={suggestedUser.profileImage}
-                  />
-                  <FollowSet targetUserID={suggestedUser._id!} />
-                </Col>
+                <User key={suggestedUser._id}>
+                  <Col alignItems='center'>
+                    <UsernameButton username={suggestedUser.username!} />
+                    <ProfileImageButton
+                      size={SUGGESTION_PROFILE_IMAGE_SIZE}
+                      username={suggestedUser.username!}
+                      profileImage={suggestedUser.profileImage}
+                    />
+                    <FollowSet targetUserID={suggestedUser._id!} />
+                  </Col>
+                </User>
               ))}
           </Row>
         </Col>

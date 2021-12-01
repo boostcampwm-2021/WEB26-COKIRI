@@ -1,11 +1,13 @@
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BsPlusCircle } from 'react-icons/bs';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
-import DashboardRepoAddModal from 'src/components/modals/DashboardRepoAddModal';
 
 import { DashboardRepoType } from 'src/types';
+
+const DashboardRepoAddModal = dynamic(() => import('src/components/modals/DashboardRepoAddModal'));
 
 interface Props {
   // eslint-disable-next-line no-unused-vars

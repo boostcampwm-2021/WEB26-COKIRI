@@ -6,9 +6,7 @@ import DashboardHead from 'src/components/heads/DashboardHead';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
-import DashboardTechStacksCard from 'src/components/cards/DashboardTechStacksCard';
 import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
-import DashboardStatisticsCard from 'src/components/cards/DashboardStatisticsCard';
 import { Row, Col } from 'src/components/Grid';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -19,6 +17,14 @@ import { DashboardUserInfoType, UserType } from 'src/types';
 import { Page } from 'src/styles';
 
 import { Fetcher } from 'src/utils';
+import dynamic from 'next/dynamic';
+
+const DashboardStatisticsCard = dynamic(
+  () => import('src/components/cards/DashboardStatisticsCard'),
+);
+const DashboardTechStacksCard = dynamic(
+  () => import('src/components/cards/DashboardTechStacksCard'),
+);
 
 interface Props {
   user?: UserType;

@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
+import { useCallback, useState } from 'react';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import IconButton from 'src/components/buttons/IconButton';
-import DeleteModal from 'src/components/modals/DeleteModal';
 
 import {
   DELETE_BUTTON_SIZE,
@@ -13,6 +13,8 @@ import {
   TITLE_UNICODE,
   CONSONANT_COUNT,
 } from 'src/globals/constants';
+
+const DeleteModal = dynamic(() => import('src/components/modals/DeleteModal'));
 
 interface Props {
   onClick: VoidFunction;
