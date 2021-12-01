@@ -43,7 +43,8 @@ export async function getServerSideProps({ req }: any) {
   if (token === undefined) {
     return { props };
   }
-  props.user = await Fetcher.getUsersMe(token);
+  const user = await Fetcher.getUsersMe(token);
+  props.user = { ...user, token };
   return { props };
 }
 
