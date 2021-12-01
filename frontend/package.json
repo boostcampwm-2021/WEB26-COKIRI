@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pm2": "pm2 restart --name \"next\" -- start"
+    "pm2": "pm2 restart --name \"next\" -- start",
+    "postbuild": "next-sitemap --config sitemap.js"
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
@@ -50,6 +51,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "next-sitemap": "^1.6.203",
     "prettier": "^2.4.1"
   }
 }
