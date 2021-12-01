@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 
@@ -17,8 +17,12 @@ interface Props {
 
 function ProfileImage({ profileImage, size, username }: Props) {
   const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isMount, setIsMount] = useState(true);
+  useEffect(() => () => setIsMount(false), []);
   const handleLoadingComplete = () => {
-    setIsImageLoading(false);
+    if (isMount) {
+      setIsImageLoading(false);
+    }
   };
 
   const imageWidth = `${size}px`;

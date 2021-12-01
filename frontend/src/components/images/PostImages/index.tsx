@@ -23,6 +23,8 @@ interface Props {
 function PostImages({ images, width, height, expanded, onLoad }: Props) {
   const imageHolderRef = useRef<HTMLUListElement>(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [isMount, setIsMount] = useState(true);
+  useEffect(() => () => setIsMount(false), []);
   const isLeftButton = slideIndex !== 0;
   const isRightButton = images.length > 1 && slideIndex !== images.length - 1;
   const [isImageLoading, setIsImageLoading] = useState(images.length !== 0);
@@ -35,7 +37,9 @@ function PostImages({ images, width, height, expanded, onLoad }: Props) {
   }, [slideIndex, expanded, width]);
 
   const handleLoadingComplete = () => {
-    setIsImageLoading(false);
+    if (isMount) {
+      setIsImageLoading(false);
+    }
   };
 
   const imageWidth = expanded ? '100vh' : `${width}px`;
