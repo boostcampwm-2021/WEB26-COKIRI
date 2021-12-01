@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil';
 import { useInfiniteQuery } from 'react-query';
 
-import { Col } from 'src/components/Grid';
 import Timeline from 'src/components/Timeline';
 import FloatingButton from 'src/components/buttons/FloatingButton';
+import { Col } from 'src/components/Grid';
 
 import { Page } from 'src/styles';
 
