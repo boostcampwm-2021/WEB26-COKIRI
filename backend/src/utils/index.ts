@@ -12,3 +12,4 @@ export { default as Mailer } from './Mailer';
 export { default as URLParser } from './URLparser';
 export { default as S3 } from './ObjectStorage';
 export { default as Cursor } from './Cursor';
+export { default as Pipeline } from './Pipeline';

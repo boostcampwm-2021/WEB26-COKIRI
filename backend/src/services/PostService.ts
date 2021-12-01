@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Post, Image } from 'src/models';
-import { ERROR, SELECT, PERPAGE } from 'src/utils';
+import { ERROR, SELECT, PERPAGE, Pipeline } from 'src/utils';
 import { CommentService, PostLikeService, TistoryService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
@@ -38,106 +38,7 @@ class PostService {
   }
 
   async findRandomPost(userID: any, cursor: number) {
-    const randomPosts = await Post.aggregate([
-      { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
-      { $skip: cursor },
-      { $limit: PERPAGE },
-      { $sort: { createdAt: -1 } },
-      {
-        $lookup: {
-          from: 'users',
-          let: { userID: '$userID' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
-            { $project: { _id: 1, username: 1, profileImage: 1 } },
-          ],
-          as: 'user',
-        },
-      },
-      { $unwind: '$user' },
-      {
-        $lookup: {
-          from: 'images',
-          let: { postID: '$_id' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$targetID', '$$postID'] } } },
-            { $unset: 'targetID' },
-          ],
-          as: 'images',
-        },
-      },
-      {
-        $lookup: {
-          from: 'comments',
-          let: { postID: '$_id' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$postID', '$$postID'] } } },
-            {
-              $lookup: {
-                from: 'users',
-                let: { userID: '$userID' },
-                pipeline: [
-                  { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
-                  { $project: { _id: 1, username: 1, profileImage: 1 } },
-                ],
-                as: 'user',
-              },
-            },
-            { $unwind: '$user' },
-            {
-              $lookup: {
-                from: 'commentlikes',
-                let: { commentID: '$_id' },
-                pipeline: [
-                  { $match: { $expr: { $eq: ['$commentID', '$$commentID'] } } },
-                  {
-                    $lookup: {
-                      from: 'users',
-                      let: { userID: '$userID' },
-                      pipeline: [
-                        { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
-                        { $project: { _id: 1, username: 1, profileImage: 1 } },
-                      ],
-                      as: 'user',
-                    },
-                  },
-                  { $unwind: '$user' },
-                  { $unset: ['commentID', 'userID'] },
-                ],
-                as: 'likes',
-              },
-            },
-            { $unset: ['postID', 'userID'] },
-          ],
-          as: 'comments',
-        },
-      },
-      {
-        $lookup: {
-          from: 'postlikes',
-          let: { postID: '$_id' },
-          pipeline: [
-            { $match: { $expr: { $eq: ['$postID', '$$postID'] } } },
-            {
-              $lookup: {
-                from: 'users',
-                let: { userID: '$userID' },
-                pipeline: [
-                  { $match: { $expr: { $eq: ['$_id', '$$userID'] } } },
-                  { $project: { _id: 1, username: 1, profileImage: 1 } },
-                ],
-                as: 'user',
-              },
-            },
-            { $unwind: '$user' },
-            { $unset: ['postID', 'userID'] },
-          ],
-          as: 'likes',
-        },
-      },
-
-      { $unset: 'userID' },
-    ]);
+    const randomPosts = await Post.aggregate(Pipeline.RandomPosts(userID, cursor, PERPAGE));
 
     const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
     return { posts: randomPosts, postCount };
