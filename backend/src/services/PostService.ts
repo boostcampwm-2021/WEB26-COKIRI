@@ -38,7 +38,7 @@ class PostService {
   }
 
   async findRandomPost(userID: any, cursor: number) {
-    const randomPosts = await Post.aggregate(Pipeline.RandomPosts(userID, cursor, PERPAGE));
+    const randomPosts = await Post.aggregate(Pipeline.randomPosts(userID, cursor, PERPAGE));
 
     const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
     return { posts: randomPosts, postCount };
@@ -62,14 +62,9 @@ class PostService {
   async findTimeline(userID: string, cursor: number) {
     const follows = await FollowService.findFollowsID(userID);
     const containsArray = !follows ? [userID] : [...follows, userID];
-    const posts = await Post.find({ userID: { $in: containsArray } })
-      .sort({ createdAt: -1 })
-      .skip(cursor)
-      .limit(PERPAGE)
-      .populate({ path: 'user', select: SELECT.USER })
-      .lean();
+    const posts = await Post.aggregate(Pipeline.timeline(containsArray, cursor, PERPAGE));
     const postCount = await Post.countDocuments({ userID: { $in: containsArray } });
-    return { posts: await this.findPosts(posts), postCount };
+    return { posts, postCount };
   }
 
   async findOnePost(postID: string | Types.ObjectId) {

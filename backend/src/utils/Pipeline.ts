@@ -103,7 +103,7 @@ class Pipeline {
     ];
   }
 
-  RandomPosts(userID: string, cursor: number, PERPAGE: number) {
+  randomPosts(userID: string, cursor: number, PERPAGE: number) {
     return this.postPipelineTemplate(
       { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
       cursor,
@@ -111,8 +111,12 @@ class Pipeline {
     );
   }
 
-  Timeline() {
-    return [];
+  timeline(containsArray: any, cursor: number, PERPAGE: number) {
+    return this.postPipelineTemplate(
+      { $match: { userID: { $in: containsArray } } },
+      cursor,
+      PERPAGE,
+    );
   }
 }
 
