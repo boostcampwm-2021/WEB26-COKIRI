@@ -26,18 +26,32 @@ interface Props {
   onNeedMore: VoidFunction;
   hasNextPage: boolean;
   isFetchingNextPage?: boolean;
+  refetchCount: number;
 }
 
 const cache = new CellMeasurerCache({
   fixedWidth: true,
 });
 
-function Timeline({ pages, onPostDelete, onNeedMore, hasNextPage, isFetchingNextPage }: Props) {
-  useEffect(() => () => cache.clearAll(), []);
-  const [isLikesModalShow, setIsLikesModalShow] = useState(false);
-  const [modalPostID, setModalPostID] = useState<string>('');
+function Timeline({
+  pages,
+  onPostDelete,
+  onNeedMore,
+  hasNextPage,
+  isFetchingNextPage,
+  refetchCount,
+}: Props) {
   const listRef = useRef<List | null>(null);
   const { ref } = useIntersectionObserver(() => onNeedMore());
+
+  useEffect(() => () => cache.clearAll(), []);
+  useEffect(() => {
+    cache.clearAll();
+    listRef.current?.recomputeRowHeights();
+  }, [refetchCount]);
+
+  const [isLikesModalShow, setIsLikesModalShow] = useState(false);
+  const [modalPostID, setModalPostID] = useState<string>('');
   const posts: PostType[] = pages.reduce<PostType[]>(
     (acc, cur) => [...acc, ...(cur.data ?? [])],
     [],
@@ -113,12 +127,14 @@ Timeline.propTypes = {
   onNeedMore: PropTypes.func.isRequired,
   hasNextPage: PropTypes.bool,
   isFetchingNextPage: PropTypes.bool.isRequired,
+  refetchCount: PropTypes.number,
 };
 
 Timeline.defaultProps = {
   pages: [],
   hasNextPage: false,
   onPostDelete: () => {},
+  refetchCount: 0,
 };
 
 export default Timeline;

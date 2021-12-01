@@ -34,6 +34,7 @@ function HomeMain({ firstPost }: Props) {
   const [hasFollowTemp] = useState(hasFollow);
   const [isLikesModalShow, setIsLikesModalShow] = useState(false);
   const [modalPostID, setModalPostID] = useState<string>('');
+  const [refetchCount, setRefetchCount] = useState(0);
 
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['home', 'posts', user],
@@ -42,6 +43,11 @@ function HomeMain({ firstPost }: Props) {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+
+  const refetchWithCount = async () => {
+    await refetch();
+    setRefetchCount(refetchCount + 1);
+  };
 
   return (
     <Page.Main>
@@ -55,7 +61,7 @@ function HomeMain({ firstPost }: Props) {
           {firstPost && (
             <Row justifyContent='center' expanded>
               <Post
-                onPostDelete={refetch}
+                onPostDelete={refetchWithCount}
                 post={firstPost}
                 onLikes={(postID: string) => {
                   setIsLikesModalShow(true);
@@ -66,14 +72,15 @@ function HomeMain({ firstPost }: Props) {
           )}
           <Timeline
             pages={data?.pages}
-            onPostDelete={refetch}
+            onPostDelete={refetchWithCount}
             onNeedMore={fetchNextPage}
             hasNextPage={hasNextPage}
+            refetchCount={refetchCount}
             isFetchingNextPage={isFetchingNextPage}
           />
         </>
       )}
-      {isRegistered && <FloatingButton onPostWrite={refetch} />}
+      {isRegistered && <FloatingButton onPostWrite={refetchWithCount} />}
     </Page.Main>
   );
 }

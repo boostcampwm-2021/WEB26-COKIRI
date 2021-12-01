@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useInfiniteQuery } from 'react-query';
 
@@ -24,6 +25,7 @@ function UserMain({ targetUser }: Props) {
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const isRegistered = useRecoilValue(isRegisteredSelector);
 
+  const [refetchCount, setRefetchCount] = useState(0);
   const isUserExist = Object.keys(targetUser).length !== 0;
   const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['user', 'posts', targetUser],
@@ -32,6 +34,12 @@ function UserMain({ targetUser }: Props) {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+
+  const refetchWithCount = async () => {
+    await refetch();
+    setRefetchCount(refetchCount + 1);
+  };
+
   return (
     <Page.Main>
       {!isAuthenticated && (
@@ -46,8 +54,9 @@ function UserMain({ targetUser }: Props) {
           </Row>
           <Timeline
             pages={data?.pages}
-            onPostDelete={refetch}
+            onPostDelete={refetchWithCount}
             onNeedMore={fetchNextPage}
+            refetchCount={refetchCount}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
           />
@@ -55,7 +64,7 @@ function UserMain({ targetUser }: Props) {
       ) : (
         <UserNotFoundCard />
       )}
-      {isRegistered && <FloatingButton onPostWrite={refetch} />}
+      {isRegistered && <FloatingButton onPostWrite={refetchWithCount} />}
     </Page.Main>
   );
 }
