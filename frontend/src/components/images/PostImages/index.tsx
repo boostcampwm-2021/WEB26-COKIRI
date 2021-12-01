@@ -42,17 +42,17 @@ function PostImages({ images, width, height, expanded, onLoad }: Props) {
   const imageHeight = expanded ? '100vh' : `${height}px`;
 
   return (
-    <Wrapper width={width!} expanded={expanded}>
-      <ImageHolder ref={imageHolderRef} count={images.length} width={width!} expanded={expanded}>
+    <Wrapper width={width} expanded={expanded}>
+      <ImageHolder ref={imageHolderRef} count={images.length} width={width} expanded={expanded}>
         {isImageLoading && <SkeletonLoading width={imageWidth} height={imageHeight} />}
-        {images.map((image) => (
+        {images.map((image, index) => (
           <li key={image._id}>
-              onLoad={() => index === 0 && onLoad()}
             <Image
               src={image.url}
               width={width}
               height={height}
               alt='post-image'
+              onLoad={() => index === 0 && onLoad()}
               onLoadingComplete={handleLoadingComplete}
             />
           </li>
