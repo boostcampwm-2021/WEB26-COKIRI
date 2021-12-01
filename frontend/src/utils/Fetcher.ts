@@ -16,6 +16,8 @@ import {
   HistoryType,
   StackType,
   NotificationType,
+  DashboardRepoType,
+  LanguageStatisticsType,
 } from 'src/types';
 
 import { NOT_EXIST_TOKEN } from 'src/globals/errors';
@@ -252,7 +254,9 @@ const Fetcher = {
   },
 
   async getDashboardRepo(userID: string) {
-    const result = await get<RepoType[]>({ url: `users/${userID}/dashboard/repositories` });
+    const result = await get<DashboardRepoType[]>({
+      url: `users/${userID}/dashboard/repositories`,
+    });
     return result.data!;
   },
 
@@ -329,7 +333,7 @@ const Fetcher = {
   },
 
   async postDashboardRepo(user: UserType, repoName: string) {
-    const result = await postWithAuth<RepoType>({
+    const result = await postWithAuth<DashboardRepoType>({
       url: `users/${user._id}/dashboard/repositories/${repoName}`,
       data: { userID: user._id },
       token: user.token!,
@@ -380,7 +384,7 @@ const Fetcher = {
   },
 
   async putDashboardRepoLanguages(user: UserType) {
-    const result = await putWithAuth<UserType>({
+    const result = await putWithAuth<LanguageStatisticsType>({
       url: `users/${user._id}/dashboard/repositories/languages`,
       token: user.token!,
     });
