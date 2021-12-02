@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import PostImages from 'src/components/images/PostImages';
-import ProfileSet from 'src/components/sets/ProfileSet';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import LikesButton from 'src/components/buttons/LikesButton';
 import NormalContent from 'src/components/contents/NormalContent';
@@ -46,6 +46,9 @@ function PostDetail({ post }: Props) {
     setComments((prevState) => [...prevState].filter((comment) => comment._id !== commentID));
   };
 
+  const handleLike = () => setLikeCount((prevState) => prevState + 1);
+  const handleDislike = () => setLikeCount((prevState) => prevState - 1);
+
   return (
     <Wrapper>
       <IconButton onClick={() => router.back()} size={RETURN_BUTTON_SIZE} plain title='back'>
@@ -61,11 +64,16 @@ function PostDetail({ post }: Props) {
       </ImageSection>
       <PostInfoSection>
         <Row>
-          <ProfileSet profileImage={user!.profileImage} username={user!.username!} />
+          <ProfileButton profileImage={user!.profileImage} username={user!.username!} />
         </Row>
         {isAuthenticated && (
           <Row>
-            <LikeButton postID={_id!} postLikes={likes!} setLikeCount={setLikeCount} />
+            <LikeButton
+              postID={_id!}
+              postLikes={likes!}
+              onLike={handleLike}
+              onDislike={handleDislike}
+            />
             {likeCount !== 0 && <LikesButton postID={post!._id!} likeCount={likeCount} />}
           </Row>
         )}

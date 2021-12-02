@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
-import ProfileSet from 'src/components/sets/ProfileSet';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import DetailButton from 'src/components/buttons/DetailButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import PostImages from 'src/components/images/PostImages';
@@ -61,7 +61,7 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
   return (
     <CardCommon width={POST_WIDTH}>
       <Row alignItems='center'>
-        <ProfileSet profileImage={targetUser?.profileImage} username={targetUser?.username!} />
+        <ProfileButton profileImage={targetUser?.profileImage} username={targetUser?.username!} />
         <TimeFromNow time={createdAt!} />
         <Spacer />
         {!isMe && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}

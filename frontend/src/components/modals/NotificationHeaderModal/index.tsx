@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 
 import HeaderModal from 'src/components/modals/HeaderModal';
-import FollowSet from 'src/components/sets/FollowSet';
-import ProfileSet from 'src/components/sets/ProfileSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import { Row, Spacer } from 'src/components/Grid';
 
@@ -43,7 +43,10 @@ function NotificationHeaderModal({ onClose }: Props) {
         {(notifications ?? []).map(({ _id, type, user: targetUser, postID, createdAt }) => (
           <Notification key={_id}>
             <Row justifyContent='space-between' alignItems='center'>
-              <ProfileSet username={targetUser.username!} profileImage={targetUser.profileImage} />
+              <ProfileButton
+                username={targetUser.username!}
+                profileImage={targetUser.profileImage}
+              />
               {typeMessages[type]}
               <Spacer />
               <TimeFromNow time={createdAt} />
@@ -52,7 +55,7 @@ function NotificationHeaderModal({ onClose }: Props) {
                   바로가기
                 </NavigateIconButton>
               )}
-              <FollowSet targetUserID={targetUser._id!} />
+              <FollowSetButton targetUserID={targetUser._id!} />
             </Row>
           </Notification>
         ))}
