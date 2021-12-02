@@ -9,7 +9,10 @@ import InputCommon from 'src/components/inputs/Common';
 import ProfileImage from 'src/components/images/ProfileImage';
 import { Row, Col } from 'src/components/Grid';
 
-import { USER_SETTING_PROFILE_IMAGE_SIZE } from 'src/globals/constants';
+import {
+  USER_SETTING_PROFILE_IMAGE_SIZE,
+  DASHBOARD_BASIC_SETTING_MODAL_WIDTH,
+} from 'src/globals/constants';
 import { DEFAULT_PROFILE_IMAGE } from 'src/globals/images';
 
 import userAtom from 'src/recoil/user';
@@ -68,7 +71,7 @@ function DashboardBasicSettingModal({ onClose }: Props) {
 
   return (
     <ModalCommon
-      width={800}
+      width={DASHBOARD_BASIC_SETTING_MODAL_WIDTH}
       onConfirm={handleConfirm}
       onClose={onClose}
       confirm='저장'

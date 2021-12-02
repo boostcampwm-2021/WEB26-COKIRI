@@ -2,6 +2,8 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import PropTypes from 'prop-types';
 
+import { theme } from 'src/styles';
+
 interface Props {
   width: string;
   height: string;
@@ -10,7 +12,10 @@ interface Props {
 
 function SkeletonLoading({ width, height, circle }: Props) {
   return (
-    <SkeletonTheme baseColor='#444444' highlightColor='#555555'>
+    <SkeletonTheme
+      baseColor={theme.colors.background}
+      highlightColor={theme.colors.loadingHighlight}
+    >
       <Skeleton circle={circle} width={width} height={height} />
     </SkeletonTheme>
   );
