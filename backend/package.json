@@ -6,7 +6,7 @@
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register --delay 500ms ./src/bin/www.ts --watch",
     "pm2": "pm2 restart node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts",
     "test": "cross-env NODE_ENV=test jest",
-    "test-coverage": "NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage --coverage"
+    "test-coverage": "cross-env NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage --coverage"
   },
   "dependencies": {
     "aws-sdk": "^2.348.0",
@@ -63,6 +63,7 @@
     "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.4",
     "weak-napi": "^2.0.2"
