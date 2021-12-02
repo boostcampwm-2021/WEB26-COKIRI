@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
 import { useMutation } from 'react-query';
@@ -24,6 +24,9 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
   const like = postLikes.find((postLike) => postLike.user._id === user._id);
   const [isLike, setIsLike] = useState(like !== undefined);
   const [likeID, setLikeID] = useState(like?._id ?? '');
+  useEffect(() => setIsLike(like !== undefined), [like, postLikes]);
+  useEffect(() => setLikeID(like?._id ?? ''), [like?._id, postLikes]);
+
   const postPostLike = () => Fetcher.postPostLike(user, postID);
   const deletePostLike = () => Fetcher.deletePostLike(user, postID, likeID);
   const likeMutation = useMutation(postPostLike, {

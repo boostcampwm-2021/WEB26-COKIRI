@@ -1,5 +1,5 @@
 import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
@@ -28,6 +28,7 @@ function UserInfoCard({ targetUser }: Props) {
   const user = useRecoilValue(userAtom);
   const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
+  useEffect(() => setFollowerCount(targetUser.followerCount ?? 0), [targetUser]);
 
   const isMe = _id === user._id;
   const handleFollow = () => setFollowerCount((prevState) => prevState + 1);

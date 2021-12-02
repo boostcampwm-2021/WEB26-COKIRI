@@ -40,7 +40,8 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
 
   const [likeCount, setLikeCount] = useState(post.likes?.length ?? 0);
   const [comments, setComments] = useState(post.comments!);
-  useEffect(() => setComments(post.comments!), [post]);
+  useEffect(() => setComments(post.comments ?? []), [post]);
+  useEffect(() => setLikeCount(post.likes?.length ?? 0), [post]);
   const handleCommentWrite = (comment: CommentType) => {
     setComments((prevState: CommentType[]) => [...prevState, comment]);
     onResize();
