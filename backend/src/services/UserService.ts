@@ -170,7 +170,16 @@ class UserService {
   }
 
   async updateOneUserDashboard(userID: string, dashboard: DashboardType) {
-    return User.updateOne({ _id: userID }, { dashboard }, { runValidators: true, new: true });
+    if (dashboard.statistics) {
+      throw new Error(ERROR.WRONG_BODY_TYPE);
+    }
+    const update = Object.entries(dashboard).reduce((prev, curr) => {
+      const [updateKey, updateValue] = curr;
+      const temp: { [K: string]: object | string } = { ...prev };
+      temp[`dashboard.${updateKey}`] = updateValue;
+      return temp;
+    }, {});
+    return User.updateOne({ _id: userID }, update, { runValidators: true, new: true });
   }
 
   async updateOneProblemStatistics(userID: string, statistics: object) {
