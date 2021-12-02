@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register --delay 500ms ./src/bin/www.ts --watch",
     "pm2": "pm2 restart node_modules/.bin/ts-node -- -r tsconfig-paths/register ./src/bin/www.ts",
-    "test": "NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test jest",
     "test-coverage": "NODE_ENV=test node --expose-gc ./node_modules/jest/bin/jest.js --runInBand --logHeapUsage --coverage"
   },
   "dependencies": {
@@ -55,6 +55,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
