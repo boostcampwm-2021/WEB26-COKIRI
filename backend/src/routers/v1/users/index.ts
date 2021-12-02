@@ -1,15 +1,5 @@
 import { Request, Response } from 'express';
-import {
-  Controller,
-  Req,
-  Res,
-  Get,
-  Post,
-  Put,
-  Delete,
-  UseBefore,
-  Redirect,
-} from 'routing-controllers';
+import { Controller, Req, Res, Get, Put, UseBefore, Redirect } from 'routing-controllers';
 import * as passport from 'passport';
 
 import {
@@ -118,13 +108,6 @@ export default class UsersRouter {
     return response.json({ code: RESPONSECODE.SUCCESS, data: randomUserSuggestions });
   }
 
-  @Get('/:userID/follows')
-  async getUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const follows = await FollowService.findFollows(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: follows });
-  }
-
   @Get('/:userID/blogs')
   @UseBefore(passport.authenticate('jwt-registered', { session: false }))
   async getUserTistory(@Req() request: Request, @Res() response: Response) {
@@ -134,13 +117,6 @@ export default class UsersRouter {
     }
     const posts = await BlogService.findUserBlogs(userID);
     return response.json({ code: RESPONSECODE.SUCCESS, data: posts });
-  }
-
-  @Get('/:userID/followers')
-  async getUserFollowers(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const followList = await FollowService.findFollowers(userID);
-    return response.json({ code: RESPONSECODE.SUCCESS, data: followList });
   }
 
   @Get('/:userID/repositories')
@@ -205,21 +181,6 @@ export default class UsersRouter {
     });
   }
 
-  @Post('/:userID/follows')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async putUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const { userID: bodyUserID } = request.body;
-    if (bodyUserID !== request.user?.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
-    }
-    if (userID === request.user!.userID) {
-      throw new Error(ERROR.WRONG_PARAMS_TYPE);
-    }
-    await FollowService.createFollow(userID, request.user!.userID);
-    return response.json({ code: RESPONSECODE.SUCCESS });
-  }
-
   @Put('/:userID/settings')
   @UseBefore(passport.authenticate('jwt', { session: false }))
   async putUser(@Req() request: Request, @Res() response: Response) {
@@ -228,21 +189,6 @@ export default class UsersRouter {
       throw new Error(ERROR.PERMISSION_DENIED);
     }
     await UserService.updateOneUserConfig(request.user!.userID, request.body);
-    return response.json({ code: RESPONSECODE.SUCCESS });
-  }
-
-  @Delete('/:userID/follows')
-  @UseBefore(passport.authenticate('jwt-registered', { session: false }))
-  async deleteUserFollows(@Req() request: Request, @Res() response: Response) {
-    const { userID } = request.params;
-    const { userID: bodyUserID } = request.body;
-    if (bodyUserID !== request.user?.userID) {
-      throw new Error(ERROR.PERMISSION_DENIED);
-    }
-    if (userID === request.user!.userID) {
-      throw new Error(ERROR.WRONG_PARAMS_TYPE);
-    }
-    await FollowService.removeFollow(request.user!.userID, userID);
     return response.json({ code: RESPONSECODE.SUCCESS });
   }
 }
