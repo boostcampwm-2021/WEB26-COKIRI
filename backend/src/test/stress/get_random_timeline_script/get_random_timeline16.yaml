@@ -1,0 +1,15 @@
+config:
+  target: 'http://api.hyunmin.dev/v1'
+  phases:
+    - duration: 60
+      arrivalRate: 16
+      name: 'Get Random Timeline'
+
+scenarios:
+  - name: 'Get Random Timeline 16 user'
+    flow:
+      - get:
+          url: '/posts/random?cursor=0'
+      - think: 3
+      - get:
+          url: '/posts/random?cursor=3'
