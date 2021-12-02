@@ -2,11 +2,11 @@ config:
   target: 'http://api.hyunmin.dev/v1'
   phases:
     - duration: 60
-      arrivalRate: 1
-      name: 'Get timeline'
+      arrivalRate: 128
+      name: 'Get Timeline'
 
 scenarios:
-  - name: 'Get timeline 1 user'
+  - name: 'Get Timeline 128 user'
     flow:
       - get:
           url: '/posts?user_id=6194d078928b431f065e0997&cursor=0'
