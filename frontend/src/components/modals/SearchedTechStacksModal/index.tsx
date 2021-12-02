@@ -6,15 +6,12 @@ import ModalCommon from 'src/components/modals/Common';
 import ButtonCommon from 'src/components/buttons/Common';
 import { Col } from 'src/components/Grid';
 
-import { StackType } from 'src/types';
-
 import Fetcher from 'src/utils/Fetcher';
 
 interface Props {
   techStack: string;
-  onClose: () => void;
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (techStack: StackType) => void;
+  onClose: VoidFunction;
+  onSelect: Function;
 }
 
 function SearchedTechStacksModal({ techStack, onClose, onSelect }: Props) {
@@ -43,8 +40,12 @@ function SearchedTechStacksModal({ techStack, onClose, onSelect }: Props) {
     <ModalCommon onClose={handleClose} onConfirm={handleConfirm} confirm='추가' close='취소'>
       <Col>
         {(searchedTechStacks ?? [])!.map((searchedTechStack, index) => (
-          <ButtonCommon onClick={() => handleClick(index)} clicked={index === selectedIndex}>
-            {searchedTechStack.searchString}
+          <ButtonCommon
+            onClick={() => handleClick(index)}
+            clicked={index === selectedIndex}
+            title='tech-stack'
+          >
+            {searchedTechStack.techStack}
           </ButtonCommon>
         ))}
       </Col>

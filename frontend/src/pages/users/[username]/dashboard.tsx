@@ -1,11 +1,12 @@
-import { MutableSnapshot, RecoilRoot, useRecoilValue } from 'recoil';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import Header from 'src/components/Header';
+import RegisterModal from 'src/components/modals/RegisterModal';
 import DashboardHead from 'src/components/heads/DashboardHead';
 import DashboardBasicCard from 'src/components/cards/DashboardBasicCard';
 import DashboardHistoryCard from 'src/components/cards/DashboardHistoryCard';
 import DashboardLinkCard from 'src/components/cards/DashboardLinkCard';
-import DashboardTeckStacksCard from 'src/components/cards/DashboardTechStacksCard';
+import DashboardRepoCard from 'src/components/cards/DashboardRepoCard';
 import { Row, Col } from 'src/components/Grid';
 
 import dashboardUserInfoAtom from 'src/recoil/dashboardUserInfo';
@@ -16,8 +17,17 @@ import { DashboardUserInfoType, UserType } from 'src/types';
 import { Page } from 'src/styles';
 
 import { Fetcher } from 'src/utils';
+import dynamic from 'next/dynamic';
+
+const DashboardStatisticsCard = dynamic(
+  () => import('src/components/cards/DashboardStatisticsCard'),
+);
+const DashboardTechStacksCard = dynamic(
+  () => import('src/components/cards/DashboardTechStacksCard'),
+);
 
 interface Props {
+  user?: UserType;
   dashboardUserInfo: DashboardUserInfoType;
 }
 
@@ -28,16 +38,15 @@ const initState =
     set(userAtom, user);
   };
 
-function Dashboard({ dashboardUserInfo }: Props) {
+function Dashboard({ user, dashboardUserInfo }: Props) {
   const { profileImage, username } = dashboardUserInfo;
-  const user = useRecoilValue(userAtom);
 
   return (
     <>
       <DashboardHead username={username} profileImage={profileImage} />
-      <Header />
-      <Page.Main>
-        <RecoilRoot initializeState={initState(dashboardUserInfo, user)}>
+      <RecoilRoot initializeState={initState(dashboardUserInfo, user ?? {})}>
+        <Header />
+        <Page.Main>
           <Col alignItems='center'>
             <Row>
               <DashboardBasicCard />
@@ -45,29 +54,35 @@ function Dashboard({ dashboardUserInfo }: Props) {
             </Row>
             <Row>
               <Col>
-                <DashboardTeckStacksCard />
+                <DashboardTechStacksCard />
+                <DashboardStatisticsCard />
+                <DashboardRepoCard />
               </Col>
               <DashboardHistoryCard />
             </Row>
           </Col>
-        </RecoilRoot>
-      </Page.Main>
+        </Page.Main>
+        <RegisterModal />
+      </RecoilRoot>
     </>
   );
 }
 
-export async function getServerSideProps(context: any) {
-  const { username } = context.query;
-  try {
-    const { data: dashboardUserInfo } = await Fetcher.getDashboardUserInfo(username);
-    return {
-      props: { dashboardUserInfo },
-    };
-  } catch (error) {
-    return {
-      props: { dashboardUserInfo: { username: '' } },
-    };
+Dashboard.defaultProps = {
+  user: undefined,
+};
+
+export async function getServerSideProps({ req, query }: any) {
+  const props: { user?: UserType; dashboardUserInfo?: DashboardUserInfoType } = {};
+  const { username } = query;
+  const dashboardUserInfoRequest = await Fetcher.getDashboardUserInfo(username);
+  const token = req.headers.cookie?.split('=')[1];
+  if (token !== undefined) {
+    const userRequest = Fetcher.getUsersMe(token);
+    props.user = { ...(await userRequest), token };
   }
+  props.dashboardUserInfo = await dashboardUserInfoRequest;
+  return { props };
 }
 
 export default Dashboard;

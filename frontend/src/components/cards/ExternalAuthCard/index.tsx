@@ -10,7 +10,7 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function ExternalAuthCard() {
   const user = useRecoilValue(userAtom);
@@ -33,11 +33,15 @@ function ExternalAuthCard() {
       <Row justifyContent='center'>
         <Col alignItems='center'>
           {hasExternalGithub ? <p>연동 완료</p> : <p>연동 정보 없음</p>}
-          <ButtonCommon onClick={handleClickGithub}>깃허브 연동하기</ButtonCommon>
+          <ButtonCommon onClick={handleClickGithub} title='connect-github'>
+            깃허브 연동하기
+          </ButtonCommon>
         </Col>
         <Col alignItems='center'>
           {hasExternalBlog ? <p>연동 완료</p> : <p>연동 정보 없음</p>}
-          <ButtonCommon onClick={handleClickBlog}>블로그 연동하기</ButtonCommon>
+          <ButtonCommon onClick={handleClickBlog} title='connect-blog'>
+            티스토리 연동하기
+          </ButtonCommon>
         </Col>
       </Row>
     </CardCommon>

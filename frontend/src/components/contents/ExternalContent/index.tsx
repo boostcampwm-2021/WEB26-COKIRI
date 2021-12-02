@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import RepoContent from 'src/components/contents/RepoContent';
 import BlogContent from 'src/components/contents/BlogContent';
@@ -9,20 +10,23 @@ import { ExternalType, ProblemInfoType, RepoInfoType } from 'src/types';
 import { Wrapper, Cover, MoreButton, LinkButton } from './style';
 
 interface Props {
+  widthExpanded: boolean;
   external: ExternalType;
+  onExpand: VoidFunction;
 }
 
-function ExternalContent({ external }: Props) {
-  const [isExpand, setIsExpand] = useState(false);
+function ExternalContent({ external, widthExpanded, onExpand }: Props) {
+  const [isHeightExpand, setIsHeightExpand] = useState(false);
   const handleMoreClick = () => {
-    setIsExpand(true);
+    onExpand();
+    setIsHeightExpand(true);
   };
   const { title, content, info, link } = external;
   return (
-    <Wrapper expanded={isExpand}>
-      <Cover hidden={isExpand} />
-      {!isExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
-      {!isExpand && (
+    <Wrapper heightExpanded={isHeightExpand} widthExpanded={widthExpanded}>
+      <Cover hidden={isHeightExpand} />
+      {!isHeightExpand && <MoreButton onClick={handleMoreClick}>더보기</MoreButton>}
+      {!isHeightExpand && (
         <LinkButton href={external.link} target='_blank' rel='noreferrer noopener'>
           바로가기
         </LinkButton>
@@ -56,5 +60,16 @@ function ExternalContent({ external }: Props) {
     </Wrapper>
   );
 }
+
+ExternalContent.propTypes = {
+  widthExpanded: PropTypes.bool,
+  external: PropTypes.objectOf(PropTypes.any).isRequired,
+  onExpand: PropTypes.func,
+};
+
+ExternalContent.defaultProps = {
+  widthExpanded: false,
+  onExpand: () => {},
+};
 
 export default ExternalContent;

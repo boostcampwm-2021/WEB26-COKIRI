@@ -7,11 +7,13 @@ export default function mongooseLoader(): void {
   const dbPort: string | undefined = process.env.DB_PORT;
   const dbName: string | undefined = process.env.DB_NAME;
   const connectStr = `mongodb://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?directConnection=true`;
-  mongoose.connect(connectStr, (err) => {
-    if (err) {
-      console.error('mongodb connection error', err);
-    } else {
-      console.log('mongodb connected');
-    }
-  });
+  if (process.env.NODE_ENV !== 'test') {
+    mongoose.connect(connectStr, (err) => {
+      if (err) {
+        console.error('mongodb connection error', err);
+      } else {
+        console.log('mongodb connected');
+      }
+    });
+  }
 }

@@ -4,5 +4,3 @@ export const RANDOM_DESCRIPTION =
   'COCOO 사용자의 포스틀 랜덤으로 구경할 수 있습니다. COCOO에서 다른 사용자의 포스트를 구경하세요';
 export const SETTING_DESCRIPTION =
   'COCOO 사용자 자신의 이름, 소개글 등을 수정할 수 있습니다. COCOO에서 자신의 프로필을 수정하세요';
-export const POSTS_DESCRIPTION =
-  'COCOO 사용자의 포스트 전체 내용을 확인 할 수 있습니다. COCOO에서 포스트 내용을 확인하세요.';

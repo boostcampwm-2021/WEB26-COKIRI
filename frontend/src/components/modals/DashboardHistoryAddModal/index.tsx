@@ -17,7 +17,7 @@ import { Fetcher } from 'src/utils';
 import { Label } from './style';
 
 interface Props {
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function DashboardHistoryAddModal({ onClose }: Props) {
@@ -42,11 +42,11 @@ function DashboardHistoryAddModal({ onClose }: Props) {
       <Col>
         <Row>
           <Label>date</Label>
-          <InputCommon bind={[date, setDate]} width={HISTORY_INPUT_WIDTH} />
+          <InputCommon bind={[date, setDate]} width={HISTORY_INPUT_WIDTH} title='date' />
         </Row>
         <Row>
           <Label>content</Label>
-          <InputCommon bind={[content, setContent]} width={HISTORY_INPUT_WIDTH} />
+          <InputCommon bind={[content, setContent]} width={HISTORY_INPUT_WIDTH} title='content' />
         </Row>
       </Col>
     </ModalCommon>

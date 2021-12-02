@@ -12,14 +12,11 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { RepoType } from 'src/types';
-
 import { Wrapper, Repos } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (repo: RepoType) => void;
-  onClose: () => void;
+  onSelect: Function;
+  onClose: VoidFunction;
 }
 
 function ReposModal({ onClose, onSelect }: Props) {
@@ -57,6 +54,7 @@ function ReposModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleRepoClick(index)}
                   clicked={index === selectedIndex}
+                  title='repo'
                 >
                   {repo.name}
                 </ButtonCommon>
@@ -64,7 +62,7 @@ function ReposModal({ onClose, onSelect }: Props) {
             ))}
           </Repos>
         ) : (
-          <NavigateIconButton href={`/users/${user.username}/settings`}>
+          <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
             연동하러 가기
           </NavigateIconButton>
         )}

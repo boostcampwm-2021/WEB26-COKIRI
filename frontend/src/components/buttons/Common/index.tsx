@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import { DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_PADDING } from 'src/globals/constants';
@@ -6,18 +6,18 @@ import { DEFAULT_BUTTON_MARGIN, DEFAULT_BUTTON_PADDING } from 'src/globals/const
 import { Button } from './style';
 
 interface Props {
-  width?: number;
-  height?: number;
-  margin?: number;
-  padding?: number;
-  plain?: boolean;
-  hidden?: boolean;
-  children: ReactNode;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  clicked?: boolean;
-  disabled?: boolean;
-  red?: boolean;
-  green?: boolean;
+  title: string;
+  width: number;
+  height: number;
+  margin: number;
+  padding: number;
+  plain: boolean;
+  hidden: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  clicked: boolean;
+  disabled: boolean;
+  red: boolean;
+  green: boolean;
 }
 
 function ButtonCommon({
@@ -33,27 +33,30 @@ function ButtonCommon({
   disabled,
   red,
   green,
-}: Props) {
+  title,
+}: PropsWithChildren<Props>) {
   return (
     <Button
-      width={width!}
-      height={height!}
-      margin={margin!}
-      padding={padding!}
-      onClick={onClick!}
-      plain={plain!}
-      hidden={hidden!}
-      clicked={clicked!}
-      disabled={disabled!}
-      red={red!}
-      green={green!}
+      width={width}
+      height={height}
+      margin={margin}
+      padding={padding}
+      onClick={onClick}
+      plain={plain}
+      hidden={hidden}
+      clicked={clicked}
+      disabled={disabled}
+      red={red}
+      green={green}
+      title={title}
     >
       {children}
     </Button>
   );
 }
 
-ButtonCommon.propsType = {
+ButtonCommon.propTypes = {
+  title: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
   width: PropTypes.number,
   height: PropTypes.number,

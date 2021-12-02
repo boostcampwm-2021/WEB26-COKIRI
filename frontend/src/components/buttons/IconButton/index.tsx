@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { IconContext } from 'react-icons';
 
@@ -11,17 +11,17 @@ import {
 } from 'src/globals/constants';
 
 interface Props {
-  width?: number;
-  height?: number;
-  children: ReactNode;
-  padding?: number;
-  margin?: number;
-  plain?: boolean;
-  size?: number;
-  hidden?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  clicked?: boolean;
-  disabled?: boolean;
+  title: string;
+  width: number;
+  height: number;
+  padding: number;
+  margin: number;
+  plain: boolean;
+  size: number;
+  hidden: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  clicked: boolean;
+  disabled: boolean;
 }
 
 function IconButton({
@@ -36,10 +36,12 @@ function IconButton({
   size,
   clicked,
   disabled,
-}: Props) {
+  title,
+}: PropsWithChildren<Props>) {
   const props = useMemo(() => ({ size: `${size}` }), [size]);
   return (
     <ButtonCommon
+      title={title}
       onClick={onClick}
       padding={padding}
       plain={plain}
@@ -55,7 +57,8 @@ function IconButton({
   );
 }
 
-IconButton.propsType = {
+IconButton.propTypes = {
+  title: PropTypes.string.isRequired,
   size: PropTypes.number,
   width: PropTypes.number,
   height: PropTypes.number,

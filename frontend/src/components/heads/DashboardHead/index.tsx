@@ -5,7 +5,7 @@ import HeadCommon from 'src/components/heads/common';
 interface Props {
   name: string;
   username: string;
-  profileImage?: string;
+  profileImage: string;
 }
 
 function DashboardHead({ profileImage, username, name }: Props) {

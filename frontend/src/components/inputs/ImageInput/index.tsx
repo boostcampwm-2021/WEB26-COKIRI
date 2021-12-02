@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import { Uploader } from 'src/utils';
@@ -6,12 +6,10 @@ import { Uploader } from 'src/utils';
 import { Input } from './style';
 
 interface Props {
-  children: ReactNode;
-  // eslint-disable-next-line no-unused-vars
-  onImageUpload: (image: string) => void;
+  onImageUpload: Function;
 }
 
-function ImageInput({ onImageUpload, children }: Props) {
+function ImageInput({ onImageUpload, children }: PropsWithChildren<Props>) {
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files!);
     // eslint-disable-next-line no-param-reassign

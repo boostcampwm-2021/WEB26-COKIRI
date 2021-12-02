@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import ButtonCommon from 'src/components/buttons/Common';
@@ -9,15 +9,14 @@ import { DEFAULT_MODAL_WIDTH } from 'src/globals/constants';
 import { Background, Card, Title } from './style';
 
 interface Props {
-  children: ReactNode;
-  onClose?: () => void;
-  onConfirm?: () => void;
-  close?: string;
-  confirm?: string;
-  width?: number;
-  height?: number;
-  disabled?: boolean;
-  title?: string;
+  onClose: VoidFunction;
+  onConfirm: VoidFunction;
+  close: string;
+  confirm: string;
+  width: number;
+  height: number;
+  disabled: boolean;
+  title: string;
 }
 
 function ModalCommon({
@@ -30,18 +29,22 @@ function ModalCommon({
   width,
   disabled,
   title,
-}: Props) {
+}: PropsWithChildren<Props>) {
   return (
     <>
       <Background onClick={onClose} />
-      <Card width={width!} height={height!}>
+      <Card width={width} height={height}>
         <Col alignItems='center' justifyContent='space-between' expanded>
           <Title>{title}</Title>
           {children}
           <Row>
-            {close && <ButtonCommon onClick={onClose}>{close}</ButtonCommon>}
+            {close && (
+              <ButtonCommon title='modal-close' onClick={onClose}>
+                {close}
+              </ButtonCommon>
+            )}
             {confirm && (
-              <ButtonCommon onClick={onConfirm} disabled={disabled}>
+              <ButtonCommon onClick={onConfirm} disabled={disabled} title='modal-confirm'>
                 {confirm}
               </ButtonCommon>
             )}
@@ -52,8 +55,8 @@ function ModalCommon({
   );
 }
 
-ModalCommon.propTyps = {
-  children: PropTypes.node.isRequired,
+ModalCommon.propTypes = {
+  children: PropTypes.node,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func,
   close: PropTypes.string,
@@ -65,6 +68,7 @@ ModalCommon.propTyps = {
 };
 
 ModalCommon.defaultProps = {
+  children: null,
   onClose: () => {},
   onConfirm: () => {},
   close: undefined,

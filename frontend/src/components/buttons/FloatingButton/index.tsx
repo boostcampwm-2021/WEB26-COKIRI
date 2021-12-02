@@ -9,7 +9,7 @@ import { FLOATING_BUTTON_WIDTH, FLOATING_BUTTON_HEIGHT } from 'src/globals/const
 import { Wrapper } from './style';
 
 interface Props {
-  onPostWrite?: () => void;
+  onPostWrite: VoidFunction;
 }
 
 function FloatingButton({ onPostWrite }: Props) {
@@ -25,7 +25,7 @@ function FloatingButton({ onPostWrite }: Props) {
 
   const handlePostWrite = () => {
     setIsModalShow(false);
-    onPostWrite!();
+    onPostWrite();
   };
 
   return (
@@ -35,6 +35,7 @@ function FloatingButton({ onPostWrite }: Props) {
         onClick={changeModalShow}
         width={FLOATING_BUTTON_WIDTH}
         height={FLOATING_BUTTON_HEIGHT}
+        title='write'
       >
         작성
       </ButtonCommon>
@@ -42,7 +43,7 @@ function FloatingButton({ onPostWrite }: Props) {
   );
 }
 
-FloatingButton.prototype = {
+FloatingButton.propTypes = {
   onPostWrite: PropTypes.func,
 };
 

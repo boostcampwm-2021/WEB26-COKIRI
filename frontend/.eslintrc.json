@@ -42,5 +42,8 @@
     "import/resolver": {
       "typescript": "./tsconfig.json"
     }
+  },
+  "globals": {
+    "VoidFunction": "readonly"
   }
 }

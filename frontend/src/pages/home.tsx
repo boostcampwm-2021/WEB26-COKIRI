@@ -1,61 +1,57 @@
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useInfiniteQuery } from 'react-query';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import Timeline from 'src/components/Timeline';
 import Header from 'src/components/Header';
-import SigninCard from 'src/components/cards/SigninCard';
-import FloatingButton from 'src/components/buttons/FloatingButton';
-import SuggestionCard from 'src/components/cards/SuggestionCard';
 import HomeHead from 'src/components/heads/HomeHead';
-import { Col } from 'src/components/Grid';
+import HomeMain from 'src/components/mains/HomeMain';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
-import userAtom, {
-  hasFollowSelector,
-  isAuthenticatedSelector,
-  isRegisteredSelector,
-} from 'src/recoil/user';
-
-import { Page } from 'src/styles';
+import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-function Home() {
-  const user = useRecoilValue(userAtom);
-  const hasFollow = useRecoilValue(hasFollowSelector);
-  const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
-  const isRegistered = useRecoilValue(isRegisteredSelector);
+import { PostType, UserType } from 'src/types';
 
-  const [hasFollowTemp] = useState(hasFollow);
-  const { refetch, data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(
-    ['home', 'posts', user],
-    (context) => Fetcher.getPosts(user, context),
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  );
+interface Props {
+  user?: UserType;
+  firstPost?: PostType;
+}
+
+const initState =
+  (user: UserType) =>
+  ({ set }: MutableSnapshot) =>
+    set(userAtom, user);
+
+function Home({ user, firstPost }: Props) {
   return (
     <>
       <HomeHead />
-      <Header />
-      <Page.Main>
-        <Col alignItems='center'>
-          {!isAuthenticated && <SigninCard />}
-          {isRegistered && !hasFollowTemp && <SuggestionCard />}
-          {isRegistered && (
-            <Timeline
-              pages={data?.pages}
-              onPostDelete={refetch}
-              onNeedMore={fetchNextPage}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-            />
-          )}
-        </Col>
-      </Page.Main>
-      {isRegistered && <FloatingButton onPostWrite={refetch} />}
+      <RecoilRoot initializeState={initState(user ?? {})}>
+        <Header />
+        <HomeMain firstPost={firstPost} />
+        <RegisterModal />
+      </RecoilRoot>
     </>
   );
+}
+
+Home.defaultProps = {
+  user: undefined,
+  firstPost: undefined,
+};
+
+export async function getServerSideProps({ req }: any) {
+  const props: { user?: UserType; firstPost?: PostType } = {};
+  const token = req.headers.cookie?.split('=')[1];
+  if (token === undefined) {
+    return { props };
+  }
+  const user = await Fetcher.getUsersMe(token);
+  const firstPost = await Fetcher.getFirstPost(user, token);
+  props.user = { ...user, token };
+  if (firstPost) {
+    props.firstPost = firstPost;
+  }
+  return { props };
 }
 
 export default Home;

@@ -4,8 +4,7 @@ import DeleteCommon from 'src/components/buttons/deletes/Common';
 
 interface Props {
   jobObjective: string;
-  // eslint-disable-next-line no-unused-vars
-  onDeleteJobObjective: (jobObjective: string) => void;
+  onDeleteJobObjective: Function;
 }
 
 function JobObjectiveDeleteButton({ jobObjective, onDeleteJobObjective }: Props) {

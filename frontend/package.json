@@ -6,17 +6,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pm2": "pm2 restart --name \"next\" -- start"
+    "pm2": "pm2 restart --name \"next\" -- start",
+    "sitemap": "next-sitemap --config sitemap.js"
   },
   "dependencies": {
     "@emotion/css": "^11.5.0",
     "@emotion/react": "^11.5.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "@next/bundle-analyzer": "^12.0.4",
     "aws-sdk": "^2.1025.0",
     "axios": "^0.24.0",
     "chart.js": "^3.6.0",
-    "dompurify": "^2.3.3",
+    "isomorphic-dompurify": "^0.16.0",
     "nanoid": "^3.1.30",
     "next": "12.0.2",
     "next-images": "^1.8.2",
@@ -25,7 +27,10 @@
     "react-chartjs-2": "^3.3.0",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
+    "react-loading": "^2.0.3",
+    "react-loading-skeleton": "^3.0.1",
     "react-query": "^3.31.0",
+    "react-virtualized": "^9.22.3",
     "recoil": "^0.4.1"
   },
   "devDependencies": {
@@ -33,6 +38,7 @@
     "@emotion/babel-plugin": "^11.3.0",
     "@types/dompurify": "^2.3.1",
     "@types/react": "17.0.33",
+    "@types/react-virtualized": "^9.21.15",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "eslint": "^7.32.0",
@@ -45,6 +51,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "next-sitemap": "^1.6.203",
     "prettier": "^2.4.1"
   }
 }

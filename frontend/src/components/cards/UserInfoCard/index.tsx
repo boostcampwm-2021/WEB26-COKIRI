@@ -1,12 +1,12 @@
 import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import CardCommon from 'src/components/cards/Common';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import ProfileImage from 'src/components/images/ProfileImage';
-import FollowSet from 'src/components/sets/FollowSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
 import FollowsButton from 'src/components/buttons/FollowsButton';
 import FollowersButton from 'src/components/buttons/FollowersButton';
 import { Row, Col } from 'src/components/Grid';
@@ -28,6 +28,7 @@ function UserInfoCard({ targetUser }: Props) {
   const user = useRecoilValue(userAtom);
   const { _id, profileImage, username, postCount, followCount, name, bio } = targetUser;
   const [followerCount, setFollowerCount] = useState(targetUser.followerCount ?? 0);
+  useEffect(() => setFollowerCount(targetUser.followerCount ?? 0), [targetUser]);
 
   const isMe = _id === user._id;
   const handleFollow = () => setFollowerCount((prevState) => prevState + 1);
@@ -39,17 +40,24 @@ function UserInfoCard({ targetUser }: Props) {
         <ProfileImage
           size={USER_INFO_PROFILE_IMAGE_SIZE}
           profileImage={profileImage ?? DEFAULT_PROFILE_IMAGE}
+          username={username!}
         />
         <Col>
           <Row alignItems='center'>
             <Username>{username}</Username>
             {isMe && (
-              <NavigateIconButton href={`/users/${username}/settings`}>
+              <NavigateIconButton href={`/users/${username}/settings`} title='settings'>
                 <IoSettingsOutline />
               </NavigateIconButton>
             )}
-            <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
-            <NavigateIconButton href={`/users/${username}/dashboard`}>대쉬보드</NavigateIconButton>
+            <FollowSetButton
+              targetUserID={_id!}
+              onFollow={handleFollow}
+              onUnfollow={handleUnfollow}
+            />
+            <NavigateIconButton href={`/users/${username}/dashboard`} title='dashboard'>
+              대쉬보드
+            </NavigateIconButton>
           </Row>
           <Row alignItems='center'>
             <Posts>{postCount} posts</Posts>
@@ -70,7 +78,7 @@ function UserInfoCard({ targetUser }: Props) {
   );
 }
 
-UserInfoCard.prototype = {
+UserInfoCard.propTypes = {
   targetUser: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import dompurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface Props {
   title: string;
@@ -8,12 +8,11 @@ interface Props {
 }
 
 function BlogContent({ content, link, title }: Props) {
-  const sanitizer = dompurify.sanitize;
   return (
     <>
       <h1>{title}</h1>
       {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />
+      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
       <a target='_blank' href={link} rel='noreferrer noopener'>
         글 보러가기
       </a>

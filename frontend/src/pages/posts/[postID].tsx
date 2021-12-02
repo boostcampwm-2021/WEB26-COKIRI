@@ -1,31 +1,55 @@
+import { MutableSnapshot, RecoilRoot } from 'recoil';
+
 import PostDetail from 'src/components/PostDetail';
 import PostHead from 'src/components/heads/PostHead';
+import RegisterModal from 'src/components/modals/RegisterModal';
 
-import { PostType } from 'src/types';
+import { PostType, UserType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
+import userAtom from 'src/recoil/user';
+
 interface Props {
-  post: PostType;
+  user?: UserType;
+  post?: PostType;
 }
 
-function Post({ post }: Props) {
-  const { _id, content, images } = post;
+const initState =
+  (user: UserType) =>
+  ({ set }: MutableSnapshot) =>
+    set(userAtom, user);
+
+function Post({ user, post }: Props) {
+  const { _id, content, images } = post ?? {};
 
   return (
     <>
-      <PostHead postID={_id!} content={content!} image={images![0]?.url} />
-      <PostDetail post={post} />
+      {post && <PostHead postID={_id!} content={content!} image={images![0]?.url} />}
+      <RecoilRoot initializeState={initState(user ?? {})}>
+        {post && <PostDetail post={post} />}
+        <RegisterModal />
+      </RecoilRoot>
     </>
   );
 }
 
-export async function getServerSideProps(context: any) {
-  const { postID } = context.query;
-  const post = await Fetcher.getDetailPost(postID);
-  return {
-    props: { post },
-  };
+Post.defaultProps = {
+  user: undefined,
+  post: undefined,
+};
+
+export async function getServerSideProps({ req, query }: any) {
+  const props: { user?: UserType; post?: PostType } = {};
+  const { postID } = query;
+  const token = req.headers.cookie?.split('=')[1];
+  const postRequest = Fetcher.getDetailPost(postID);
+  if (token !== undefined) {
+    const userRequest = Fetcher.getUsersMe(token);
+    props.user = { ...(await userRequest), token };
+  }
+  props.post = await postRequest;
+  return { props };
 }
 
 export default Post;

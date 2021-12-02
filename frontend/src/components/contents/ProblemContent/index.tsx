@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import dompurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 import { Row } from 'src/components/Grid';
 
@@ -13,7 +13,6 @@ interface Props {
 }
 
 function ProblemContent({ content, info, link, title }: Props) {
-  const sanitizer = dompurify.sanitize;
   return (
     <>
       <h1>{title}</h1>
@@ -23,7 +22,7 @@ function ProblemContent({ content, info, link, title }: Props) {
         <p>시도 횟수 {info?.totalTryCount}</p>
       </Row>
       {/* eslint-disable-next-line react/no-danger */}
-      <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />
+      <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
       <a target='_blank' href={link} rel='noreferrer noopener'>
         문제 보러가기
       </a>

@@ -18,12 +18,19 @@ const Wrapper = styled.div<Props>`
   border-radius: 50px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: inset 5px 5px 10px #3a3a3a, inset -5px -5px 10px #4e4e4e;
+
   svg {
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto;
     right: 28px;
+  }
+
+  label {
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 `;
 

@@ -12,7 +12,7 @@ import { Fetcher } from 'src/utils';
 import userAtom, { isAuthenticatedSelector, isRegisteredSelector } from 'src/recoil/user';
 
 const validateUsername = (username: string) => /^[a-zA-Z0-9_-]{1,20}/.test(username);
-const url = process.env.NEXT_PUBLIC_SERVER_URL as string;
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 function RegisterModal() {
   const [user, setUser] = useRecoilState(userAtom);
@@ -57,6 +57,7 @@ function RegisterModal() {
       <Col alignItems='center'>
         <p>영문 대소문자 및 숫자만 가능해요</p>
         <InputCommon
+          title='username'
           bind={[username, setUsername]}
           onChangeWithDebounce={handleChange}
           icon={isValid ? <AiOutlineCheck /> : null}

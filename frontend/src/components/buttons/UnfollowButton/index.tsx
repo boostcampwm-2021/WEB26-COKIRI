@@ -10,7 +10,7 @@ import userAtom from 'src/recoil/user';
 
 interface Props {
   targetUserID: string;
-  onUnfollow: () => void;
+  onUnfollow: VoidFunction;
 }
 
 function UnfollowButton({ targetUserID, onUnfollow }: Props) {
@@ -24,7 +24,7 @@ function UnfollowButton({ targetUserID, onUnfollow }: Props) {
     mutation.mutate();
   };
   return (
-    <ButtonCommon onClick={handleClick} red>
+    <ButtonCommon onClick={handleClick} red title='unfollow'>
       언팔
     </ButtonCommon>
   );

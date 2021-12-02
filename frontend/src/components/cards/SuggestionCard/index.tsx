@@ -6,7 +6,7 @@ import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import CardCommon from 'src/components/cards/Common';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import IconButton from 'src/components/buttons/IconButton';
-import FollowSet from 'src/components/sets/FollowSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Row, Col } from 'src/components/Grid';
 
@@ -20,7 +20,7 @@ import { Fetcher } from 'src/utils';
 
 import userAtom from 'src/recoil/user';
 
-import { Title } from './style';
+import { Title, User } from './style';
 
 function SuggestionCard() {
   const user = useRecoilValue(userAtom);
@@ -43,7 +43,7 @@ function SuggestionCard() {
   return (
     <CardCommon width={SUGGESTION_CARD_WIDTH}>
       <Row justifyContent='space-between'>
-        <IconButton hidden={isFirst} onClick={handleClickLeft}>
+        <IconButton hidden={isFirst} onClick={handleClickLeft} title='left'>
           <AiOutlineLeft />
         </IconButton>
         <Col alignItems='center'>
@@ -52,20 +52,21 @@ function SuggestionCard() {
             {(users ?? [])!
               .slice(startIndex, startIndex + SUGGESTION_COUNT)
               .map((suggestedUser) => (
-                <Col alignItems='center' key={suggestedUser._id}>
-                  <UsernameButton username={suggestedUser.username!} />
-                  <ProfileImageButton
-                    size={SUGGESTION_PROFILE_IMAGE_SIZE}
-                    username={suggestedUser.username!}
-                    profileImage={suggestedUser.profileImage}
-                    marginTop={8}
-                  />
-                  <FollowSet targetUserID={suggestedUser._id!} />
-                </Col>
+                <User key={suggestedUser._id}>
+                  <Col alignItems='center'>
+                    <UsernameButton username={suggestedUser.username!} />
+                    <ProfileImageButton
+                      size={SUGGESTION_PROFILE_IMAGE_SIZE}
+                      username={suggestedUser.username!}
+                      profileImage={suggestedUser.profileImage}
+                    />
+                    <FollowSetButton targetUserID={suggestedUser._id!} />
+                  </Col>
+                </User>
               ))}
           </Row>
         </Col>
-        <IconButton hidden={isLast} onClick={handleClickRight}>
+        <IconButton hidden={isLast} onClick={handleClickRight} title='right'>
           <AiOutlineRight />
         </IconButton>
       </Row>

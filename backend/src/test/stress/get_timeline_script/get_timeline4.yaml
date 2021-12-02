@@ -1,0 +1,21 @@
+config:
+  target: 'http://api.hyunmin.dev/v1'
+  phases:
+    - duration: 60
+      arrivalRate: 4
+      name: 'Get Timeline'
+
+scenarios:
+  - name: 'Get Timeline 4 user'
+    flow:
+      - get:
+          url: '/posts?user_id=6194d078928b431f065e0997&cursor=0'
+          headers:
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTk0ZDA3ODkyOGI0MzFmMDY1ZTA5OTciLCJpYXQiOjE2MzcyMjQ3NjYsImV4cCI6MTY0NTAwMDc2Nn0.NRBjPraamb8UOSsiPdC3lLeDNhqVu45T6yavzx5DQfk'
+            Content-Type: 'application/json'
+      - think: 3
+      - get:
+          url: '/posts?user_id=6194d078928b431f065e0997&cursor=3'
+          headers:
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTk0ZDA3ODkyOGI0MzFmMDY1ZTA5OTciLCJpYXQiOjE2MzcyMjQ3NjYsImV4cCI6MTY0NTAwMDc2Nn0.NRBjPraamb8UOSsiPdC3lLeDNhqVu45T6yavzx5DQfk'
+            Content-Type: 'application/json'

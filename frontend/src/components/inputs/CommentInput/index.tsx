@@ -17,17 +17,14 @@ import {
 
 import userAtom from 'src/recoil/user';
 
-import { CommentType } from 'src/types';
-
 import { Fetcher } from 'src/utils';
 
 interface Props {
   postID: string;
-  // eslint-disable-next-line no-unused-vars
-  onCommentWrite: (comment: CommentType) => void;
-  width?: number;
-  iconSize?: number;
-  padding?: number;
+  onCommentWrite: Function;
+  width: number;
+  iconSize: number;
+  padding: number;
 }
 
 function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Props) {
@@ -36,7 +33,7 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
   const [value, setValue] = useState('');
   const postPostComment = () => Fetcher.postPostComment(user, postID, value);
   const mutation = useMutation(postPostComment, {
-    onSuccess: ({ data }) => onCommentWrite(data!),
+    onSuccess: (data) => onCommentWrite(data!),
   });
 
   const handleClick = () => {
@@ -46,9 +43,14 @@ function CommentInput({ postID, onCommentWrite, width, iconSize, padding }: Prop
 
   return (
     <Row justifyContent='center' alignItems='center'>
-      <ProfileImage profileImage={user.profileImage} />
-      <InputCommon bind={[value, setValue]} width={width} icon={<BiComment />} />
-      <IconButton onClick={handleClick} size={iconSize!} padding={padding!}>
+      <ProfileImage profileImage={user.profileImage} username={user.username!} />
+      <InputCommon
+        bind={[value, setValue]}
+        width={width}
+        icon={<BiComment />}
+        title={`comment-${postID}`}
+      />
+      <IconButton onClick={handleClick} size={iconSize} padding={padding} title='comment-write'>
         <BiSend />
       </IconButton>
     </Row>

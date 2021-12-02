@@ -4,8 +4,8 @@ import { IoSearchSharp } from 'react-icons/io5';
 
 import InputCommon from 'src/components/inputs/Common';
 import HeaderModal from 'src/components/modals/HeaderModal';
-import FollowSet from 'src/components/sets/FollowSet';
-import ProfileSet from 'src/components/sets/ProfileSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import { Row } from 'src/components/Grid';
 
 import { SEARCH_INPUT_WIDTH } from 'src/globals/constants';
@@ -43,9 +43,9 @@ function UserSearchInput() {
           {userResults.map(({ _id, username, profileImage }) => (
             <Row key={_id} justifyContent='space-between' alignItems='center'>
               <Row alignItems='center'>
-                <ProfileSet username={username!} profileImage={profileImage} />
+                <ProfileButton username={username!} profileImage={profileImage} />
               </Row>
-              <FollowSet targetUserID={_id!} />
+              <FollowSetButton targetUserID={_id!} />
             </Row>
           ))}
         </HeaderModal>
@@ -56,6 +56,7 @@ function UserSearchInput() {
         width={SEARCH_INPUT_WIDTH}
         icon={<IoSearchSharp />}
         onChangeWithDebounce={handleChange}
+        title='search'
       />
     </>
   );

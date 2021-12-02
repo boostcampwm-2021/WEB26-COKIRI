@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
@@ -7,35 +7,42 @@ import { DEFAULT_ICON_SIZE } from 'src/globals/constants';
 
 interface Props {
   href: string;
-  children: ReactNode;
-  size?: number;
-  plain?: boolean;
-  clicked?: boolean;
+  title: string;
+  size: number;
+  clicked: boolean;
+  onClick: VoidFunction;
 }
 
-function NavigateIconButton({ href, children, size, plain, clicked }: Props) {
+function NavigateIconButton({
+  href,
+  children,
+  size,
+  clicked,
+  title,
+  onClick,
+}: PropsWithChildren<Props>) {
   return (
-    <IconButton padding={0} size={size} plain={plain} clicked={clicked!}>
+    <IconButton padding={0} size={size} clicked={clicked} title='navigate' onClick={onClick}>
       <Link href={href} passHref>
-        <a>{children}</a>
+        <a aria-label={title}>{children}</a>
       </Link>
     </IconButton>
   );
 }
 
-NavigateIconButton.propsType = {
+NavigateIconButton.propTypes = {
+  title: PropTypes.string.isRequired,
   href: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   size: PropTypes.number,
-  padding: PropTypes.number,
-  plain: PropTypes.bool,
   clicked: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 NavigateIconButton.defaultProps = {
   size: DEFAULT_ICON_SIZE,
-  plain: false,
   clicked: false,
+  onClick: () => {},
 };
 
 export default NavigateIconButton;

@@ -8,17 +8,26 @@ const History = styled.div`
 `;
 
 const HorizontalLine = styled.div`
-  width: 200px;
+  width: 300px;
   border-bottom: 1px solid #ffffff;
 `;
 
 const Section = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   p {
     padding: 8px;
     word-wrap: break-word;
   }
 `;
 
-export { History, HorizontalLine, Section };
+const Title = styled.p`
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  margin-left: 32px;
+  height: 76px;
+`;
+
+export { History, HorizontalLine, Section, Title };

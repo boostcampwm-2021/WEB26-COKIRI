@@ -10,16 +10,13 @@ import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { BlogType } from 'src/types';
-
 import userAtom from 'src/recoil/user';
 
 import { Wrapper, Blogs } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (problem: BlogType) => void;
-  onClose: () => void;
+  onSelect: Function;
+  onClose: VoidFunction;
 }
 
 function BlogsModal({ onClose, onSelect }: Props) {
@@ -58,6 +55,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
                 <ButtonCommon
                   onClick={() => handleBlogClick(index)}
                   clicked={index === selectedIndex}
+                  title='blog'
                 >
                   {postTitle}
                 </ButtonCommon>
@@ -65,7 +63,7 @@ function BlogsModal({ onClose, onSelect }: Props) {
             ))}
           </Blogs>
         ) : (
-          <NavigateIconButton href={`/users/${user.username}/settings`}>
+          <NavigateIconButton href={`/users/${user.username}/settings`} title='external-auth'>
             연동하러 가기
           </NavigateIconButton>
         )}

@@ -18,7 +18,7 @@ interface Props {
   postID: string;
   commentID: string;
   commentLikes: LikeType[];
-  margin?: number;
+  margin: number;
 }
 
 function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
@@ -33,7 +33,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
   const postCommentLike = () => Fetcher.postCommentLike(user, postID, commentID);
   const deleteCommentLike = () => Fetcher.deleteCommentLike(user, postID, commentID, likeID);
   const likeMutation = useMutation(postCommentLike, {
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       setLikeCount((prevState) => prevState + 1);
       setIsLike(true);
       setLikeID(data!._id);
@@ -53,6 +53,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
       clicked
+      title='dislike'
     >
       <IoHeartSharp />
       {likeCount !== 0 && likeCount}
@@ -64,6 +65,7 @@ function CommentLikeButton({ postID, commentID, commentLikes, margin }: Props) {
       padding={COMMENT_LIKE_BUTTON_PADDING}
       margin={margin}
       disabled={!isAuthenticated}
+      title='like'
     >
       <IoHeartOutline />
       {likeCount !== 0 && likeCount}

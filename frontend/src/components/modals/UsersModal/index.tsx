@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Row } from 'src/components/Grid';
 
 import ModalCommon from 'src/components/modals/Common';
-import ProfileSet from 'src/components/sets/ProfileSet';
-import FollowSet from 'src/components/sets/FollowSet';
+import ProfileButton from 'src/components/buttons/ProfileButton';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
 
 import { UserType } from 'src/types';
 
@@ -13,7 +13,7 @@ import { Users, User } from './style';
 interface Props {
   title: string;
   users: UserType[];
-  onClose: () => void;
+  onClose: VoidFunction;
 }
 
 function UsersModal({ title, users, onClose }: Props) {
@@ -23,12 +23,12 @@ function UsersModal({ title, users, onClose }: Props) {
         {users?.map((user) => (
           <User key={user._id}>
             <Row justifyContent='space-between' alignItems='center'>
-              <ProfileSet
+              <ProfileButton
                 profileImage={user.profileImage}
                 username={user.username!}
                 onClick={onClose}
               />
-              <FollowSet targetUserID={user._id!} />
+              <FollowSetButton targetUserID={user._id!} />
             </Row>
           </User>
         ))}

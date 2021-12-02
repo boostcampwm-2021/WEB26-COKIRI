@@ -19,13 +19,15 @@ function FollowersButton({ count, targetUserID }: Props) {
   return (
     <>
       {isModalShow && <FollowersModal targetUserID={targetUserID} onClose={switchIsModalShow} />}
-      <ButtonCommon onClick={switchIsModalShow}>{count} followers</ButtonCommon>
+      <ButtonCommon onClick={switchIsModalShow} title='followers'>
+        {count} followers
+      </ButtonCommon>
     </>
   );
 }
 
-FollowersButton.protoTypes = {
-  number: PropTypes.number.isRequired,
+FollowersButton.propTypes = {
+  count: PropTypes.number.isRequired,
   targetUserID: PropTypes.string.isRequired,
 };
 

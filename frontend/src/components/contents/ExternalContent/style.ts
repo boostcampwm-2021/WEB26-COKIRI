@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 
 interface Props {
-  expanded: boolean;
+  widthExpanded: boolean;
+  heightExpanded: boolean;
 }
 
 const Wrapper = styled.div<Props>`
   position: relative;
-  max-height: ${({ expanded }) => (expanded ? 'unset' : '160px')};
+  width: ${({ widthExpanded }) => (widthExpanded ? '600px' : 'unset')};
+  max-height: ${({ heightExpanded }) => (heightExpanded ? 'unset' : '160px')};
   overflow: hidden;
   background-color: #3f3f3f;
   border-radius: 16px;

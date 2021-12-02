@@ -13,14 +13,14 @@ interface Props {
 function RightSlideButton({ onClick }: Props) {
   return (
     <Wrapper>
-      <IconButton onClick={onClick} padding={0} plain>
+      <IconButton onClick={onClick} padding={0} plain title='right-slide'>
         <IoIosArrowDroprightCircle />
       </IconButton>
     </Wrapper>
   );
 }
 
-RightSlideButton.propsType = {
+RightSlideButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 

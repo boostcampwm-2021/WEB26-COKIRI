@@ -19,13 +19,15 @@ function FollowsButton({ count, targetUserID }: Props) {
   return (
     <>
       {isModalShow && <FollowsModal targetUserID={targetUserID} onClose={switchIsModalShow} />}
-      <ButtonCommon onClick={switchIsModalShow}>{count} follows</ButtonCommon>
+      <ButtonCommon onClick={switchIsModalShow} title='follows'>
+        {count} follows
+      </ButtonCommon>
     </>
   );
 }
 
-FollowsButton.protoTypes = {
-  number: PropTypes.number.isRequired,
+FollowsButton.propTypes = {
+  count: PropTypes.number.isRequired,
   targetUserID: PropTypes.string.isRequired,
 };
 

@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 import { Post, Image } from 'src/models';
-import { ERROR, SELECT, PERPAGE } from 'src/utils';
+import { ERROR, SELECT, PERPAGE, Pipeline } from 'src/utils';
 import { CommentService, PostLikeService, TistoryService } from 'src/services/index';
 import ImageService from 'src/services/ImageService';
 import FollowService from 'src/services/FollowService';
@@ -26,57 +26,25 @@ class PostService {
     return newPost;
   }
 
-  async findPosts(posts: PostType[]) {
-    return Promise.all(
-      posts.map(async (post) => {
-        const newPost = { ...post };
-        delete newPost.userID;
-        const results = await this.findOnePost(post._id!);
-        return { ...newPost, ...results };
-      }),
-    );
-  }
-
   async findRandomPost(userID: any, cursor: number) {
-    const randomPosts = await Post.aggregate([
-      { $match: { userID: { $ne: new Types.ObjectId(userID) } } },
-      { $skip: cursor },
-      { $limit: PERPAGE },
-      { $sort: { createdAt: -1 } },
-      { $lookup: { from: 'users', localField: 'userID', foreignField: '_id', as: 'user' } },
-      { $unwind: '$user' },
-    ]);
+    const randomPosts = await Post.aggregate(Pipeline.randomPosts(userID, cursor, PERPAGE));
 
     const postCount = await Post.countDocuments({ userID: { $ne: new Types.ObjectId(userID) } });
-    return { posts: await this.findPosts(randomPosts), postCount };
+    return { posts: randomPosts, postCount };
   }
 
   async findUserTimeline(userID: string, cursor: number) {
-    const postList = await Post.find({ userID })
-      .sort({ createdAt: -1 })
-      .skip(cursor)
-      .limit(PERPAGE)
-      .populate({ path: 'user', select: SELECT.USER })
-      .lean();
-
-    const [posts, postCount] = await Promise.all([
-      this.findPosts(postList),
-      Post.countDocuments({ userID }).exec(),
-    ]);
+    const posts = await Post.aggregate(Pipeline.userTimeline(userID, cursor, PERPAGE));
+    const postCount = await Post.countDocuments({ userID });
     return { posts, postCount };
   }
 
   async findTimeline(userID: string, cursor: number) {
     const follows = await FollowService.findFollowsID(userID);
-    const containsArray = !follows ? [userID] : [...follows, userID];
-    const posts = await Post.find({ userID: { $in: containsArray } })
-      .sort({ createdAt: -1 })
-      .skip(cursor)
-      .limit(PERPAGE)
-      .populate({ path: 'user', select: SELECT.USER })
-      .lean();
+    const containsArray = !follows ? [userID] : [...follows, new Types.ObjectId(userID)];
+    const posts = await Post.aggregate(Pipeline.timeline(containsArray, cursor, PERPAGE));
     const postCount = await Post.countDocuments({ userID: { $in: containsArray } });
-    return { posts: await this.findPosts(posts), postCount };
+    return { posts, postCount };
   }
 
   async findOnePost(postID: string | Types.ObjectId) {

@@ -7,8 +7,7 @@ import { Wrapper, Title } from './style';
 
 interface Props {
   jobObjectives: string[];
-  // eslint-disable-next-line no-unused-vars
-  onDeleteJobObjective: (jobObjective: string) => void;
+  onDeleteJobObjective: Function;
 }
 
 function DashboardJobObjectives({ jobObjectives, onDeleteJobObjective }: Props) {

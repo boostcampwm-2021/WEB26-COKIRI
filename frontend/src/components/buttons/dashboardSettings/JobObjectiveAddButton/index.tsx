@@ -4,12 +4,12 @@ import { BsPlusCircle } from 'react-icons/bs';
 import IconButton from 'src/components/buttons/IconButton';
 
 interface Props {
-  onAddJobObjective: () => void;
+  onAddJobObjective: VoidFunction;
 }
 
 function JobObjectiveAddButton({ onAddJobObjective }: Props) {
   return (
-    <IconButton onClick={onAddJobObjective}>
+    <IconButton onClick={onAddJobObjective} title='add'>
       <BsPlusCircle />
     </IconButton>
   );
