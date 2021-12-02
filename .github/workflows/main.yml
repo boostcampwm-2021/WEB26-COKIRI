@@ -12,6 +12,7 @@ jobs:
       - name: ssh
         run: |
           cd ~/WEB26-COKIRI
+          git reset --hard HEAD
           git pull
           cd frontend
           npm install
@@ -25,7 +26,9 @@ jobs:
       - name: ssh
         run: |
           cd ~/WEB26-COKIRI
+          git reset --hard HEAD
           git pull
           cd backend
           npm install
+          npm run test
           npm run pm2
