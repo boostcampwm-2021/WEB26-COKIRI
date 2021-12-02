@@ -10,15 +10,12 @@ import { Col } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { BlogType } from 'src/types';
-
 import userAtom from 'src/recoil/user';
 
 import { Wrapper, Blogs } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (problem: BlogType) => void;
+  onSelect: Function;
   onClose: VoidFunction;
 }
 

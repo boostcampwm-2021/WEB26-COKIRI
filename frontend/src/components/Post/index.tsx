@@ -52,6 +52,9 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
     );
     onResize();
   };
+  const handleLike = () => setLikeCount((prevState) => prevState + 1);
+  const handleDislike = () => setLikeCount((prevState) => prevState - 1);
+
   const { _id, user: targetUser, images, content, likes, createdAt, external } = post;
   const isMe = user._id !== targetUser?._id;
 
@@ -67,7 +70,12 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
       <Row>
         <DetailButton postID={_id!} />
         {isAuthenticated && (
-          <LikeButton postID={_id!} postLikes={likes ?? []} setLikeCount={setLikeCount} />
+          <LikeButton
+            postID={_id!}
+            postLikes={likes ?? []}
+            onLike={handleLike}
+            onDislike={handleDislike}
+          />
         )}
         {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} onLikes={onLikes} />}
       </Row>

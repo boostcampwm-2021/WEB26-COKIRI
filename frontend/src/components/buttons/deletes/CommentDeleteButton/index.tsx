@@ -5,6 +5,12 @@ import { IoCloseCircleOutline } from 'react-icons/io5';
 
 import IconButton from 'src/components/buttons/IconButton';
 
+import {
+  COMMENT_DELETE_BUTTON_HEIGHT,
+  COMMENT_DELETE_BUTTON_WIDTH,
+  COMMENT_DELETE_BUTTON_SIZE,
+} from 'src/globals/constants';
+
 import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
@@ -12,8 +18,7 @@ import { Fetcher } from 'src/utils';
 interface Props {
   postID: string;
   commentID: string;
-  // eslint-disable-next-line no-unused-vars
-  onCommentDelete: (commentID: string) => void;
+  onCommentDelete: Function;
 }
 
 function CommentDeleteButton({ postID, commentID, onCommentDelete }: Props) {
@@ -29,9 +34,9 @@ function CommentDeleteButton({ postID, commentID, onCommentDelete }: Props) {
     <IconButton
       onClick={handleClick}
       title='comment-delete'
-      height={36}
-      width={36}
-      size={20}
+      height={COMMENT_DELETE_BUTTON_HEIGHT}
+      width={COMMENT_DELETE_BUTTON_WIDTH}
+      size={COMMENT_DELETE_BUTTON_SIZE}
       padding={0}
     >
       <IoCloseCircleOutline />

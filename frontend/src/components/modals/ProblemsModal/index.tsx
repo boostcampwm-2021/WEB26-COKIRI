@@ -9,13 +9,10 @@ import { Col, Row } from 'src/components/Grid';
 
 import { Fetcher } from 'src/utils';
 
-import { ProblemType } from 'src/types';
-
 import { Wrapper, Problems } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (problem: ProblemType) => void;
+  onSelect: Function;
   onClose: VoidFunction;
 }
 

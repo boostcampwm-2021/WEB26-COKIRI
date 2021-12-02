@@ -17,14 +17,11 @@ import {
 
 import userAtom from 'src/recoil/user';
 
-import { CommentType } from 'src/types';
-
 import { Fetcher } from 'src/utils';
 
 interface Props {
   postID: string;
-  // eslint-disable-next-line no-unused-vars
-  onCommentWrite: (comment: CommentType) => void;
+  onCommentWrite: Function;
   width: number;
   iconSize: number;
   padding: number;

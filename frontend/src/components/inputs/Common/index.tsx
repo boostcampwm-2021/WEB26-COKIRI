@@ -13,10 +13,8 @@ interface Props {
   placeholder: string;
   width: number;
   icon: ReactNode;
-  // eslint-disable-next-line no-unused-vars
-  onChange: (state: string) => void;
-  // eslint-disable-next-line no-unused-vars
-  onChangeWithDebounce: (state: string) => void;
+  onChange: Function;
+  onChangeWithDebounce: Function;
 }
 
 function InputCommon({

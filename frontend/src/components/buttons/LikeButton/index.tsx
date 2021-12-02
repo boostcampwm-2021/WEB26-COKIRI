@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { IoHeartOutline, IoHeartSharp } from 'react-icons/io5';
 import { useMutation } from 'react-query';
@@ -15,10 +15,11 @@ import { LikeType } from 'src/types';
 interface Props {
   postID: string;
   postLikes: LikeType[];
-  setLikeCount: Dispatch<SetStateAction<number>>;
+  onLike: VoidFunction;
+  onDislike: VoidFunction;
 }
 
-function LikeButton({ postID, postLikes, setLikeCount }: Props) {
+function LikeButton({ postID, postLikes, onLike, onDislike }: Props) {
   const user = useRecoilValue(userAtom);
 
   const like = postLikes.find((postLike) => postLike.user._id === user._id);
@@ -36,13 +37,13 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
 
   const handleClickLike = () => {
     likeMutation.mutate();
-    setLikeCount((prevState) => prevState + 1);
+    onLike();
     setIsLike(true);
   };
 
   const handleClickDislike = () => {
     dislikeMutation.mutate();
-    setLikeCount((prevState) => prevState - 1);
+    onDislike();
     setIsLike(false);
   };
 
@@ -60,7 +61,8 @@ function LikeButton({ postID, postLikes, setLikeCount }: Props) {
 LikeButton.propTypes = {
   postID: PropTypes.string.isRequired,
   postLikes: PropTypes.arrayOf(PropTypes.any).isRequired,
-  setLikeCount: PropTypes.func.isRequired,
+  onLike: PropTypes.func.isRequired,
+  onDislike: PropTypes.func.isRequired,
 };
 
 export default LikeButton;

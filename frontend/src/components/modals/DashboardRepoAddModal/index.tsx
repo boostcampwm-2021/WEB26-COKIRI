@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRecoilValue } from 'recoil';
+import PropTypes from 'prop-types';
 
 import ModalCommon from 'src/components/modals/Common';
 import ButtonCommon from 'src/components/buttons/Common';
@@ -10,7 +11,7 @@ import { Col } from 'src/components/Grid';
 
 import userAtom from 'src/recoil/user';
 
-import { DashboardRepoType, ExternalType } from 'src/types';
+import { ExternalType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
@@ -18,8 +19,7 @@ import { Repos } from './style';
 
 interface Props {
   onClose: VoidFunction;
-  // eslint-disable-next-line no-unused-vars
-  onAddRepo: (repo: DashboardRepoType) => void;
+  onAddRepo: Function;
 }
 
 function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
@@ -95,5 +95,10 @@ function DashboardRepoAddModal({ onClose, onAddRepo }: Props) {
     </ModalCommon>
   );
 }
+
+DashboardRepoAddModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onAddRepo: PropTypes.func.isRequired,
+};
 
 export default DashboardRepoAddModal;

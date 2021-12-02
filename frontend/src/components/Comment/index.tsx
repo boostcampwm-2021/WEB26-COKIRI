@@ -22,8 +22,7 @@ const TimeFromNow = dynamic(() => import('src/components/TimeFromNow'), {
 interface Props {
   postID: string;
   comment: CommentType;
-  // eslint-disable-next-line no-unused-vars
-  onCommentDelete: (commentID: string) => void;
+  onCommentDelete: Function;
 }
 
 function Comment({ postID, comment, onCommentDelete }: Props) {

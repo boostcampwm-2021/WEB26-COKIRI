@@ -7,13 +7,12 @@ import IconButton from 'src/components/buttons/IconButton';
 
 import userAtom from 'src/recoil/user';
 
-import { StatisticsType, LanguageStatisticsType } from 'src/types';
+import { LanguageStatisticsType } from 'src/types';
 
 import { Fetcher } from 'src/utils';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onUpdate: (newStatistics: StatisticsType) => void;
+  onUpdate: Function;
 }
 
 function UpdateLanguageStatisticsButton({ onUpdate }: Props) {
