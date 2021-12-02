@@ -10,8 +10,7 @@ import { Fetcher } from 'src/utils';
 
 interface Props {
   repoName: string;
-  // eslint-disable-next-line no-unused-vars
-  onDeleteRepo: (deletedRepo: string) => void;
+  onDeleteRepo: Function;
 }
 
 function RepoDeleteButton({ repoName, onDeleteRepo }: Props) {

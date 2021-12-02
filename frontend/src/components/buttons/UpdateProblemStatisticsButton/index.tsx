@@ -5,11 +5,8 @@ import { MdAutorenew } from 'react-icons/md';
 import IconButton from 'src/components/buttons/IconButton';
 import DashboardProblemStatisticsSettingModal from 'src/components/modals/DashboardProblemStatisticsSettingModal';
 
-import { StatisticsType } from 'src/types';
-
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onUpdate: (newStatistics: StatisticsType) => void;
+  onUpdate: Function;
 }
 
 function UpdateProblemStatisticsButton({ onUpdate }: Props) {

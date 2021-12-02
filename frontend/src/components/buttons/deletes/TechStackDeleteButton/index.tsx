@@ -5,8 +5,7 @@ import DeleteCommon from 'src/components/buttons/deletes/Common';
 interface Props {
   techStack: string;
   field: string;
-  // eslint-disable-next-line no-unused-vars
-  onDeleteTechStack: (whichField: string, deletedTechStack: string) => void;
+  onDeleteTechStack: Function;
 }
 
 function TechStackDeleteButton({ techStack, field, onDeleteTechStack }: Props) {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
 
-import ProfileSet from 'src/components/sets/ProfileSet';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import DetailButton from 'src/components/buttons/DetailButton';
 import LikeButton from 'src/components/buttons/LikeButton';
 import PostImages from 'src/components/images/PostImages';
@@ -52,13 +52,16 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
     );
     onResize();
   };
+  const handleLike = () => setLikeCount((prevState) => prevState + 1);
+  const handleDislike = () => setLikeCount((prevState) => prevState - 1);
+
   const { _id, user: targetUser, images, content, likes, createdAt, external } = post;
   const isMe = user._id !== targetUser?._id;
 
   return (
     <CardCommon width={POST_WIDTH}>
       <Row alignItems='center'>
-        <ProfileSet profileImage={targetUser?.profileImage} username={targetUser?.username!} />
+        <ProfileButton profileImage={targetUser?.profileImage} username={targetUser?.username!} />
         <TimeFromNow time={createdAt!} />
         <Spacer />
         {!isMe && <PostDeleteButton postID={_id!} onPostDelete={onPostDelete} />}
@@ -67,7 +70,12 @@ function Post({ post, onPostDelete, onLoad, onResize, onLikes }: Props) {
       <Row>
         <DetailButton postID={_id!} />
         {isAuthenticated && (
-          <LikeButton postID={_id!} postLikes={likes ?? []} setLikeCount={setLikeCount} />
+          <LikeButton
+            postID={_id!}
+            postLikes={likes ?? []}
+            onLike={handleLike}
+            onDislike={handleDislike}
+          />
         )}
         {likeCount !== 0 && <LikesButton postID={_id!} likeCount={likeCount!} onLikes={onLikes} />}
       </Row>

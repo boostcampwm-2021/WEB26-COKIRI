@@ -6,15 +6,12 @@ import ModalCommon from 'src/components/modals/Common';
 import ButtonCommon from 'src/components/buttons/Common';
 import { Col } from 'src/components/Grid';
 
-import { StackType } from 'src/types';
-
 import Fetcher from 'src/utils/Fetcher';
 
 interface Props {
   techStack: string;
   onClose: VoidFunction;
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (techStack: StackType) => void;
+  onSelect: Function;
 }
 
 function SearchedTechStacksModal({ techStack, onClose, onSelect }: Props) {

@@ -12,13 +12,10 @@ import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
 
-import { RepoType } from 'src/types';
-
 import { Wrapper, Repos } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onSelect: (repo: RepoType) => void;
+  onSelect: Function;
   onClose: VoidFunction;
 }
 

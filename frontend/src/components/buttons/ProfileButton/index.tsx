@@ -13,7 +13,7 @@ interface Props {
   onClick: VoidFunction;
 }
 
-function ProfileSet({ profileImage, username, onClick }: Props) {
+function ProfileButton({ profileImage, username, onClick }: Props) {
   return (
     <NavigateButton href={`/users/${username}`} title={username} onClick={onClick}>
       <ProfileImage profileImage={profileImage} username={username} />
@@ -22,15 +22,15 @@ function ProfileSet({ profileImage, username, onClick }: Props) {
   );
 }
 
-ProfileSet.propTypes = {
+ProfileButton.propTypes = {
   profileImage: PropTypes.string,
   username: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 };
 
-ProfileSet.defaultProps = {
+ProfileButton.defaultProps = {
   profileImage: DEFAULT_PROFILE_IMAGE,
   onClick: () => {},
 };
 
-export default ProfileSet;
+export default ProfileButton;

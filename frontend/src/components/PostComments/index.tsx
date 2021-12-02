@@ -12,8 +12,7 @@ interface Props {
   postID: string;
   comments: CommentType[];
   expanded: boolean;
-  // eslint-disable-next-line no-unused-vars
-  onCommentDelete: (commentID: string) => void;
+  onCommentDelete: Function;
   onExpand: VoidFunction;
 }
 

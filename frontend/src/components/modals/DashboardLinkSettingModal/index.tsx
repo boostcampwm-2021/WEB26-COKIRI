@@ -9,6 +9,8 @@ import DashboardJobObjectives from 'src/components/DashboardJobObjectives';
 import JobObjectiveAddButton from 'src/components/buttons/dashboardSettings/JobObjectiveAddButton';
 import { Row, Col } from 'src/components/Grid';
 
+import { DASHBOARD_LINK_SETTING_MODAL_WIDTH } from 'src/globals/constants';
+
 import userAtom from 'src/recoil/user';
 import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
@@ -61,7 +63,7 @@ function DashboardLinkSettingModal({ onClose }: Props) {
 
   return (
     <ModalCommon
-      width={1000}
+      width={DASHBOARD_LINK_SETTING_MODAL_WIDTH}
       onConfirm={handleConfirm}
       onClose={onClose}
       confirm='저장'

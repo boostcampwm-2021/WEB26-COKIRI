@@ -6,7 +6,7 @@ import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import CardCommon from 'src/components/cards/Common';
 import ProfileImageButton from 'src/components/buttons/ProfileImageButton';
 import IconButton from 'src/components/buttons/IconButton';
-import FollowSet from 'src/components/sets/FollowSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
 import UsernameButton from 'src/components/buttons/UsernameButton';
 import { Row, Col } from 'src/components/Grid';
 
@@ -60,7 +60,7 @@ function SuggestionCard() {
                       username={suggestedUser.username!}
                       profileImage={suggestedUser.profileImage}
                     />
-                    <FollowSet targetUserID={suggestedUser._id!} />
+                    <FollowSetButton targetUserID={suggestedUser._id!} />
                   </Col>
                 </User>
               ))}

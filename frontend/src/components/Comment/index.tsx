@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import CommentLikeButton from 'src/components/buttons/CommentLikeButton';
 import CommentDeleteButton from 'src/components/buttons/deletes/CommentDeleteButton';
-import ProfileSet from 'src/components/sets/ProfileSet';
+import ProfileButton from 'src/components/buttons/ProfileButton';
 import { Row, Spacer } from 'src/components/Grid';
 
 import { COMMENT_LIKE_BUTTON_MARGIN } from 'src/globals/constants';
@@ -22,8 +22,7 @@ const TimeFromNow = dynamic(() => import('src/components/TimeFromNow'), {
 interface Props {
   postID: string;
   comment: CommentType;
-  // eslint-disable-next-line no-unused-vars
-  onCommentDelete: (commentID: string) => void;
+  onCommentDelete: Function;
 }
 
 function Comment({ postID, comment, onCommentDelete }: Props) {
@@ -34,7 +33,7 @@ function Comment({ postID, comment, onCommentDelete }: Props) {
 
   return (
     <Row alignItems='center'>
-      <ProfileSet profileImage={targetUser?.profileImage} username={targetUser!.username!} />
+      <ProfileButton profileImage={targetUser?.profileImage} username={targetUser!.username!} />
       <Content>{content}</Content>
       <Spacer />
       <TimeFromNow time={createdAt!} />

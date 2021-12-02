@@ -17,7 +17,7 @@ interface Props {
   onUnfollow: VoidFunction;
 }
 
-function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
+function FollowSetButton({ targetUserID, onFollow, onUnfollow }: Props) {
   const user = useRecoilValue(userAtom);
   const isAuthenticated = useRecoilValue(isAuthenticatedSelector);
   const followers = useRecoilValue(followersSelector);
@@ -48,15 +48,15 @@ function FollowSet({ targetUserID, onFollow, onUnfollow }: Props) {
   );
 }
 
-FollowSet.propTypes = {
+FollowSetButton.propTypes = {
   targetUserID: PropTypes.string.isRequired,
   onFollow: PropTypes.func,
   onUnfollow: PropTypes.func,
 };
 
-FollowSet.defaultProps = {
+FollowSetButton.defaultProps = {
   onFollow: () => {},
   onUnfollow: () => {},
 };
 
-export default FollowSet;
+export default FollowSetButton;

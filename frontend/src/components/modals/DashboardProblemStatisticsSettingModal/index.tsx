@@ -7,6 +7,8 @@ import ModalCommon from 'src/components/modals/Common';
 import InputCommon from 'src/components/inputs/Common';
 import { Row } from 'src/components/Grid';
 
+import { DASHBOARD_PROBLEM_STATISTICS_SETTING_MODAL_WIDTH } from 'src/globals/constants';
+
 import userAtom from 'src/recoil/user';
 
 import { Fetcher } from 'src/utils';
@@ -17,8 +19,7 @@ import { Label } from './style';
 
 interface Props {
   onClose: VoidFunction;
-  // eslint-disable-next-line no-unused-vars
-  onUpdate: (newStatistics: StatisticsType) => void;
+  onUpdate: Function;
 }
 
 function DashboardProblemStatisticsSettingModal({ onClose, onUpdate }: Props) {
@@ -38,7 +39,7 @@ function DashboardProblemStatisticsSettingModal({ onClose, onUpdate }: Props) {
 
   return (
     <ModalCommon
-      width={800}
+      width={DASHBOARD_PROBLEM_STATISTICS_SETTING_MODAL_WIDTH}
       onConfirm={handleConfirm}
       onClose={onClose}
       confirm='업데이트'

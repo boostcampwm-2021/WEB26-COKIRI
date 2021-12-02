@@ -6,8 +6,7 @@ import { Uploader } from 'src/utils';
 import { Input } from './style';
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onImageUpload: (image: string) => void;
+  onImageUpload: Function;
 }
 
 function ImageInput({ onImageUpload, children }: PropsWithChildren<Props>) {

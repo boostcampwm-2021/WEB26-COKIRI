@@ -6,7 +6,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import CardCommon from 'src/components/cards/Common';
 import NavigateIconButton from 'src/components/buttons/NavigateIconButton';
 import ProfileImage from 'src/components/images/ProfileImage';
-import FollowSet from 'src/components/sets/FollowSet';
+import FollowSetButton from 'src/components/buttons/FollowSetButton';
 import FollowsButton from 'src/components/buttons/FollowsButton';
 import FollowersButton from 'src/components/buttons/FollowersButton';
 import { Row, Col } from 'src/components/Grid';
@@ -50,7 +50,11 @@ function UserInfoCard({ targetUser }: Props) {
                 <IoSettingsOutline />
               </NavigateIconButton>
             )}
-            <FollowSet targetUserID={_id!} onFollow={handleFollow} onUnfollow={handleUnfollow} />
+            <FollowSetButton
+              targetUserID={_id!}
+              onFollow={handleFollow}
+              onUnfollow={handleUnfollow}
+            />
             <NavigateIconButton href={`/users/${username}/dashboard`} title='dashboard'>
               대쉬보드
             </NavigateIconButton>

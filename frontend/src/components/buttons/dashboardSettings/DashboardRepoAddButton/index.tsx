@@ -5,13 +5,10 @@ import { BsPlusCircle } from 'react-icons/bs';
 
 import DashboardSettingCommon from 'src/components/buttons/dashboardSettings/Common';
 
-import { DashboardRepoType } from 'src/types';
-
 const DashboardRepoAddModal = dynamic(() => import('src/components/modals/DashboardRepoAddModal'));
 
 interface Props {
-  // eslint-disable-next-line no-unused-vars
-  onAddRepo: (repo: DashboardRepoType) => void;
+  onAddRepo: Function;
 }
 
 function DashboardRepoAddButton({ onAddRepo }: Props) {

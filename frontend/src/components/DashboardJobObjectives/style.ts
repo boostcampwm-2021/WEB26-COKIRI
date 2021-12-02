@@ -11,5 +11,4 @@ const Title = styled.p`
   width: 100px;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
 export { Wrapper, Title };

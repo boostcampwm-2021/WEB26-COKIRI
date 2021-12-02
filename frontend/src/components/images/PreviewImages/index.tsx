@@ -13,8 +13,7 @@ import { Wrapper } from './style';
 
 interface Props {
   images: string[];
-  // eslint-disable-next-line no-unused-vars
-  onDelete: (index: number) => void;
+  onDelete: Function;
 }
 
 function ImagesPreview({ images, onDelete }: Props) {

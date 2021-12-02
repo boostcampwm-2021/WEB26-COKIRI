@@ -11,6 +11,11 @@ import SearchedTechStacksModal from 'src/components/modals/SearchedTechStacksMod
 import TechStackDeleteButton from 'src/components/buttons/deletes/TechStackDeleteButton';
 import { Row, Col } from 'src/components/Grid';
 
+import {
+  DASHBOARD_TECH_STACK_SETTING_MODAL_WIDTH,
+  DASHBOARD_TECH_STACK_INPUT_WIDTH,
+} from 'src/globals/constants';
+
 import userAtom from 'src/recoil/user';
 import dashboardUserInfoAtom, { dashboardHistoriesSelector } from 'src/recoil/dashboardUserInfo';
 
@@ -82,7 +87,7 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
 
   return (
     <ModalCommon
-      width={800}
+      width={DASHBOARD_TECH_STACK_SETTING_MODAL_WIDTH}
       onConfirm={handleConfirm}
       onClose={onClose}
       confirm='저장'
@@ -93,14 +98,19 @@ function DashboardTechStacksSettingModal({ onClose }: Props) {
         <Col>
           <Row alignItems='center'>
             <Label>field</Label>
-            <InputCommon bind={[newField, setNewField]} placeholder='' width={150} title='field' />
+            <InputCommon
+              bind={[newField, setNewField]}
+              placeholder=''
+              width={DASHBOARD_TECH_STACK_INPUT_WIDTH}
+              title='field'
+            />
           </Row>
           <Row alignItems='center'>
             <Label>tech stack</Label>
             <InputCommon
               bind={[techStack, setTechStack]}
               placeholder=''
-              width={150}
+              width={DASHBOARD_TECH_STACK_INPUT_WIDTH}
               title='tech-stack'
             />
             <IconButton onClick={switchIsModalShow} title='search'>
