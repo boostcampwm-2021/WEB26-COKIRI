@@ -69,9 +69,9 @@ function Timeline({
     onSuccess: () => onPostDelete(),
   });
   const rowRenderer = ({ index, key, parent, style }: ListRowProps) => (
-    <CellMeasurer cache={cache} parent={parent} key={key} columnIndex={0} rowIndex={index}>
-      {({ measure }) => (
-        <Row style={style} justifyContent='center'>
+    <CellMeasurer cache={cache} parent={parent} key={key} rowIndex={index}>
+      {({ measure, registerChild }) => (
+        <Row style={style} ref={registerChild} justifyContent='center'>
           <Post
             key={key}
             post={posts[index]}
@@ -109,23 +109,21 @@ function Timeline({
         />
       )}
       <WindowScroller>
-        {({ height, scrollTop, isScrolling, onChildScroll }) => (
+        {({ height, registerChild }) => (
           <AutoSizer disableHeight>
             {({ width }) => (
-              <List
-                ref={listRef}
-                autoHeight
-                height={height}
-                width={width}
-                isScrolling={isScrolling}
-                overscanRowCount={0}
-                onScroll={onChildScroll}
-                scrollTop={scrollTop}
-                rowCount={posts.length}
-                rowHeight={cache.rowHeight}
-                rowRenderer={rowRenderer}
-                deferredMeasurementCache={cache}
-              />
+              <div ref={registerChild}>
+                <List
+                  ref={listRef}
+                  height={height}
+                  width={width}
+                  autoHeight
+                  rowCount={posts.length}
+                  rowHeight={cache.rowHeight}
+                  rowRenderer={rowRenderer}
+                  deferredMeasurementCache={cache}
+                />
+              </div>
             )}
           </AutoSizer>
         )}
